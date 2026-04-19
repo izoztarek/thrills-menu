@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thrillz Menu</title>
+
+<style>
+
+/* ===== خلفية ===== */
+body {
+    margin: 0;
+    font-family: Arial;
+    background: url('bg.jpg') no-repeat center center fixed;
+    background-size: cover;
+}
+
+.overlay {
+    background: rgba(0,0,0,0.45);
+    min-height: 100vh;
+}
+
+/* ===== اللوجو ===== */
+.logo {
+    text-align: center;
+    padding: 30px;
+}
+
+.logo img {
+    width: 150px;
+}
+
+/* ===== الجريد ===== */
+.container {
+    max-width: 1400px;
+    margin: auto;
+    padding: 20px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+@media(min-width: 768px){
+    .grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media(min-width: 1100px){
+    .grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* ===== الكروت ===== */
+.card {
+    height: 520px;
+    border-radius: 25px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 30px 70px rgba(0,0,0,0.6);
+}
+
+/* ===== Viewer ===== */
+.viewer {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.95);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.viewer img {
+    width: 95%;
+    max-width: 800px;
+    border-radius: 20px;
+}
+
+/* arrows */
+.nav {
+    position: absolute;
+    top: 50%;
+    font-size: 35px;
+    color: white;
+    cursor: pointer;
+    padding: 10px;
+}
+
+.left { left: 20px; }
+.right { right: 20px; }
+
+/* back */
+.back {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: white;
+    padding: 10px 18px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="overlay">
+
+    <!-- اللوجو -->
+    <div class="logo">
+        <img src="logo.png">
+    </div>
+
+    <!-- الأقسام -->
+    <div class="container">
+        <div class="grid">
+
+            <div class="card" onclick="openSection('iced')"><img src="iced-cover.jpg"></div>
+            <div class="card" onclick="openSection('frappe')"><img src="frappe-cover.jpg"></div>
+            <div class="card" onclick="openSection('hot')"><img src="hot-cover.jpg"></div>
+            <div class="card" onclick="openSection('dessert')"><img src="dessert-cover.jpg"></div>
+            <div class="card" onclick="openSection('bakery')"><img src="bakery-cover.jpg"></div>
+            <div class="card" onclick="openSection('breakfast')"><img src="breakfast-cover.jpg"></div>
+            <div class="card" onclick="openSection('matcha')"><img src="matcha-cover.jpg"></div>
+            <div class="card" onclick="openSection('smoothie')"><img src="smoothie-cover.jpg"></div>
+
+        </div>
+    </div>
+
+</div>
+
+<!-- ===== Viewer ===== -->
+<div class="viewer" id="viewer">
+
+    <div class="back" onclick="closeViewer()">⬅ رجوع</div>
+
+    <span class="nav left" onclick="prev()">❮</span>
+    <img id="viewerImg">
+    <span class="nav right" onclick="next()">❯</span>
+
+</div>
+
+<script>
+
+/* صور كل قسم */
+let sections = {
+    iced: ["iced1.jpg","iced2.jpg"],
+    frappe: ["frappe1.jpg"],
+    hot: ["hot1.jpg","hot2.jpg"],
+    dessert: ["dessert1.jpg"],
+    bakery: ["bakery1.jpg"],
+    breakfast: ["breakfast1.jpg"],
+    matcha: ["matcha1.jpg"],
+    smoothie: ["smoothie1.jpg"]
+};
+
+let currentImages = [];
+let currentIndex = 0;
+
+/* فتح القسم */
+function openSection(section) {
+    currentImages = sections[section];
+    currentIndex = 0;
+
+    document.getElementById("viewer").style.display = "flex";
+    document.getElementById("viewerImg").src = currentImages[currentIndex];
+}
+
+/* التالي */
+function next() {
+    if (currentIndex < currentImages.length - 1) {
+        currentIndex++;
+        document.getElementById("viewerImg").src = currentImages[currentIndex];
+    }
+}
+
+/* السابق */
+function prev() {
+    if (currentIndex > 0) {
+        currentIndex--;
+        document.getElementById("viewerImg").src = currentImages[currentIndex];
+    }
+}
+
+/* رجوع */
+function closeViewer() {
+    document.getElementById("viewer").style.display = "none";
+}
+
+</script>
+
+</body>
+</html>
