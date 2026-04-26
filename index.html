@@ -7,7 +7,6 @@
 
 <style>
 
-/* ===== خلفية ===== */
 body {
     margin: 0;
     font-family: Arial;
@@ -16,11 +15,11 @@ body {
 }
 
 .overlay {
-    background: rgba(0,0,0,0.45);
+    background: rgba(0,0,0,0.4);
+    backdrop-filter: blur(3px);
     min-height: 100vh;
 }
 
-/* ===== اللوجو ===== */
 .logo {
     text-align: center;
     padding: 30px;
@@ -30,7 +29,7 @@ body {
     width: 150px;
 }
 
-/* ===== الجريد ===== */
+/* grid */
 .container {
     max-width: 1400px;
     margin: auto;
@@ -43,21 +42,21 @@ body {
     gap: 20px;
 }
 
-@media(min-width: 768px){
-    .grid { grid-template-columns: repeat(3, 1fr); }
+@media(min-width:768px){
+.grid{grid-template-columns:repeat(3,1fr);}
 }
 
-@media(min-width: 1100px){
-    .grid { grid-template-columns: repeat(4, 1fr); }
+@media(min-width:1100px){
+.grid{grid-template-columns:repeat(4,1fr);}
 }
 
-/* ===== الكروت ===== */
+/* cards */
 .card {
     height: 330px;
     border-radius: 25px;
     overflow: hidden;
     cursor: pointer;
-    transition: 0.4s ease;
+    transition: 0.4s;
     box-shadow: 0 12px 30px rgba(0,0,0,0.35);
 }
 
@@ -67,38 +66,42 @@ body {
     object-fit: cover;
 }
 
-/* Hover + Auto Focus */
 .card:hover,
 .card.active {
     transform: scale(1.07);
     box-shadow: 0 30px 70px rgba(0,0,0,0.6);
 }
 
-/* ===== Viewer ===== */
+/* viewer */
 .viewer {
     display: none;
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.85);
+    background: rgba(0,0,0,0.8);
+    backdrop-filter: blur(10px);
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    z-index: 1000;
 }
 
-/* الكارت في النص */
 .viewer-card {
     width: 85%;
     max-width: 380px;
     border-radius: 20px;
     overflow: hidden;
+    transform: scale(0.8);
+    transition: 0.3s;
+}
+
+.viewer.active .viewer-card {
+    transform: scale(1);
 }
 
 .viewer-card img {
     width: 100%;
 }
 
-/* الأسهم */
+/* arrows */
 .nav {
     position: absolute;
     top: 50%;
@@ -107,20 +110,18 @@ body {
     cursor: pointer;
 }
 
-.left { left: 20px; }
-.right { right: 20px; }
+.left{left:20px;}
+.right{right:20px;}
 
-/* Back Button */
+/* back */
 .back {
     position: absolute;
     top: 20px;
     left: 20px;
-    background: white;
+    background: #c68a4a;
+    color: white;
     padding: 10px 20px;
     border-radius: 30px;
-    cursor: pointer;
-    font-weight: bold;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.4);
 }
 
 /* dots */
@@ -148,114 +149,127 @@ body {
 
 <div class="overlay">
 
-    <div class="logo">
-        <img src="logo.png">
-    </div>
+<div class="logo">
+<img src="logo.png">
+</div>
 
-    <div class="container">
-        <div class="grid">
+<div class="container">
+<div class="grid">
 
-            <div class="card" onclick="openSection('iced')"><img src="iced-cover.jpg"></div>
-            <div class="card" onclick="openSection('frappe')"><img src="frappe-cover.jpg"></div>
-            <div class="card" onclick="openSection('hot')"><img src="hot-cover.jpg"></div>
-            <div class="card" onclick="openSection('dessert')"><img src="dessert-cover.jpg"></div>
-            <div class="card" onclick="openSection('bakery')"><img src="bakery-cover.jpg"></div>
-            <div class="card" onclick="openSection('breakfast')"><img src="breakfast-cover.jpg"></div>
-            <div class="card" onclick="openSection('matcha')"><img src="matcha-cover.jpg"></div>
-            <div class="card" onclick="openSection('smoothie')"><img src="smoothie-cover.jpg"></div>
+<div class="card" onclick="openSection('iced')"><img src="iced-cover.jpg"></div>
+<div class="card" onclick="openSection('frappe')"><img src="frappe-cover.jpg"></div>
+<div class="card" onclick="openSection('hot')"><img src="hot-cover.jpg"></div>
+<div class="card" onclick="openSection('dessert')"><img src="dessert-cover.jpg"></div>
 
-        </div>
-    </div>
+</div>
+</div>
 
 </div>
 
-<!-- Viewer -->
 <div class="viewer" id="viewer">
 
-    <div class="back" onclick="closeViewer()">← Back</div>
+<div class="back" onclick="closeViewer()">Back</div>
 
-    <span class="nav left" onclick="prev()">❮</span>
+<span class="nav left" onclick="prev()">❮</span>
 
-    <div class="viewer-card">
-        <img id="viewerImg">
-    </div>
+<div class="viewer-card">
+<img id="viewerImg">
+</div>
 
-    <span class="nav right" onclick="next()">❯</span>
+<span class="nav right" onclick="next()">❯</span>
 
-    <div class="dots" id="dots"></div>
+<div class="dots" id="dots"></div>
 
 </div>
 
 <script>
 
-/* صور كل قسم */
+/* sound */
+const clickSound = new Audio("click.mp3");
+
+/* data */
 let sections = {
-    iced: ["iced1.jpg","iced2.jpg"],
-    frappe: ["frappe1.jpg"],
-    hot: ["hot1.jpg","hot2.jpg"],
-    dessert: ["dessert1.jpg"],
-    bakery: ["bakery1.jpg"],
-    breakfast: ["breakfast1.jpg"],
-    matcha: ["matcha1.jpg"],
-    smoothie: ["smoothie1.jpg"]
+iced:["iced1.jpg","iced2.jpg"],
+frappe:["frappe1.jpg"],
+hot:["hot1.jpg"],
+dessert:["dessert1.jpg"]
 };
 
-let currentImages = [];
-let currentIndex = 0;
+let currentImages=[];
+let currentIndex=0;
 
-function openSection(section) {
-    currentImages = sections[section];
-    currentIndex = 0;
-    document.getElementById("viewer").style.display = "flex";
-    updateViewer();
+/* open */
+function openSection(section){
+clickSound.play();
+currentImages=sections[section];
+currentIndex=0;
+document.getElementById("viewer").style.display="flex";
+setTimeout(()=>document.getElementById("viewer").classList.add("active"),10);
+updateViewer();
 }
 
-function updateViewer() {
-    document.getElementById("viewerImg").src = currentImages[currentIndex];
+/* update */
+function updateViewer(){
+document.getElementById("viewerImg").src=currentImages[currentIndex];
 
-    let dots = document.getElementById("dots");
-    dots.innerHTML = "";
+let dots=document.getElementById("dots");
+dots.innerHTML="";
 
-    currentImages.forEach((_, i) => {
-        let d = document.createElement("div");
-        d.classList.add("dot");
-        if(i === currentIndex) d.classList.add("active");
-        dots.appendChild(d);
-    });
+currentImages.forEach((_,i)=>{
+let d=document.createElement("div");
+d.classList.add("dot");
+if(i===currentIndex)d.classList.add("active");
+dots.appendChild(d);
+});
 }
 
-function next() {
-    if (currentIndex < currentImages.length - 1) {
-        currentIndex++;
-        updateViewer();
-    }
+/* nav */
+function next(){
+if(currentIndex<currentImages.length-1){
+currentIndex++;
+updateViewer();
+}
 }
 
-function prev() {
-    if (currentIndex > 0) {
-        currentIndex--;
-        updateViewer();
-    }
+function prev(){
+if(currentIndex>0){
+currentIndex--;
+updateViewer();
+}
 }
 
-function closeViewer() {
-    document.getElementById("viewer").style.display = "none";
+/* close */
+function closeViewer(){
+document.getElementById("viewer").classList.remove("active");
+setTimeout(()=>document.getElementById("viewer").style.display="none",200);
 }
 
-/* ===== Auto Focus Scroll (رجعناه 👑) ===== */
-const cards = document.querySelectorAll(".card");
+/* swipe */
+let startX=0;
+document.getElementById("viewer").addEventListener("touchstart",e=>{
+startX=e.touches[0].clientX;
+});
 
-const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add("active");
-        } else {
-            entry.target.classList.remove("active");
-        }
-    });
-}, { threshold: 0.6 });
+document.getElementById("viewer").addEventListener("touchend",e=>{
+let endX=e.changedTouches[0].clientX;
+if(startX-endX>50) next();
+if(endX-startX>50) prev();
+});
 
-cards.forEach(card => observer.observe(card));
+/* auto focus scroll */
+const cards=document.querySelectorAll(".card");
+
+const observer=new IntersectionObserver(entries=>{
+entries.forEach(entry=>{
+if(entry.isIntersecting){
+entry.target.classList.add("active");
+}else{
+entry.target.classList.remove("active");
+}
+});
+},{threshold:0.6});
+
+cards.forEach(card=>observer.observe(card));
 
 </script>
 
