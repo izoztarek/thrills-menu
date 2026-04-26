@@ -67,6 +67,7 @@ body {
     object-fit: cover;
 }
 
+/* Hover + Auto Focus */
 .card:hover,
 .card.active {
     transform: scale(1.07);
@@ -78,7 +79,7 @@ body {
     display: none;
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.8);
+    background: rgba(0,0,0,0.85);
     justify-content: center;
     align-items: center;
     flex-direction: column;
@@ -95,7 +96,6 @@ body {
 
 .viewer-card img {
     width: 100%;
-    border-radius: 20px;
 }
 
 /* الأسهم */
@@ -110,21 +110,20 @@ body {
 .left { left: 20px; }
 .right { right: 20px; }
 
-/* زر الرجوع */
+/* Back Button */
 .back {
     position: absolute;
     top: 20px;
     left: 20px;
-    background: #c68a4a;
-    color: white;
-    padding: 10px 18px;
-    border-radius: 25px;
+    background: white;
+    padding: 10px 20px;
+    border-radius: 30px;
     cursor: pointer;
     font-weight: bold;
     box-shadow: 0 10px 25px rgba(0,0,0,0.4);
 }
 
-/* ===== Dots ===== */
+/* dots */
 .dots {
     margin-top: 15px;
     display: flex;
@@ -149,12 +148,10 @@ body {
 
 <div class="overlay">
 
-    <!-- اللوجو -->
     <div class="logo">
         <img src="logo.png">
     </div>
 
-    <!-- الأقسام -->
     <div class="container">
         <div class="grid">
 
@@ -172,7 +169,7 @@ body {
 
 </div>
 
-<!-- ===== Viewer ===== -->
+<!-- Viewer -->
 <div class="viewer" id="viewer">
 
     <div class="back" onclick="closeViewer()">← Back</div>
@@ -185,7 +182,6 @@ body {
 
     <span class="nav right" onclick="next()">❯</span>
 
-    <!-- dots -->
     <div class="dots" id="dots"></div>
 
 </div>
@@ -207,31 +203,27 @@ let sections = {
 let currentImages = [];
 let currentIndex = 0;
 
-/* فتح القسم */
 function openSection(section) {
     currentImages = sections[section];
     currentIndex = 0;
-
     document.getElementById("viewer").style.display = "flex";
     updateViewer();
 }
 
-/* تحديث الصورة + dots */
 function updateViewer() {
     document.getElementById("viewerImg").src = currentImages[currentIndex];
 
-    let dotsContainer = document.getElementById("dots");
-    dotsContainer.innerHTML = "";
+    let dots = document.getElementById("dots");
+    dots.innerHTML = "";
 
     currentImages.forEach((_, i) => {
-        let dot = document.createElement("div");
-        dot.classList.add("dot");
-        if(i === currentIndex) dot.classList.add("active");
-        dotsContainer.appendChild(dot);
+        let d = document.createElement("div");
+        d.classList.add("dot");
+        if(i === currentIndex) d.classList.add("active");
+        dots.appendChild(d);
     });
 }
 
-/* التالي */
 function next() {
     if (currentIndex < currentImages.length - 1) {
         currentIndex++;
@@ -239,7 +231,6 @@ function next() {
     }
 }
 
-/* السابق */
 function prev() {
     if (currentIndex > 0) {
         currentIndex--;
@@ -247,10 +238,24 @@ function prev() {
     }
 }
 
-/* رجوع */
 function closeViewer() {
     document.getElementById("viewer").style.display = "none";
 }
+
+/* ===== Auto Focus Scroll (رجعناه 👑) ===== */
+const cards = document.querySelectorAll(".card");
+
+const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add("active");
+        } else {
+            entry.target.classList.remove("active");
+        }
+    });
+}, { threshold: 0.6 });
+
+cards.forEach(card => observer.observe(card));
 
 </script>
 
