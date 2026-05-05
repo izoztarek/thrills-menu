@@ -67,6 +67,7 @@ body {
     object-fit: cover;
 }
 
+/* Hover + Auto Focus */
 .card:hover,
 .card.active {
     transform: scale(1.07);
@@ -85,6 +86,7 @@ body {
     z-index: 1000;
 }
 
+/* الكارت في النص */
 .viewer-card {
     width: 85%;
     max-width: 380px;
@@ -96,6 +98,7 @@ body {
     width: 100%;
 }
 
+/* الأسهم */
 .nav {
     position: absolute;
     top: 50%;
@@ -107,6 +110,7 @@ body {
 .left { left: 20px; }
 .right { right: 20px; }
 
+/* Back Button */
 .back {
     position: absolute;
     top: 20px;
@@ -119,6 +123,7 @@ body {
     box-shadow: 0 10px 25px rgba(0,0,0,0.4);
 }
 
+/* dots */
 .dots {
     margin-top: 15px;
     display: flex;
@@ -140,7 +145,7 @@ body {
 .scratch-screen {
     position: fixed;
     inset: 0;
-    background: linear-gradient(#ff8a00,#fbd786);
+    background: linear-gradient(135deg,#2b1d14,#5c3b2e);
     z-index: 99999;
     display: flex;
     justify-content: center;
@@ -154,6 +159,7 @@ body {
     height: 180px;
     border-radius: 20px;
     overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
 }
 
 .scratch-text {
@@ -162,14 +168,17 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-weight: bold;
     text-align: center;
+    font-weight: bold;
+    color: white;
+    font-size: 18px;
     padding: 10px;
 }
 
 canvas {
     position: absolute;
     inset: 0;
+    touch-action: none;
 }
 
 .close-x {
@@ -177,6 +186,7 @@ canvas {
     top: 20px;
     left: 20px;
     font-size: 24px;
+    color: white;
     cursor: pointer;
 }
 
@@ -187,13 +197,14 @@ canvas {
 
 <!-- ===== SCRATCH ===== -->
 <div class="scratch-screen" id="scratchScreen">
+
 <div class="close-x" onclick="closeScratch()">✕</div>
 
-<h2>TRY YOUR LUCK</h2>
+<h2 style="color:white;">جاهز لحاجة حلوة؟ 😏</h2>
 
 <div class="scratch-box">
 <div class="scratch-text">
-🎉 You got 10% OFF today!
+🔥 مفاجأة ليك النهارده!<br>خصم 10%
 </div>
 <canvas id="scratchCanvas"></canvas>
 </div>
@@ -242,7 +253,10 @@ canvas {
 
 <script>
 
-/* ===== Scratch Logic ===== */
+/* ===== FIX SCROLL ===== */
+document.body.style.overflow = "hidden";
+
+/* ===== SCRATCH ===== */
 let canvas = document.getElementById("scratchCanvas");
 let ctx = canvas.getContext("2d");
 
@@ -263,26 +277,26 @@ canvas.addEventListener("mousemove",(e)=>{
 if(!drawing) return;
 let rect = canvas.getBoundingClientRect();
 ctx.beginPath();
-ctx.arc(e.clientX-rect.left,e.clientY-rect.top,15,0,Math.PI*2);
+ctx.arc(e.clientX-rect.left,e.clientY-rect.top,18,0,Math.PI*2);
 ctx.fill();
 });
 
-/* موبايل */
 canvas.addEventListener("touchmove",(e)=>{
+e.preventDefault();
 let rect = canvas.getBoundingClientRect();
 let x = e.touches[0].clientX - rect.left;
 let y = e.touches[0].clientY - rect.top;
 ctx.beginPath();
-ctx.arc(x,y,15,0,Math.PI*2);
+ctx.arc(x,y,18,0,Math.PI*2);
 ctx.fill();
 });
 
 function closeScratch(){
 document.getElementById("scratchScreen").style.display="none";
+document.body.style.overflow = "auto";
 }
 
-/* ===== باقي الكود ===== */
-
+/* ===== MENU ===== */
 let sections = {
 iced:["iced1.jpg","iced2.jpg"],
 frappe:["frappe1.jpg"],
