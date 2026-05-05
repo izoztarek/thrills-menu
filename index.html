@@ -141,6 +141,35 @@ body {
     background: #c68a4a;
 }
 
+/* ===== Popup ===== */
+.popup {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.popup-box {
+    background: white;
+    padding: 25px;
+    border-radius: 20px;
+    text-align: center;
+    max-width: 300px;
+}
+
+.popup button {
+    margin-top: 15px;
+    padding: 10px 20px;
+    border: none;
+    background: #c68a4a;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
 </style>
 </head>
 
@@ -184,6 +213,15 @@ body {
 
     <div class="dots" id="dots"></div>
 
+</div>
+
+<!-- Popup -->
+<div class="popup" id="dailyPopup">
+    <div class="popup-box">
+        <h2>Hey 👋</h2>
+        <p id="popupMessage">You deserve something sweet today 🍫</p>
+        <button onclick="closePopup()">Start</button>
+    </div>
 </div>
 
 <script>
@@ -242,7 +280,7 @@ function closeViewer() {
     document.getElementById("viewer").style.display = "none";
 }
 
-/* ===== Auto Focus Scroll (رجعناه 👑) ===== */
+/* Auto Focus Scroll */
 const cards = document.querySelectorAll(".card");
 
 const observer = new IntersectionObserver(entries => {
@@ -256,6 +294,35 @@ const observer = new IntersectionObserver(entries => {
 }, { threshold: 0.6 });
 
 cards.forEach(card => observer.observe(card));
+
+/* ===== Popup Logic ===== */
+
+const messages = [
+"You're doing great today 💪",
+"Treat yourself 😎",
+"You deserve this 🍦",
+"Good vibes only ✨",
+"Today is your day 🔥"
+];
+
+function showPopup(){
+let lastVisit = localStorage.getItem("lastVisit");
+let now = new Date().getTime();
+
+if(!lastVisit || now - lastVisit > 86400000){
+document.getElementById("dailyPopup").style.display = "flex";
+
+let msg = messages[Math.floor(Math.random()*messages.length)];
+document.getElementById("popupMessage").innerText = msg;
+}
+}
+
+function closePopup(){
+document.getElementById("dailyPopup").style.display = "none";
+localStorage.setItem("lastVisit", new Date().getTime());
+}
+
+window.onload = showPopup;
 
 </script>
 
