@@ -67,7 +67,6 @@ body {
     object-fit: cover;
 }
 
-/* Hover + Auto Focus */
 .card:hover,
 .card.active {
     transform: scale(1.07);
@@ -86,7 +85,6 @@ body {
     z-index: 1000;
 }
 
-/* الكارت في النص */
 .viewer-card {
     width: 85%;
     max-width: 380px;
@@ -98,7 +96,6 @@ body {
     width: 100%;
 }
 
-/* الأسهم */
 .nav {
     position: absolute;
     top: 50%;
@@ -110,7 +107,6 @@ body {
 .left { left: 20px; }
 .right { right: 20px; }
 
-/* Back Button */
 .back {
     position: absolute;
     top: 20px;
@@ -123,7 +119,6 @@ body {
     box-shadow: 0 10px 25px rgba(0,0,0,0.4);
 }
 
-/* dots */
 .dots {
     margin-top: 15px;
     display: flex;
@@ -141,32 +136,47 @@ body {
     background: #c68a4a;
 }
 
-/* ===== Popup ===== */
-.popup {
+/* ===== SCRATCH SCREEN ===== */
+.scratch-screen {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.85);
-    display: none;
+    background: linear-gradient(#ff8a00,#fbd786);
+    z-index: 99999;
+    display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 9999;
+    flex-direction: column;
 }
 
-.popup-box {
-    background: white;
-    padding: 25px;
+.scratch-box {
+    position: relative;
+    width: 280px;
+    height: 180px;
     border-radius: 20px;
-    text-align: center;
-    max-width: 300px;
+    overflow: hidden;
 }
 
-.popup button {
-    margin-top: 15px;
-    padding: 10px 20px;
-    border: none;
-    background: #c68a4a;
-    color: white;
-    border-radius: 10px;
+.scratch-text {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    text-align: center;
+    padding: 10px;
+}
+
+canvas {
+    position: absolute;
+    inset: 0;
+}
+
+.close-x {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 24px;
     cursor: pointer;
 }
 
@@ -175,154 +185,169 @@ body {
 
 <body>
 
+<!-- ===== SCRATCH ===== -->
+<div class="scratch-screen" id="scratchScreen">
+<div class="close-x" onclick="closeScratch()">✕</div>
+
+<h2>TRY YOUR LUCK</h2>
+
+<div class="scratch-box">
+<div class="scratch-text">
+🎉 You got 10% OFF today!
+</div>
+<canvas id="scratchCanvas"></canvas>
+</div>
+
+</div>
+
 <div class="overlay">
 
-    <div class="logo">
-        <img src="logo.png">
-    </div>
+<div class="logo">
+<img src="logo.png">
+</div>
 
-    <div class="container">
-        <div class="grid">
+<div class="container">
+<div class="grid">
 
-            <div class="card" onclick="openSection('iced')"><img src="iced-cover.jpg"></div>
-            <div class="card" onclick="openSection('frappe')"><img src="frappe-cover.jpg"></div>
-            <div class="card" onclick="openSection('hot')"><img src="hot-cover.jpg"></div>
-            <div class="card" onclick="openSection('dessert')"><img src="dessert-cover.jpg"></div>
-            <div class="card" onclick="openSection('bakery')"><img src="bakery-cover.jpg"></div>
-            <div class="card" onclick="openSection('breakfast')"><img src="breakfast-cover.jpg"></div>
-            <div class="card" onclick="openSection('matcha')"><img src="matcha-cover.jpg"></div>
-            <div class="card" onclick="openSection('smoothie')"><img src="smoothie-cover.jpg"></div>
+<div class="card" onclick="openSection('iced')"><img src="iced-cover.jpg"></div>
+<div class="card" onclick="openSection('frappe')"><img src="frappe-cover.jpg"></div>
+<div class="card" onclick="openSection('hot')"><img src="hot-cover.jpg"></div>
+<div class="card" onclick="openSection('dessert')"><img src="dessert-cover.jpg"></div>
+<div class="card" onclick="openSection('bakery')"><img src="bakery-cover.jpg"></div>
+<div class="card" onclick="openSection('breakfast')"><img src="breakfast-cover.jpg"></div>
+<div class="card" onclick="openSection('matcha')"><img src="matcha-cover.jpg"></div>
+<div class="card" onclick="openSection('smoothie')"><img src="smoothie-cover.jpg"></div>
 
-        </div>
-    </div>
+</div>
+</div>
 
 </div>
 
 <!-- Viewer -->
 <div class="viewer" id="viewer">
 
-    <div class="back" onclick="closeViewer()">← Back</div>
+<div class="back" onclick="closeViewer()">← Back</div>
 
-    <span class="nav left" onclick="prev()">❮</span>
+<span class="nav left" onclick="prev()">❮</span>
 
-    <div class="viewer-card">
-        <img id="viewerImg">
-    </div>
-
-    <span class="nav right" onclick="next()">❯</span>
-
-    <div class="dots" id="dots"></div>
-
+<div class="viewer-card">
+<img id="viewerImg">
 </div>
 
-<!-- Popup -->
-<div class="popup" id="dailyPopup">
-    <div class="popup-box">
-        <h2>Hey 👋</h2>
-        <p id="popupMessage">You deserve something sweet today 🍫</p>
-        <button onclick="closePopup()">Start</button>
-    </div>
+<span class="nav right" onclick="next()">❯</span>
+
+<div class="dots" id="dots"></div>
+
 </div>
 
 <script>
 
-/* صور كل قسم */
+/* ===== Scratch Logic ===== */
+let canvas = document.getElementById("scratchCanvas");
+let ctx = canvas.getContext("2d");
+
+canvas.width = 280;
+canvas.height = 180;
+
+ctx.fillStyle = "#c68a4a";
+ctx.fillRect(0,0,canvas.width,canvas.height);
+
+ctx.globalCompositeOperation = "destination-out";
+
+let drawing = false;
+
+canvas.addEventListener("mousedown",()=>drawing=true);
+canvas.addEventListener("mouseup",()=>drawing=false);
+
+canvas.addEventListener("mousemove",(e)=>{
+if(!drawing) return;
+let rect = canvas.getBoundingClientRect();
+ctx.beginPath();
+ctx.arc(e.clientX-rect.left,e.clientY-rect.top,15,0,Math.PI*2);
+ctx.fill();
+});
+
+/* موبايل */
+canvas.addEventListener("touchmove",(e)=>{
+let rect = canvas.getBoundingClientRect();
+let x = e.touches[0].clientX - rect.left;
+let y = e.touches[0].clientY - rect.top;
+ctx.beginPath();
+ctx.arc(x,y,15,0,Math.PI*2);
+ctx.fill();
+});
+
+function closeScratch(){
+document.getElementById("scratchScreen").style.display="none";
+}
+
+/* ===== باقي الكود ===== */
+
 let sections = {
-    iced: ["iced1.jpg","iced2.jpg"],
-    frappe: ["frappe1.jpg"],
-    hot: ["hot1.jpg","hot2.jpg"],
-    dessert: ["dessert1.jpg"],
-    bakery: ["bakery1.jpg"],
-    breakfast: ["breakfast1.jpg"],
-    matcha: ["matcha1.jpg"],
-    smoothie: ["smoothie1.jpg"]
+iced:["iced1.jpg","iced2.jpg"],
+frappe:["frappe1.jpg"],
+hot:["hot1.jpg","hot2.jpg"],
+dessert:["dessert1.jpg"],
+bakery:["bakery1.jpg"],
+breakfast:["breakfast1.jpg"],
+matcha:["matcha1.jpg"],
+smoothie:["smoothie1.jpg"]
 };
 
-let currentImages = [];
-let currentIndex = 0;
+let currentImages=[];
+let currentIndex=0;
 
-function openSection(section) {
-    currentImages = sections[section];
-    currentIndex = 0;
-    document.getElementById("viewer").style.display = "flex";
-    updateViewer();
+function openSection(section){
+currentImages=sections[section];
+currentIndex=0;
+document.getElementById("viewer").style.display="flex";
+updateViewer();
 }
 
-function updateViewer() {
-    document.getElementById("viewerImg").src = currentImages[currentIndex];
+function updateViewer(){
+document.getElementById("viewerImg").src=currentImages[currentIndex];
 
-    let dots = document.getElementById("dots");
-    dots.innerHTML = "";
-
-    currentImages.forEach((_, i) => {
-        let d = document.createElement("div");
-        d.classList.add("dot");
-        if(i === currentIndex) d.classList.add("active");
-        dots.appendChild(d);
-    });
+let dots=document.getElementById("dots");
+dots.innerHTML="";
+currentImages.forEach((_,i)=>{
+let d=document.createElement("div");
+d.classList.add("dot");
+if(i===currentIndex)d.classList.add("active");
+dots.appendChild(d);
+});
 }
 
-function next() {
-    if (currentIndex < currentImages.length - 1) {
-        currentIndex++;
-        updateViewer();
-    }
-}
-
-function prev() {
-    if (currentIndex > 0) {
-        currentIndex--;
-        updateViewer();
-    }
-}
-
-function closeViewer() {
-    document.getElementById("viewer").style.display = "none";
-}
-
-/* Auto Focus Scroll */
-const cards = document.querySelectorAll(".card");
-
-const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add("active");
-        } else {
-            entry.target.classList.remove("active");
-        }
-    });
-}, { threshold: 0.6 });
-
-cards.forEach(card => observer.observe(card));
-
-/* ===== Popup Logic ===== */
-
-const messages = [
-"You're doing great today 💪",
-"Treat yourself 😎",
-"You deserve this 🍦",
-"Good vibes only ✨",
-"Today is your day 🔥"
-];
-
-function showPopup(){
-let lastVisit = localStorage.getItem("lastVisit");
-let now = new Date().getTime();
-
-if(!lastVisit || now - lastVisit > 86400000){
-document.getElementById("dailyPopup").style.display = "flex";
-
-let msg = messages[Math.floor(Math.random()*messages.length)];
-document.getElementById("popupMessage").innerText = msg;
+function next(){
+if(currentIndex<currentImages.length-1){
+currentIndex++;
+updateViewer();
 }
 }
 
-function closePopup(){
-document.getElementById("dailyPopup").style.display = "none";
-localStorage.setItem("lastVisit", new Date().getTime());
+function prev(){
+if(currentIndex>0){
+currentIndex--;
+updateViewer();
+}
 }
 
-window.onload = showPopup;
+function closeViewer(){
+document.getElementById("viewer").style.display="none";
+}
+
+/* auto focus */
+const cards=document.querySelectorAll(".card");
+const observer=new IntersectionObserver(entries=>{
+entries.forEach(entry=>{
+if(entry.isIntersecting){
+entry.target.classList.add("active");
+}else{
+entry.target.classList.remove("active");
+}
+});
+},{threshold:0.6});
+
+cards.forEach(card=>observer.observe(card));
 
 </script>
 
