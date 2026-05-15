@@ -43,15 +43,6 @@ body {
     gap: 20px;
 }
 
-@media(min-width: 768px){
-    .grid { grid-template-columns: repeat(3, 1fr); }
-}
-
-@media(min-width: 1100px){
-    .grid { grid-template-columns: repeat(4, 1fr); }
-}
-
-/* ===== الكروت ===== */
 .card {
     height: 330px;
     border-radius: 25px;
@@ -61,82 +52,13 @@ body {
     box-shadow: 0 12px 30px rgba(0,0,0,0.35);
 }
 
-.card img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
 .card:hover,
 .card.active {
-    transform: scale(1.07);
-    box-shadow: 0 30px 70px rgba(0,0,0,0.6);
+    transform: scale(1.05);
+    box-shadow: 0 15px 30px rgba(255,255,255,0.2);
 }
 
-/* ===== Viewer ===== */
-.viewer {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.85);
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    z-index: 1000;
-}
-
-.viewer-card {
-    width: 85%;
-    max-width: 380px;
-    border-radius: 20px;
-    overflow: hidden;
-}
-
-.viewer-card img {
-    width: 100%;
-}
-
-.nav {
-    position: absolute;
-    top: 50%;
-    font-size: 30px;
-    color: white;
-    cursor: pointer;
-}
-
-.left { left: 20px; }
-.right { right: 20px; }
-
-.back {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    background: white;
-    padding: 10px 20px;
-    border-radius: 30px;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-/* dots */
-.dots {
-    margin-top: 15px;
-    display: flex;
-    gap: 8px;
-}
-
-.dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: #ccc;
-}
-
-.dot.active {
-    background: #c68a4a;
-}
-
-/* ===== ICE BUILDER ===== */
+/* ===== BUILDER ===== */
 .builder {
     display: none;
     position: fixed;
@@ -147,9 +69,19 @@ body {
     padding: 20px;
 }
 
+/* عنوان */
 .header {
-    margin-top: 40px;
-    font-size: 22px;
+    margin-top: 30px;
+    font-size: 24px;
+    color: white;
+    font-family: 'Trebuchet MS', cursive;
+}
+
+/* اسم الفليفر */
+.flavorName {
+    margin-top: 10px;
+    color: white;
+    font-size: 18px;
 }
 
 /* Preview */
@@ -157,7 +89,7 @@ body {
     position: relative;
     width: 200px;
     height: 400px;
-    margin: 40px auto;
+    margin: 30px auto;
 }
 
 .layer {
@@ -183,10 +115,10 @@ body {
 
 .active {
     transform: scale(1.2);
-    filter: drop-shadow(0 0 10px #c68a4a);
+    filter: drop-shadow(0 0 10px white);
 }
 
-/* Button */
+/* Buttons */
 .btn {
     margin-top: 20px;
     padding: 10px 25px;
@@ -197,6 +129,17 @@ body {
     cursor: pointer;
 }
 
+.backBtn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: white;
+    color: black;
+    padding: 8px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
 </style>
 </head>
 
@@ -204,66 +147,57 @@ body {
 
 <div class="overlay">
 
-    <div class="logo">
-        <img src="logo.png">
-    </div>
+<div class="logo">
+<img src="logo.png">
+</div>
 
-    <div class="container">
-        <div class="grid">
+<div class="container">
+<div class="grid">
 
-            <!-- هنا غيرنا بس الفنكشن -->
-            <div class="card" onclick="openIce()"><img src="iced-cover.jpg"></div>
+<div class="card" onclick="openIce()"><img src="iced-cover.jpg"></div>
 
-            <div class="card" onclick="openSection('frappe')"><img src="frappe-cover.jpg"></div>
-            <div class="card" onclick="openSection('hot')"><img src="hot-cover.jpg"></div>
-            <div class="card" onclick="openSection('dessert')"><img src="dessert-cover.jpg"></div>
-            <div class="card" onclick="openSection('bakery')"><img src="bakery-cover.jpg"></div>
-            <div class="card" onclick="openSection('breakfast')"><img src="breakfast-cover.jpg"></div>
-            <div class="card" onclick="openSection('matcha')"><img src="matcha-cover.jpg"></div>
-            <div class="card" onclick="openSection('smoothie')"><img src="smoothie-cover.jpg"></div>
+<div class="card"><img src="frappe-cover.jpg"></div>
+<div class="card"><img src="hot-cover.jpg"></div>
 
-        </div>
-    </div>
+</div>
+</div>
 
 </div>
 
-<!-- Viewer -->
-<div class="viewer" id="viewer">
-
-    <div class="back" onclick="closeViewer()">← Back</div>
-
-    <span class="nav left" onclick="prev()">❮</span>
-
-    <div class="viewer-card">
-        <img id="viewerImg">
-    </div>
-
-    <span class="nav right" onclick="next()">❯</span>
-
-    <div class="dots" id="dots"></div>
-
-</div>
-
-<!-- ===== ICE BUILDER ===== -->
+<!-- BUILDER -->
 <div class="builder" id="builder">
 
-<div class="back" onclick="closeIce()">← Back</div>
+<div class="backBtn" onclick="goBack()">← Back</div>
 
-<div class="header">Choose Your Base</div>
+<div class="header" id="title">Choose Your Base Flavor</div>
+<div class="flavorName" id="flavorText"></div>
 
 <div class="preview">
 <img id="base" class="layer">
 <img id="coating" class="layer">
-<img id="inner" class="layer">
 </div>
 
-<!-- BASE -->
-<div class="options">
-<img src="images/base/vanilla.png" onclick="selectBase(this,'images/base/vanilla.png')">
-<img src="images/base/chocolate.png" onclick="selectBase(this,'images/base/chocolate.png')">
-<img src="images/base/strawberry.png" onclick="selectBase(this,'images/base/strawberry.png')">
-<img src="images/base/pistachio.png" onclick="selectBase(this,'images/base/pistachio.png')">
-<img src="images/base/hazelnut.png" onclick="selectBase(this,'images/base/hazelnut.png')">
+<!-- STEP 1 BASE -->
+<div class="options" id="baseOptions">
+<img src="images/base/vanilla.png" onclick="selectBase(this,'Vanilla','images/base/vanilla.png')">
+<img src="images/base/chocolate.png" onclick="selectBase(this,'Chocolate','images/base/chocolate.png')">
+<img src="images/base/strawberry.png" onclick="selectBase(this,'Strawberry','images/base/strawberry.png')">
+<img src="images/base/pistachio.png" onclick="selectBase(this,'Pistachio','images/base/pistachio.png')">
+<img src="images/base/hazelnut.png" onclick="selectBase(this,'Hazelnut','images/base/hazelnut.png')">
+</div>
+
+<!-- STEP 2 TYPE -->
+<div class="options" id="typeOptions" style="display:none;">
+<button class="btn" onclick="chooseType('Milk')">Milk</button>
+<button class="btn" onclick="chooseType('Dark')">Dark</button>
+<button class="btn" onclick="chooseType('White')">White</button>
+</div>
+
+<!-- STEP 3 FLAVOR -->
+<div class="options" id="coatingOptions" style="display:none;">
+<img src="images/coating/milk_plain.png" onclick="selectCoating(this,'Plain')">
+<img src="images/coating/milk_pistachio.png" onclick="selectCoating(this,'Pistachio')">
+<img src="images/coating/milk_hazelnut.png" onclick="selectCoating(this,'Hazelnut')">
 </div>
 
 <button class="btn" onclick="nextStep()">Next</button>
@@ -272,66 +206,69 @@ body {
 
 <script>
 
-/* ===== MENU ===== */
-let sections = {
-    frappe: ["frappe1.jpg"],
-    hot: ["hot1.jpg","hot2.jpg"],
-    dessert: ["dessert1.jpg"],
-    bakery: ["bakery1.jpg"],
-    breakfast: ["breakfast1.jpg"],
-    matcha: ["matcha1.jpg"],
-    smoothie: ["smoothie1.jpg"]
-};
+let step = 1;
+let selectedType = "";
 
-let currentImages = [];
-let currentIndex = 0;
-
-function openSection(section) {
-    currentImages = sections[section];
-    currentIndex = 0;
-    document.getElementById("viewer").style.display = "flex";
-    updateViewer();
-}
-
-function updateViewer() {
-    document.getElementById("viewerImg").src = currentImages[currentIndex];
-}
-
-function next(){ if(currentIndex < currentImages.length-1){ currentIndex++; updateViewer(); } }
-function prev(){ if(currentIndex > 0){ currentIndex--; updateViewer(); } }
-
-function closeViewer(){
-    document.getElementById("viewer").style.display = "none";
-}
-
-/* ===== ICE ===== */
+/* فتح */
 function openIce(){
-    document.getElementById("builder").style.display="block";
-}
-function closeIce(){
-    document.getElementById("builder").style.display="none";
+document.getElementById("builder").style.display="block";
 }
 
-function selectBase(el,src){
-    document.getElementById("base").src = src;
-    document.querySelectorAll(".options img").forEach(i=>i.classList.remove("active"));
-    el.classList.add("active");
+/* رجوع */
+function goBack(){
+if(step==2){
+step=1;
+document.getElementById("typeOptions").style.display="none";
+document.getElementById("baseOptions").style.display="flex";
+document.getElementById("title").innerText="Choose Your Base Flavor";
+}
+else if(step==3){
+step=2;
+document.getElementById("coatingOptions").style.display="none";
+document.getElementById("typeOptions").style.display="flex";
+document.getElementById("title").innerText="Choose Your Coating";
+}
 }
 
+/* اختيار البيز */
+function selectBase(el,name,src){
+document.getElementById("base").src=src;
+document.getElementById("flavorText").innerText=name;
+
+setActive(el);
+}
+
+/* Next */
 function nextStep(){
-    alert("هنكمل الخطوة الجاية بعد ما نخلص UI 👑");
+if(step==1){
+step=2;
+document.getElementById("baseOptions").style.display="none";
+document.getElementById("typeOptions").style.display="flex";
+document.getElementById("title").innerText="Choose Your Coating Flavor";
+}
+else if(step==2){
+step=3;
+document.getElementById("typeOptions").style.display="none";
+document.getElementById("coatingOptions").style.display="flex";
+}
 }
 
-/* auto focus */
-const cards = document.querySelectorAll(".card");
+/* نوع الصوص */
+function chooseType(type){
+selectedType = type;
+}
 
-const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-        entry.target.classList.toggle("active", entry.isIntersecting);
-    });
-}, { threshold: 0.6 });
+/* اختيار الصوص */
+function selectCoating(el,name){
+document.getElementById("flavorText").innerText = selectedType + " " + name;
+setActive(el);
+}
 
-cards.forEach(card => observer.observe(card));
+/* Active */
+function setActive(el){
+document.querySelectorAll(".options img").forEach(i=>i.classList.remove("active"));
+el.classList.add("active");
+}
 
 </script>
 
