@@ -84,6 +84,7 @@ body {
     padding: 20px;
 }
 
+/* Header */
 .header {
     margin-top: 40px;
     font-size: 26px;
@@ -127,6 +128,7 @@ body {
     cursor: pointer;
 }
 
+/* Active */
 .active {
     transform: scale(1.2);
     filter: drop-shadow(0 0 10px white);
@@ -198,6 +200,7 @@ body {
 <div class="preview">
 <img id="base" class="layer">
 <img id="coating" class="layer">
+<img id="inner" class="layer">
 </div>
 
 <!-- STEP 1 -->
@@ -219,6 +222,16 @@ body {
 <!-- STEP 3 -->
 <div class="options" id="coatingOptions" style="display:none;"></div>
 
+<!-- STEP 4 -->
+<div class="options" id="fillingOptions" style="display:none;">
+<img src="images/filling/chocolate.png" onclick="selectFilling(this,'Chocolate')">
+<img src="images/filling/lotus.png" onclick="selectFilling(this,'Lotus')">
+<img src="images/filling/caramel.png" onclick="selectFilling(this,'Caramel')">
+<img src="images/filling/berry.png" onclick="selectFilling(this,'Berry')">
+<img src="images/filling/pistachio.png" onclick="selectFilling(this,'Pistachio')">
+<img src="images/filling/milk.png" onclick="selectFilling(this,'Condensed Milk')">
+</div>
+
 <button class="btn" onclick="nextStep()">Next</button>
 
 </div>
@@ -231,13 +244,19 @@ let typeSelected = false;
 
 /* open */
 function openIce(){
-    document.getElementById("builder").style.display="block";
+    builder.style.display="block";
 }
 
 /* back */
 function goBack(){
     if(step==2){step=1;showStep1();}
     else if(step==3){step=2;showStep2();}
+    else if(step==4){
+        step=3;
+        fillingOptions.style.display="none";
+        coatingOptions.style.display="flex";
+        title.innerText="Choose Your Coating Flavor";
+    }
 }
 
 /* steps */
@@ -245,6 +264,7 @@ function showStep1(){
     baseOptions.style.display="flex";
     typeOptions.style.display="none";
     coatingOptions.style.display="none";
+    fillingOptions.style.display="none";
     title.innerText="Choose Your Base Flavor";
 }
 
@@ -252,12 +272,20 @@ function showStep2(){
     baseOptions.style.display="none";
     typeOptions.style.display="flex";
     coatingOptions.style.display="none";
+    fillingOptions.style.display="none";
     title.innerText="Choose Your Coating Flavor";
 }
 
 function showStep3(){
     typeOptions.style.display="none";
     coatingOptions.style.display="flex";
+    fillingOptions.style.display="none";
+}
+
+function showStep4(){
+    coatingOptions.style.display="none";
+    fillingOptions.style.display="flex";
+    title.innerText="Choose Your Filling";
 }
 
 /* next */
@@ -269,6 +297,10 @@ function nextStep(){
     else if(step==2){
         if(!typeSelected) return alert("Choose type");
         step=3; showStep3();
+    }
+    else if(step==3){
+        if(!coating.src) return alert("Choose coating");
+        step=4; showStep4();
     }
 }
 
@@ -312,16 +344,17 @@ function chooseType(type,el){
     }
 }
 
-/* ⭐ هنا التعديل المهم */
+/* coating */
 function selectCoating(el,name){
-
-    // اسم الفليفر
     flavorText.innerText = selectedType + " " + name;
+    coating.src = el.getAttribute("src");
+    setActive(el);
+}
 
-    // نحط الصوص فوق الايسكريم
-    let imgSrc = el.getAttribute("src");
-    coating.src = imgSrc;
-
+/* filling */
+function selectFilling(el,name){
+    flavorText.innerText = selectedType + " + " + name;
+    inner.src = el.getAttribute("src");
     setActive(el);
 }
 
