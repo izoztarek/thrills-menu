@@ -7,7 +7,7 @@
 
 <style>
 
-/* ===== BACKGROUND ===== */
+/* ===== خلفية ===== */
 body {
     margin: 0;
     font-family: Arial;
@@ -20,7 +20,7 @@ body {
     min-height: 100vh;
 }
 
-/* ===== LOGO ===== */
+/* ===== اللوجو ===== */
 .logo {
     text-align: center;
     padding: 30px;
@@ -30,7 +30,7 @@ body {
     width: 150px;
 }
 
-/* ===== GRID ===== */
+/* ===== الجريد ===== */
 .container {
     max-width: 1400px;
     margin: auto;
@@ -43,21 +43,21 @@ body {
     gap: 20px;
 }
 
-@media(min-width:768px){
-    .grid { grid-template-columns: repeat(3,1fr); }
+@media(min-width: 768px){
+    .grid { grid-template-columns: repeat(3, 1fr); }
 }
 
-@media(min-width:1100px){
-    .grid { grid-template-columns: repeat(4,1fr); }
+@media(min-width: 1100px){
+    .grid { grid-template-columns: repeat(4, 1fr); }
 }
 
-/* ===== CARDS ===== */
+/* ===== الكروت ===== */
 .card {
     height: 330px;
     border-radius: 25px;
     overflow: hidden;
     cursor: pointer;
-    transition: 0.4s;
+    transition: 0.4s ease;
     box-shadow: 0 12px 30px rgba(0,0,0,0.35);
 }
 
@@ -73,34 +73,86 @@ body {
     box-shadow: 0 30px 70px rgba(0,0,0,0.6);
 }
 
-/* ===== BUILDER ===== */
+/* ===== Viewer ===== */
+.viewer {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 1000;
+}
+
+.viewer-card {
+    width: 85%;
+    max-width: 380px;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.viewer-card img {
+    width: 100%;
+}
+
+.nav {
+    position: absolute;
+    top: 50%;
+    font-size: 30px;
+    color: white;
+    cursor: pointer;
+}
+
+.left { left: 20px; }
+.right { right: 20px; }
+
+.back {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: white;
+    padding: 10px 20px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* dots */
+.dots {
+    margin-top: 15px;
+    display: flex;
+    gap: 8px;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #ccc;
+}
+
+.dot.active {
+    background: #c68a4a;
+}
+
+/* ===== ICE BUILDER ===== */
 .builder {
     display: none;
     position: fixed;
     inset: 0;
     background: rgba(0,0,0,0.95);
     z-index: 2000;
-    padding: 20px;
     text-align: center;
+    padding: 20px;
 }
 
-/* HEADER */
 .header {
-    font-size: 22px;
     margin-top: 40px;
+    font-size: 22px;
 }
 
-/* STEP */
-.stepBox {
-    position: absolute;
-    right: 20px;
-    top: 20px;
-    background: #222;
-    padding: 8px 15px;
-    border-radius: 20px;
-}
-
-/* PREVIEW */
+/* Preview */
 .preview {
     position: relative;
     width: 200px;
@@ -113,11 +165,7 @@ body {
     width: 100%;
 }
 
-/* STEPS */
-.step { display: none; }
-.activeStep { display: block; }
-
-/* OPTIONS */
+/* Options */
 .options {
     display: flex;
     justify-content: center;
@@ -125,45 +173,27 @@ body {
     flex-wrap: wrap;
 }
 
-/* 👇 أهم تعديل: شكل العود */
+/* شكل العود */
 .options img {
     width: 60px;
-    height: 130px;
+    height: 120px;
     object-fit: contain;
-    background: transparent;
     cursor: pointer;
-    transition: 0.3s;
-}
-
-.options img:hover {
-    transform: scale(1.1);
 }
 
 .active {
-    transform: scale(1.15);
+    transform: scale(1.2);
     filter: drop-shadow(0 0 10px #c68a4a);
 }
 
-/* BUTTON */
+/* Button */
 .btn {
     margin-top: 20px;
     padding: 10px 25px;
-    border: none;
     border-radius: 25px;
+    border: none;
     background: #c68a4a;
     color: white;
-    cursor: pointer;
-}
-
-/* BACK */
-.back {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    background: white;
-    color: black;
-    padding: 10px 20px;
-    border-radius: 30px;
     cursor: pointer;
 }
 
@@ -174,31 +204,52 @@ body {
 
 <div class="overlay">
 
-<div class="logo">
-<img src="logo.png">
+    <div class="logo">
+        <img src="logo.png">
+    </div>
+
+    <div class="container">
+        <div class="grid">
+
+            <!-- هنا غيرنا بس الفنكشن -->
+            <div class="card" onclick="openIce()"><img src="iced-cover.jpg"></div>
+
+            <div class="card" onclick="openSection('frappe')"><img src="frappe-cover.jpg"></div>
+            <div class="card" onclick="openSection('hot')"><img src="hot-cover.jpg"></div>
+            <div class="card" onclick="openSection('dessert')"><img src="dessert-cover.jpg"></div>
+            <div class="card" onclick="openSection('bakery')"><img src="bakery-cover.jpg"></div>
+            <div class="card" onclick="openSection('breakfast')"><img src="breakfast-cover.jpg"></div>
+            <div class="card" onclick="openSection('matcha')"><img src="matcha-cover.jpg"></div>
+            <div class="card" onclick="openSection('smoothie')"><img src="smoothie-cover.jpg"></div>
+
+        </div>
+    </div>
+
 </div>
 
-<div class="container">
-<div class="grid">
+<!-- Viewer -->
+<div class="viewer" id="viewer">
 
-<div class="card" onclick="openIce()"><img src="iced-cover.jpg"></div>
-<div class="card"><img src="frappe-cover.jpg"></div>
-<div class="card"><img src="hot-cover.jpg"></div>
-<div class="card"><img src="dessert-cover.jpg"></div>
+    <div class="back" onclick="closeViewer()">← Back</div>
+
+    <span class="nav left" onclick="prev()">❮</span>
+
+    <div class="viewer-card">
+        <img id="viewerImg">
+    </div>
+
+    <span class="nav right" onclick="next()">❯</span>
+
+    <div class="dots" id="dots"></div>
 
 </div>
-</div>
 
-</div>
-
-<!-- ===== BUILDER ===== -->
+<!-- ===== ICE BUILDER ===== -->
 <div class="builder" id="builder">
 
 <div class="back" onclick="closeIce()">← Back</div>
 
-<div class="stepBox" id="stepText">1 / 3</div>
-
-<div class="header" id="title">Choose Your Base</div>
+<div class="header">Choose Your Base</div>
 
 <div class="preview">
 <img id="base" class="layer">
@@ -206,8 +257,7 @@ body {
 <img id="inner" class="layer">
 </div>
 
-<!-- STEP 1 -->
-<div class="step activeStep" id="step1">
+<!-- BASE -->
 <div class="options">
 <img src="images/base/vanilla.png" onclick="selectBase(this,'images/base/vanilla.png')">
 <img src="images/base/chocolate.png" onclick="selectBase(this,'images/base/chocolate.png')">
@@ -215,103 +265,73 @@ body {
 <img src="images/base/pistachio.png" onclick="selectBase(this,'images/base/pistachio.png')">
 <img src="images/base/hazelnut.png" onclick="selectBase(this,'images/base/hazelnut.png')">
 </div>
-<button class="btn" onclick="nextStep()">Next</button>
-</div>
 
-<!-- STEP 2 -->
-<div class="step" id="step2">
-<div class="options">
-<img src="images/coating/milk_plain.png" onclick="selectCoating(this,'images/coating/milk_plain.png')">
-<img src="images/coating/dark_plain.png" onclick="selectCoating(this,'images/coating/dark_plain.png')">
-<img src="images/coating/white_plain.png" onclick="selectCoating(this,'images/coating/white_plain.png')">
-</div>
 <button class="btn" onclick="nextStep()">Next</button>
-</div>
-
-<!-- STEP 3 -->
-<div class="step" id="step3">
-<div class="options">
-<img src="images/inner/chocolate.png" onclick="selectInner(this,'images/inner/chocolate.png')">
-<img src="images/inner/lotus.png" onclick="selectInner(this,'images/inner/lotus.png')">
-<img src="images/inner/caramel.png" onclick="selectInner(this,'images/inner/caramel.png')">
-</div>
-<button class="btn" onclick="closeIce()">Done</button>
-</div>
 
 </div>
 
 <script>
 
-let currentStep = 1;
+/* ===== MENU ===== */
+let sections = {
+    frappe: ["frappe1.jpg"],
+    hot: ["hot1.jpg","hot2.jpg"],
+    dessert: ["dessert1.jpg"],
+    bakery: ["bakery1.jpg"],
+    breakfast: ["breakfast1.jpg"],
+    matcha: ["matcha1.jpg"],
+    smoothie: ["smoothie1.jpg"]
+};
 
+let currentImages = [];
+let currentIndex = 0;
+
+function openSection(section) {
+    currentImages = sections[section];
+    currentIndex = 0;
+    document.getElementById("viewer").style.display = "flex";
+    updateViewer();
+}
+
+function updateViewer() {
+    document.getElementById("viewerImg").src = currentImages[currentIndex];
+}
+
+function next(){ if(currentIndex < currentImages.length-1){ currentIndex++; updateViewer(); } }
+function prev(){ if(currentIndex > 0){ currentIndex--; updateViewer(); } }
+
+function closeViewer(){
+    document.getElementById("viewer").style.display = "none";
+}
+
+/* ===== ICE ===== */
 function openIce(){
-document.getElementById("builder").style.display="block";
-reset();
+    document.getElementById("builder").style.display="block";
 }
-
 function closeIce(){
-document.getElementById("builder").style.display="none";
+    document.getElementById("builder").style.display="none";
 }
 
-/* RESET */
-function reset(){
-currentStep = 1;
-document.getElementById("stepText").innerText="1 / 3";
-document.getElementById("title").innerText="Choose Your Base";
-
-document.querySelectorAll(".step").forEach(s=>s.classList.remove("activeStep"));
-document.getElementById("step1").classList.add("activeStep");
-
-document.getElementById("base").src="";
-document.getElementById("coating").src="";
-document.getElementById("inner").src="";
-}
-
-/* SELECT */
 function selectBase(el,src){
-document.getElementById("base").src=src;
-setActive(el);
+    document.getElementById("base").src = src;
+    document.querySelectorAll(".options img").forEach(i=>i.classList.remove("active"));
+    el.classList.add("active");
 }
 
-function selectCoating(el,src){
-document.getElementById("coating").src=src;
-setActive(el);
-}
-
-function selectInner(el,src){
-document.getElementById("inner").src=src;
-setActive(el);
-}
-
-/* NEXT */
 function nextStep(){
-
-if(currentStep==1){
-if(!document.getElementById("base").src){
-alert("Choose base first");
-return;
-}
-document.getElementById("title").innerText="Choose Coating";
+    alert("هنكمل الخطوة الجاية بعد ما نخلص UI 👑");
 }
 
-if(currentStep==2){
-document.getElementById("title").innerText="Choose Filling";
-}
+/* auto focus */
+const cards = document.querySelectorAll(".card");
 
-document.getElementById("step"+currentStep).classList.remove("activeStep");
+const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+        entry.target.classList.toggle("active", entry.isIntersecting);
+    });
+}, { threshold: 0.6 });
 
-currentStep++;
-document.getElementById("stepText").innerText=currentStep+" / 3";
-
-document.getElementById("step"+currentStep).classList.add("activeStep");
-}
-
-/* ACTIVE */
-function setActive(el){
-let imgs=document.querySelectorAll(".options img");
-imgs.forEach(i=>i.classList.remove("active"));
-el.classList.add("active");
-}
+cards.forEach(card => observer.observe(card));
 
 </script>
 
