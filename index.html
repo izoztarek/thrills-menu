@@ -7,7 +7,7 @@
 
 <style>
 
-/* ===== خلفية ===== */
+/* ===== Background ===== */
 body {
     margin: 0;
     font-family: Arial;
@@ -20,7 +20,7 @@ body {
     min-height: 100vh;
 }
 
-/* ===== اللوجو ===== */
+/* ===== Logo ===== */
 .logo {
     text-align: center;
     padding: 30px;
@@ -30,7 +30,7 @@ body {
     width: 150px;
 }
 
-/* ===== الجريد ===== */
+/* ===== Grid ===== */
 .container {
     max-width: 1400px;
     margin: auto;
@@ -43,21 +43,21 @@ body {
     gap: 20px;
 }
 
-@media(min-width: 768px){
-    .grid { grid-template-columns: repeat(3, 1fr); }
+@media(min-width:768px){
+    .grid {grid-template-columns: repeat(3,1fr);}
 }
 
-@media(min-width: 1100px){
-    .grid { grid-template-columns: repeat(4, 1fr); }
+@media(min-width:1100px){
+    .grid {grid-template-columns: repeat(4,1fr);}
 }
 
-/* ===== الكروت ===== */
+/* ===== Cards ===== */
 .card {
     height: 330px;
     border-radius: 25px;
     overflow: hidden;
     cursor: pointer;
-    transition: 0.4s ease;
+    transition: 0.4s;
     box-shadow: 0 12px 30px rgba(0,0,0,0.35);
 }
 
@@ -96,7 +96,6 @@ body {
     width: 100%;
 }
 
-/* الأسهم */
 .nav {
     position: absolute;
     top: 50%;
@@ -108,7 +107,6 @@ body {
 .left { left: 20px; }
 .right { right: 20px; }
 
-/* Back */
 .back {
     position: absolute;
     top: 20px;
@@ -138,53 +136,75 @@ body {
     background: #c68a4a;
 }
 
-/* ===== ICE BUILDER ===== */
+/* ===== BUILDER ===== */
 .builder {
     display: none;
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.95);
+    background: #0f0f0f;
     z-index: 2000;
-    overflow-y: auto;
     padding: 20px;
+    overflow-y: auto;
     text-align: center;
 }
 
+/* Step Counter */
+.stepBox {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    background: #222;
+    padding: 8px 15px;
+    border-radius: 20px;
+    color: white;
+}
+
+/* Preview */
 .preview {
     position: relative;
-    width: 220px;
-    margin: 40px auto;
+    width: 180px;
+    height: 360px;
+    margin: 60px auto 30px;
 }
 
 .layer {
     position: absolute;
     width: 100%;
-    left: 0;
-    top: 0;
 }
 
+/* Steps */
+.step {
+    display: none;
+}
+
+.activeStep {
+    display: block;
+}
+
+/* Options */
 .options {
     display: flex;
-    flex-wrap: wrap;
     justify-content: center;
-    gap: 10px;
+    gap: 15px;
+    flex-wrap: wrap;
 }
 
 .options img {
-    width: 70px;
-    height: 70px;
-    border-radius: 10px;
+    width: 75px;
+    height: 75px;
+    border-radius: 15px;
     cursor: pointer;
-    border: 2px solid transparent;
+    background: #1a1a1a;
+    padding: 5px;
+    transition: 0.3s;
 }
 
 .options img:hover {
     transform: scale(1.1);
-    border-color: #c68a4a;
 }
 
 .active {
-    border-color: white !important;
+    border: 3px solid #c68a4a;
 }
 
 </style>
@@ -201,9 +221,7 @@ body {
 <div class="container">
 <div class="grid">
 
-<!-- 👇 هنا الايسكريم -->
 <div class="card" onclick="openIce()"><img src="iced-cover.jpg"></div>
-
 <div class="card" onclick="openSection('frappe')"><img src="frappe-cover.jpg"></div>
 <div class="card" onclick="openSection('hot')"><img src="hot-cover.jpg"></div>
 <div class="card" onclick="openSection('dessert')"><img src="dessert-cover.jpg"></div>
@@ -217,7 +235,7 @@ body {
 
 </div>
 
-<!-- ===== Viewer ===== -->
+<!-- Viewer -->
 <div class="viewer" id="viewer">
 <div class="back" onclick="closeViewer()">← Back</div>
 
@@ -232,12 +250,14 @@ body {
 <div class="dots" id="dots"></div>
 </div>
 
-<!-- ===== ICE BUILDER ===== -->
+<!-- BUILDER -->
 <div class="builder" id="builder">
 
 <div class="back" onclick="closeIce()">← Back</div>
 
-<h2>Build Your Ice Cream 🍦</h2>
+<div class="stepBox">
+<span id="stepText">Step 1 / 3</span>
+</div>
 
 <div class="preview">
 <img id="base" class="layer">
@@ -245,36 +265,38 @@ body {
 <img id="inner" class="layer">
 </div>
 
-<h3>Base</h3>
-<div class="options" id="baseOptions">
-<img src="images/base/vanilla.png" onclick="setBase(this,'images/base/vanilla.png')">
-<img src="images/base/chocolate.png" onclick="setBase(this,'images/base/chocolate.png')">
-<img src="images/base/strawberry.png" onclick="setBase(this,'images/base/strawberry.png')">
+<div id="step1" class="step activeStep">
+<h3>Choose Base</h3>
+<div class="options">
+<img src="images/base/vanilla.png" onclick="selectBase(this,'images/base/vanilla.png')">
+<img src="images/base/chocolate.png" onclick="selectBase(this,'images/base/chocolate.png')">
+<img src="images/base/strawberry.png" onclick="selectBase(this,'images/base/strawberry.png')">
+</div>
 </div>
 
-<h3>Coating</h3>
-<div class="options" id="coatOptions">
-<img src="images/coating/milk_plain.png" onclick="setCoating(this,'images/coating/milk_plain.png')">
-<img src="images/coating/dark_plain.png" onclick="setCoating(this,'images/coating/dark_plain.png')">
-<img src="images/coating/white_plain.png" onclick="setCoating(this,'images/coating/white_plain.png')">
+<div id="step2" class="step">
+<h3>Choose Coating</h3>
+<div class="options">
+<img src="images/coating/milk_plain.png" onclick="selectCoating(this,'images/coating/milk_plain.png')">
+<img src="images/coating/dark_plain.png" onclick="selectCoating(this,'images/coating/dark_plain.png')">
+<img src="images/coating/white_plain.png" onclick="selectCoating(this,'images/coating/white_plain.png')">
+</div>
 </div>
 
-<button onclick="removeCoating()">Remove Coating</button>
-
-<h3>Filling</h3>
-<div class="options" id="innerOptions">
-<img src="images/inner/chocolate.png" onclick="setInner(this,'images/inner/chocolate.png')">
-<img src="images/inner/lotus.png" onclick="setInner(this,'images/inner/lotus.png')">
-<img src="images/inner/caramel.png" onclick="setInner(this,'images/inner/caramel.png')">
+<div id="step3" class="step">
+<h3>Choose Filling</h3>
+<div class="options">
+<img src="images/inner/chocolate.png" onclick="selectInner(this,'images/inner/chocolate.png')">
+<img src="images/inner/lotus.png" onclick="selectInner(this,'images/inner/lotus.png')">
+<img src="images/inner/caramel.png" onclick="selectInner(this,'images/inner/caramel.png')">
 </div>
-
-<button onclick="removeInner()">Remove Filling</button>
+</div>
 
 </div>
 
 <script>
 
-/* ===== MENU ===== */
+/* MENU */
 let sections = {
 frappe:["frappe1.jpg"],
 hot:["hot1.jpg"],
@@ -316,44 +338,69 @@ function closeViewer(){
 document.getElementById("viewer").style.display="none";
 }
 
-/* ===== ICE BUILDER ===== */
+/* BUILDER */
+let currentStep=1;
+
 function openIce(){
 document.getElementById("builder").style.display="block";
+resetSteps();
 }
+
 function closeIce(){
 document.getElementById("builder").style.display="none";
 }
 
-function setBase(el,src){
-document.getElementById("base").src = src;
-setActive(el,"baseOptions");
-}
+function resetSteps(){
+currentStep=1;
+updateStep();
 
-function setCoating(el,src){
-document.getElementById("coating").src = src;
-setActive(el,"coatOptions");
-}
+document.getElementById("step1").classList.add("activeStep");
+document.getElementById("step2").classList.remove("activeStep");
+document.getElementById("step3").classList.remove("activeStep");
 
-function removeCoating(){
+document.getElementById("base").src="";
 document.getElementById("coating").src="";
-}
-
-function setInner(el,src){
-document.getElementById("inner").src = src;
-setActive(el,"innerOptions");
-}
-
-function removeInner(){
 document.getElementById("inner").src="";
 }
 
-function setActive(el,id){
-let imgs=document.getElementById(id).querySelectorAll("img");
+function updateStep(){
+document.getElementById("stepText").innerText="Step "+currentStep+" / 3";
+}
+
+function selectBase(el,src){
+document.getElementById("base").src=src;
+setActive(el);
+
+currentStep=2;
+updateStep();
+
+document.getElementById("step1").classList.remove("activeStep");
+document.getElementById("step2").classList.add("activeStep");
+}
+
+function selectCoating(el,src){
+document.getElementById("coating").src=src;
+setActive(el);
+
+currentStep=3;
+updateStep();
+
+document.getElementById("step2").classList.remove("activeStep");
+document.getElementById("step3").classList.add("activeStep");
+}
+
+function selectInner(el,src){
+document.getElementById("inner").src=src;
+setActive(el);
+}
+
+function setActive(el){
+let imgs=document.querySelectorAll(".options img");
 imgs.forEach(i=>i.classList.remove("active"));
 el.classList.add("active");
 }
 
-/* auto focus */
+/* Auto Focus */
 const cards=document.querySelectorAll(".card");
 
 const observer=new IntersectionObserver(entries=>{
