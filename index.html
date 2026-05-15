@@ -7,7 +7,7 @@
 
 <style>
 
-/* ===== خلفية ===== */
+/* ===== Background ===== */
 body {
     margin: 0;
     font-family: Arial;
@@ -20,7 +20,7 @@ body {
     min-height: 100vh;
 }
 
-/* ===== اللوجو ===== */
+/* ===== Logo ===== */
 .logo {
     text-align: center;
     padding: 30px;
@@ -30,7 +30,7 @@ body {
     width: 150px;
 }
 
-/* ===== الجريد ===== */
+/* ===== Grid ===== */
 .container {
     max-width: 1400px;
     margin: auto;
@@ -51,7 +51,7 @@ body {
     .grid {grid-template-columns: repeat(4,1fr);}
 }
 
-/* ===== الكروت ===== */
+/* ===== Cards ===== */
 .card {
     height: 330px;
     border-radius: 25px;
@@ -109,6 +109,7 @@ body {
     width: 100%;
     left: 50%;
     transform: translateX(-50%);
+    transition: 0.3s;
 }
 
 /* Options */
@@ -311,9 +312,16 @@ function chooseType(type,el){
     }
 }
 
-/* coating */
+/* ⭐ هنا التعديل المهم */
 function selectCoating(el,name){
+
+    // اسم الفليفر
     flavorText.innerText = selectedType + " " + name;
+
+    // نحط الصوص فوق الايسكريم
+    let imgSrc = el.getAttribute("src");
+    coating.src = imgSrc;
+
     setActive(el);
 }
 
