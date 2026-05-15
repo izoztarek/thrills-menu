@@ -7,11 +7,36 @@
 
 <style>
 
+/* ===== Background ===== */
 body {
     margin: 0;
     font-family: Arial;
     background: #0f0f0f;
     color: white;
+}
+
+/* ===== MENU ===== */
+.container {
+    padding: 20px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 15px;
+}
+
+.card {
+    height: 150px;
+    border-radius: 20px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 /* ===== BUILDER ===== */
@@ -25,13 +50,11 @@ body {
     text-align: center;
 }
 
-/* Header */
 .header {
     font-size: 20px;
     margin-top: 20px;
 }
 
-/* Step Counter */
 .stepBox {
     position: absolute;
     right: 20px;
@@ -52,8 +75,6 @@ body {
 .layer {
     position: absolute;
     width: 100%;
-    left: 0;
-    top: 0;
 }
 
 /* Steps */
@@ -73,18 +94,11 @@ body {
     flex-wrap: wrap;
 }
 
-/* 👇 شكل العود */
 .options img {
     width: 60px;
     height: 120px;
     object-fit: contain;
     cursor: pointer;
-    transition: 0.3s;
-    background: transparent;
-}
-
-.options img:hover {
-    transform: scale(1.1);
 }
 
 .active {
@@ -100,7 +114,6 @@ body {
     border-radius: 25px;
     background: #c68a4a;
     color: white;
-    font-size: 16px;
     cursor: pointer;
 }
 
@@ -120,7 +133,20 @@ body {
 
 <body>
 
-<!-- BUILDER -->
+<!-- ===== MENU ===== -->
+<div class="container">
+    <div class="grid">
+        <div class="card" onclick="openIce()">
+            <img src="iced-cover.jpg">
+        </div>
+
+        <div class="card"><img src="frappe-cover.jpg"></div>
+        <div class="card"><img src="hot-cover.jpg"></div>
+        <div class="card"><img src="dessert-cover.jpg"></div>
+    </div>
+</div>
+
+<!-- ===== BUILDER ===== -->
 <div class="builder" id="builder">
 
 <div class="back" onclick="closeIce()">← Back</div>
@@ -197,11 +223,14 @@ function selectInner(el,src){
     setActive(el);
 }
 
-/* Next Step */
+/* Next */
 function nextStep(){
 
     if(currentStep == 1){
-        if(!document.getElementById("base").src) return alert("Choose base first");
+        if(!document.getElementById("base").src){
+            alert("Choose base first");
+            return;
+        }
         document.getElementById("title").innerText = "Choose Coating";
     }
 
