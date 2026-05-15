@@ -67,7 +67,6 @@ body {
     object-fit: cover;
 }
 
-/* Hover + Auto Focus */
 .card:hover,
 .card.active {
     transform: scale(1.07);
@@ -86,7 +85,6 @@ body {
     z-index: 1000;
 }
 
-/* الكارت في النص */
 .viewer-card {
     width: 85%;
     max-width: 380px;
@@ -98,7 +96,6 @@ body {
     width: 100%;
 }
 
-/* الأسهم */
 .nav {
     position: absolute;
     top: 50%;
@@ -110,7 +107,6 @@ body {
 .left { left: 20px; }
 .right { right: 20px; }
 
-/* Back Button */
 .back {
     position: absolute;
     top: 20px;
@@ -120,10 +116,8 @@ body {
     border-radius: 30px;
     cursor: pointer;
     font-weight: bold;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.4);
 }
 
-/* dots */
 .dots {
     margin-top: 15px;
     display: flex;
@@ -141,7 +135,19 @@ body {
     background: #c68a4a;
 }
 
-/* ===== SCRATCH SCREEN ===== */
+/* ===== ICE CUSTOMIZER ===== */
+.ice-box {
+    position: relative;
+    width: 200px;
+    height: 300px;
+}
+
+.ice-box img {
+    position: absolute;
+    width: 100%;
+}
+
+/* ===== SCRATCH ===== */
 .scratch-screen {
     position: fixed;
     inset: 0;
@@ -159,7 +165,6 @@ body {
     height: 180px;
     border-radius: 20px;
     overflow: hidden;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
 }
 
 .scratch-text {
@@ -168,11 +173,8 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    text-align: center;
-    font-weight: bold;
     color: white;
-    font-size: 18px;
-    padding: 10px;
+    font-weight: bold;
 }
 
 canvas {
@@ -185,8 +187,8 @@ canvas {
     position: absolute;
     top: 20px;
     left: 20px;
-    font-size: 24px;
     color: white;
+    font-size: 24px;
     cursor: pointer;
 }
 
@@ -197,18 +199,13 @@ canvas {
 
 <!-- ===== SCRATCH ===== -->
 <div class="scratch-screen" id="scratchScreen">
-
 <div class="close-x" onclick="closeScratch()">✕</div>
-
 <h2 style="color:white;">جاهز لحاجة حلوة؟ 😏</h2>
 
 <div class="scratch-box">
-<div class="scratch-text">
-🔥 مفاجأة ليك النهارده!<br>خصم 10%
-</div>
+<div class="scratch-text">🔥 خصم 10% النهارده</div>
 <canvas id="scratchCanvas"></canvas>
 </div>
-
 </div>
 
 <div class="overlay">
@@ -220,7 +217,7 @@ canvas {
 <div class="container">
 <div class="grid">
 
-<div class="card" onclick="openSection('iced')"><img src="iced-cover.jpg"></div>
+<div class="card" onclick="openIce()"><img src="iced-cover.jpg"></div>
 <div class="card" onclick="openSection('frappe')"><img src="frappe-cover.jpg"></div>
 <div class="card" onclick="openSection('hot')"><img src="hot-cover.jpg"></div>
 <div class="card" onclick="openSection('dessert')"><img src="dessert-cover.jpg"></div>
@@ -234,11 +231,9 @@ canvas {
 
 </div>
 
-<!-- Viewer -->
+<!-- ===== VIEWER ===== -->
 <div class="viewer" id="viewer">
-
 <div class="back" onclick="closeViewer()">← Back</div>
-
 <span class="nav left" onclick="prev()">❮</span>
 
 <div class="viewer-card">
@@ -246,46 +241,57 @@ canvas {
 </div>
 
 <span class="nav right" onclick="next()">❯</span>
-
 <div class="dots" id="dots"></div>
+</div>
+
+<!-- ===== ICE VIEWER ===== -->
+<div class="viewer" id="iceViewer">
+
+<div class="back" onclick="closeIce()">← Back</div>
+
+<h3 style="color:white;">Create Your Ice Cream 🍦</h3>
+
+<div class="ice-box">
+<img src="base.png">
+<img id="topping">
+<img id="filling">
+</div>
+
+<div style="margin-top:20px">
+
+<h4 style="color:white">Topping</h4>
+<button onclick="setTopping('chocolate.png')">Chocolate</button>
+<button onclick="setTopping('caramel.png')">Caramel</button>
+
+<h4 style="color:white">Filling</h4>
+<button onclick="setFilling('strawberry.png')">Strawberry</button>
+<button onclick="setFilling('nutella.png')">Nutella</button>
+
+</div>
 
 </div>
 
 <script>
 
-/* ===== FIX SCROLL ===== */
-document.body.style.overflow = "hidden";
-
 /* ===== SCRATCH ===== */
-let canvas = document.getElementById("scratchCanvas");
-let ctx = canvas.getContext("2d");
+document.body.style.overflow="hidden";
 
-canvas.width = 280;
-canvas.height = 180;
+let canvas=document.getElementById("scratchCanvas");
+let ctx=canvas.getContext("2d");
 
-ctx.fillStyle = "#c68a4a";
+canvas.width=280;
+canvas.height=180;
+
+ctx.fillStyle="#c68a4a";
 ctx.fillRect(0,0,canvas.width,canvas.height);
 
-ctx.globalCompositeOperation = "destination-out";
-
-let drawing = false;
-
-canvas.addEventListener("mousedown",()=>drawing=true);
-canvas.addEventListener("mouseup",()=>drawing=false);
-
-canvas.addEventListener("mousemove",(e)=>{
-if(!drawing) return;
-let rect = canvas.getBoundingClientRect();
-ctx.beginPath();
-ctx.arc(e.clientX-rect.left,e.clientY-rect.top,18,0,Math.PI*2);
-ctx.fill();
-});
+ctx.globalCompositeOperation="destination-out";
 
 canvas.addEventListener("touchmove",(e)=>{
 e.preventDefault();
-let rect = canvas.getBoundingClientRect();
-let x = e.touches[0].clientX - rect.left;
-let y = e.touches[0].clientY - rect.top;
+let rect=canvas.getBoundingClientRect();
+let x=e.touches[0].clientX-rect.left;
+let y=e.touches[0].clientY-rect.top;
 ctx.beginPath();
 ctx.arc(x,y,18,0,Math.PI*2);
 ctx.fill();
@@ -293,14 +299,27 @@ ctx.fill();
 
 function closeScratch(){
 document.getElementById("scratchScreen").style.display="none";
-document.body.style.overflow = "auto";
+document.body.style.overflow="auto";
+}
+
+/* ===== ICE ===== */
+function openIce(){
+document.getElementById("iceViewer").style.display="flex";
+}
+function closeIce(){
+document.getElementById("iceViewer").style.display="none";
+}
+function setTopping(img){
+document.getElementById("topping").src=img;
+}
+function setFilling(img){
+document.getElementById("filling").src=img;
 }
 
 /* ===== MENU ===== */
-let sections = {
-iced:["iced1.jpg","iced2.jpg"],
+let sections={
 frappe:["frappe1.jpg"],
-hot:["hot1.jpg","hot2.jpg"],
+hot:["hot1.jpg"],
 dessert:["dessert1.jpg"],
 bakery:["bakery1.jpg"],
 breakfast:["breakfast1.jpg"],
@@ -320,7 +339,6 @@ updateViewer();
 
 function updateViewer(){
 document.getElementById("viewerImg").src=currentImages[currentIndex];
-
 let dots=document.getElementById("dots");
 dots.innerHTML="";
 currentImages.forEach((_,i)=>{
@@ -331,19 +349,8 @@ dots.appendChild(d);
 });
 }
 
-function next(){
-if(currentIndex<currentImages.length-1){
-currentIndex++;
-updateViewer();
-}
-}
-
-function prev(){
-if(currentIndex>0){
-currentIndex--;
-updateViewer();
-}
-}
+function next(){if(currentIndex<currentImages.length-1){currentIndex++;updateViewer();}}
+function prev(){if(currentIndex>0){currentIndex--;updateViewer();}}
 
 function closeViewer(){
 document.getElementById("viewer").style.display="none";
@@ -353,11 +360,7 @@ document.getElementById("viewer").style.display="none";
 const cards=document.querySelectorAll(".card");
 const observer=new IntersectionObserver(entries=>{
 entries.forEach(entry=>{
-if(entry.isIntersecting){
-entry.target.classList.add("active");
-}else{
-entry.target.classList.remove("active");
-}
+entry.target.classList.toggle("active",entry.isIntersecting);
 });
 },{threshold:0.6});
 
