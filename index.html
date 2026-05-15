@@ -96,6 +96,7 @@ body {
     width: 100%;
 }
 
+/* الأسهم */
 .nav {
     position: absolute;
     top: 50%;
@@ -107,6 +108,7 @@ body {
 .left { left: 20px; }
 .right { right: 20px; }
 
+/* Back */
 .back {
     position: absolute;
     top: 20px;
@@ -118,6 +120,7 @@ body {
     font-weight: bold;
 }
 
+/* dots */
 .dots {
     margin-top: 15px;
     display: flex;
@@ -135,78 +138,59 @@ body {
     background: #c68a4a;
 }
 
-/* ===== ICE CUSTOMIZER ===== */
-.ice-box {
-    position: relative;
-    width: 200px;
-    height: 300px;
-}
-
-.ice-box img {
-    position: absolute;
-    width: 100%;
-}
-
-/* ===== SCRATCH ===== */
-.scratch-screen {
+/* ===== ICE BUILDER ===== */
+.builder {
+    display: none;
     position: fixed;
     inset: 0;
-    background: linear-gradient(135deg,#2b1d14,#5c3b2e);
-    z-index: 99999;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+    background: rgba(0,0,0,0.95);
+    z-index: 2000;
+    overflow-y: auto;
+    padding: 20px;
+    text-align: center;
 }
 
-.scratch-box {
+.preview {
     position: relative;
-    width: 280px;
-    height: 180px;
-    border-radius: 20px;
-    overflow: hidden;
+    width: 220px;
+    margin: 40px auto;
 }
 
-.scratch-text {
+.layer {
     position: absolute;
-    inset: 0;
+    width: 100%;
+    left: 0;
+    top: 0;
+}
+
+.options {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
-    align-items: center;
-    color: white;
-    font-weight: bold;
+    gap: 10px;
 }
 
-canvas {
-    position: absolute;
-    inset: 0;
-    touch-action: none;
-}
-
-.close-x {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    color: white;
-    font-size: 24px;
+.options img {
+    width: 70px;
+    height: 70px;
+    border-radius: 10px;
     cursor: pointer;
+    border: 2px solid transparent;
+}
+
+.options img:hover {
+    transform: scale(1.1);
+    border-color: #c68a4a;
+}
+
+.active {
+    border-color: white !important;
 }
 
 </style>
 </head>
 
 <body>
-
-<!-- ===== SCRATCH ===== -->
-<div class="scratch-screen" id="scratchScreen">
-<div class="close-x" onclick="closeScratch()">✕</div>
-<h2 style="color:white;">جاهز لحاجة حلوة؟ 😏</h2>
-
-<div class="scratch-box">
-<div class="scratch-text">🔥 خصم 10% النهارده</div>
-<canvas id="scratchCanvas"></canvas>
-</div>
-</div>
 
 <div class="overlay">
 
@@ -217,7 +201,9 @@ canvas {
 <div class="container">
 <div class="grid">
 
+<!-- 👇 هنا الايسكريم -->
 <div class="card" onclick="openIce()"><img src="iced-cover.jpg"></div>
+
 <div class="card" onclick="openSection('frappe')"><img src="frappe-cover.jpg"></div>
 <div class="card" onclick="openSection('hot')"><img src="hot-cover.jpg"></div>
 <div class="card" onclick="openSection('dessert')"><img src="dessert-cover.jpg"></div>
@@ -231,9 +217,10 @@ canvas {
 
 </div>
 
-<!-- ===== VIEWER ===== -->
+<!-- ===== Viewer ===== -->
 <div class="viewer" id="viewer">
 <div class="back" onclick="closeViewer()">← Back</div>
+
 <span class="nav left" onclick="prev()">❮</span>
 
 <div class="viewer-card">
@@ -241,83 +228,54 @@ canvas {
 </div>
 
 <span class="nav right" onclick="next()">❯</span>
+
 <div class="dots" id="dots"></div>
 </div>
 
-<!-- ===== ICE VIEWER ===== -->
-<div class="viewer" id="iceViewer">
+<!-- ===== ICE BUILDER ===== -->
+<div class="builder" id="builder">
 
 <div class="back" onclick="closeIce()">← Back</div>
 
-<h3 style="color:white;">Create Your Ice Cream 🍦</h3>
+<h2>Build Your Ice Cream 🍦</h2>
 
-<div class="ice-box">
-<img src="base.png">
-<img id="topping">
-<img id="filling">
+<div class="preview">
+<img id="base" class="layer">
+<img id="coating" class="layer">
+<img id="inner" class="layer">
 </div>
 
-<div style="margin-top:20px">
-
-<h4 style="color:white">Topping</h4>
-<button onclick="setTopping('chocolate.png')">Chocolate</button>
-<button onclick="setTopping('caramel.png')">Caramel</button>
-
-<h4 style="color:white">Filling</h4>
-<button onclick="setFilling('strawberry.png')">Strawberry</button>
-<button onclick="setFilling('nutella.png')">Nutella</button>
-
+<h3>Base</h3>
+<div class="options" id="baseOptions">
+<img src="images/base/vanilla.png" onclick="setBase(this,'images/base/vanilla.png')">
+<img src="images/base/chocolate.png" onclick="setBase(this,'images/base/chocolate.png')">
+<img src="images/base/strawberry.png" onclick="setBase(this,'images/base/strawberry.png')">
 </div>
+
+<h3>Coating</h3>
+<div class="options" id="coatOptions">
+<img src="images/coating/milk_plain.png" onclick="setCoating(this,'images/coating/milk_plain.png')">
+<img src="images/coating/dark_plain.png" onclick="setCoating(this,'images/coating/dark_plain.png')">
+<img src="images/coating/white_plain.png" onclick="setCoating(this,'images/coating/white_plain.png')">
+</div>
+
+<button onclick="removeCoating()">Remove Coating</button>
+
+<h3>Filling</h3>
+<div class="options" id="innerOptions">
+<img src="images/inner/chocolate.png" onclick="setInner(this,'images/inner/chocolate.png')">
+<img src="images/inner/lotus.png" onclick="setInner(this,'images/inner/lotus.png')">
+<img src="images/inner/caramel.png" onclick="setInner(this,'images/inner/caramel.png')">
+</div>
+
+<button onclick="removeInner()">Remove Filling</button>
 
 </div>
 
 <script>
 
-/* ===== SCRATCH ===== */
-document.body.style.overflow="hidden";
-
-let canvas=document.getElementById("scratchCanvas");
-let ctx=canvas.getContext("2d");
-
-canvas.width=280;
-canvas.height=180;
-
-ctx.fillStyle="#c68a4a";
-ctx.fillRect(0,0,canvas.width,canvas.height);
-
-ctx.globalCompositeOperation="destination-out";
-
-canvas.addEventListener("touchmove",(e)=>{
-e.preventDefault();
-let rect=canvas.getBoundingClientRect();
-let x=e.touches[0].clientX-rect.left;
-let y=e.touches[0].clientY-rect.top;
-ctx.beginPath();
-ctx.arc(x,y,18,0,Math.PI*2);
-ctx.fill();
-});
-
-function closeScratch(){
-document.getElementById("scratchScreen").style.display="none";
-document.body.style.overflow="auto";
-}
-
-/* ===== ICE ===== */
-function openIce(){
-document.getElementById("iceViewer").style.display="flex";
-}
-function closeIce(){
-document.getElementById("iceViewer").style.display="none";
-}
-function setTopping(img){
-document.getElementById("topping").src=img;
-}
-function setFilling(img){
-document.getElementById("filling").src=img;
-}
-
 /* ===== MENU ===== */
-let sections={
+let sections = {
 frappe:["frappe1.jpg"],
 hot:["hot1.jpg"],
 dessert:["dessert1.jpg"],
@@ -339,8 +297,10 @@ updateViewer();
 
 function updateViewer(){
 document.getElementById("viewerImg").src=currentImages[currentIndex];
+
 let dots=document.getElementById("dots");
 dots.innerHTML="";
+
 currentImages.forEach((_,i)=>{
 let d=document.createElement("div");
 d.classList.add("dot");
@@ -356,8 +316,46 @@ function closeViewer(){
 document.getElementById("viewer").style.display="none";
 }
 
+/* ===== ICE BUILDER ===== */
+function openIce(){
+document.getElementById("builder").style.display="block";
+}
+function closeIce(){
+document.getElementById("builder").style.display="none";
+}
+
+function setBase(el,src){
+document.getElementById("base").src = src;
+setActive(el,"baseOptions");
+}
+
+function setCoating(el,src){
+document.getElementById("coating").src = src;
+setActive(el,"coatOptions");
+}
+
+function removeCoating(){
+document.getElementById("coating").src="";
+}
+
+function setInner(el,src){
+document.getElementById("inner").src = src;
+setActive(el,"innerOptions");
+}
+
+function removeInner(){
+document.getElementById("inner").src="";
+}
+
+function setActive(el,id){
+let imgs=document.getElementById(id).querySelectorAll("img");
+imgs.forEach(i=>i.classList.remove("active"));
+el.classList.add("active");
+}
+
 /* auto focus */
 const cards=document.querySelectorAll(".card");
+
 const observer=new IntersectionObserver(entries=>{
 entries.forEach(entry=>{
 entry.target.classList.toggle("active",entry.isIntersecting);
