@@ -7,145 +7,28 @@
 
 <style>
 
-/* ===== Background ===== */
 body {
     margin: 0;
     font-family: Arial;
-    background: url('bg.jpg') no-repeat center center fixed;
-    background-size: cover;
-}
-
-.overlay {
-    background: rgba(0,0,0,0.45);
-    min-height: 100vh;
-}
-
-/* ===== Logo ===== */
-.logo {
-    text-align: center;
-    padding: 30px;
-}
-
-.logo img {
-    width: 150px;
-}
-
-/* ===== Grid ===== */
-.container {
-    max-width: 1400px;
-    margin: auto;
-    padding: 20px;
-}
-
-.grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-}
-
-@media(min-width:768px){
-    .grid {grid-template-columns: repeat(3,1fr);}
-}
-
-@media(min-width:1100px){
-    .grid {grid-template-columns: repeat(4,1fr);}
-}
-
-/* ===== Cards ===== */
-.card {
-    height: 330px;
-    border-radius: 25px;
-    overflow: hidden;
-    cursor: pointer;
-    transition: 0.4s;
-    box-shadow: 0 12px 30px rgba(0,0,0,0.35);
-}
-
-.card img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.card:hover,
-.card.active {
-    transform: scale(1.07);
-    box-shadow: 0 30px 70px rgba(0,0,0,0.6);
-}
-
-/* ===== Viewer ===== */
-.viewer {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.85);
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    z-index: 1000;
-}
-
-.viewer-card {
-    width: 85%;
-    max-width: 380px;
-    border-radius: 20px;
-    overflow: hidden;
-}
-
-.viewer-card img {
-    width: 100%;
-}
-
-.nav {
-    position: absolute;
-    top: 50%;
-    font-size: 30px;
+    background: #0f0f0f;
     color: white;
-    cursor: pointer;
-}
-
-.left { left: 20px; }
-.right { right: 20px; }
-
-.back {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    background: white;
-    padding: 10px 20px;
-    border-radius: 30px;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-/* dots */
-.dots {
-    margin-top: 15px;
-    display: flex;
-    gap: 8px;
-}
-
-.dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: #ccc;
-}
-
-.dot.active {
-    background: #c68a4a;
 }
 
 /* ===== BUILDER ===== */
 .builder {
-    display: none;
     position: fixed;
     inset: 0;
     background: #0f0f0f;
     z-index: 2000;
+    display: none;
     padding: 20px;
-    overflow-y: auto;
     text-align: center;
+}
+
+/* Header */
+.header {
+    font-size: 20px;
+    margin-top: 20px;
 }
 
 /* Step Counter */
@@ -156,20 +39,21 @@ body {
     background: #222;
     padding: 8px 15px;
     border-radius: 20px;
-    color: white;
 }
 
 /* Preview */
 .preview {
     position: relative;
-    width: 180px;
-    height: 360px;
-    margin: 60px auto 30px;
+    width: 200px;
+    height: 400px;
+    margin: 30px auto;
 }
 
 .layer {
     position: absolute;
     width: 100%;
+    left: 0;
+    top: 0;
 }
 
 /* Steps */
@@ -189,14 +73,14 @@ body {
     flex-wrap: wrap;
 }
 
+/* 👇 شكل العود */
 .options img {
-    width: 75px;
-    height: 75px;
-    border-radius: 15px;
+    width: 60px;
+    height: 120px;
+    object-fit: contain;
     cursor: pointer;
-    background: #1a1a1a;
-    padding: 5px;
     transition: 0.3s;
+    background: transparent;
 }
 
 .options img:hover {
@@ -204,7 +88,31 @@ body {
 }
 
 .active {
-    border: 3px solid #c68a4a;
+    transform: scale(1.15);
+    filter: drop-shadow(0 0 10px #c68a4a);
+}
+
+/* Buttons */
+.btn {
+    margin-top: 20px;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 25px;
+    background: #c68a4a;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.back {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: white;
+    color: black;
+    padding: 8px 15px;
+    border-radius: 20px;
+    cursor: pointer;
 }
 
 </style>
@@ -212,52 +120,14 @@ body {
 
 <body>
 
-<div class="overlay">
-
-<div class="logo">
-<img src="logo.png">
-</div>
-
-<div class="container">
-<div class="grid">
-
-<div class="card" onclick="openIce()"><img src="iced-cover.jpg"></div>
-<div class="card" onclick="openSection('frappe')"><img src="frappe-cover.jpg"></div>
-<div class="card" onclick="openSection('hot')"><img src="hot-cover.jpg"></div>
-<div class="card" onclick="openSection('dessert')"><img src="dessert-cover.jpg"></div>
-<div class="card" onclick="openSection('bakery')"><img src="bakery-cover.jpg"></div>
-<div class="card" onclick="openSection('breakfast')"><img src="breakfast-cover.jpg"></div>
-<div class="card" onclick="openSection('matcha')"><img src="matcha-cover.jpg"></div>
-<div class="card" onclick="openSection('smoothie')"><img src="smoothie-cover.jpg"></div>
-
-</div>
-</div>
-
-</div>
-
-<!-- Viewer -->
-<div class="viewer" id="viewer">
-<div class="back" onclick="closeViewer()">← Back</div>
-
-<span class="nav left" onclick="prev()">❮</span>
-
-<div class="viewer-card">
-<img id="viewerImg">
-</div>
-
-<span class="nav right" onclick="next()">❯</span>
-
-<div class="dots" id="dots"></div>
-</div>
-
 <!-- BUILDER -->
 <div class="builder" id="builder">
 
 <div class="back" onclick="closeIce()">← Back</div>
 
-<div class="stepBox">
-<span id="stepText">Step 1 / 3</span>
-</div>
+<div class="stepBox" id="stepText">1 / 3</div>
+
+<div class="header" id="title">Choose Your Base</div>
 
 <div class="preview">
 <img id="base" class="layer">
@@ -265,151 +135,94 @@ body {
 <img id="inner" class="layer">
 </div>
 
-<div id="step1" class="step activeStep">
-<h3>Choose Base</h3>
+<!-- STEP 1 -->
+<div class="step activeStep" id="step1">
 <div class="options">
 <img src="images/base/vanilla.png" onclick="selectBase(this,'images/base/vanilla.png')">
 <img src="images/base/chocolate.png" onclick="selectBase(this,'images/base/chocolate.png')">
 <img src="images/base/strawberry.png" onclick="selectBase(this,'images/base/strawberry.png')">
+<img src="images/base/pistachio.png" onclick="selectBase(this,'images/base/pistachio.png')">
+<img src="images/base/hazelnut.png" onclick="selectBase(this,'images/base/hazelnut.png')">
 </div>
+<button class="btn" onclick="nextStep()">Next</button>
 </div>
 
-<div id="step2" class="step">
-<h3>Choose Coating</h3>
+<!-- STEP 2 -->
+<div class="step" id="step2">
 <div class="options">
 <img src="images/coating/milk_plain.png" onclick="selectCoating(this,'images/coating/milk_plain.png')">
 <img src="images/coating/dark_plain.png" onclick="selectCoating(this,'images/coating/dark_plain.png')">
 <img src="images/coating/white_plain.png" onclick="selectCoating(this,'images/coating/white_plain.png')">
 </div>
+<button class="btn" onclick="nextStep()">Next</button>
 </div>
 
-<div id="step3" class="step">
-<h3>Choose Filling</h3>
+<!-- STEP 3 -->
+<div class="step" id="step3">
 <div class="options">
 <img src="images/inner/chocolate.png" onclick="selectInner(this,'images/inner/chocolate.png')">
 <img src="images/inner/lotus.png" onclick="selectInner(this,'images/inner/lotus.png')">
 <img src="images/inner/caramel.png" onclick="selectInner(this,'images/inner/caramel.png')">
 </div>
+<button class="btn" onclick="closeIce()">Done</button>
 </div>
 
 </div>
 
 <script>
 
-/* MENU */
-let sections = {
-frappe:["frappe1.jpg"],
-hot:["hot1.jpg"],
-dessert:["dessert1.jpg"],
-bakery:["bakery1.jpg"],
-breakfast:["breakfast1.jpg"],
-matcha:["matcha1.jpg"],
-smoothie:["smoothie1.jpg"]
-};
-
-let currentImages=[];
-let currentIndex=0;
-
-function openSection(section){
-currentImages=sections[section];
-currentIndex=0;
-document.getElementById("viewer").style.display="flex";
-updateViewer();
-}
-
-function updateViewer(){
-document.getElementById("viewerImg").src=currentImages[currentIndex];
-
-let dots=document.getElementById("dots");
-dots.innerHTML="";
-
-currentImages.forEach((_,i)=>{
-let d=document.createElement("div");
-d.classList.add("dot");
-if(i===currentIndex)d.classList.add("active");
-dots.appendChild(d);
-});
-}
-
-function next(){if(currentIndex<currentImages.length-1){currentIndex++;updateViewer();}}
-function prev(){if(currentIndex>0){currentIndex--;updateViewer();}}
-
-function closeViewer(){
-document.getElementById("viewer").style.display="none";
-}
-
-/* BUILDER */
-let currentStep=1;
+let currentStep = 1;
 
 function openIce(){
-document.getElementById("builder").style.display="block";
-resetSteps();
+    document.getElementById("builder").style.display = "block";
 }
 
 function closeIce(){
-document.getElementById("builder").style.display="none";
+    document.getElementById("builder").style.display = "none";
 }
 
-function resetSteps(){
-currentStep=1;
-updateStep();
-
-document.getElementById("step1").classList.add("activeStep");
-document.getElementById("step2").classList.remove("activeStep");
-document.getElementById("step3").classList.remove("activeStep");
-
-document.getElementById("base").src="";
-document.getElementById("coating").src="";
-document.getElementById("inner").src="";
-}
-
-function updateStep(){
-document.getElementById("stepText").innerText="Step "+currentStep+" / 3";
-}
-
+/* اختيار */
 function selectBase(el,src){
-document.getElementById("base").src=src;
-setActive(el);
-
-currentStep=2;
-updateStep();
-
-document.getElementById("step1").classList.remove("activeStep");
-document.getElementById("step2").classList.add("activeStep");
+    document.getElementById("base").src = src;
+    setActive(el);
 }
 
 function selectCoating(el,src){
-document.getElementById("coating").src=src;
-setActive(el);
-
-currentStep=3;
-updateStep();
-
-document.getElementById("step2").classList.remove("activeStep");
-document.getElementById("step3").classList.add("activeStep");
+    document.getElementById("coating").src = src;
+    setActive(el);
 }
 
 function selectInner(el,src){
-document.getElementById("inner").src=src;
-setActive(el);
+    document.getElementById("inner").src = src;
+    setActive(el);
 }
 
+/* Next Step */
+function nextStep(){
+
+    if(currentStep == 1){
+        if(!document.getElementById("base").src) return alert("Choose base first");
+        document.getElementById("title").innerText = "Choose Coating";
+    }
+
+    if(currentStep == 2){
+        document.getElementById("title").innerText = "Choose Filling";
+    }
+
+    document.getElementById("step"+currentStep).classList.remove("activeStep");
+
+    currentStep++;
+    document.getElementById("stepText").innerText = currentStep + " / 3";
+
+    document.getElementById("step"+currentStep).classList.add("activeStep");
+}
+
+/* Active */
 function setActive(el){
-let imgs=document.querySelectorAll(".options img");
-imgs.forEach(i=>i.classList.remove("active"));
-el.classList.add("active");
+    let imgs = document.querySelectorAll(".options img");
+    imgs.forEach(i => i.classList.remove("active"));
+    el.classList.add("active");
 }
-
-/* Auto Focus */
-const cards=document.querySelectorAll(".card");
-
-const observer=new IntersectionObserver(entries=>{
-entries.forEach(entry=>{
-entry.target.classList.toggle("active",entry.isIntersecting);
-});
-},{threshold:0.6});
-
-cards.forEach(card=>observer.observe(card));
 
 </script>
 
