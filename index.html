@@ -7,7 +7,7 @@
 
 <style>
 
-/* ===== خلفية ===== */
+/* ===== Background ===== */
 body {
     margin: 0;
     font-family: Arial;
@@ -20,7 +20,7 @@ body {
     min-height: 100vh;
 }
 
-/* ===== اللوجو ===== */
+/* ===== Logo ===== */
 .logo {
     text-align: center;
     padding: 30px;
@@ -30,7 +30,7 @@ body {
     width: 150px;
 }
 
-/* ===== الجريد ===== */
+/* ===== Grid ===== */
 .container {
     max-width: 1400px;
     margin: auto;
@@ -52,8 +52,13 @@ body {
     box-shadow: 0 12px 30px rgba(0,0,0,0.35);
 }
 
-.card:hover,
-.card.active {
+.card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card:hover {
     transform: scale(1.05);
     box-shadow: 0 15px 30px rgba(255,255,255,0.2);
 }
@@ -69,15 +74,15 @@ body {
     padding: 20px;
 }
 
-/* عنوان */
+/* Title */
 .header {
     margin-top: 30px;
-    font-size: 24px;
+    font-size: 26px;
     color: white;
     font-family: 'Trebuchet MS', cursive;
 }
 
-/* اسم الفليفر */
+/* Flavor text */
 .flavorName {
     margin-top: 10px;
     color: white;
@@ -105,7 +110,6 @@ body {
     flex-wrap: wrap;
 }
 
-/* شكل العود */
 .options img {
     width: 60px;
     height: 120px;
@@ -113,6 +117,7 @@ body {
     cursor: pointer;
 }
 
+/* Active */
 .active {
     transform: scale(1.2);
     filter: drop-shadow(0 0 10px white);
@@ -155,7 +160,6 @@ body {
 <div class="grid">
 
 <div class="card" onclick="openIce()"><img src="iced-cover.jpg"></div>
-
 <div class="card"><img src="frappe-cover.jpg"></div>
 <div class="card"><img src="hot-cover.jpg"></div>
 
@@ -177,7 +181,7 @@ body {
 <img id="coating" class="layer">
 </div>
 
-<!-- STEP 1 BASE -->
+<!-- STEP 1 -->
 <div class="options" id="baseOptions">
 <img src="images/base/vanilla.png" onclick="selectBase(this,'Vanilla','images/base/vanilla.png')">
 <img src="images/base/chocolate.png" onclick="selectBase(this,'Chocolate','images/base/chocolate.png')">
@@ -186,14 +190,14 @@ body {
 <img src="images/base/hazelnut.png" onclick="selectBase(this,'Hazelnut','images/base/hazelnut.png')">
 </div>
 
-<!-- STEP 2 TYPE -->
+<!-- STEP 2 -->
 <div class="options" id="typeOptions" style="display:none;">
 <button class="btn" onclick="chooseType('Milk')">Milk</button>
 <button class="btn" onclick="chooseType('Dark')">Dark</button>
 <button class="btn" onclick="chooseType('White')">White</button>
 </div>
 
-<!-- STEP 3 FLAVOR -->
+<!-- STEP 3 -->
 <div class="options" id="coatingOptions" style="display:none;">
 <img src="images/coating/milk_plain.png" onclick="selectCoating(this,'Plain')">
 <img src="images/coating/milk_pistachio.png" onclick="selectCoating(this,'Pistachio')">
@@ -209,65 +213,77 @@ body {
 let step = 1;
 let selectedType = "";
 
-/* فتح */
+/* open */
 function openIce(){
-document.getElementById("builder").style.display="block";
+    document.getElementById("builder").style.display="block";
 }
 
-/* رجوع */
+/* back */
 function goBack(){
-if(step==2){
-step=1;
-document.getElementById("typeOptions").style.display="none";
-document.getElementById("baseOptions").style.display="flex";
-document.getElementById("title").innerText="Choose Your Base Flavor";
-}
-else if(step==3){
-step=2;
-document.getElementById("coatingOptions").style.display="none";
-document.getElementById("typeOptions").style.display="flex";
-document.getElementById("title").innerText="Choose Your Coating";
-}
+    if(step==2){
+        step=1;
+        showStep1();
+    } else if(step==3){
+        step=2;
+        showStep2();
+    }
 }
 
-/* اختيار البيز */
-function selectBase(el,name,src){
-document.getElementById("base").src=src;
-document.getElementById("flavorText").innerText=name;
-
-setActive(el);
+/* steps */
+function showStep1(){
+    document.getElementById("baseOptions").style.display="flex";
+    document.getElementById("typeOptions").style.display="none";
+    document.getElementById("coatingOptions").style.display="none";
+    document.getElementById("title").innerText="Choose Your Base Flavor";
 }
 
-/* Next */
+function showStep2(){
+    document.getElementById("baseOptions").style.display="none";
+    document.getElementById("typeOptions").style.display="flex";
+    document.getElementById("coatingOptions").style.display="none";
+    document.getElementById("title").innerText="Choose Your Coating Flavor";
+}
+
+function showStep3(){
+    document.getElementById("typeOptions").style.display="none";
+    document.getElementById("coatingOptions").style.display="flex";
+}
+
+/* next */
 function nextStep(){
-if(step==1){
-step=2;
-document.getElementById("baseOptions").style.display="none";
-document.getElementById("typeOptions").style.display="flex";
-document.getElementById("title").innerText="Choose Your Coating Flavor";
-}
-else if(step==2){
-step=3;
-document.getElementById("typeOptions").style.display="none";
-document.getElementById("coatingOptions").style.display="flex";
-}
+    if(step==1){
+        if(!document.getElementById("base").src) return alert("Choose base first");
+        step=2;
+        showStep2();
+    }
+    else if(step==2){
+        step=3;
+        showStep3();
+    }
 }
 
-/* نوع الصوص */
+/* base */
+function selectBase(el,name,src){
+    document.getElementById("base").src = src;
+    document.getElementById("flavorText").innerText = name;
+    setActive(el);
+}
+
+/* type */
 function chooseType(type){
-selectedType = type;
+    selectedType = type;
 }
 
-/* اختيار الصوص */
+/* coating */
 function selectCoating(el,name){
-document.getElementById("flavorText").innerText = selectedType + " " + name;
-setActive(el);
+    document.getElementById("flavorText").innerText = selectedType + " " + name;
+    setActive(el);
 }
 
-/* Active */
+/* active */
 function setActive(el){
-document.querySelectorAll(".options img").forEach(i=>i.classList.remove("active"));
-el.classList.add("active");
+    document.querySelectorAll(".options img").forEach(i=>i.classList.remove("active"));
+    el.classList.add("active");
 }
 
 </script>
