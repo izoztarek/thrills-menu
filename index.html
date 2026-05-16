@@ -63,23 +63,22 @@ body{
     object-fit:cover;
 }
 
-/* BUILDER FIXED */
+/* BUILDER */
 .builder{
     display:none;
     position:fixed;
     inset:0;
     z-index:2000;
-
     overflow:hidden;
 
     background-size:cover;
     background-position:center;
-    background-attachment:fixed;
+    background-repeat:no-repeat;
 }
 
-/* ICECREAM CENTER */
+/* ICECREAM */
 .preview{
-    position:fixed;
+    position:absolute;
     top:50%;
     left:50%;
     transform:translate(-50%, -50%);
@@ -103,11 +102,12 @@ body{
     transform:translateX(-50%);
 }
 
-/* OPTIONS FIXED */
+/* OPTIONS */
 .options{
-    position:fixed;
+    position:absolute;
     bottom:110px;
-    left:0;
+    left:50%;
+    transform:translateX(-50%);
     width:100%;
 
     display:grid;
@@ -135,7 +135,7 @@ body{
     cursor:pointer;
 }
 
-/* FILLING BIGGER */
+/* FILLING */
 #fillingOptions img{
     width:110px;
     height:110px;
@@ -147,9 +147,9 @@ body{
     filter:drop-shadow(0 0 10px white);
 }
 
-/* BUTTONS */
+/* BUTTON */
 .nextBtn{
-    position:fixed;
+    position:absolute;
     bottom:30px;
     left:50%;
     transform:translateX(-50%);
@@ -159,11 +159,12 @@ body{
     padding:14px 40px;
     border-radius:30px;
     font-size:18px;
-    z-index:9999;
+    z-index:10;
 }
 
+/* BACK */
 .backBtn{
-    position:fixed;
+    position:absolute;
     top:70px;
     left:20px;
     background:white;
@@ -185,9 +186,9 @@ body{
 
 <div class="container">
 <div class="grid">
-
-<div class="card" onclick="openBuilder()"><img src="iced-cover.jpg" loading="lazy"></div>
-
+<div class="card" onclick="openBuilder()">
+<img src="iced-cover.jpg" loading="lazy">
+</div>
 </div>
 </div>
 
@@ -206,18 +207,18 @@ body{
 
 <!-- BASE -->
 <div class="options" id="baseOptions">
-<img src="images/base/vanilla.png" loading="lazy" onclick="selectBase(this)">
-<img src="images/base/chocolate.png" loading="lazy" onclick="selectBase(this)">
-<img src="images/base/strawberry.png" loading="lazy" onclick="selectBase(this)">
-<img src="images/base/pistachio.png" loading="lazy" onclick="selectBase(this)">
-<img src="images/base/hazelnut.png" loading="lazy" onclick="selectBase(this)">
+<img src="images/base/vanilla.png" onclick="selectBase(this)">
+<img src="images/base/chocolate.png" onclick="selectBase(this)">
+<img src="images/base/strawberry.png" onclick="selectBase(this)">
+<img src="images/base/pistachio.png" onclick="selectBase(this)">
+<img src="images/base/hazelnut.png" onclick="selectBase(this)">
 </div>
 
 <!-- TYPE -->
 <div class="options typeGrid" id="typeOptions" style="display:none;">
-<img src="images/type/milk.jpg" loading="lazy" onclick="selectType(this,'milk')">
-<img src="images/type/dark.jpg" loading="lazy" onclick="selectType(this,'dark')">
-<img src="images/type/white.jpg" loading="lazy" onclick="selectType(this,'white')">
+<img src="images/type/milk.jpg" onclick="selectType(this,'milk')">
+<img src="images/type/dark.jpg" onclick="selectType(this,'dark')">
+<img src="images/type/white.jpg" onclick="selectType(this,'white')">
 </div>
 
 <!-- COATING -->
@@ -225,12 +226,12 @@ body{
 
 <!-- FILLING -->
 <div class="options" id="fillingOptions" style="display:none;">
-<img src="images/filling/chocolate.png" loading="lazy" onclick="selectFilling(this)">
-<img src="images/filling/lotus.png" loading="lazy" onclick="selectFilling(this)">
-<img src="images/filling/caramel.png" loading="lazy" onclick="selectFilling(this)">
-<img src="images/filling/berry.png" loading="lazy" onclick="selectFilling(this)">
-<img src="images/filling/pistachio.png" loading="lazy" onclick="selectFilling(this)">
-<img src="images/filling/milk.png" loading="lazy" onclick="selectFilling(this)">
+<img src="images/filling/chocolate.png" onclick="selectFilling(this)">
+<img src="images/filling/lotus.png" onclick="selectFilling(this)">
+<img src="images/filling/caramel.png" onclick="selectFilling(this)">
+<img src="images/filling/berry.png" onclick="selectFilling(this)">
+<img src="images/filling/pistachio.png" onclick="selectFilling(this)">
+<img src="images/filling/milk.png" onclick="selectFilling(this)">
 </div>
 
 <button class="nextBtn" onclick="nextStep()">Next</button>
@@ -274,12 +275,14 @@ typeOptions.style.display= step===2?"grid":"none";
 coatingOptions.style.display= step===3?"grid":"none";
 fillingOptions.style.display= step===4?"grid":"none";
 
-builder.style.backgroundImage = [
+builder.style.backgroundImage = `url(${
+[
 "images/bg/base-bg.jpg",
 "images/bg/type-bg.jpg",
 "images/bg/coating-bg.jpg",
 "images/bg/filling-bg.jpg"
-][step-1];
+][step-1]
+})`;
 
 }
 
