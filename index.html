@@ -64,10 +64,11 @@ body{
     object-fit:cover;
 }
 
+/* ⭐ Auto Focus بعد التعديل */
 .card:hover,
 .card.active{
-    transform:scale(1.07);
-    box-shadow:0 25px 60px rgba(255,255,255,0.3);
+    transform:scale(1.05);
+    box-shadow:0 15px 35px rgba(255,255,255,0.15);
 }
 
 /* BUILDER */
@@ -108,10 +109,11 @@ body{
     transform:translateX(-50%);
 }
 
+/* ⭐ الصوص الداخلي بعد التكبير */
 .innerLayer{
     position:absolute;
-    width:115px;
-    top:-18px;
+    width:135px;
+    top:-22px;
     left:50%;
     transform:translateX(-50%);
 }
@@ -274,9 +276,7 @@ step===3?"Choose Coating":
 "Choose Filling";
 }
 
-/* Next */
 function nextStep(){
-
 if(step===1 && !base.src) return;
 if(step===2 && !selectedType) return;
 if(step===3 && !coating.src) return;
@@ -289,7 +289,6 @@ showStep();
 }
 }
 
-/* Back */
 function goBack(){
 if(step>1){
 step--;
@@ -297,7 +296,6 @@ showStep();
 }
 }
 
-/* Select */
 function selectBase(el,name){
 base.src=el.src;
 flavorText.innerText=name;
