@@ -14,12 +14,12 @@ body{
     background-size:cover;
 }
 
-/* MAIN */
 .overlay{
     background:rgba(0,0,0,0.5);
     min-height:100vh;
 }
 
+/* LOGO */
 .logo{
     text-align:center;
     padding:25px;
@@ -81,10 +81,9 @@ body{
     padding:20px;
     background-size:cover;
     background-position:center;
-    transition:0.4s;
 }
 
-/* ICE CREAM */
+/* ICECREAM */
 .preview{
     position:relative;
     width:200px;
@@ -116,6 +115,22 @@ body{
     padding-bottom:140px;
 }
 
+/* ⭐ TYPE IMAGES (المهم) */
+.typeGrid{
+    grid-template-columns:repeat(3,1fr);
+}
+
+.typeGrid img{
+    width:90%;
+    height:110px;
+    object-fit:cover;
+    border-radius:15px;
+    padding:0;
+    background:none;
+    cursor:pointer;
+}
+
+/* باقي الصور */
 .options img{
     width:90px;
     height:90px;
@@ -203,7 +218,7 @@ body{
 <img id="inner" class="innerLayer">
 </div>
 
-<!-- OPTIONS -->
+<!-- BASE -->
 <div class="options" id="baseOptions">
 <img src="images/base/vanilla.png" onclick="selectBase(this)">
 <img src="images/base/chocolate.png" onclick="selectBase(this)">
@@ -212,14 +227,17 @@ body{
 <img src="images/base/hazelnut.png" onclick="selectBase(this)">
 </div>
 
-<div class="options" id="typeOptions" style="display:none;">
-<img src="images/type/milk.png" onclick="selectType(this,'milk')">
-<img src="images/type/dark.png" onclick="selectType(this,'dark')">
-<img src="images/type/white.png" onclick="selectType(this,'white')">
+<!-- TYPE (صورك هنا) -->
+<div class="options typeGrid" id="typeOptions" style="display:none;">
+<img src="images/type/milk.jpg" onclick="selectType(this,'milk')">
+<img src="images/type/dark.jpg" onclick="selectType(this,'dark')">
+<img src="images/type/white.jpg" onclick="selectType(this,'white')">
 </div>
 
+<!-- COATING -->
 <div class="options" id="coatingOptions" style="display:none;"></div>
 
+<!-- FILLING -->
 <div class="options" id="fillingOptions" style="display:none;">
 <img src="images/filling/chocolate.png" onclick="selectFilling(this)">
 <img src="images/filling/lotus.png" onclick="selectFilling(this)">
@@ -245,14 +263,12 @@ entries.forEach(e=>e.target.classList.toggle("active",e.isIntersecting));
 },{threshold:0.6});
 cards.forEach(c=>observer.observe(c));
 
-/* OPEN */
 function openBuilder(){
 builder.style.display="block";
 step=1;
 updateStep();
 }
 
-/* BACK */
 function goBack(){
 if(step===1){
 builder.style.display="none";
@@ -262,7 +278,6 @@ updateStep();
 }
 }
 
-/* STEP CONTROL */
 function updateStep(){
 
 baseOptions.style.display= step===1?"grid":"none";
@@ -270,7 +285,7 @@ typeOptions.style.display= step===2?"grid":"none";
 coatingOptions.style.display= step===3?"grid":"none";
 fillingOptions.style.display= step===4?"grid":"none";
 
-/* ⭐ الخلفيات */
+/* الخلفيات */
 if(step===1) builder.style.backgroundImage="url('images/bg/base-bg.jpg')";
 if(step===2) builder.style.backgroundImage="url('images/bg/type-bg.jpg')";
 if(step===3) builder.style.backgroundImage="url('images/bg/coating-bg.jpg')";
@@ -278,7 +293,6 @@ if(step===4) builder.style.backgroundImage="url('images/bg/filling-bg.jpg')";
 
 }
 
-/* NEXT */
 function nextStep(){
 
 if(step===1 && !base.src) return;
@@ -294,7 +308,6 @@ updateStep();
 
 }
 
-/* SELECT */
 function selectBase(el){
 base.src=el.src;
 setActive(el);
