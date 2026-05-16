@@ -64,14 +64,14 @@ body{
     object-fit:cover;
 }
 
-/* ⭐ Hover + Auto Focus */
+/* Auto Focus */
 .card:hover,
 .card.active{
     transform:scale(1.07);
     box-shadow:0 25px 60px rgba(255,255,255,0.3);
 }
 
-/* ===== BUILDER ===== */
+/* BUILDER */
 .builder{
     display:none;
     position:fixed;
@@ -123,7 +123,7 @@ body{
     grid-template-columns:repeat(3,1fr);
     gap:20px;
     justify-items:center;
-    padding-bottom:120px;
+    padding-bottom:140px; /* ⭐ مهم */
 }
 
 .options img{
@@ -142,7 +142,7 @@ body{
     filter:drop-shadow(0 0 10px #fff);
 }
 
-/* Next */
+/* ⭐ زرار Next (متصلح) */
 .nextBtn{
     position:fixed;
     bottom:20px;
@@ -151,9 +151,11 @@ body{
     background:#c68a4a;
     color:#fff;
     border:none;
-    padding:12px 30px;
-    border-radius:25px;
+    padding:14px 40px;
+    border-radius:30px;
+    font-size:18px;
     cursor:pointer;
+    z-index:9999; /* ⭐ أهم حاجة */
 }
 
 /* Back */
@@ -198,7 +200,7 @@ body{
 <!-- BUILDER -->
 <div class="builder" id="builder">
 
-<div class="backBtn" onclick="goBack()">← Back</div>
+<div class="backBtn" onclick="closeBuilder()">← Back</div>
 
 <div class="header">Choose Your Base</div>
 <div class="flavorName" id="flavorText"></div>
@@ -209,7 +211,7 @@ body{
 <img id="inner" class="innerLayer">
 </div>
 
-<div class="options" id="baseOptions">
+<div class="options">
 <img src="images/base/vanilla.png" onclick="selectBase(this,'Vanilla')">
 <img src="images/base/chocolate.png" onclick="selectBase(this,'Chocolate')">
 <img src="images/base/strawberry.png" onclick="selectBase(this,'Strawberry')">
@@ -223,35 +225,39 @@ body{
 
 <script>
 
-/* ===== AUTO FOCUS ===== */
+/* Auto Focus */
 const cards = document.querySelectorAll(".card");
 
-const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-        if(entry.isIntersecting){
-            entry.target.classList.add("active");
-        } else {
-            entry.target.classList.remove("active");
-        }
+const observer = new IntersectionObserver(entries=>{
+    entries.forEach(entry=>{
+        entry.target.classList.toggle("active", entry.isIntersecting);
     });
-},{
-    threshold:0.6
-});
+},{threshold:0.6});
 
-cards.forEach(card => observer.observe(card));
+cards.forEach(card=>observer.observe(card));
 
-/* ===== BUILDER ===== */
+/* Builder */
 function openBuilder(){
     builder.style.display="block";
 }
 
-function goBack(){
+function closeBuilder(){
     builder.style.display="none";
 }
 
 function selectBase(el,name){
     base.src=el.src;
     flavorText.innerText=name;
+}
+
+/* ⭐ Next شغال */
+function nextStep(){
+    if(!base.src){
+        alert("Choose base first");
+        return;
+    }
+
+    alert("Next Step Working 👑🔥");
 }
 
 </script>
