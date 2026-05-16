@@ -19,6 +19,7 @@ body {
     min-height: 100vh;
 }
 
+/* Logo */
 .logo {
     text-align: center;
     padding: 30px;
@@ -28,6 +29,7 @@ body {
     width: 150px;
 }
 
+/* Grid */
 .container {
     max-width: 1400px;
     margin: auto;
@@ -48,6 +50,7 @@ body {
     .grid {grid-template-columns: repeat(4,1fr);}
 }
 
+/* Cards */
 .card {
     height: 330px;
     border-radius: 25px;
@@ -68,6 +71,7 @@ body {
     box-shadow: 0 20px 40px rgba(255,255,255,0.2);
 }
 
+/* Builder */
 .builder {
     display: none;
     position: fixed;
@@ -89,6 +93,7 @@ body {
     color: white;
 }
 
+/* Preview */
 .preview {
     position: relative;
     width: 200px;
@@ -103,7 +108,7 @@ body {
     transform: translateX(-50%);
 }
 
-/* 🔥 التعديل الجديد */
+/* Filling Top */
 .innerLayer {
     position: absolute;
     width: 115px;
@@ -113,25 +118,37 @@ body {
     z-index: 3;
 }
 
+/* ⭐ NEW GRID FOR OPTIONS */
 .options {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    justify-items: center;
+    margin-top: 20px;
 }
 
 .options img {
-    width: 60px;
-    height: 120px;
+    width: 90px;
+    height: 90px;
     object-fit: contain;
     cursor: pointer;
+    transition: 0.3s;
+    background: rgba(255,255,255,0.05);
+    padding: 10px;
+    border-radius: 15px;
 }
 
+.options img:hover {
+    transform: scale(1.1);
+}
+
+/* Active */
 .active {
     transform: scale(1.2);
     filter: drop-shadow(0 0 10px white);
 }
 
+/* Buttons */
 .btn {
     margin-top: 20px;
     padding: 10px 25px;
@@ -186,6 +203,7 @@ body {
 
 </div>
 
+<!-- BUILDER -->
 <div class="builder" id="builder">
 
 <div class="backBtn" onclick="goBack()">← Back</div>
@@ -199,6 +217,7 @@ body {
 <img id="inner" class="innerLayer">
 </div>
 
+<!-- Base -->
 <div class="options" id="baseOptions">
 <img src="images/base/vanilla.png" onclick="selectBase(this,'Vanilla','images/base/vanilla.png')">
 <img src="images/base/chocolate.png" onclick="selectBase(this,'Chocolate','images/base/chocolate.png')">
@@ -207,14 +226,17 @@ body {
 <img src="images/base/hazelnut.png" onclick="selectBase(this,'Hazelnut','images/base/hazelnut.png')">
 </div>
 
+<!-- Type -->
 <div class="options" id="typeOptions" style="display:none;">
 <button class="btn typeBtn" onclick="chooseType('Milk',this)">Milk</button>
 <button class="btn typeBtn" onclick="chooseType('Dark',this)">Dark</button>
 <button class="btn typeBtn" onclick="chooseType('White',this)">White</button>
 </div>
 
+<!-- Coating -->
 <div class="options" id="coatingOptions" style="display:none;"></div>
 
+<!-- Filling -->
 <div class="options" id="fillingOptions" style="display:none;">
 <img src="images/filling/chocolate.png" onclick="selectFilling(this,'Chocolate')">
 <img src="images/filling/lotus.png" onclick="selectFilling(this,'Lotus')">
@@ -247,7 +269,7 @@ function goBack(){
 }
 
 function showStep1(){
-    baseOptions.style.display="flex";
+    baseOptions.style.display="grid";
     typeOptions.style.display="none";
     coatingOptions.style.display="none";
     fillingOptions.style.display="none";
@@ -260,12 +282,12 @@ function showStep2(){
 
 function showStep3(){
     typeOptions.style.display="none";
-    coatingOptions.style.display="flex";
+    coatingOptions.style.display="grid";
 }
 
 function showStep4(){
     coatingOptions.style.display="none";
-    fillingOptions.style.display="flex";
+    fillingOptions.style.display="grid";
     title.innerText="Choose Your Filling";
 }
 
