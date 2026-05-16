@@ -7,182 +7,139 @@
 
 <style>
 
-body {
-    margin: 0;
-    font-family: Arial;
-    background: url('bg.jpg') no-repeat center center fixed;
-    background-size: cover;
+body{
+    margin:0;
+    font-family:Arial;
+    background:url('bg.jpg') no-repeat center center fixed;
+    background-size:cover;
 }
 
-.overlay {
-    background: rgba(0,0,0,0.45);
-    min-height: 100vh;
-}
-
-/* Logo */
-.logo {
-    text-align: center;
-    padding: 30px;
-}
-
-.logo img {
-    width: 150px;
+.overlay{
+    background:rgba(0,0,0,0.5);
+    min-height:100vh;
 }
 
 /* Grid */
-.container {
-    max-width: 1400px;
-    margin: auto;
-    padding: 20px;
+.container{
+    max-width:1400px;
+    margin:auto;
+    padding:20px;
 }
 
-.grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
+.grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:20px;
 }
 
-@media(min-width:768px){
-    .grid {grid-template-columns: repeat(3,1fr);}
+.card{
+    height:300px;
+    border-radius:20px;
+    overflow:hidden;
+    cursor:pointer;
 }
 
-@media(min-width:1100px){
-    .grid {grid-template-columns: repeat(4,1fr);}
-}
-
-/* Cards */
-.card {
-    height: 330px;
-    border-radius: 25px;
-    overflow: hidden;
-    cursor: pointer;
-    transition: 0.4s;
-    box-shadow: 0 12px 30px rgba(0,0,0,0.35);
-}
-
-.card img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.card:hover {
-    transform: scale(1.07);
-    box-shadow: 0 20px 40px rgba(255,255,255,0.2);
+.card img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
 }
 
 /* Builder */
-.builder {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.95);
-    z-index: 2000;
-    text-align: center;
-    padding: 20px;
-    overflow-y: auto; /* ⭐ حل المشكلة */
+.builder{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.95);
+    z-index:2000;
+    text-align:center;
+    overflow-y:auto;
+    padding:20px;
 }
 
-/* Header */
-.header {
-    margin-top: 40px;
-    font-size: 26px;
-    color: white;
+.header{
+    margin-top:40px;
+    color:#fff;
+    font-size:26px;
 }
 
-.flavorName {
-    margin-top: 10px;
-    color: white;
+.flavorName{
+    color:#fff;
+    margin-top:10px;
 }
 
-/* Preview */
-.preview {
-    position: relative;
-    width: 200px;
-    height: 400px;
-    margin: 30px auto;
+/* Icecream preview */
+.preview{
+    position:relative;
+    width:200px;
+    height:400px;
+    margin:20px auto;
 }
 
-.layer {
-    position: absolute;
-    width: 100%;
-    left: 50%;
-    transform: translateX(-50%);
+.layer{
+    position:absolute;
+    width:100%;
+    left:50%;
+    transform:translateX(-50%);
 }
 
-/* Filling Top */
-.innerLayer {
-    position: absolute;
-    width: 115px;
-    top: -18px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 3;
+.innerLayer{
+    position:absolute;
+    width:115px;
+    top:-18px;
+    left:50%;
+    transform:translateX(-50%);
 }
 
-/* Options Grid */
-.options {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    justify-items: center;
-    margin-top: 20px;
-    padding-bottom: 120px; /* مساحة لزرار Next */
+/* Options */
+.options{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+    justify-items:center;
+    padding-bottom:120px;
 }
 
-.options img {
-    width: 90px;
-    height: 90px;
-    object-fit: contain;
-    cursor: pointer;
-    transition: 0.3s;
-    background: rgba(255,255,255,0.05);
-    padding: 10px;
-    border-radius: 15px;
-}
-
-.options img:hover {
-    transform: scale(1.1);
+.options img{
+    width:90px;
+    height:90px;
+    object-fit:contain;
+    background:rgba(255,255,255,0.05);
+    padding:10px;
+    border-radius:15px;
+    cursor:pointer;
 }
 
 /* Active */
-.active {
-    transform: scale(1.2);
-    filter: drop-shadow(0 0 10px white);
+.active{
+    transform:scale(1.2);
+    filter:drop-shadow(0 0 10px #fff);
 }
 
-/* ⭐ زرار Next ثابت */
-.btn {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 12px 35px;
-    border-radius: 30px;
-    border: none;
-    background: #c68a4a;
-    color: white;
-    cursor: pointer;
-    z-index: 1000;
-    font-size: 16px;
-}
-
-/* Type Buttons */
-.typeBtn.active {
-    background: white;
-    color: black;
+/* Next button */
+.nextBtn{
+    position:fixed;
+    bottom:20px;
+    left:50%;
+    transform:translateX(-50%);
+    background:#c68a4a;
+    color:#fff;
+    border:none;
+    padding:12px 30px;
+    border-radius:25px;
+    font-size:16px;
+    cursor:pointer;
 }
 
 /* Back */
-.backBtn {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    background: white;
-    color: black;
-    padding: 8px 15px;
-    border-radius: 20px;
-    cursor: pointer;
+.backBtn{
+    position:absolute;
+    top:20px;
+    left:20px;
+    background:#fff;
+    padding:8px 15px;
+    border-radius:20px;
+    cursor:pointer;
 }
 
 </style>
@@ -191,26 +148,13 @@ body {
 <body>
 
 <div class="overlay">
-
-<div class="logo">
-<img src="logo.png">
-</div>
-
 <div class="container">
 <div class="grid">
-
-<div class="card" onclick="openIce()"><img src="iced-cover.jpg"></div>
-<div class="card"><img src="frappe-cover.jpg"></div>
-<div class="card"><img src="hot-cover.jpg"></div>
-<div class="card"><img src="dessert-cover.jpg"></div>
-<div class="card"><img src="bakery-cover.jpg"></div>
-<div class="card"><img src="breakfast-cover.jpg"></div>
-<div class="card"><img src="matcha-cover.jpg"></div>
-<div class="card"><img src="smoothie-cover.jpg"></div>
-
+<div class="card" onclick="openBuilder()">
+<img src="iced-cover.jpg">
 </div>
 </div>
-
+</div>
 </div>
 
 <!-- BUILDER -->
@@ -218,7 +162,7 @@ body {
 
 <div class="backBtn" onclick="goBack()">← Back</div>
 
-<div class="header" id="title">Choose Your Base Flavor</div>
+<div class="header" id="title">Choose Your Base</div>
 <div class="flavorName" id="flavorText"></div>
 
 <div class="preview">
@@ -229,18 +173,18 @@ body {
 
 <!-- Base -->
 <div class="options" id="baseOptions">
-<img src="images/base/vanilla.png" onclick="selectBase(this,'Vanilla','images/base/vanilla.png')">
-<img src="images/base/chocolate.png" onclick="selectBase(this,'Chocolate','images/base/chocolate.png')">
-<img src="images/base/strawberry.png" onclick="selectBase(this,'Strawberry','images/base/strawberry.png')">
-<img src="images/base/pistachio.png" onclick="selectBase(this,'Pistachio','images/base/pistachio.png')">
-<img src="images/base/hazelnut.png" onclick="selectBase(this,'Hazelnut','images/base/hazelnut.png')">
+<img src="images/base/vanilla.png" onclick="selectBase(this,'Vanilla')">
+<img src="images/base/chocolate.png" onclick="selectBase(this,'Chocolate')">
+<img src="images/base/strawberry.png" onclick="selectBase(this,'Strawberry')">
+<img src="images/base/pistachio.png" onclick="selectBase(this,'Pistachio')">
+<img src="images/base/hazelnut.png" onclick="selectBase(this,'Hazelnut')">
 </div>
 
 <!-- Type -->
 <div class="options" id="typeOptions" style="display:none;">
-<button class="btn typeBtn" onclick="chooseType('Milk',this)">Milk</button>
-<button class="btn typeBtn" onclick="chooseType('Dark',this)">Dark</button>
-<button class="btn typeBtn" onclick="chooseType('White',this)">White</button>
+<img src="images/type/milk.png" onclick="selectType(this,'Milk')">
+<img src="images/type/dark.png" onclick="selectType(this,'Dark')">
+<img src="images/type/white.png" onclick="selectType(this,'White')">
 </div>
 
 <!-- Coating -->
@@ -253,98 +197,103 @@ body {
 <img src="images/filling/caramel.png" onclick="selectFilling(this,'Caramel')">
 <img src="images/filling/berry.png" onclick="selectFilling(this,'Berry')">
 <img src="images/filling/pistachio.png" onclick="selectFilling(this,'Pistachio')">
-<img src="images/filling/milk.png" onclick="selectFilling(this,'Condensed Milk')">
+<img src="images/filling/milk.png" onclick="selectFilling(this,'Milk')">
 </div>
 
-<button class="btn" onclick="nextStep()">Next</button>
+<button class="nextBtn" onclick="nextStep()">Next</button>
 
 </div>
 
 <script>
 
-let step = 1;
-let selectedType = "";
-let typeSelected = false;
+let step=1;
+let selectedType="";
 
-function openIce(){ builder.style.display="block"; }
+function openBuilder(){
+    builder.style.display="block";
+}
 
+/* Steps */
+function nextStep(){
+
+    if(step===1){
+        if(!base.src) return alert("Choose base");
+        step=2;
+        baseOptions.style.display="none";
+        typeOptions.style.display="grid";
+        title.innerText="Choose Chocolate Type";
+    }
+
+    else if(step===2){
+        if(!selectedType) return alert("Choose type");
+
+        step=3;
+        typeOptions.style.display="none";
+        coatingOptions.style.display="grid";
+        title.innerText="Choose Coating";
+
+        loadCoating();
+    }
+
+    else if(step===3){
+        if(!coating.src) return alert("Choose coating");
+
+        step=4;
+        coatingOptions.style.display="none";
+        fillingOptions.style.display="grid";
+        title.innerText="Choose Filling";
+    }
+}
+
+/* Back */
 function goBack(){
-    if(step==2){step=1;showStep1();}
-    else if(step==3){step=2;showStep2();}
-    else if(step==4){
+    if(step===2){
+        step=1;
+        typeOptions.style.display="none";
+        baseOptions.style.display="grid";
+    }
+    else if(step===3){
+        step=2;
+        coatingOptions.style.display="none";
+        typeOptions.style.display="grid";
+    }
+    else if(step===4){
         step=3;
         fillingOptions.style.display="none";
         coatingOptions.style.display="grid";
     }
 }
 
-function showStep1(){
-    baseOptions.style.display="grid";
-    typeOptions.style.display="none";
-    coatingOptions.style.display="none";
-    fillingOptions.style.display="none";
-}
-
-function showStep2(){
-    baseOptions.style.display="none";
-    typeOptions.style.display="grid";
-}
-
-function showStep3(){
-    typeOptions.style.display="none";
-    coatingOptions.style.display="grid";
-}
-
-function showStep4(){
-    coatingOptions.style.display="none";
-    fillingOptions.style.display="grid";
-    title.innerText="Choose Your Filling";
-}
-
-function nextStep(){
-    if(step==1){
-        if(!base.src) return alert("Choose base");
-        step=2; showStep2();
-    }
-    else if(step==2){
-        if(!typeSelected) return alert("Choose type");
-        step=3; showStep3();
-    }
-    else if(step==3){
-        if(!coating.src) return alert("Choose coating");
-        step=4; showStep4();
-    }
-}
-
-function selectBase(el,name,src){
-    base.src=src;
+/* Selectors */
+function selectBase(el,name){
+    base.src=el.src;
     flavorText.innerText=name;
     setActive(el);
 }
 
-function chooseType(type,el){
+function selectType(el,type){
     selectedType=type;
-    typeSelected=true;
+    flavorText.innerText=type;
+    setActive(el);
+}
 
-    document.querySelectorAll(".typeBtn").forEach(b=>b.classList.remove("active"));
-    el.classList.add("active");
-
-    coatingOptions.innerHTML = `
-    <img src="images/coating/${type.toLowerCase()}_plain.png" onclick="selectCoating(this,'Plain')">
-    <img src="images/coating/${type.toLowerCase()}_pistachio.png" onclick="selectCoating(this,'Pistachio')">
-    <img src="images/coating/${type.toLowerCase()}_hazelnut.png" onclick="selectCoating(this,'Hazelnut')">
+function loadCoating(){
+    coatingOptions.innerHTML=`
+    <img src="images/coating/${selectedType.toLowerCase()}_plain.png" onclick="selectCoating(this,'Plain')">
+    <img src="images/coating/${selectedType.toLowerCase()}_pistachio.png" onclick="selectCoating(this,'Pistachio')">
+    <img src="images/coating/${selectedType.toLowerCase()}_hazelnut.png" onclick="selectCoating(this,'Hazelnut')">
     `;
 }
 
 function selectCoating(el,name){
-    coating.src = el.src;
-    flavorText.innerText = selectedType + " " + name;
+    coating.src=el.src;
+    flavorText.innerText=selectedType+" "+name;
     setActive(el);
 }
 
 function selectFilling(el,name){
-    inner.src = el.src;
-    flavorText.innerText = selectedType + " + " + name;
+    inner.src=el.src;
+    flavorText.innerText+= " + " + name;
     setActive(el);
 }
 
