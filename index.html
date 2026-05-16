@@ -19,6 +19,15 @@ body{
     min-height:100vh;
 }
 
+/* Logo */
+.logo{
+    text-align:center;
+    padding:25px;
+}
+.logo img{
+    width:150px;
+}
+
 /* Grid */
 .container{
     max-width:1400px;
@@ -32,11 +41,21 @@ body{
     gap:20px;
 }
 
+@media(min-width:768px){
+    .grid{grid-template-columns:repeat(3,1fr);}
+}
+@media(min-width:1100px){
+    .grid{grid-template-columns:repeat(4,1fr);}
+}
+
+/* Cards */
 .card{
     height:300px;
     border-radius:20px;
     overflow:hidden;
     cursor:pointer;
+    transition:0.4s;
+    box-shadow:0 12px 30px rgba(0,0,0,0.35);
 }
 
 .card img{
@@ -45,7 +64,14 @@ body{
     object-fit:cover;
 }
 
-/* Builder */
+/* ⭐ Hover + Auto Focus */
+.card:hover,
+.card.active{
+    transform:scale(1.07);
+    box-shadow:0 25px 60px rgba(255,255,255,0.3);
+}
+
+/* ===== BUILDER ===== */
 .builder{
     display:none;
     position:fixed;
@@ -68,7 +94,7 @@ body{
     margin-top:10px;
 }
 
-/* Icecream preview */
+/* Preview */
 .preview{
     position:relative;
     width:200px;
@@ -116,7 +142,7 @@ body{
     filter:drop-shadow(0 0 10px #fff);
 }
 
-/* Next button */
+/* Next */
 .nextBtn{
     position:fixed;
     bottom:20px;
@@ -127,7 +153,6 @@ body{
     border:none;
     padding:12px 30px;
     border-radius:25px;
-    font-size:16px;
     cursor:pointer;
 }
 
@@ -148,13 +173,26 @@ body{
 <body>
 
 <div class="overlay">
+
+<div class="logo">
+<img src="logo.png">
+</div>
+
 <div class="container">
 <div class="grid">
-<div class="card" onclick="openBuilder()">
-<img src="iced-cover.jpg">
+
+<div class="card" onclick="openBuilder()"><img src="iced-cover.jpg"></div>
+<div class="card"><img src="frappe-cover.jpg"></div>
+<div class="card"><img src="hot-cover.jpg"></div>
+<div class="card"><img src="dessert-cover.jpg"></div>
+<div class="card"><img src="bakery-cover.jpg"></div>
+<div class="card"><img src="breakfast-cover.jpg"></div>
+<div class="card"><img src="matcha-cover.jpg"></div>
+<div class="card"><img src="smoothie-cover.jpg"></div>
+
 </div>
 </div>
-</div>
+
 </div>
 
 <!-- BUILDER -->
@@ -162,7 +200,7 @@ body{
 
 <div class="backBtn" onclick="goBack()">← Back</div>
 
-<div class="header" id="title">Choose Your Base</div>
+<div class="header">Choose Your Base</div>
 <div class="flavorName" id="flavorText"></div>
 
 <div class="preview">
@@ -171,7 +209,6 @@ body{
 <img id="inner" class="innerLayer">
 </div>
 
-<!-- Base -->
 <div class="options" id="baseOptions">
 <img src="images/base/vanilla.png" onclick="selectBase(this,'Vanilla')">
 <img src="images/base/chocolate.png" onclick="selectBase(this,'Chocolate')">
@@ -180,126 +217,41 @@ body{
 <img src="images/base/hazelnut.png" onclick="selectBase(this,'Hazelnut')">
 </div>
 
-<!-- Type -->
-<div class="options" id="typeOptions" style="display:none;">
-<img src="images/type/milk.png" onclick="selectType(this,'Milk')">
-<img src="images/type/dark.png" onclick="selectType(this,'Dark')">
-<img src="images/type/white.png" onclick="selectType(this,'White')">
-</div>
-
-<!-- Coating -->
-<div class="options" id="coatingOptions" style="display:none;"></div>
-
-<!-- Filling -->
-<div class="options" id="fillingOptions" style="display:none;">
-<img src="images/filling/chocolate.png" onclick="selectFilling(this,'Chocolate')">
-<img src="images/filling/lotus.png" onclick="selectFilling(this,'Lotus')">
-<img src="images/filling/caramel.png" onclick="selectFilling(this,'Caramel')">
-<img src="images/filling/berry.png" onclick="selectFilling(this,'Berry')">
-<img src="images/filling/pistachio.png" onclick="selectFilling(this,'Pistachio')">
-<img src="images/filling/milk.png" onclick="selectFilling(this,'Milk')">
-</div>
-
 <button class="nextBtn" onclick="nextStep()">Next</button>
 
 </div>
 
 <script>
 
-let step=1;
-let selectedType="";
+/* ===== AUTO FOCUS ===== */
+const cards = document.querySelectorAll(".card");
 
+const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+        if(entry.isIntersecting){
+            entry.target.classList.add("active");
+        } else {
+            entry.target.classList.remove("active");
+        }
+    });
+},{
+    threshold:0.6
+});
+
+cards.forEach(card => observer.observe(card));
+
+/* ===== BUILDER ===== */
 function openBuilder(){
     builder.style.display="block";
 }
 
-/* Steps */
-function nextStep(){
-
-    if(step===1){
-        if(!base.src) return alert("Choose base");
-        step=2;
-        baseOptions.style.display="none";
-        typeOptions.style.display="grid";
-        title.innerText="Choose Chocolate Type";
-    }
-
-    else if(step===2){
-        if(!selectedType) return alert("Choose type");
-
-        step=3;
-        typeOptions.style.display="none";
-        coatingOptions.style.display="grid";
-        title.innerText="Choose Coating";
-
-        loadCoating();
-    }
-
-    else if(step===3){
-        if(!coating.src) return alert("Choose coating");
-
-        step=4;
-        coatingOptions.style.display="none";
-        fillingOptions.style.display="grid";
-        title.innerText="Choose Filling";
-    }
-}
-
-/* Back */
 function goBack(){
-    if(step===2){
-        step=1;
-        typeOptions.style.display="none";
-        baseOptions.style.display="grid";
-    }
-    else if(step===3){
-        step=2;
-        coatingOptions.style.display="none";
-        typeOptions.style.display="grid";
-    }
-    else if(step===4){
-        step=3;
-        fillingOptions.style.display="none";
-        coatingOptions.style.display="grid";
-    }
+    builder.style.display="none";
 }
 
-/* Selectors */
 function selectBase(el,name){
     base.src=el.src;
     flavorText.innerText=name;
-    setActive(el);
-}
-
-function selectType(el,type){
-    selectedType=type;
-    flavorText.innerText=type;
-    setActive(el);
-}
-
-function loadCoating(){
-    coatingOptions.innerHTML=`
-    <img src="images/coating/${selectedType.toLowerCase()}_plain.png" onclick="selectCoating(this,'Plain')">
-    <img src="images/coating/${selectedType.toLowerCase()}_pistachio.png" onclick="selectCoating(this,'Pistachio')">
-    <img src="images/coating/${selectedType.toLowerCase()}_hazelnut.png" onclick="selectCoating(this,'Hazelnut')">
-    `;
-}
-
-function selectCoating(el,name){
-    coating.src=el.src;
-    flavorText.innerText=selectedType+" "+name;
-    setActive(el);
-}
-
-function selectFilling(el,name){
-    inner.src=el.src;
-    flavorText.innerText+= " + " + name;
-    setActive(el);
-}
-
-function setActive(el){
-    document.querySelectorAll(".options img").forEach(i=>i.classList.remove("active"));
-    el.classList.add("active");
 }
 
 </script>
