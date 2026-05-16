@@ -64,7 +64,6 @@ body{
     object-fit:cover;
 }
 
-/* ⭐ Auto Focus بعد التعديل */
 .card:hover,
 .card.active{
     transform:scale(1.05);
@@ -109,7 +108,6 @@ body{
     transform:translateX(-50%);
 }
 
-/* ⭐ الصوص الداخلي بعد التكبير */
 .innerLayer{
     position:absolute;
     width:135px;
@@ -135,6 +133,12 @@ body{
     padding:10px;
     border-radius:15px;
     cursor:pointer;
+}
+
+/* ⭐ تكبير الفيلنج بس */
+#fillingOptions img{
+    width:110px;
+    height:110px;
 }
 
 /* Active */
@@ -263,6 +267,21 @@ step=1;
 showStep();
 }
 
+function closeBuilder(){
+builder.style.display="none";
+}
+
+/* ⭐ Back ذكي */
+function goBack(){
+if(step===1){
+closeBuilder(); /* يرجع للصفحة الرئيسية */
+}
+else{
+step--;
+showStep();
+}
+}
+
 function showStep(){
 baseOptions.style.display= step===1 ? "grid":"none";
 typeOptions.style.display= step===2 ? "grid":"none";
@@ -285,13 +304,6 @@ if(step===2) loadCoating();
 
 if(step<4){
 step++;
-showStep();
-}
-}
-
-function goBack(){
-if(step>1){
-step--;
 showStep();
 }
 }
