@@ -5,154 +5,151 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Thrillz Menu</title>
 
-<!-- Preload -->
-<link rel="preload" as="image" href="images/bg/base-bg.jpg">
-<link rel="preload" as="image" href="images/bg/type-bg.jpg">
-<link rel="preload" as="image" href="images/bg/coating-bg.jpg">
-<link rel="preload" as="image" href="images/bg/filling-bg.jpg">
-
 <style>
 
-html,body{
-    margin:0;
-    padding:0;
-    width:100%;
-    height:100%;
-    font-family:Arial;
+body {
+    margin: 0;
+    font-family: Arial;
+    background: url('bg.jpg') no-repeat center center fixed;
+    background-size: cover;
 }
 
-/* MAIN */
-.overlay{
-    min-height:100vh;
-    background:#000;
+.overlay {
+    background: rgba(0,0,0,0.45);
+    min-height: 100vh;
 }
 
 /* LOGO */
-.logo{
-    text-align:center;
-    padding:20px;
+.logo {
+    text-align: center;
+    padding: 30px;
 }
-.logo img{
-    width:140px;
+
+.logo img {
+    width: 150px;
 }
 
 /* GRID */
-.container{
-    padding:20px;
+.container {
+    max-width: 1400px;
+    margin: auto;
+    padding: 20px;
 }
 
-.grid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:15px;
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
 }
 
-.card{
-    height:220px;
-    border-radius:20px;
-    overflow:hidden;
-    cursor:pointer;
+@media(min-width:768px){
+    .grid { grid-template-columns: repeat(3,1fr); }
 }
 
-.card img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
+@media(min-width:1100px){
+    .grid { grid-template-columns: repeat(4,1fr); }
+}
+
+/* CARD */
+.card {
+    height: 330px;
+    border-radius: 25px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: 0.4s ease;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+}
+
+.card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* HOVER */
+.card:hover,
+.card.active {
+    transform: scale(1.07);
+    box-shadow: 0 30px 70px rgba(0,0,0,0.6);
 }
 
 /* BUILDER */
-.builder{
-    display:none;
-    position:fixed;
-    inset:0;
-    width:100vw;
-    height:100vh;
-    z-index:2000;
-
-    background-size:cover;
-    background-position:center;
-    background-repeat:no-repeat;
-
-    display:flex;
-    flex-direction:column;
-    justify-content:space-between;
-    align-items:center;
+.builder {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.9);
+    z-index: 2000;
 }
 
-/* TOP BAR */
-.topBar{
-    width:100%;
-    display:flex;
-    justify-content:flex-start;
-    padding:20px;
+/* BACK */
+.backBtn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: white;
+    padding: 10px 20px;
+    border-radius: 30px;
+    cursor: pointer;
 }
 
-.backBtn{
-    background:white;
-    padding:8px 15px;
-    border-radius:20px;
-    cursor:pointer;
+/* PREVIEW */
+.preview {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 200px;
 }
 
-/* ICECREAM */
-.preview{
-    flex:1;
-    display:flex;
-    align-items:center;
-    justify-content:center;
+.layer {
+    width: 100%;
+    position: absolute;
+    left: 0;
 }
 
-.previewBox{
-    position:relative;
-    width:180px;
-}
-
-.layer{
-    width:100%;
-    position:absolute;
-    left:0;
-}
-
-.innerLayer{
-    position:absolute;
-    width:140px;
-    top:-20px;
-    left:50%;
-    transform:translateX(-50%);
+.innerLayer {
+    position: absolute;
+    width: 140px;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 /* OPTIONS */
-.options{
-    width:100%;
-    max-width:400px;
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:15px;
-    padding:20px;
+.options {
+    position: absolute;
+    bottom: 120px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 20px;
 }
 
-.options img{
-    width:100%;
-    max-width:90px;
-    margin:auto;
-    cursor:pointer;
+.options img {
+    width: 80px;
+    cursor: pointer;
 }
 
 /* BUTTON */
-.nextBtn{
-    margin-bottom:30px;
-    background:#c68a4a;
-    color:#fff;
-    border:none;
-    padding:14px 40px;
-    border-radius:30px;
-    font-size:18px;
-    cursor:pointer;
+.nextBtn {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #c68a4a;
+    color: white;
+    border: none;
+    padding: 14px 40px;
+    border-radius: 30px;
+    font-size: 18px;
+    cursor: pointer;
 }
 
 /* ACTIVE */
-.active{
-    transform:scale(1.1);
+.active {
+    transform: scale(1.2);
 }
 
 </style>
@@ -181,16 +178,12 @@ html,body{
 <!-- BUILDER -->
 <div class="builder" id="builder">
 
-<div class="topBar">
 <div class="backBtn" onclick="goBack()">← Back</div>
-</div>
 
 <div class="preview">
-<div class="previewBox">
 <img id="base" class="layer">
 <img id="coating" class="layer">
 <img id="inner" class="innerLayer">
-</div>
 </div>
 
 <!-- BASE -->
@@ -231,71 +224,59 @@ html,body{
 let step=1;
 let selectedType="";
 
-/* OPEN */
 function openBuilder(){
-builder.style.display="flex";
-step=1;
-updateStep();
+    builder.style.display="block";
+    step=1;
+    updateStep();
 }
 
-/* BACK */
 function goBack(){
-if(step===1){
-builder.style.display="none";
-}else{
-step--;
-updateStep();
-}
+    if(step===1){
+        builder.style.display="none";
+    }else{
+        step--;
+        updateStep();
+    }
 }
 
-/* UPDATE */
 function updateStep(){
 
-baseOptions.style.display= step===1?"grid":"none";
-typeOptions.style.display= step===2?"grid":"none";
-coatingOptions.style.display= step===3?"grid":"none";
-fillingOptions.style.display= step===4?"grid":"none";
-
-builder.style.backgroundImage = [
-"images/bg/base-bg.jpg",
-"images/bg/type-bg.jpg",
-"images/bg/coating-bg.jpg",
-"images/bg/filling-bg.jpg"
-][step-1];
+    baseOptions.style.display= step===1?"grid":"none";
+    typeOptions.style.display= step===2?"grid":"none";
+    coatingOptions.style.display= step===3?"grid":"none";
+    fillingOptions.style.display= step===4?"grid":"none";
 
 }
 
-/* NEXT */
 function nextStep(){
 
-if(step===1 && !base.src) return;
-if(step===2 && !selectedType) return;
-if(step===3 && !coating.src) return;
+    if(step===1 && !base.src) return;
+    if(step===2 && !selectedType) return;
+    if(step===3 && !coating.src) return;
 
-if(step===2){
-coatingOptions.innerHTML=`
-<img src="images/coating/${selectedType}_plain.png" onclick="selectCoating(this)">
-<img src="images/coating/${selectedType}_pistachio.png" onclick="selectCoating(this)">
-<img src="images/coating/${selectedType}_hazelnut.png" onclick="selectCoating(this)">
-`;
+    if(step===2){
+        coatingOptions.innerHTML=`
+        <img src="images/coating/${selectedType}_plain.png" onclick="selectCoating(this)">
+        <img src="images/coating/${selectedType}_pistachio.png" onclick="selectCoating(this)">
+        <img src="images/coating/${selectedType}_hazelnut.png" onclick="selectCoating(this)">
+        `;
+    }
+
+    if(step<4){
+        step++;
+        updateStep();
+    }
+
 }
 
-if(step<4){
-step++;
-updateStep();
-}
-
-}
-
-/* SELECT */
 function selectBase(el){ base.src=el.src; setActive(el); }
 function selectType(el,t){ selectedType=t; setActive(el); }
 function selectCoating(el){ coating.src=el.src; setActive(el); }
 function selectFilling(el){ inner.src=el.src; setActive(el); }
 
 function setActive(el){
-document.querySelectorAll(".options img").forEach(i=>i.classList.remove("active"));
-el.classList.add("active");
+    document.querySelectorAll(".options img").forEach(i=>i.classList.remove("active"));
+    el.classList.add("active");
 }
 
 </script>
