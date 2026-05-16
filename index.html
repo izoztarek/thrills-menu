@@ -19,7 +19,6 @@ body {
     min-height: 100vh;
 }
 
-/* Logo */
 .logo {
     text-align: center;
     padding: 30px;
@@ -29,7 +28,6 @@ body {
     width: 150px;
 }
 
-/* Grid */
 .container {
     max-width: 1400px;
     margin: auto;
@@ -50,7 +48,6 @@ body {
     .grid {grid-template-columns: repeat(4,1fr);}
 }
 
-/* Cards */
 .card {
     height: 330px;
     border-radius: 25px;
@@ -66,13 +63,11 @@ body {
     object-fit: cover;
 }
 
-.card:hover,
-.card.active {
+.card:hover {
     transform: scale(1.07);
     box-shadow: 0 20px 40px rgba(255,255,255,0.2);
 }
 
-/* Builder */
 .builder {
     display: none;
     position: fixed;
@@ -87,7 +82,6 @@ body {
     margin-top: 40px;
     font-size: 26px;
     color: white;
-    font-family: 'Trebuchet MS', cursive;
 }
 
 .flavorName {
@@ -95,7 +89,6 @@ body {
     color: white;
 }
 
-/* Preview */
 .preview {
     position: relative;
     width: 200px;
@@ -110,17 +103,16 @@ body {
     transform: translateX(-50%);
 }
 
-/* ⭐ الصوص الداخلي بعد التعديل */
+/* 🔥 التعديل الجديد */
 .innerLayer {
     position: absolute;
-    width: 95px;
-    top: -12px;
+    width: 115px;
+    top: -18px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 3;
 }
 
-/* Options */
 .options {
     display: flex;
     justify-content: center;
@@ -135,13 +127,11 @@ body {
     cursor: pointer;
 }
 
-/* Active */
 .active {
     transform: scale(1.2);
     filter: drop-shadow(0 0 10px white);
 }
 
-/* Buttons */
 .btn {
     margin-top: 20px;
     padding: 10px 25px;
@@ -196,7 +186,6 @@ body {
 
 </div>
 
-<!-- BUILDER -->
 <div class="builder" id="builder">
 
 <div class="backBtn" onclick="goBack()">← Back</div>
@@ -210,7 +199,6 @@ body {
 <img id="inner" class="innerLayer">
 </div>
 
-<!-- Base -->
 <div class="options" id="baseOptions">
 <img src="images/base/vanilla.png" onclick="selectBase(this,'Vanilla','images/base/vanilla.png')">
 <img src="images/base/chocolate.png" onclick="selectBase(this,'Chocolate','images/base/chocolate.png')">
@@ -219,17 +207,14 @@ body {
 <img src="images/base/hazelnut.png" onclick="selectBase(this,'Hazelnut','images/base/hazelnut.png')">
 </div>
 
-<!-- Type -->
 <div class="options" id="typeOptions" style="display:none;">
 <button class="btn typeBtn" onclick="chooseType('Milk',this)">Milk</button>
 <button class="btn typeBtn" onclick="chooseType('Dark',this)">Dark</button>
 <button class="btn typeBtn" onclick="chooseType('White',this)">White</button>
 </div>
 
-<!-- Coating -->
 <div class="options" id="coatingOptions" style="display:none;"></div>
 
-<!-- Filling -->
 <div class="options" id="fillingOptions" style="display:none;">
 <img src="images/filling/chocolate.png" onclick="selectFilling(this,'Chocolate')">
 <img src="images/filling/lotus.png" onclick="selectFilling(this,'Lotus')">
@@ -249,9 +234,7 @@ let step = 1;
 let selectedType = "";
 let typeSelected = false;
 
-function openIce(){
-    builder.style.display="block";
-}
+function openIce(){ builder.style.display="block"; }
 
 function goBack(){
     if(step==2){step=1;showStep1();}
@@ -260,7 +243,6 @@ function goBack(){
         step=3;
         fillingOptions.style.display="none";
         coatingOptions.style.display="flex";
-        title.innerText="Choose Your Coating Flavor";
     }
 }
 
