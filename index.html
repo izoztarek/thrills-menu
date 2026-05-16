@@ -7,7 +7,6 @@
 
 <style>
 
-/* ===== Background ===== */
 body {
     margin: 0;
     font-family: Arial;
@@ -84,7 +83,6 @@ body {
     padding: 20px;
 }
 
-/* Header */
 .header {
     margin-top: 40px;
     font-size: 26px;
@@ -105,12 +103,22 @@ body {
     margin: 30px auto;
 }
 
+/* Base + Coating */
 .layer {
     position: absolute;
     width: 100%;
     left: 50%;
     transform: translateX(-50%);
-    transition: 0.3s;
+}
+
+/* 🔥 الصوص الداخلي */
+.innerLayer {
+    position: absolute;
+    width: 80px;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
 }
 
 /* Options */
@@ -200,7 +208,7 @@ body {
 <div class="preview">
 <img id="base" class="layer">
 <img id="coating" class="layer">
-<img id="inner" class="layer">
+<img id="inner" class="innerLayer">
 </div>
 
 <!-- STEP 1 -->
