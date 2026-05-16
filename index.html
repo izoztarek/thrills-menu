@@ -19,7 +19,7 @@ body {
     min-height: 100vh;
 }
 
-/* ===== Logo ===== */
+/* Logo */
 .logo {
     text-align: center;
     padding: 30px;
@@ -29,7 +29,7 @@ body {
     width: 150px;
 }
 
-/* ===== Grid ===== */
+/* Grid */
 .container {
     max-width: 1400px;
     margin: auto;
@@ -50,7 +50,7 @@ body {
     .grid {grid-template-columns: repeat(4,1fr);}
 }
 
-/* ===== Cards ===== */
+/* Cards */
 .card {
     height: 330px;
     border-radius: 25px;
@@ -72,7 +72,7 @@ body {
     box-shadow: 0 20px 40px rgba(255,255,255,0.2);
 }
 
-/* ===== BUILDER ===== */
+/* Builder */
 .builder {
     display: none;
     position: fixed;
@@ -103,7 +103,6 @@ body {
     margin: 30px auto;
 }
 
-/* Base + Coating */
 .layer {
     position: absolute;
     width: 100%;
@@ -111,11 +110,11 @@ body {
     transform: translateX(-50%);
 }
 
-/* 🔥 الصوص الداخلي */
+/* ⭐ الصوص الداخلي بعد التعديل */
 .innerLayer {
     position: absolute;
-    width: 80px;
-    top: -10px;
+    width: 95px;
+    top: -12px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 3;
@@ -211,7 +210,7 @@ body {
 <img id="inner" class="innerLayer">
 </div>
 
-<!-- STEP 1 -->
+<!-- Base -->
 <div class="options" id="baseOptions">
 <img src="images/base/vanilla.png" onclick="selectBase(this,'Vanilla','images/base/vanilla.png')">
 <img src="images/base/chocolate.png" onclick="selectBase(this,'Chocolate','images/base/chocolate.png')">
@@ -220,17 +219,17 @@ body {
 <img src="images/base/hazelnut.png" onclick="selectBase(this,'Hazelnut','images/base/hazelnut.png')">
 </div>
 
-<!-- STEP 2 -->
+<!-- Type -->
 <div class="options" id="typeOptions" style="display:none;">
 <button class="btn typeBtn" onclick="chooseType('Milk',this)">Milk</button>
 <button class="btn typeBtn" onclick="chooseType('Dark',this)">Dark</button>
 <button class="btn typeBtn" onclick="chooseType('White',this)">White</button>
 </div>
 
-<!-- STEP 3 -->
+<!-- Coating -->
 <div class="options" id="coatingOptions" style="display:none;"></div>
 
-<!-- STEP 4 -->
+<!-- Filling -->
 <div class="options" id="fillingOptions" style="display:none;">
 <img src="images/filling/chocolate.png" onclick="selectFilling(this,'Chocolate')">
 <img src="images/filling/lotus.png" onclick="selectFilling(this,'Lotus')">
@@ -250,12 +249,10 @@ let step = 1;
 let selectedType = "";
 let typeSelected = false;
 
-/* open */
 function openIce(){
     builder.style.display="block";
 }
 
-/* back */
 function goBack(){
     if(step==2){step=1;showStep1();}
     else if(step==3){step=2;showStep2();}
@@ -267,27 +264,21 @@ function goBack(){
     }
 }
 
-/* steps */
 function showStep1(){
     baseOptions.style.display="flex";
     typeOptions.style.display="none";
     coatingOptions.style.display="none";
     fillingOptions.style.display="none";
-    title.innerText="Choose Your Base Flavor";
 }
 
 function showStep2(){
     baseOptions.style.display="none";
     typeOptions.style.display="flex";
-    coatingOptions.style.display="none";
-    fillingOptions.style.display="none";
-    title.innerText="Choose Your Coating Flavor";
 }
 
 function showStep3(){
     typeOptions.style.display="none";
     coatingOptions.style.display="flex";
-    fillingOptions.style.display="none";
 }
 
 function showStep4(){
@@ -296,7 +287,6 @@ function showStep4(){
     title.innerText="Choose Your Filling";
 }
 
-/* next */
 function nextStep(){
     if(step==1){
         if(!base.src) return alert("Choose base");
@@ -312,14 +302,12 @@ function nextStep(){
     }
 }
 
-/* base */
 function selectBase(el,name,src){
     base.src=src;
     flavorText.innerText=name;
     setActive(el);
 }
 
-/* type */
 function chooseType(type,el){
     selectedType=type;
     typeSelected=true;
@@ -327,46 +315,25 @@ function chooseType(type,el){
     document.querySelectorAll(".typeBtn").forEach(b=>b.classList.remove("active"));
     el.classList.add("active");
 
-    if(type==="Milk"){
-        coatingOptions.innerHTML=`
-        <img src="images/coating/milk_plain.png" onclick="selectCoating(this,'Plain')">
-        <img src="images/coating/milk_pistachio.png" onclick="selectCoating(this,'Pistachio')">
-        <img src="images/coating/milk_hazelnut.png" onclick="selectCoating(this,'Hazelnut')">
-        `;
-    }
-
-    if(type==="Dark"){
-        coatingOptions.innerHTML=`
-        <img src="images/coating/dark_plain.png" onclick="selectCoating(this,'Plain')">
-        <img src="images/coating/dark_pistachio.png" onclick="selectCoating(this,'Pistachio')">
-        <img src="images/coating/dark_hazelnut.png" onclick="selectCoating(this,'Hazelnut')">
-        `;
-    }
-
-    if(type==="White"){
-        coatingOptions.innerHTML=`
-        <img src="images/coating/white_plain.png" onclick="selectCoating(this,'Plain')">
-        <img src="images/coating/white_pistachio.png" onclick="selectCoating(this,'Pistachio')">
-        <img src="images/coating/white_hazelnut.png" onclick="selectCoating(this,'Hazelnut')">
-        `;
-    }
+    coatingOptions.innerHTML = `
+    <img src="images/coating/${type.toLowerCase()}_plain.png" onclick="selectCoating(this,'Plain')">
+    <img src="images/coating/${type.toLowerCase()}_pistachio.png" onclick="selectCoating(this,'Pistachio')">
+    <img src="images/coating/${type.toLowerCase()}_hazelnut.png" onclick="selectCoating(this,'Hazelnut')">
+    `;
 }
 
-/* coating */
 function selectCoating(el,name){
+    coating.src = el.src;
     flavorText.innerText = selectedType + " " + name;
-    coating.src = el.getAttribute("src");
     setActive(el);
 }
 
-/* filling */
 function selectFilling(el,name){
+    inner.src = el.src;
     flavorText.innerText = selectedType + " + " + name;
-    inner.src = el.getAttribute("src");
     setActive(el);
 }
 
-/* active */
 function setActive(el){
     document.querySelectorAll(".options img").forEach(i=>i.classList.remove("active"));
     el.classList.add("active");
