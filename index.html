@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Thrillz Menu</title>
 
-<!-- ⭐ Preload Images -->
+<!-- ⭐ Preload Backgrounds -->
 <link rel="preload" as="image" href="images/bg/base-bg.jpg">
 <link rel="preload" as="image" href="images/bg/type-bg.jpg">
 <link rel="preload" as="image" href="images/bg/coating-bg.jpg">
@@ -136,7 +136,7 @@ body{
     background:none;
 }
 
-/* DEFAULT ICONS */
+/* DEFAULT */
 .options img{
     width:90px;
     height:90px;
@@ -193,20 +193,20 @@ body{
 <div class="overlay">
 
 <div class="logo">
-<img src="logo.png">
+<img src="logo.png" loading="lazy">
 </div>
 
 <div class="container">
 <div class="grid">
 
-<div class="card" onclick="openBuilder()"><img src="iced-cover.jpg"></div>
-<div class="card"><img src="frappe-cover.jpg"></div>
-<div class="card"><img src="hot-cover.jpg"></div>
-<div class="card"><img src="dessert-cover.jpg"></div>
-<div class="card"><img src="bakery-cover.jpg"></div>
-<div class="card"><img src="breakfast-cover.jpg"></div>
-<div class="card"><img src="matcha-cover.jpg"></div>
-<div class="card"><img src="smoothie-cover.jpg"></div>
+<div class="card" onclick="openBuilder()"><img src="iced-cover.jpg" loading="lazy"></div>
+<div class="card"><img src="frappe-cover.jpg" loading="lazy"></div>
+<div class="card"><img src="hot-cover.jpg" loading="lazy"></div>
+<div class="card"><img src="dessert-cover.jpg" loading="lazy"></div>
+<div class="card"><img src="bakery-cover.jpg" loading="lazy"></div>
+<div class="card"><img src="breakfast-cover.jpg" loading="lazy"></div>
+<div class="card"><img src="matcha-cover.jpg" loading="lazy"></div>
+<div class="card"><img src="smoothie-cover.jpg" loading="lazy"></div>
 
 </div>
 </div>
@@ -226,18 +226,18 @@ body{
 
 <!-- BASE -->
 <div class="options" id="baseOptions">
-<img src="images/base/vanilla.png" onclick="selectBase(this)">
-<img src="images/base/chocolate.png" onclick="selectBase(this)">
-<img src="images/base/strawberry.png" onclick="selectBase(this)">
-<img src="images/base/pistachio.png" onclick="selectBase(this)">
-<img src="images/base/hazelnut.png" onclick="selectBase(this)">
+<img src="images/base/vanilla.png" loading="lazy" onclick="selectBase(this)">
+<img src="images/base/chocolate.png" loading="lazy" onclick="selectBase(this)">
+<img src="images/base/strawberry.png" loading="lazy" onclick="selectBase(this)">
+<img src="images/base/pistachio.png" loading="lazy" onclick="selectBase(this)">
+<img src="images/base/hazelnut.png" loading="lazy" onclick="selectBase(this)">
 </div>
 
 <!-- TYPE -->
 <div class="options typeGrid" id="typeOptions" style="display:none;">
-<img src="images/type/milk.jpg" onclick="selectType(this,'milk')">
-<img src="images/type/dark.jpg" onclick="selectType(this,'dark')">
-<img src="images/type/white.jpg" onclick="selectType(this,'white')">
+<img src="images/type/milk.jpg" loading="lazy" onclick="selectType(this,'milk')">
+<img src="images/type/dark.jpg" loading="lazy" onclick="selectType(this,'dark')">
+<img src="images/type/white.jpg" loading="lazy" onclick="selectType(this,'white')">
 </div>
 
 <!-- COATING -->
@@ -245,12 +245,12 @@ body{
 
 <!-- FILLING -->
 <div class="options" id="fillingOptions" style="display:none;">
-<img src="images/filling/chocolate.png" onclick="selectFilling(this)">
-<img src="images/filling/lotus.png" onclick="selectFilling(this)">
-<img src="images/filling/caramel.png" onclick="selectFilling(this)">
-<img src="images/filling/berry.png" onclick="selectFilling(this)">
-<img src="images/filling/pistachio.png" onclick="selectFilling(this)">
-<img src="images/filling/milk.png" onclick="selectFilling(this)">
+<img src="images/filling/chocolate.png" loading="lazy" onclick="selectFilling(this)">
+<img src="images/filling/lotus.png" loading="lazy" onclick="selectFilling(this)">
+<img src="images/filling/caramel.png" loading="lazy" onclick="selectFilling(this)">
+<img src="images/filling/berry.png" loading="lazy" onclick="selectFilling(this)">
+<img src="images/filling/pistachio.png" loading="lazy" onclick="selectFilling(this)">
+<img src="images/filling/milk.png" loading="lazy" onclick="selectFilling(this)">
 </div>
 
 <button class="nextBtn" onclick="nextStep()">Next</button>
@@ -259,15 +259,23 @@ body{
 
 <script>
 
-/* ⭐ Preload JS */
-const bgImages = [
+/* ⭐ SMART PRELOAD */
+const preloadImages = [
 "images/bg/base-bg.jpg",
 "images/bg/type-bg.jpg",
 "images/bg/coating-bg.jpg",
-"images/bg/filling-bg.jpg"
+"images/bg/filling-bg.jpg",
+"images/base/vanilla.png",
+"images/base/chocolate.png",
+"images/base/strawberry.png",
+"images/base/pistachio.png",
+"images/base/hazelnut.png",
+"images/type/milk.jpg",
+"images/type/dark.jpg",
+"images/type/white.jpg"
 ];
 
-bgImages.forEach(src=>{
+preloadImages.forEach(src=>{
     const img = new Image();
     img.src = src;
 });
@@ -308,7 +316,6 @@ if(step===1) builder.style.backgroundImage="url('images/bg/base-bg.jpg')";
 if(step===2) builder.style.backgroundImage="url('images/bg/type-bg.jpg')";
 if(step===3) builder.style.backgroundImage="url('images/bg/coating-bg.jpg')";
 if(step===4) builder.style.backgroundImage="url('images/bg/filling-bg.jpg')";
-
 }
 
 function nextStep(){
@@ -323,7 +330,6 @@ if(step<4){
 step++;
 updateStep();
 }
-
 }
 
 function selectBase(el){
@@ -338,9 +344,9 @@ setActive(el);
 
 function loadCoating(){
 coatingOptions.innerHTML=`
-<img src="images/coating/${selectedType}_plain.png" onclick="selectCoating(this)">
-<img src="images/coating/${selectedType}_pistachio.png" onclick="selectCoating(this)">
-<img src="images/coating/${selectedType}_hazelnut.png" onclick="selectCoating(this)">
+<img src="images/coating/${selectedType}_plain.png" loading="lazy" onclick="selectCoating(this)">
+<img src="images/coating/${selectedType}_pistachio.png" loading="lazy" onclick="selectCoating(this)">
+<img src="images/coating/${selectedType}_hazelnut.png" loading="lazy" onclick="selectCoating(this)">
 `;
 }
 
