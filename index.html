@@ -13,39 +13,51 @@
 
 <style>
 
-body{
+html,body{
     margin:0;
+    padding:0;
+    width:100%;
+    height:100%;
     font-family:Arial;
-    background:url('bg.jpg') no-repeat center center fixed;
-    background-size:cover;
 }
 
 /* MAIN */
 .overlay{
-    background:rgba(0,0,0,0.5);
     min-height:100vh;
+    background:#000;
 }
 
 /* LOGO */
 .logo{
     text-align:center;
-    padding:25px;
+    padding:20px;
 }
 .logo img{
-    width:150px;
+    width:140px;
 }
 
 /* GRID */
 .container{
-    max-width:1400px;
-    margin:auto;
     padding:20px;
 }
 
 .grid{
     display:grid;
     grid-template-columns:repeat(2,1fr);
-    gap:20px;
+    gap:15px;
+}
+
+.card{
+    height:220px;
+    border-radius:20px;
+    overflow:hidden;
+    cursor:pointer;
+}
+
+.card img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
 }
 
 /* BUILDER */
@@ -53,118 +65,94 @@ body{
     display:none;
     position:fixed;
     inset:0;
+    width:100vw;
+    height:100vh;
     z-index:2000;
 
-    overflow:hidden;
-
-    /* ⭐ أهم تعديل */
-    background-size:contain;
+    background-size:cover;
+    background-position:center;
     background-repeat:no-repeat;
-    background-position:center top;
 
-    background-color:#000;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    align-items:center;
+}
+
+/* TOP BAR */
+.topBar{
+    width:100%;
+    display:flex;
+    justify-content:flex-start;
+    padding:20px;
+}
+
+.backBtn{
+    background:white;
+    padding:8px 15px;
+    border-radius:20px;
+    cursor:pointer;
 }
 
 /* ICECREAM */
 .preview{
-    position:fixed;
-    top:48%;
-    left:50%;
-    transform:translate(-50%, -50%);
+    flex:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
 
+.previewBox{
+    position:relative;
     width:180px;
-    height:380px;
-
-    z-index:5;
 }
 
 .layer{
-    position:absolute;
     width:100%;
-    left:50%;
-    transform:translateX(-50%);
+    position:absolute;
+    left:0;
 }
 
 .innerLayer{
     position:absolute;
-    width:150px;
-    top:-25px;
+    width:140px;
+    top:-20px;
     left:50%;
     transform:translateX(-50%);
 }
 
 /* OPTIONS */
 .options{
-    position:fixed;
-    bottom:140px;
-
-    left:50%;
-    transform:translateX(-50%);
-
-    width:90%;
+    width:100%;
     max-width:400px;
-
     display:grid;
     grid-template-columns:repeat(3,1fr);
-    gap:20px;
-
-    z-index:10;
+    gap:15px;
+    padding:20px;
 }
 
-/* TYPE */
-.typeGrid img{
-    width:100%;
-    height:110px;
-    object-fit:cover;
-    border-radius:15px;
-}
-
-/* DEFAULT */
 .options img{
-    width:80px;
-    height:80px;
-    object-fit:contain;
-    background:rgba(255,255,255,0.08);
-    padding:8px;
-    border-radius:15px;
+    width:100%;
+    max-width:90px;
+    margin:auto;
     cursor:pointer;
 }
 
-/* FILLING */
-#fillingOptions img{
-    width:100px;
-    height:100px;
-}
-
-/* ACTIVE */
-.active{
-    transform:scale(1.15);
-    filter:drop-shadow(0 0 10px white);
-}
-
-/* BUTTONS */
+/* BUTTON */
 .nextBtn{
-    position:fixed;
-    bottom:40px;
-    left:50%;
-    transform:translateX(-50%);
+    margin-bottom:30px;
     background:#c68a4a;
     color:#fff;
     border:none;
     padding:14px 40px;
     border-radius:30px;
     font-size:18px;
-    z-index:9999;
+    cursor:pointer;
 }
 
-.backBtn{
-    position:fixed;
-    top:90px;
-    left:20px;
-    background:white;
-    padding:8px 15px;
-    border-radius:20px;
-    z-index:20;
+/* ACTIVE */
+.active{
+    transform:scale(1.1);
 }
 
 </style>
@@ -175,14 +163,14 @@ body{
 <div class="overlay">
 
 <div class="logo">
-<img src="logo.png" loading="lazy">
+<img src="logo.png">
 </div>
 
 <div class="container">
 <div class="grid">
 
 <div class="card" onclick="openBuilder()">
-<img src="iced-cover.jpg" loading="lazy">
+<img src="iced-cover.jpg">
 </div>
 
 </div>
@@ -193,28 +181,32 @@ body{
 <!-- BUILDER -->
 <div class="builder" id="builder">
 
+<div class="topBar">
 <div class="backBtn" onclick="goBack()">← Back</div>
+</div>
 
 <div class="preview">
+<div class="previewBox">
 <img id="base" class="layer">
 <img id="coating" class="layer">
 <img id="inner" class="innerLayer">
 </div>
+</div>
 
 <!-- BASE -->
 <div class="options" id="baseOptions">
-<img src="images/base/vanilla.png" loading="lazy" onclick="selectBase(this)">
-<img src="images/base/chocolate.png" loading="lazy" onclick="selectBase(this)">
-<img src="images/base/strawberry.png" loading="lazy" onclick="selectBase(this)">
-<img src="images/base/pistachio.png" loading="lazy" onclick="selectBase(this)">
-<img src="images/base/hazelnut.png" loading="lazy" onclick="selectBase(this)">
+<img src="images/base/vanilla.png" onclick="selectBase(this)">
+<img src="images/base/chocolate.png" onclick="selectBase(this)">
+<img src="images/base/strawberry.png" onclick="selectBase(this)">
+<img src="images/base/pistachio.png" onclick="selectBase(this)">
+<img src="images/base/hazelnut.png" onclick="selectBase(this)">
 </div>
 
 <!-- TYPE -->
-<div class="options typeGrid" id="typeOptions" style="display:none;">
-<img src="images/type/milk.jpg" loading="lazy" onclick="selectType(this,'milk')">
-<img src="images/type/dark.jpg" loading="lazy" onclick="selectType(this,'dark')">
-<img src="images/type/white.jpg" loading="lazy" onclick="selectType(this,'white')">
+<div class="options" id="typeOptions" style="display:none;">
+<img src="images/type/milk.jpg" onclick="selectType(this,'milk')">
+<img src="images/type/dark.jpg" onclick="selectType(this,'dark')">
+<img src="images/type/white.jpg" onclick="selectType(this,'white')">
 </div>
 
 <!-- COATING -->
@@ -222,12 +214,12 @@ body{
 
 <!-- FILLING -->
 <div class="options" id="fillingOptions" style="display:none;">
-<img src="images/filling/chocolate.png" loading="lazy" onclick="selectFilling(this)">
-<img src="images/filling/lotus.png" loading="lazy" onclick="selectFilling(this)">
-<img src="images/filling/caramel.png" loading="lazy" onclick="selectFilling(this)">
-<img src="images/filling/berry.png" loading="lazy" onclick="selectFilling(this)">
-<img src="images/filling/pistachio.png" loading="lazy" onclick="selectFilling(this)">
-<img src="images/filling/milk.png" loading="lazy" onclick="selectFilling(this)">
+<img src="images/filling/chocolate.png" onclick="selectFilling(this)">
+<img src="images/filling/lotus.png" onclick="selectFilling(this)">
+<img src="images/filling/caramel.png" onclick="selectFilling(this)">
+<img src="images/filling/berry.png" onclick="selectFilling(this)">
+<img src="images/filling/pistachio.png" onclick="selectFilling(this)">
+<img src="images/filling/milk.png" onclick="selectFilling(this)">
 </div>
 
 <button class="nextBtn" onclick="nextStep()">Next</button>
@@ -236,25 +228,17 @@ body{
 
 <script>
 
-/* PRELOAD */
-[
-"images/bg/base-bg.jpg",
-"images/bg/type-bg.jpg",
-"images/bg/coating-bg.jpg",
-"images/bg/filling-bg.jpg"
-].forEach(src=>{
-    let img=new Image();
-    img.src=src;
-});
+let step=1;
+let selectedType="";
 
-let step=1, selectedType="";
-
+/* OPEN */
 function openBuilder(){
-builder.style.display="block";
+builder.style.display="flex";
 step=1;
 updateStep();
 }
 
+/* BACK */
 function goBack(){
 if(step===1){
 builder.style.display="none";
@@ -264,6 +248,7 @@ updateStep();
 }
 }
 
+/* UPDATE */
 function updateStep(){
 
 baseOptions.style.display= step===1?"grid":"none";
@@ -280,6 +265,7 @@ builder.style.backgroundImage = [
 
 }
 
+/* NEXT */
 function nextStep(){
 
 if(step===1 && !base.src) return;
@@ -298,8 +284,10 @@ if(step<4){
 step++;
 updateStep();
 }
+
 }
 
+/* SELECT */
 function selectBase(el){ base.src=el.src; setActive(el); }
 function selectType(el,t){ selectedType=t; setActive(el); }
 function selectCoating(el){ coating.src=el.src; setActive(el); }
