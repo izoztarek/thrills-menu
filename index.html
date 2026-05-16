@@ -64,7 +64,6 @@ body{
     object-fit:cover;
 }
 
-/* Auto Focus */
 .card:hover,
 .card.active{
     transform:scale(1.07);
@@ -123,7 +122,7 @@ body{
     grid-template-columns:repeat(3,1fr);
     gap:20px;
     justify-items:center;
-    padding-bottom:140px; /* ⭐ مهم */
+    padding-bottom:140px;
 }
 
 .options img{
@@ -142,7 +141,7 @@ body{
     filter:drop-shadow(0 0 10px #fff);
 }
 
-/* ⭐ زرار Next (متصلح) */
+/* Next */
 .nextBtn{
     position:fixed;
     bottom:20px;
@@ -155,7 +154,7 @@ body{
     border-radius:30px;
     font-size:18px;
     cursor:pointer;
-    z-index:9999; /* ⭐ أهم حاجة */
+    z-index:9999;
 }
 
 /* Back */
@@ -200,9 +199,9 @@ body{
 <!-- BUILDER -->
 <div class="builder" id="builder">
 
-<div class="backBtn" onclick="closeBuilder()">← Back</div>
+<div class="backBtn" onclick="goBack()">← Back</div>
 
-<div class="header">Choose Your Base</div>
+<div class="header" id="title">Choose Your Base</div>
 <div class="flavorName" id="flavorText"></div>
 
 <div class="preview">
@@ -211,12 +210,33 @@ body{
 <img id="inner" class="innerLayer">
 </div>
 
-<div class="options">
+<!-- Base -->
+<div class="options" id="baseOptions">
 <img src="images/base/vanilla.png" onclick="selectBase(this,'Vanilla')">
 <img src="images/base/chocolate.png" onclick="selectBase(this,'Chocolate')">
 <img src="images/base/strawberry.png" onclick="selectBase(this,'Strawberry')">
 <img src="images/base/pistachio.png" onclick="selectBase(this,'Pistachio')">
 <img src="images/base/hazelnut.png" onclick="selectBase(this,'Hazelnut')">
+</div>
+
+<!-- Type -->
+<div class="options" id="typeOptions" style="display:none;">
+<img src="images/type/milk.png" onclick="selectType(this,'Milk')">
+<img src="images/type/dark.png" onclick="selectType(this,'Dark')">
+<img src="images/type/white.png" onclick="selectType(this,'White')">
+</div>
+
+<!-- Coating -->
+<div class="options" id="coatingOptions" style="display:none;"></div>
+
+<!-- Filling -->
+<div class="options" id="fillingOptions" style="display:none;">
+<img src="images/filling/chocolate.png" onclick="selectFilling(this,'Chocolate')">
+<img src="images/filling/lotus.png" onclick="selectFilling(this,'Lotus')">
+<img src="images/filling/caramel.png" onclick="selectFilling(this,'Caramel')">
+<img src="images/filling/berry.png" onclick="selectFilling(this,'Berry')">
+<img src="images/filling/pistachio.png" onclick="selectFilling(this,'Pistachio')">
+<img src="images/filling/milk.png" onclick="selectFilling(this,'Milk')">
 </div>
 
 <button class="nextBtn" onclick="nextStep()">Next</button>
@@ -225,39 +245,94 @@ body{
 
 <script>
 
+let step=1;
+let selectedType="";
+
 /* Auto Focus */
-const cards = document.querySelectorAll(".card");
-
-const observer = new IntersectionObserver(entries=>{
-    entries.forEach(entry=>{
-        entry.target.classList.toggle("active", entry.isIntersecting);
-    });
+const cards=document.querySelectorAll(".card");
+const observer=new IntersectionObserver(entries=>{
+entries.forEach(e=>e.target.classList.toggle("active",e.isIntersecting));
 },{threshold:0.6});
+cards.forEach(c=>observer.observe(c));
 
-cards.forEach(card=>observer.observe(card));
-
-/* Builder */
 function openBuilder(){
-    builder.style.display="block";
+builder.style.display="block";
+step=1;
+showStep();
 }
 
-function closeBuilder(){
-    builder.style.display="none";
+function showStep(){
+baseOptions.style.display= step===1 ? "grid":"none";
+typeOptions.style.display= step===2 ? "grid":"none";
+coatingOptions.style.display= step===3 ? "grid":"none";
+fillingOptions.style.display= step===4 ? "grid":"none";
+
+title.innerText=
+step===1?"Choose Your Base":
+step===2?"Choose Type":
+step===3?"Choose Coating":
+"Choose Filling";
 }
 
-function selectBase(el,name){
-    base.src=el.src;
-    flavorText.innerText=name;
-}
-
-/* ⭐ Next شغال */
+/* Next */
 function nextStep(){
-    if(!base.src){
-        alert("Choose base first");
-        return;
-    }
 
-    alert("Next Step Working 👑🔥");
+if(step===1 && !base.src) return;
+if(step===2 && !selectedType) return;
+if(step===3 && !coating.src) return;
+
+if(step===2) loadCoating();
+
+if(step<4){
+step++;
+showStep();
+}
+}
+
+/* Back */
+function goBack(){
+if(step>1){
+step--;
+showStep();
+}
+}
+
+/* Select */
+function selectBase(el,name){
+base.src=el.src;
+flavorText.innerText=name;
+setActive(el);
+}
+
+function selectType(el,type){
+selectedType=type;
+flavorText.innerText=type;
+setActive(el);
+}
+
+function loadCoating(){
+coatingOptions.innerHTML=`
+<img src="images/coating/${selectedType.toLowerCase()}_plain.png" onclick="selectCoating(this,'Plain')">
+<img src="images/coating/${selectedType.toLowerCase()}_pistachio.png" onclick="selectCoating(this,'Pistachio')">
+<img src="images/coating/${selectedType.toLowerCase()}_hazelnut.png" onclick="selectCoating(this,'Hazelnut')">
+`;
+}
+
+function selectCoating(el,name){
+coating.src=el.src;
+flavorText.innerText=selectedType+" "+name;
+setActive(el);
+}
+
+function selectFilling(el,name){
+inner.src=el.src;
+flavorText.innerText+=" + "+name;
+setActive(el);
+}
+
+function setActive(el){
+document.querySelectorAll(".options img").forEach(i=>i.classList.remove("active"));
+el.classList.add("active");
 }
 
 </script>
