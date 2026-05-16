@@ -80,8 +80,10 @@ body {
     z-index: 2000;
     text-align: center;
     padding: 20px;
+    overflow-y: auto; /* ⭐ حل المشكلة */
 }
 
+/* Header */
 .header {
     margin-top: 40px;
     font-size: 26px;
@@ -118,13 +120,14 @@ body {
     z-index: 3;
 }
 
-/* ⭐ NEW GRID FOR OPTIONS */
+/* Options Grid */
 .options {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
     justify-items: center;
     margin-top: 20px;
+    padding-bottom: 120px; /* مساحة لزرار Next */
 }
 
 .options img {
@@ -148,22 +151,29 @@ body {
     filter: drop-shadow(0 0 10px white);
 }
 
-/* Buttons */
+/* ⭐ زرار Next ثابت */
 .btn {
-    margin-top: 20px;
-    padding: 10px 25px;
-    border-radius: 25px;
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 35px;
+    border-radius: 30px;
     border: none;
     background: #c68a4a;
     color: white;
     cursor: pointer;
+    z-index: 1000;
+    font-size: 16px;
 }
 
+/* Type Buttons */
 .typeBtn.active {
     background: white;
     color: black;
 }
 
+/* Back */
 .backBtn {
     position: absolute;
     top: 20px;
@@ -264,7 +274,7 @@ function goBack(){
     else if(step==4){
         step=3;
         fillingOptions.style.display="none";
-        coatingOptions.style.display="flex";
+        coatingOptions.style.display="grid";
     }
 }
 
@@ -277,7 +287,7 @@ function showStep1(){
 
 function showStep2(){
     baseOptions.style.display="none";
-    typeOptions.style.display="flex";
+    typeOptions.style.display="grid";
 }
 
 function showStep3(){
