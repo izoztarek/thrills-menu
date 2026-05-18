@@ -5,12 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Thrillz Menu</title>
 
-<!-- Preload -->
-<link rel="preload" as="image" href="images/bg/base-bg.jpg">
-<link rel="preload" as="image" href="images/bg/type-bg.jpg">
-<link rel="preload" as="image" href="images/bg/coating-bg.jpg">
-<link rel="preload" as="image" href="images/bg/filling-bg.jpg">
-
 <style>
 
 body{
@@ -48,6 +42,13 @@ body{
     gap:20px;
 }
 
+@media(min-width:768px){
+.grid{grid-template-columns:repeat(3,1fr);}
+}
+@media(min-width:1100px){
+.grid{grid-template-columns:repeat(4,1fr);}
+}
+
 /* CARDS */
 .card{
     height:300px;
@@ -55,12 +56,19 @@ body{
     overflow:hidden;
     cursor:pointer;
     transition:0.4s;
+    box-shadow:0 10px 30px rgba(0,0,0,0.3);
 }
 
 .card img{
     width:100%;
     height:100%;
     object-fit:cover;
+}
+
+/* AUTO FOCUS */
+.card.active{
+    transform:scale(1.06);
+    box-shadow:0 20px 50px rgba(255,255,255,0.15);
 }
 
 /* BUILDER */
@@ -181,14 +189,22 @@ body{
 <div class="overlay">
 
 <div class="logo">
-<img src="logo.png" loading="lazy">
+<img src="logo.png">
 </div>
 
 <div class="container">
 <div class="grid">
-<div class="card" onclick="openBuilder()">
-<img src="iced-cover.jpg" loading="lazy">
-</div>
+
+<!-- 8 CARDS -->
+<div class="card" onclick="openBuilder()"><img src="iced-cover.jpg"></div>
+<div class="card"><img src="frappe-cover.jpg"></div>
+<div class="card"><img src="hot-cover.jpg"></div>
+<div class="card"><img src="dessert-cover.jpg"></div>
+<div class="card"><img src="bakery-cover.jpg"></div>
+<div class="card"><img src="breakfast-cover.jpg"></div>
+<div class="card"><img src="matcha-cover.jpg"></div>
+<div class="card"><img src="smoothie-cover.jpg"></div>
+
 </div>
 </div>
 
@@ -240,17 +256,22 @@ body{
 
 <script>
 
-/* PRELOAD */
-[
-"images/bg/base-bg.jpg",
-"images/bg/type-bg.jpg",
-"images/bg/coating-bg.jpg",
-"images/bg/filling-bg.jpg"
-].forEach(src=>{
-    let img=new Image();
-    img.src=src;
-});
+/* AUTO FOCUS */
+const cards = document.querySelectorAll(".card");
 
+const observer = new IntersectionObserver(entries=>{
+entries.forEach(entry=>{
+if(entry.isIntersecting){
+entry.target.classList.add("active");
+}else{
+entry.target.classList.remove("active");
+}
+});
+},{threshold:0.6});
+
+cards.forEach(card=>observer.observe(card));
+
+/* BUILDER */
 let step=1, selectedType="";
 
 function openBuilder(){
@@ -275,18 +296,20 @@ typeOptions.style.display= step===2?"grid":"none";
 coatingOptions.style.display= step===3?"grid":"none";
 fillingOptions.style.display= step===4?"grid":"none";
 
-builder.style.backgroundImage = `url(${
-[
+/* LAZY BACKGROUND */
+let bgList=[
 "images/bg/base-bg.jpg",
 "images/bg/type-bg.jpg",
 "images/bg/coating-bg.jpg",
 "images/bg/filling-bg.jpg"
-][step-1]
-})`;
+];
+
+builder.style.backgroundImage=`url(${bgList[step-1]})`;
 
 }
 
 function nextStep(){
+
 if(step===1 && !base.src) return;
 if(step===2 && !selectedType) return;
 if(step===3 && !coating.src) return;
@@ -305,6 +328,7 @@ updateStep();
 }
 }
 
+/* SELECT */
 function selectBase(el){ base.src=el.src; setActive(el); }
 function selectType(el,t){ selectedType=t; setActive(el); }
 function selectCoating(el){ coating.src=el.src; setActive(el); }
