@@ -3,7 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Thrillz Menu - Dynamic Builder</title>
+<title>Thrillz Menu - Premium UI</title>
+
+<!-- Google Fonts لإضافة خطوط فخمة للموقع -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <!-- PRELOAD BACKGROUNDS -->
 <link rel="preload" as="image" href="images/bg/base-bg.jpg">
@@ -12,9 +15,13 @@
 <link rel="preload" as="image" href="images/bg/filling-bg.jpg">
 
 <style>
+* {
+    box-sizing: border-box;
+    font-family: 'Poppins', Arial, sans-serif;
+}
+
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
     background: url('bg.jpg') no-repeat center center fixed;
     background-size: cover;
     color: #fff;
@@ -23,17 +30,18 @@ body {
 
 /* MAIN OVERLAY */
 .overlay {
-    background: rgba(0,0,0,0.6);
+    background: linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.7) 100%);
     min-height: 100vh;
 }
 
 /* LOGO */
 .logo {
     text-align: center;
-    padding: 25px;
+    padding: 35px 20px;
 }
 .logo img {
-    width: 150px;
+    width: 140px;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
 }
 
 /* GRID SYSTEM */
@@ -46,7 +54,7 @@ body {
 .grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
+    gap: 25px;
 }
 
 @media(min-width: 768px) {
@@ -58,24 +66,31 @@ body {
 
 /* CARDS */
 .card {
-    height: 300px;
-    border-radius: 20px;
+    height: 280px;
+    border-radius: 24px;
     overflow: hidden;
     cursor: pointer;
-    transition: 0.4s ease;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s;
+    box-shadow: 0 12px 24px rgba(0,0,0,0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .card img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transition: transform 0.5s;
+}
+
+.card:hover img {
+    transform: scale(1.08);
 }
 
 /* AUTO FOCUS EFFECT */
 .card.active {
-    transform: scale(1.04);
-    box-shadow: 0 20px 50px rgba(255,255,255,0.1);
+    transform: scale(1.03);
+    box-shadow: 0 20px 40px rgba(255,255,255,0.12);
+    border-color: rgba(255,255,255,0.3);
 }
 
 /* DYNAMIC BUILDER OVERLAY */
@@ -84,110 +99,163 @@ body {
     position: fixed;
     inset: 0;
     z-index: 2000;
-    overflow-y: auto; /* يضمن إمكانية التمرير لو الشاشة صغيرة جداً */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    animation: fadeIn 0.4s ease-out;
 }
 
-/* BLUR BACKGROUND EFFECT FOR BETTER UI */
+@keyframes fadeIn {
+    from { opacity: 0; } to { opacity: 1; }
+}
+
+/* PREMIUM GLASS EFFECT */
 .builder::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(8px);
+    background: radial-gradient(circle at center, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.6) 100%);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     z-index: 1;
 }
 
 /* ICECREAM PREVIEW CONTAINER */
 .preview {
     position: absolute;
-    top: 35%;
+    top: 38%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 160px;
-    height: 320px;
+    width: 180px;
+    height: 360px;
     z-index: 5;
+    filter: drop-shadow(0 20px 35px rgba(0,0,0,0.5));
 }
 
-.layer {
+.layer, .innerLayer {
     position: absolute;
     width: 100%;
     left: 50%;
     transform: translateX(-50%);
-    transition: all 0.3s ease-in-out;
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .innerLayer {
-    position: absolute;
-    width: 120px;
-    top: -20px;
-    left: 50%;
-    transform: translateX(-50%);
-    transition: all 0.3s ease-in-out;
+    width: 130px;
+    top: -15px;
 }
 
-/* OPTIONS GRID - RESPONSIVE FLEX */
-.options {
+/* PREMIUM CONTAINER FOR OPTIONS */
+.options-wrapper {
     position: absolute;
-    bottom: 120px;
+    bottom: 110px;
     left: 50%;
     transform: translateX(-50%);
-    width: 95%;
-    max-width: 500px; /* تقليص العرض ليجبر العناصر على الالتفاف بشكل متناسق */
+    width: 90%;
+    max-width: 550px;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 20px;
+    border-radius: 30px;
+    z-index: 5;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+}
+
+.options {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 12px;
-    z-index: 5;
-    max-height: 180px;
+    gap: 15px;
+    max-height: 160px;
+    overflow-y: auto;
 }
 
-/* IMAGE OPTIONS COMMON STYLES */
+/* Custom Scrollbar for options if they overflow */
+.options::-webkit-scrollbar {
+    width: 4px;
+}
+.options::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.3);
+    border-radius: 10px;
+}
+
+/* ICON IMAGES */
 .options img {
     width: 75px;
     height: 75px;
     object-fit: contain;
-    background: rgba(255, 255, 255, 0.15);
-    padding: 8px;
-    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.08);
+    padding: 10px;
+    border-radius: 20px;
     cursor: pointer;
-    transition: transform 0.3s, border 0.3s, box-shadow 0.3s;
-    border: 2px solid transparent;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.3s, border 0.3s;
+    border: 1px solid rgba(255,255,255,0.05);
 }
 
-/* TYPE GRID ADJUSTMENT */
+.options img:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.15);
+}
+
+/* TYPE PANEL MODIFICATIONS */
 .typeGrid img {
-    width: 100px;
-    height: 100px;
+    width: 110px;
+    height: 90px;
     object-fit: cover;
 }
 
-/* ACTION ACTIVE STATES */
+/* GLOWING ACTIVE STATE */
 .options img.active {
-    transform: scale(1.1);
-    border-color: #fff;
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
-    background: rgba(255, 255, 255, 0.25);
+    transform: scale(1.1) translateY(-5px);
+    border-color: #c68a4a;
+    background: rgba(198, 138, 74, 0.2);
+    box-shadow: 0 10px 25px rgba(198, 138, 74, 0.4);
 }
 
-/* STEPPER INDICATOR */
-.stepper {
+/* STEPPER WITH BULLETS */
+.stepper-container {
     position: absolute;
-    top: 25px;
+    top: 30px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 10;
-    font-size: 18px;
-    font-weight: bold;
-    letter-spacing: 1px;
-    background: rgba(0,0,0,0.5);
-    padding: 8px 20px;
-    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
 }
 
-/* BOTTOM NAVIGATION CONTROL BUTTONS */
+.stepper-text {
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: rgba(255,255,255,0.7);
+}
+
+.dots {
+    display: flex;
+    gap: 8px;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    background: rgba(255,255,255,0.3);
+    border-radius: 50%;
+    transition: 0.3s;
+}
+
+.dot.active {
+    background: #c68a4a;
+    width: 24px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #c68a4a;
+}
+
+/* BUTTONS */
 .nextBtn {
     position: absolute;
     bottom: 30px;
@@ -196,38 +264,43 @@ body {
     background: #c68a4a;
     color: #fff;
     border: none;
-    padding: 14px 50px;
-    border-radius: 30px;
-    font-size: 18px;
-    font-weight: bold;
+    padding: 15px 60px;
+    border-radius: 40px;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 1px;
     cursor: pointer;
     z-index: 10;
-    transition: 0.3s;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 25px rgba(198, 138, 74, 0.4);
 }
 
 .nextBtn:hover {
-    background: #e09f5b;
-    box-shadow: 0 8px 20px rgba(198, 138, 74, 0.4);
+    background: #db9d58;
+    transform: translateX(-50%) translateY(-2px);
+    box-shadow: 0 12px 30px rgba(198, 138, 74, 0.6);
 }
 
 .backBtn {
     position: absolute;
-    top: 20px;
-    left: 20px;
-    background: white;
-    color: #333;
-    padding: 10px 20px;
-    border-radius: 25px;
-    font-weight: bold;
+    top: 25px;
+    left: 25px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.2);
+    backdrop-filter: blur(5px);
+    padding: 10px 22px;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 14px;
     cursor: pointer;
     z-index: 10;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    transition: 0.2s;
+    transition: 0.3s;
 }
 
 .backBtn:hover {
-    background: #f0f0f0;
+    background: #fff;
+    color: #000;
 }
 </style>
 </head>
@@ -256,7 +329,17 @@ body {
 <!-- BUILDER SYSTEM -->
 <div class="builder" id="builder">
     <div class="backBtn" onclick="goBack()">← Back</div>
-    <div class="stepper" id="stepper">Step 1 / 4</div>
+    
+    <!-- PREMIUM STEPPER -->
+    <div class="stepper-container">
+        <div class="stepper-text" id="stepperText">Select Base</div>
+        <div class="dots">
+            <div class="dot active"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+    </div>
 
     <div class="preview">
         <img id="base" class="layer">
@@ -264,40 +347,42 @@ body {
         <img id="inner" class="innerLayer">
     </div>
 
-    <!-- STEP 1: BASE -->
-    <div class="options" id="baseOptions">
-        <img src="images/base/vanilla.png" onclick="selectBase(this)">
-        <img src="images/base/chocolate.png" onclick="selectBase(this)">
-        <img src="images/base/strawberry.png" onclick="selectBase(this)">
-        <img src="images/base/pistachio.png" onclick="selectBase(this)">
-        <img src="images/base/hazelnut.png" onclick="selectBase(this)">
-    </div>
+    <!-- WRAPPER FOR GLASS UI EFFECT -->
+    <div class="options-wrapper">
+        <!-- STEP 1: BASE -->
+        <div class="options" id="baseOptions">
+            <img src="images/base/vanilla.png" onclick="selectBase(this)">
+            <img src="images/base/chocolate.png" onclick="selectBase(this)">
+            <img src="images/base/strawberry.png" onclick="selectBase(this)">
+            <img src="images/base/pistachio.png" onclick="selectBase(this)">
+            <img src="images/base/hazelnut.png" onclick="selectBase(this)">
+        </div>
 
-    <!-- STEP 2: CHOCOLATE TYPE -->
-    <div class="options typeGrid" id="typeOptions" style="display:none;">
-        <img src="images/type/milk.jpg" onclick="selectType(this,'milk')">
-        <img src="images/type/dark.jpg" onclick="selectType(this,'dark')">
-        <img src="images/type/white.jpg" onclick="selectType(this,'white')">
-    </div>
+        <!-- STEP 2: CHOCOLATE TYPE -->
+        <div class="options typeGrid" id="typeOptions" style="display:none;">
+            <img src="images/type/milk.jpg" onclick="selectType(this,'milk')">
+            <img src="images/type/dark.jpg" onclick="selectType(this,'dark')">
+            <img src="images/type/white.jpg" onclick="selectType(this,'white')">
+        </div>
 
-    <!-- STEP 3: COATING (DYNAMICALLY POPULATED) -->
-    <div class="options" id="coatingOptions" style="display:none;"></div>
+        <!-- STEP 3: COATING -->
+        <div class="options" id="coatingOptions" style="display:none;"></div>
 
-    <!-- STEP 4: FILLING -->
-    <div class="options" id="fillingOptions" style="display:none;">
-        <img src="images/filling/chocolate.png" onclick="selectFilling(this)">
-        <img src="images/filling/lotus.png" onclick="selectFilling(this)">
-        <img src="images/filling/caramel.png" onclick="selectFilling(this)">
-        <img src="images/filling/berry.png" onclick="selectFilling(this)">
-        <img src="images/filling/pistachio.png" onclick="selectFilling(this)">
-        <img src="images/filling/milk.png" onclick="selectFilling(this)">
+        <!-- STEP 4: FILLING -->
+        <div class="options" id="fillingOptions" style="display:none;">
+            <img src="images/filling/chocolate.png" onclick="selectFilling(this)">
+            <img src="images/filling/lotus.png" onclick="selectFilling(this)">
+            <img src="images/filling/caramel.png" onclick="selectFilling(this)">
+            <img src="images/filling/berry.png" onclick="selectFilling(this)">
+            <img src="images/filling/pistachio.png" onclick="selectFilling(this)">
+            <img src="images/filling/milk.png" onclick="selectFilling(this)">
+        </div>
     </div>
 
     <button class="nextBtn" id="nextBtn" onclick="nextStep()">Next</button>
 </div>
 
 <script>
-/* BG LIST */
 const bgList = [
     "images/bg/base-bg.jpg",
     "images/bg/type-bg.jpg",
@@ -305,13 +390,18 @@ const bgList = [
     "images/bg/filling-bg.jpg"
 ];
 
-/* FAST PRELOAD BACKGROUNDS */
+const stepTitles = [
+    "Select Base Flavor",
+    "Choose Chocolate Type",
+    "Select Coating",
+    "Add Delicious Filling"
+];
+
 bgList.forEach(src => {
     let img = new Image();
     img.src = src;
 });
 
-/* AUTO FOCUS SCROLL OBSERVER */
 const cards = document.querySelectorAll(".card");
 const observer = new IntersectionObserver(entries => {
     entries.forEach(e => {
@@ -320,11 +410,9 @@ const observer = new IntersectionObserver(entries => {
 }, { threshold: 0.6 });
 cards.forEach(c => observer.observe(c));
 
-/* BUILDER ENGINE */
 let step = 1, selectedType = "";
 
 function openBuilder() {
-    // Reset inputs on fresh open
     base.removeAttribute('src');
     coating.removeAttribute('src');
     inner.removeAttribute('src');
@@ -346,31 +434,34 @@ function goBack() {
 }
 
 function updateStep() {
-    // Show/Hide step options Panels
     baseOptions.style.display    = step === 1 ? "flex" : "none";
     typeOptions.style.display    = step === 2 ? "flex" : "none";
     coatingOptions.style.display = step === 3 ? "flex" : "none";
     fillingOptions.style.display = step === 4 ? "flex" : "none";
 
-    // Set Dynamic Background & Stepper Progress Title
     builder.style.backgroundImage = `url(${bgList[step - 1]})`;
-    stepper.textContent = `Step ${step} / 4`;
+    
+    // Update Text Title
+    stepperText.textContent = stepTitles[step - 1];
 
-    // Change Next button text on the last step
+    // Update Step Dots UI
+    const dots = document.querySelectorAll(".dot");
+    dots.forEach((dot, index) => {
+        dot.classList.toggle("active", index === (step - 1));
+    });
+
     if (step === 4) {
         nextBtn.textContent = "Add to Cart 🛒";
     } else {
-        nextBtn.textContent = "Next";
+        nextBtn.textContent = "Next Step";
     }
 }
 
 function nextStep() {
-    // Validation: Prevent skipped steps
     if (step === 1 && !base.getAttribute('src')) return alert("Please select a base flavor!");
     if (step === 2 && !selectedType) return alert("Please select a chocolate type!");
     if (step === 3 && !coating.getAttribute('src')) return alert("Please select a coating topping!");
 
-    // تفعيل الخطوة الثالثة وحقن الصور بناءً على النوع الصافي المختار
     if (step === 2) {
         coatingOptions.innerHTML = `
             <img src="images/coating/${selectedType}_plain.png" onclick="selectCoating(this)">
@@ -383,21 +474,17 @@ function nextStep() {
         step++;
         updateStep();
     } else {
-        // Step 4 Complete: Trigger Order logic
         alert("Delicious! Item successfully built and added to your cart 🎉");
         builder.style.display = "none";
     }
 }
 
-/* SELECTION TRIGGERS */
 function selectBase(el) { base.src = el.src; setActive(el); }
-function selectType(el, t) { selectedType = t; setActive(el); } // هنا نقرأ الكلمة الصافية مباشرة
+function selectType(el, t) { selectedType = t; setActive(el); }
 function selectCoating(el) { coating.src = el.src; setActive(el); }
 function selectFilling(el) { inner.src = el.src; setActive(el); }
 
-/* FIX: SCOPED ACTIVE STATE SWITCHER */
 function setActive(el) {
-    // Clears active state inside current container only
     el.parentElement.querySelectorAll("img").forEach(i => i.classList.remove("active"));
     el.classList.add("active");
 }
