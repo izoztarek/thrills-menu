@@ -5,6 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Thrillz Menu</title>
 
+<!-- PRELOAD BACKGROUNDS -->
+<link rel="preload" as="image" href="images/bg/base-bg.jpg">
+<link rel="preload" as="image" href="images/bg/type-bg.jpg">
+<link rel="preload" as="image" href="images/bg/coating-bg.jpg">
+<link rel="preload" as="image" href="images/bg/filling-bg.jpg">
+
 <style>
 
 body{
@@ -84,14 +90,14 @@ body{
     background-repeat:no-repeat;
 }
 
-/* ICECREAM */
+/* ICECREAM (SMALLER) */
 .preview{
     position:absolute;
     top:50%;
     left:50%;
     transform:translate(-50%, -50%);
-    width:200px;
-    height:400px;
+    width:160px;
+    height:320px;
     z-index:5;
 }
 
@@ -104,8 +110,8 @@ body{
 
 .innerLayer{
     position:absolute;
-    width:150px;
-    top:-25px;
+    width:120px;
+    top:-20px;
     left:50%;
     transform:translateX(-50%);
 }
@@ -134,8 +140,8 @@ body{
 
 /* NORMAL */
 .options img{
-    width:90px;
-    height:90px;
+    width:85px;
+    height:85px;
     object-fit:contain;
     background:rgba(255,255,255,0.08);
     padding:10px;
@@ -145,8 +151,8 @@ body{
 
 /* FILLING */
 #fillingOptions img{
-    width:110px;
-    height:110px;
+    width:100px;
+    height:100px;
 }
 
 /* ACTIVE */
@@ -195,7 +201,6 @@ body{
 <div class="container">
 <div class="grid">
 
-<!-- 8 CARDS -->
 <div class="card" onclick="openBuilder()"><img src="iced-cover.jpg"></div>
 <div class="card"><img src="frappe-cover.jpg"></div>
 <div class="card"><img src="hot-cover.jpg"></div>
@@ -221,7 +226,6 @@ body{
 <img id="inner" class="innerLayer">
 </div>
 
-<!-- BASE -->
 <div class="options" id="baseOptions">
 <img src="images/base/vanilla.png" onclick="selectBase(this)">
 <img src="images/base/chocolate.png" onclick="selectBase(this)">
@@ -230,17 +234,14 @@ body{
 <img src="images/base/hazelnut.png" onclick="selectBase(this)">
 </div>
 
-<!-- TYPE -->
 <div class="options typeGrid" id="typeOptions" style="display:none;">
 <img src="images/type/milk.jpg" onclick="selectType(this,'milk')">
 <img src="images/type/dark.jpg" onclick="selectType(this,'dark')">
 <img src="images/type/white.jpg" onclick="selectType(this,'white')">
 </div>
 
-<!-- COATING -->
 <div class="options" id="coatingOptions" style="display:none;"></div>
 
-<!-- FILLING -->
 <div class="options" id="fillingOptions" style="display:none;">
 <img src="images/filling/chocolate.png" onclick="selectFilling(this)">
 <img src="images/filling/lotus.png" onclick="selectFilling(this)">
@@ -256,20 +257,27 @@ body{
 
 <script>
 
-/* AUTO FOCUS */
-const cards = document.querySelectorAll(".card");
+/* FAST PRELOAD */
+const bgList=[
+"images/bg/base-bg.jpg",
+"images/bg/type-bg.jpg",
+"images/bg/coating-bg.jpg",
+"images/bg/filling-bg.jpg"
+];
 
-const observer = new IntersectionObserver(entries=>{
-entries.forEach(entry=>{
-if(entry.isIntersecting){
-entry.target.classList.add("active");
-}else{
-entry.target.classList.remove("active");
-}
+bgList.forEach(src=>{
+let img=new Image();
+img.src=src;
+});
+
+/* AUTO FOCUS */
+const cards=document.querySelectorAll(".card");
+const observer=new IntersectionObserver(entries=>{
+entries.forEach(e=>{
+e.target.classList.toggle("active",e.isIntersecting);
 });
 },{threshold:0.6});
-
-cards.forEach(card=>observer.observe(card));
+cards.forEach(c=>observer.observe(c));
 
 /* BUILDER */
 let step=1, selectedType="";
@@ -296,16 +304,7 @@ typeOptions.style.display= step===2?"grid":"none";
 coatingOptions.style.display= step===3?"grid":"none";
 fillingOptions.style.display= step===4?"grid":"none";
 
-/* LAZY BACKGROUND */
-let bgList=[
-"images/bg/base-bg.jpg",
-"images/bg/type-bg.jpg",
-"images/bg/coating-bg.jpg",
-"images/bg/filling-bg.jpg"
-];
-
 builder.style.backgroundImage=`url(${bgList[step-1]})`;
-
 }
 
 function nextStep(){
@@ -328,7 +327,6 @@ updateStep();
 }
 }
 
-/* SELECT */
 function selectBase(el){ base.src=el.src; setActive(el); }
 function selectType(el,t){ selectedType=t; setActive(el); }
 function selectCoating(el){ coating.src=el.src; setActive(el); }
