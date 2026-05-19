@@ -1,242 +1,371 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Thrillz Menu - Dynamic Builder</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thrillz Menu - Premium Dynamic Customizer</title>
+    
+    <!-- استيراد خطوط حديثة تناسب الهوية البصرية لمتجر آيس كريم فاخر -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@500;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 
-<!-- PRELOAD BACKGROUNDS -->
-<link rel="preload" as="image" href="images/bg/base-bg.jpg">
-<link rel="preload" as="image" href="images/bg/type-bg.jpg">
-<link rel="preload" as="image" href="images/bg/coating-bg.jpg">
-<link rel="preload" as="image" href="images/bg/filling-bg.jpg">
+    <!-- تحسين التحميل المسبق للخلفيات الأساسية لمنع وميض الشاشة الأبيض المتكرر -->
+    <link rel="preload" as="image" href="images/bg/base-bg.jpg">
+    <link rel="preload" as="image" href="images/bg/type-bg.jpg">
+    <link rel="preload" as="image" href="images/bg/coating-bg.jpg">
+    <link rel="preload" as="image" href="images/bg/filling-bg.jpg">
 
-<style>
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: url('bg.jpg') no-repeat center center fixed;
-    background-size: cover;
-    color: #fff;
-}
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #FF6B6B, #FF8E53);
+            --secondary-gradient: linear-gradient(135deg, #c68a4a, #e09f5b);
+            --dark-color: #2c3e50;
+            --glass-bg: rgba(255, 255, 255, 0.15);
+            --glass-active: rgba(255, 255, 255, 0.35);
+            --shadow-sm: 0 8px 24px rgba(0, 0, 0, 0.15);
+            --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.3);
+            --font-main: 'Poppins', sans-serif;
+            --font-rounded: 'Comfortaa', cursive;
+        }
 
-/* MAIN OVERLAY */
-.overlay {
-    background: rgba(0,0,0,0.6);
-    min-height: 100vh;
-}
+        * {
+            box-sizing: border-box;
+            outline: none;
+        }
 
-/* LOGO */
-.logo {
-    text-align: center;
-    padding: 25px;
-}
-.logo img {
-    width: 150px;
-}
+        body {
+            margin: 0;
+            font-family: var(--font-main);
+            background: url('bg.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+            -webkit-font-smoothing: antialiased;
+        }
 
-/* GRID SYSTEM */
-.container {
-    max-width: 1400px;
-    margin: auto;
-    padding: 20px;
-}
+        /* الطبقة الضبابية فوق الخلفية الأساسية */
+        .overlay {
+            background: rgba(15, 23, 42, 0.55);
+            backdrop-filter: blur(4px);
+            min-height: 100vh;
+            padding-bottom: 50px;
+        }
 
-.grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-}
+        /* الهيدر والشعار */
+        .logo {
+            text-align: center;
+            padding: 40px 20px;
+        }
 
-@media(min-width: 768px) {
-    .grid { grid-template-columns: repeat(3, 1fr); }
-}
-@media(min-width: 1100px) {
-    .grid { grid-template-columns: repeat(4, 1fr); }
-}
+        .logo img {
+            width: 160px;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+            transition: transform 0.3s ease;
+        }
 
-/* CARDS */
-.card {
-    height: 300px;
-    border-radius: 20px;
-    overflow: hidden;
-    cursor: pointer;
-    transition: 0.4s ease;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-}
+        .logo img:hover {
+            transform: scale(1.05);
+        }
 
-.card img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
+        /* نظام الشبكة المرن للبطاقات */
+        .container {
+            max-width: 1400px;
+            margin: auto;
+            padding: 0 20px;
+        }
 
-/* AUTO FOCUS EFFECT */
-.card.active {
-    transform: scale(1.04);
-    box-shadow: 0 20px 50px rgba(255,255,255,0.1);
-}
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
 
-/* DYNAMIC BUILDER OVERLAY */
-.builder {
-    display: none;
-    position: fixed;
-    inset: 0;
-    z-index: 2000;
-    overflow: hidden;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    transition: background-image 0.5s ease;
-}
+        /* بطاقات المنتجات المحدثة */
+        .card-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-/* BLUR BACKGROUND EFFECT FOR BETTER UI */
-.builder::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(8px);
-    z-index: 1;
-}
+        .card {
+            width: 100%;
+            height: 320px;
+            border-radius: 24px;
+            overflow: hidden;
+            cursor: pointer;
+            position: relative;
+            border: 4px solid #fff;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background-color: rgba(255,255,255,0.05);
+        }
 
-/* ICECREAM PREVIEW CONTAINER */
-.preview {
-    position: absolute;
-    top: 40%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 180px;
-    height: 340px;
-    z-index: 5;
-}
+        .card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
 
-.layer {
-    position: absolute;
-    width: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    transition: all 0.3s ease-in-out;
-}
+        .card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: var(--shadow-lg);
+            border-color: #FF8E53;
+        }
 
-.innerLayer {
-    position: absolute;
-    width: 120px;
-    top: -20px;
-    left: 50%;
-    transform: translateX(-50%);
-    transition: all 0.3s ease-in-out;
-}
+        .card:hover img {
+            transform: scale(1.08);
+        }
 
-/* OPTIONS GRID - RESPONSIVE FLEX */
-.options {
-    position: absolute;
-    bottom: 110px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 90%;
-    max-width: 600px;
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 15px;
-    z-index: 5;
-}
+        /* التأثير التلقائي عند التمرير للهواتف */
+        .card.active {
+            transform: scale(1.03);
+            border-color: #FF8E53;
+        }
 
-/* IMAGE OPTIONS COMMON STYLES */
-.options img {
-    width: 80px;
-    height: 80px;
-    object-fit: contain;
-    background: rgba(255, 255, 255, 0.15);
-    padding: 10px;
-    border-radius: 15px;
-    cursor: pointer;
-    transition: transform 0.3s, border 0.3s, box-shadow 0.3s;
-    border: 2px solid transparent;
-}
+        .card-title {
+            margin-top: 12px;
+            font-family: var(--font-rounded);
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+            letter-spacing: 0.5px;
+        }
 
-/* TYPE GRID ADJUSTMENT */
-.typeGrid img {
-    width: 110px;
-    height: 110px;
-    object-fit: cover;
-}
+        /* واجهة تخصيص المنتج الديناميكية المتقدمة */
+        .builder {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 2000;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            transition: background-image 0.6s ease-in-out;
+        }
 
-/* FILLING SPECIAL SIZE */
-#fillingOptions img {
-    width: 90px;
-    height: 90px;
-}
+        /* تأثير الزجاج البلوري الذكي ممتد الأطراف */
+        .builder::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.4), rgba(0, 0, 0, 0.75));
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 1;
+        }
 
-/* ACTION ACTIVE STATES */
-.options img.active {
-    transform: scale(1.15);
-    border-color: #fff;
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
-    background: rgba(255, 255, 255, 0.25);
-}
+        /* نافذة المعاينة والطبقات */
+        .preview {
+            position: absolute;
+            top: 38%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 220px;
+            height: 380px;
+            z-index: 5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-/* STEPPER INDICATOR */
-.stepper {
-    position: absolute;
-    top: 25px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 10;
-    font-size: 18px;
-    font-weight: bold;
-    letter-spacing: 1px;
-    background: rgba(0,0,0,0.5);
-    padding: 8px 20px;
-    border-radius: 20px;
-}
+        .layer {
+            position: absolute;
+            width: 100%;
+            height: auto;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            /* تأثير ظل واقعي للطبقات الشفافة يعطي عمق ثلاثي الأبعاد */
+            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.3));
+        }
 
-/* BOTTOM NAVIGATION CONTROL BUTTONS */
-.nextBtn {
-    position: absolute;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #c68a4a;
-    color: #fff;
-    border: none;
-    padding: 14px 50px;
-    border-radius: 30px;
-    font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;
-    z-index: 10;
-    transition: 0.3s;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-}
+        .innerLayer {
+            position: absolute;
+            width: 110px;
+            height: auto;
+            top: 35%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            transition: all 0.4s ease-in-out;
+            z-index: 2;
+            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.25));
+        }
 
-.nextBtn:hover {
-    background: #e09f5b;
-    box-shadow: 0 8px 20px rgba(198, 138, 74, 0.4);
-}
+        /* حاوية الخيارات التفاعلية */
+        .options-container {
+            position: absolute;
+            bottom: 120px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 650px;
+            z-index: 5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
 
-.backBtn {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    background: white;
-    color: #333;
-    padding: 10px 20px;
-    border-radius: 25px;
-    font-weight: bold;
-    cursor: pointer;
-    z-index: 10;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    transition: 0.2s;
-}
+        .item-label {
+            font-family: var(--font-rounded);
+            font-size: 1rem;
+            font-weight: 700;
+            background: rgba(0,0,0,0.4);
+            padding: 4px 14px;
+            border-radius: 12px;
+            min-height: 28px;
+            transition: all 0.2s ease;
+        }
 
-.backBtn:hover {
-    background: #f0f0f0;
-}
-</style>
+        .options {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            width: 100%;
+        }
+
+        /* تحسين مظهر أزرار الخيارات التفاعلية كعناصر أزرار وصول حقيقية HTML */
+        .option-btn {
+            background: var(--glass-bg);
+            border: 3px solid transparent;
+            padding: 10px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+
+        .option-btn img {
+            width: 75px;
+            height: 75px;
+            object-fit: contain;
+            pointer-events: none; /* يمنع تداخل الـ Target في الـ JS */
+        }
+
+        .typeGrid .option-btn img {
+            width: 95px;
+            height: 95px;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+
+        /* حالة التنشيط الذكية للخيارات والمكونات */
+        .option-btn.active {
+            transform: scale(1.12);
+            border-color: #fff;
+            background: var(--glass-active);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+        }
+
+        .option-btn:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-3px);
+        }
+
+        /* شريط التتبع العلوي */
+        .stepper {
+            position: absolute;
+            top: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            font-family: var(--font-rounded);
+            font-size: 16px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 10px 24px;
+            border-radius: 50px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* أزرار التحكم والعمليات المحدثة */
+        .nextBtn {
+            position: absolute;
+            bottom: 35px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary-gradient);
+            color: #fff;
+            border: none;
+            padding: 16px 60px;
+            border-radius: 50px;
+            font-family: var(--font-main);
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+        }
+
+        .nextBtn:hover {
+            transform: translateX(-50%) translateY(-2px);
+            box-shadow: 0 12px 30px rgba(255, 107, 107, 0.6);
+            filter: brightness(1.1);
+        }
+
+        .nextBtn:active {
+            transform: translateX(-50%) translateY(1px);
+        }
+
+        .backBtn {
+            position: absolute;
+            top: 25px;
+            left: 20px;
+            background: #fff;
+            color: var(--dark-color);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-family: var(--font-main);
+            cursor: pointer;
+            z-index: 10;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.2s ease;
+        }
+
+        .backBtn:hover {
+            background: #f8fafc;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+        }
+
+        /* استعلامات الوسائط لاستجابة تامة على الهواتف الشديدة الصغر */
+        @media (max-width: 600px) {
+            .preview {
+                width: 160px;
+                height: 280px;
+                top: 35%;
+            }
+            .option-btn img {
+                width: 55px;
+                height: 55px;
+            }
+            .typeGrid .option-btn img {
+                width: 65px;
+                height: 65px;
+            }
+            .options-container {
+                bottom: 110px;
+            }
+            .nextBtn {
+                padding: 14px 45px;
+                font-size: 16px;
+                bottom: 25px;
+            }
+        }
+    </style>
 </head>
-
 <body>
 
 <div class="overlay">
@@ -246,166 +375,332 @@ body {
 
     <div class="container">
         <div class="grid">
-            <div class="card" onclick="openBuilder()"><img src="iced-cover.jpg"></div>
-            <div class="card"><img src="frappe-cover.jpg"></div>
-            <div class="card"><img src="hot-cover.jpg"></div>
-            <div class="card"><img src="dessert-cover.jpg"></div>
-            <div class="card"><img src="bakery-cover.jpg"></div>
-            <div class="card"><img src="breakfast-cover.jpg"></div>
-            <div class="card"><img src="matcha-cover.jpg"></div>
-            <div class="card"><img src="smoothie-cover.jpg"></div>
+            <!-- استخدام هيكل أزرار HTML دلالي بدلاً من div صامت لسهولة وصول قارئات الشاشة والـ SEO -->
+            <div class="card-wrapper">
+                <button class="card" aria-label="Customize Premium Stick" onclick="Customizer.open()">
+                    <img src="iced-cover.jpg" alt="Premium Custom Bar">
+                </button>
+                <span class="card-title">Design Your Stick</span>
+            </div>
+            <div class="card-wrapper">
+                <button class="card" aria-label="Frappe Menu"><img src="frappe-cover.jpg" alt="Frappes"></button>
+                <span class="card-title">Frappuccino</span>
+            </div>
+            <div class="card-wrapper">
+                <button class="card" aria-label="Hot Drinks Menu"><img src="hot-cover.jpg" alt="Hot Drinks"></button>
+                <span class="card-title">Hot Specialties</span>
+            </div>
+            <div class="card-wrapper">
+                <button class="card" aria-label="Desserts Menu"><img src="dessert-cover.jpg" alt="Desserts"></button>
+                <span class="card-title">Plated Desserts</span>
+            </div>
+            <div class="card-wrapper">
+                <button class="card" aria-label="Bakery Menu"><img src="bakery-cover.jpg" alt="Bakery Items"></button>
+                <span class="card-title">Fresh Bakery</span>
+            </div>
+            <div class="card-wrapper">
+                <button class="card" aria-label="Breakfast Menu"><img src="breakfast-cover.jpg" alt="Breakfast"></button>
+                <span class="card-title">Signature Breakfast</span>
+            </div>
+            <div class="card-wrapper">
+                <button class="card" aria-label="Matcha Menu"><img src="matcha-cover.jpg" alt="Matcha Selection"></button>
+                <span class="card-title">Pure Matcha</span>
+            </div>
+            <div class="card-wrapper">
+                <button class="card" aria-label="Smoothies Menu"><img src="smoothie-cover.jpg" alt="Smoothies"></button>
+                <span class="card-title">Organic Smoothies</span>
+            </div>
         </div>
     </div>
 </div>
 
-<!-- BUILDER SYSTEM -->
-<div class="builder" id="builder">
-    <div class="backBtn" onclick="goBack()">← Back</div>
+<!-- نظام البناء والتخصيص الديناميكي (Customizer System) -->
+<div class="builder" id="builder" role="dialog" aria-modal="true" aria-labelledby="stepper">
+    <button class="backBtn" onclick="Customizer.back()">← Back</button>
     <div class="stepper" id="stepper">Step 1 / 4</div>
 
     <div class="preview">
-        <img id="base" class="layer">
-        <img id="coating" class="layer">
-        <img id="inner" class="innerLayer">
+        <!-- طبقات العرض المنفصلة بـ IDs مستقلة للتحكم الفوري السريع -->
+        <img id="baseLayer" class="layer" alt="Ice Cream Base View">
+        <img id="coatingLayer" class="layer" alt="Ice Cream Coating View">
+        <img id="fillingLayer" class="innerLayer" alt="Ice Cream Filling View">
     </div>
 
-    <!-- STEP 1: BASE -->
-    <div class="options" id="baseOptions">
-        <img src="images/base/vanilla.png" onclick="selectBase(this)">
-        <img src="images/base/chocolate.png" onclick="selectBase(this)">
-        <img src="images/base/strawberry.png" onclick="selectBase(this)">
-        <img src="images/base/pistachio.png" onclick="selectBase(this)">
-        <img src="images/base/hazelnut.png" onclick="selectBase(this)">
+    <div class="options-container">
+        <!-- طبقة نصية تفاعلية لعرض اسم النكهة المحددة حالياً للمستخدم -->
+        <div class="item-label" id="activeLabel">Select a Base Flavor</div>
+        
+        <!-- الخطوة 1: نكهات الآيس كريم الأساسية -->
+        <div class="options" id="baseOptions">
+            <button class="option-btn" data-name="Premium Vanilla" data-src="images/base/vanilla.png"><img src="images/base/vanilla.png" alt="Vanilla"></button>
+            <button class="option-btn" data-name="Rich Chocolate" data-src="images/base/chocolate.png"><img src="images/base/chocolate.png" alt="Chocolate"></button>
+            <button class="option-btn" data-name="Fresh Strawberry" data-src="images/base/strawberry.png"><img src="images/base/strawberry.png" alt="Strawberry"></button>
+            <button class="option-btn" data-name="Gourmet Pistachio" data-src="images/base/pistachio.png"><img src="images/base/pistachio.png" alt="Pistachio"></button>
+            <button class="option-btn" data-name="Roasted Hazelnut" data-src="images/base/hazelnut.png"><img src="images/base/hazelnut.png" alt="Hazelnut"></button>
+        </div>
+
+        <!-- الخطوة 2: نوع الشوكولاتة المفضلة -->
+        <div class="options typeGrid" id="typeOptions" style="display:none;">
+            <button class="option-btn" data-type="milk" data-name="Smooth Milk Chocolate"><img src="images/type/milk.jpg" alt="Milk Chocolate"></button>
+            <button class="option-btn" data-type="dark" data-name="Belgian Dark Chocolate"><img src="images/type/dark.jpg" alt="Dark Chocolate"></button>
+            <button class="option-btn" data-type="white" data-name="Creamy White Chocolate"><img src="images/type/white.jpg" alt="White Chocolate"></button>
+        </div>
+
+        <!-- الخطوة 3: صوص التغطية الخارجي (يتم حقنه برمجياً بأمان تام وسرعة بدون ثغرات) -->
+        <div class="options" id="coatingOptions" style="display:none;"></div>
+
+        <!-- الخطوة 4: الحشوة الداخلية المقرمشة -->
+        <div class="options" id="fillingOptions" style="display:none;">
+            <button class="option-btn" data-name="Chocolate Core" data-src="images/filling/chocolate.png"><img src="images/filling/chocolate.png" alt="Chocolate Filling"></button>
+            <button class="option-btn" data-name="Crushed Lotus Biscuit" data-src="images/filling/lotus.png"><img src="images/filling/lotus.png" alt="Lotus Filling"></button>
+            <button class="option-btn" data-name="Salted Caramel" data-src="images/filling/caramel.png"><img src="images/filling/caramel.png" alt="Caramel Filling"></button>
+            <button class="option-btn" data-name="Wild Berry Compote" data-src="images/filling/berry.png"><img src="images/filling/berry.png" alt="Berry Filling"></button>
+            <button class="option-btn" data-name="Pistachio Crunch" data-src="images/filling/pistachio.png"><img src="images/filling/pistachio.png" alt="Pistachio Filling"></button>
+            <button class="option-btn" data-name="Sweet Milk Cream" data-src="images/filling/milk.png"><img src="images/filling/milk.png" alt="Milk Filling"></button>
+        </div>
     </div>
 
-    <!-- STEP 2: CHOCOLATE TYPE -->
-    <div class="options typeGrid" id="typeOptions" style="display:none;">
-        <img src="images/type/milk.jpg" onclick="selectType(this,'milk')">
-        <img src="images/type/dark.jpg" onclick="selectType(this,'dark')">
-        <img src="images/type/white.jpg" onclick="selectType(this,'white')">
-    </div>
-
-    <!-- STEP 3: COATING (DYNAMICALLY POPULATED) -->
-    <div class="options" id="coatingOptions" style="display:none;"></div>
-
-    <!-- STEP 4: FILLING -->
-    <div class="options" id="fillingOptions" style="display:none;">
-        <img src="images/filling/chocolate.png" onclick="selectFilling(this)">
-        <img src="images/filling/lotus.png" onclick="selectFilling(this)">
-        <img src="images/filling/caramel.png" onclick="selectFilling(this)">
-        <img src="images/filling/berry.png" onclick="selectFilling(this)">
-        <img src="images/filling/pistachio.png" onclick="selectFilling(this)">
-        <img src="images/filling/milk.png" onclick="selectFilling(this)">
-    </div>
-
-    <button class="nextBtn" id="nextBtn" onclick="nextStep()">Next</button>
+    <button class="nextBtn" id="nextBtn">Next</button>
 </div>
 
 <script>
-/* BG LIST */
-const bgList = [
-    "images/bg/base-bg.jpg",
-    "images/bg/type-bg.jpg",
-    "images/bg/coating-bg.jpg",
-    "images/bg/filling-bg.jpg"
-];
+/**
+ * Thrillz Customizer Engine - حزمة معمارية مغلقة لإدارة حالة الموقع بأمان وعزل كامل
+ */
+"use strict";
 
-/* FAST PRELOAD BACKGROUNDS */
-bgList.forEach(src => {
-    let img = new Image();
-    img.src = src;
-});
+const Customizer = (function() {
+    // كاش مركزي لعناصر الـ DOM لمنع الاستدعاء المتكرر وتحسين سرعة استجابة التطبيق
+    let DOM = {};
+    
+    // إدارة الحالة الداخلية للتطبيق (State Management)
+    const STATE = {
+        bgList: [
+            "images/bg/base-bg.jpg",
+            "images/bg/type-bg.jpg",
+            "images/bg/coating-bg.jpg",
+            "images/bg/filling-bg.jpg"
+        ],
+        step: 1,
+        selectedType: "",
+        selections: { base: "", type: "", coating: "", filling: "" }
+    };
 
-/* AUTO FOCUS SCROLL OBSERVER */
-const cards = document.querySelectorAll(".card");
-const observer = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-        e.target.classList.toggle("active", e.isIntersecting);
-    });
-}, { threshold: 0.6 });
-cards.forEach(c => observer.observe(c));
+    // نصوص الإرشاد الذكية المخصصة لكل خطوة لتسهيل تجربة العميل
+    const stepLabels = {
+        1: "Select a Base Flavor",
+        2: "Choose Your Chocolate Type",
+        3: "Pick Your Topping Coating",
+        4: "Inject Inner Core Crunch"
+    };
 
-/* BUILDER ENGINE */
-let step = 1, selectedType = "";
+    /**
+     * إعداد كاش الواجهة وربط الأحداث بشكل مركزي (Event Listeners Integration)
+     */
+    function init() {
+        DOM = {
+            builder: document.getElementById("builder"),
+            stepper: document.getElementById("stepper"),
+            nextBtn: document.getElementById("nextBtn"),
+            activeLabel: document.getElementById("activeLabel"),
+            baseOptions: document.getElementById("baseOptions"),
+            typeOptions: document.getElementById("typeOptions"),
+            coatingOptions: document.getElementById("coatingOptions"),
+            fillingOptions: document.getElementById("fillingOptions"),
+            baseLayer: document.getElementById("baseLayer"),
+            coatingLayer: document.getElementById("coatingLayer"),
+            fillingLayer: document.getElementById("fillingLayer"),
+            cards: document.querySelectorAll(".card")
+        };
 
-function openBuilder() {
-    // Reset inputs on fresh open
-    base.removeAttribute('src');
-    coating.removeAttribute('src');
-    inner.removeAttribute('src');
-    document.querySelectorAll(".options img").forEach(i => i.classList.remove("active"));
-    selectedType = "";
-
-    builder.style.display = "block";
-    step = 1;
-    updateStep();
-}
-
-function goBack() {
-    if (step === 1) {
-        builder.style.display = "none";
-    } else {
-        step--;
-        updateStep();
-    }
-}
-
-function updateStep() {
-    // Show/Hide step options Panels
-    baseOptions.style.display    = step === 1 ? "flex" : "none";
-    typeOptions.style.display    = step === 2 ? "flex" : "none";
-    coatingOptions.style.display = step === 3 ? "flex" : "none";
-    fillingOptions.style.display = step === 4 ? "flex" : "none";
-
-    // Set Dynamic Background & Stepper Progress Title
-    builder.style.backgroundImage = `url(${bgList[step - 1]})`;
-    stepper.textContent = `Step ${step} / 4`;
-
-    // Change Next button text on the last step
-    if (step === 4) {
-        nextBtn.textContent = "Add to Cart 🛒";
-    } else {
-        nextBtn.textContent = "Next";
-    }
-}
-
-function nextStep() {
-    // Validation: Prevent skipped steps
-    if (step === 1 && !base.getAttribute('src')) return alert("Please select a base flavor!");
-    if (step === 2 && !selectedType) return alert("Please select a chocolate type!");
-    if (step === 3 && !coating.getAttribute('src')) return alert("Please select a coating topping!");
-
-    // Dynamically inject Coating Options based on Step 2 Selected Type
-    if (step === 2) {
-        coatingOptions.innerHTML = `
-            <img src="images/coating/${selectedType}_plain.png" onclick="selectCoating(this)">
-            <img src="images/coating/${selectedType}_pistachio.png" onclick="selectCoating(this)">
-            <img src="images/coating/${selectedType}_hazelnut.png" onclick="selectCoating(this)">
-        `;
+        // تفعيل مستمعي الأحداث للعناصر الأساسية
+        DOM.nextBtn.addEventListener("click", handleNextStep);
+        setupStaticOptions();
+        initIntersectionObserver();
     }
 
-    if (step < 4) {
-        step++;
-        updateStep();
-    } else {
-        // Step 4 Complete: Trigger Order logic
-        alert("Delicious! Item successfully built and added to your cart 🎉");
-        builder.style.display = "none";
+    /**
+     * تشغيل مراقب التمرير التلقائي لبطاقات العرض الرئيسية (للهواتف الذكية)
+     */
+    function initIntersectionObserver() {
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                entry.target.classList.toggle("active", entry.isIntersecting);
+            });
+        }, { threshold: 0.6 });
+
+        DOM.cards.forEach(card => observer.observe(card));
     }
-}
 
-/* SELECTION TRIGGERS */
-function selectBase(el) { base.src = el.src; setActive(el); }
-function selectType(el, t) { selectedType = t; setActive(el); }
-function selectCoating(el) { coating.src = el.src; setActive(el); }
-function selectFilling(el) { inner.src = el.src; setActive(el); }
+    /**
+     * ربط الأحداث بجميع خيارات القوائم الثابتة بأداء عالٍ وبدون inline onclick
+     */
+    function setupStaticOptions() {
+        // أحداث الخطوة 1: Base
+        DOM.baseOptions.querySelectorAll(".option-btn").forEach(btn => {
+            btn.addEventListener("click", (e) => {
+                const target = e.currentTarget;
+                DOM.baseLayer.src = target.getAttribute("data-src");
+                updateActiveState(DOM.baseOptions, target);
+                STATE.selections.base = target.getAttribute("data-name");
+            });
+        });
 
-/* FIX: SCOPED ACTIVE STATE SWITCHER */
-function setActive(el) {
-    // Clears active state inside current container only
-    el.parentElement.querySelectorAll("img").forEach(i => i.classList.remove("active"));
-    el.classList.add("active");
-}
+        // أحداث الخطوة 2: Chocolate Type
+        DOM.typeOptions.querySelectorAll(".option-btn").forEach(btn => {
+            btn.addEventListener("click", (e) => {
+                const target = e.currentTarget;
+                STATE.selectedType = target.getAttribute("data-type");
+                updateActiveState(DOM.typeOptions, target);
+                STATE.selections.type = target.getAttribute("data-name");
+            });
+        });
+
+        // أحداث الخطوة 4: Filling
+        DOM.fillingOptions.querySelectorAll(".option-btn").forEach(btn => {
+            btn.addEventListener("click", (e) => {
+                const target = e.currentTarget;
+                DOM.fillingLayer.src = target.getAttribute("data-src");
+                updateActiveState(DOM.fillingOptions, target);
+                STATE.selections.filling = target.getAttribute("data-name");
+            });
+        });
+    }
+
+    /**
+     * تحديث فئات التنشيط البصري وتغيير التسمية التوضيحية الحية للنكهة المختارة
+     */
+    function updateActiveState(container, activeElement) {
+        container.querySelectorAll(".option-btn").forEach(img => img.classList.remove("active"));
+        activeElement.classList.add("active");
+        DOM.activeLabel.textContent = activeElement.getAttribute("data-name");
+    }
+
+    /**
+     * فتح لوحة التخصيص وتصفير البيانات القديمة لبدء بناء منتج جديد فريد
+     */
+    function openBuilder() {
+        DOM.baseLayer.removeAttribute('src');
+        DOM.coatingLayer.removeAttribute('src');
+        DOM.fillingLayer.removeAttribute('src');
+        document.querySelectorAll(".option-btn").forEach(btn => btn.classList.remove("active"));
+        
+        STATE.selectedType = "";
+        STATE.step = 1;
+        STATE.selections = { base: "", type: "", coating: "", filling: "" };
+        
+        DOM.builder.style.display = "block";
+        updateStepUI();
+    }
+
+    /**
+     * التراجع للخطوة السابقة أو إغلاق الواجهة بالكامل
+     */
+    function goBack() {
+        if (STATE.step === 1) {
+            DOM.builder.style.display = "none";
+        } else {
+            STATE.step--;
+            updateStepUI();
+        }
+    }
+
+    /**
+     * إدارة النوافذ وعرض عناصر التحكم والخيارات المناسبة للخطوة الحالية
+     */
+    function updateStepUI() {
+        DOM.baseOptions.style.display    = STATE.step === 1 ? "flex" : "none";
+        DOM.typeOptions.style.display    = STATE.step === 2 ? "flex" : "none";
+        DOM.coatingOptions.style.display = STATE.step === 3 ? "flex" : "none";
+        DOM.fillingOptions.style.display = STATE.step === 4 ? "flex" : "none";
+
+        // تحديث الخلفية والخطوات وعناوين الإرشاد
+        DOM.builder.style.backgroundImage = `url(${STATE.bgList[STATE.step - 1]})`;
+        DOM.stepper.textContent = `Step ${STATE.step} / 4`;
+        DOM.nextBtn.textContent = STATE.step === 4 ? "Add to Cart 🛒" : "Next";
+
+        // الحفاظ على عرض التسمية التوضيحية المناسبة للمكون المختار أو التوجيه الافتراضي
+        const currentSelectionKey = ['base', 'type', 'coating', 'filling'][STATE.step - 1];
+        if (STATE.selections[currentSelectionKey]) {
+            DOM.activeLabel.textContent = STATE.selections[currentSelectionKey];
+        } else {
+            DOM.activeLabel.textContent = stepLabels[STATE.step];
+        }
+    }
+
+    /**
+     * معالجة التحقق من صحة المدخلات والانتقال للخطوة التالية (Validation & Engine Flow)
+     */
+    function handleNextStep() {
+        if (STATE.step === 1 && !DOM.baseLayer.getAttribute('src')) return alert("Please select a base flavor first!");
+        if (STATE.step === 2 && !STATE.selectedType) return alert("Please choose your preferred chocolate type!");
+        if (STATE.step === 3 && !DOM.coatingLayer.getAttribute('src')) return alert("Please pick a topping coating!");
+
+        // توليد خيارات الـ Coating ديناميكياً بأمان فائق وثبات برميجي تام في الخطوة الثانية
+        if (STATE.step === 2) {
+            generateCoatingOptions(STATE.selectedType);
+        }
+
+        if (STATE.step < 4) {
+            STATE.step++;
+            updateStepUI();
+        } else {
+            // الخطوة النهائية: إرسال الطلبية بنجاح
+            alert(`Delicious custom stick added to cart! 🎉\n- Base: ${STATE.selections.base}\n- Chocolate: ${STATE.selections.type}\n- Coating: ${STATE.selections.coating}\n- Filling: ${STATE.selections.filling || "None"}`);
+            DOM.builder.style.display = "none";
+        }
+    }
+
+    /**
+     * توليد خيارات التغطية الخارجية بأداء برميجي سريع وآمن (تجنب ثغرات XSS الناتجة عن innerHTML)
+     */
+    function generateCoatingOptions(type) {
+        DOM.coatingOptions.innerHTML = ""; // تنظيف آمن للحاوية قبل الحقن
+        
+        const variants = [
+            { id: 'plain', name: `Plain ${type.charAt(0).toUpperCase() + type.slice(1)}` },
+            { id: 'pistachio', name: 'Crunchy Pistachio Flakes' },
+            { id: 'hazelnut', name: 'Roasted Hazelnut Pieces' }
+        ];
+        
+        // استخدام DocumentFragment لتقليل عمليات الـ Repaint والـ Reflow في المتصفح لسرعة فائقة
+        const fragment = document.createDocumentFragment();
+        
+        variants.forEach(variant => {
+            const button = document.createElement('button');
+            button.className = 'option-btn';
+            button.setAttribute('data-name', variant.name);
+            
+            const imgPath = `images/coating/${type}_${variant.id}.png`;
+            button.setAttribute('data-src', imgPath);
+            
+            const img = document.createElement('img');
+            img.src = imgPath;
+            img.alt = variant.name;
+            
+            button.appendChild(img);
+            
+            button.addEventListener('click', function() {
+                DOM.coatingLayer.src = this.getAttribute('data-src');
+                updateActiveState(DOM.coatingOptions, this);
+                STATE.selections.coating = this.getAttribute('data-name');
+            });
+            
+            fragment.appendChild(button);
+        });
+        
+        DOM.coatingOptions.appendChild(fragment);
+    }
+
+    // تهيئة محرك الواجهة عند انتهاء تحميل الملف بالكامل
+    window.addEventListener("DOMContentLoaded", init);
+
+    // تصدير الدوال والعمليات المطلوبة فقط للتحكم الخارجي الآمن وحماية الكود من التلوث العالمي
+    return {
+        open: openBuilder,
+        back: goBack
+    };
+})();
 </script>
 
 </body>
