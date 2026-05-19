@@ -25,6 +25,7 @@
             --glass-active: rgba(255, 255, 255, 0.35);
             --shadow-sm: 0 8px 24px rgba(0, 0, 0, 0.15);
             --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.3);
+            --focused-shadow: 0 0 25px rgba(255, 142, 83, 0.6); /* تأثير ظل ناعم ومميز عند التركيز */
             --font-main: 'Poppins', sans-serif;
             --font-rounded: 'Comfortaa', cursive;
         }
@@ -80,7 +81,7 @@
             gap: 25px;
         }
 
-        /* بطاقات المنتجات المحدثة */
+        /* بطاقات المنتجات */
         .card-wrapper {
             display: flex;
             flex-direction: column;
@@ -117,7 +118,6 @@
             transform: scale(1.08);
         }
 
-        /* التأثير التلقائي عند التمرير للهواتف */
         .card.active {
             transform: scale(1.03);
             border-color: #FF8E53;
@@ -145,7 +145,6 @@
             transition: background-image 0.6s ease-in-out;
         }
 
-        /* تأثير الزجاج البلوري الذكي ممتد الأطراف */
         .builder::before {
             content: '';
             position: absolute;
@@ -159,15 +158,12 @@
         /* نافذة المعاينة والطبقات */
         .preview {
             position: absolute;
-            top: 38%;
+            top: 35%;
             left: 50%;
             transform: translate(-50%, -50%);
             width: 220px;
             height: 380px;
             z-index: 5;
-            display: flex;
-            justify-content: center;
-            align-items: center;
         }
 
         .layer {
@@ -178,20 +174,20 @@
             left: 50%;
             transform: translateX(-50%);
             transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-            /* تأثير ظل واقعي للطبقات الشفافة يعطي عمق ثلاثي الأبعاد */
             filter: drop-shadow(0 10px 15px rgba(0,0,0,0.3));
         }
 
+        /* تعديل موضع صوص الحشو الداخلي لكي يجلس في الأعلى بشكل واقعي متناسق */
         .innerLayer {
             position: absolute;
-            width: 110px;
+            width: 140px; /* زيادة حجم الصوص ليتناسب مع الجزء العلوي العريض */
             height: auto;
-            top: 35%;
+            top: 12%; /* سحب العنصر للأعلى ليكون متموضعاً فوق قمة عصا الآيس كريم مباشرة بدلاً من المنتصف */
             left: 50%;
-            transform: translate(-50%, -50%) scale(0.9);
-            transition: all 0.4s ease-in-out;
-            z-index: 2;
-            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.25));
+            transform: translateX(-50%) scale(0.95);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 6; /* ليكون أعلى طبقة الجسم الأساسي */
+            filter: drop-shadow(0 6px 12px rgba(0,0,0,0.35));
         }
 
         /* حاوية الخيارات التفاعلية */
@@ -200,13 +196,13 @@
             bottom: 120px;
             left: 50%;
             transform: translateX(-50%);
-            width: 90%;
+            width: 92%;
             max-width: 650px;
             z-index: 5;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
 
         .item-label {
@@ -214,59 +210,74 @@
             font-size: 1rem;
             font-weight: 700;
             background: rgba(0,0,0,0.4);
-            padding: 4px 14px;
+            padding: 6px 16px;
             border-radius: 12px;
-            min-height: 28px;
+            min-height: 32px;
             transition: all 0.2s ease;
         }
 
+        /* تعديل التصميم لعرض العناصر في أزواج جنباً إلى جنب بدلاً من عمود فردي */
         .options {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* تفعيل العرض الثنائي المشترك */
             gap: 15px;
             width: 100%;
+            max-height: 240px; /* تفعيل حد أقصى للارتفاع لضمان عدم تداخل الواجهات */
+            overflow-y: auto;  /* إضافة تمرير داخلي ناعم إذا زادت العناصر عن الحد */
+            padding: 10px 5px;
+            scroll-behavior: smooth;
         }
 
-        /* تحسين مظهر أزرار الخيارات التفاعلية كعناصر أزرار وصول حقيقية HTML */
+        /* جعل خيارات نوع الشوكولاتة متناسقة ثنائياً أيضاً */
+        .options.typeGrid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        
+        /* إذا كان هناك عنصر فردي ثالث، يمتد ليأخذ العرض كاملاً من أجل توازن الشكل */
+        .options.typeGrid .option-btn:last-child:nth-child(odd) {
+            grid-column: span 2;
+        }
+
+        /* تحسين مظهر أزرار الخيارات التفاعلية */
         .option-btn {
             background: var(--glass-bg);
             border: 3px solid transparent;
-            padding: 10px;
+            padding: 12px;
             border-radius: 20px;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            width: 100%;
+            box-shadow: var(--shadow-sm);
         }
 
         .option-btn img {
-            width: 75px;
-            height: 75px;
+            width: 70px;
+            height: 70px;
             object-fit: contain;
-            pointer-events: none; /* يمنع تداخل الـ Target في الـ JS */
+            pointer-events: none;
         }
 
         .typeGrid .option-btn img {
-            width: 95px;
-            height: 95px;
+            width: 85px;
+            height: 85px;
             object-fit: cover;
             border-radius: 12px;
         }
 
-        /* حالة التنشيط الذكية للخيارات والمكونات */
-        .option-btn.active {
-            transform: scale(1.12);
+        /* إضاءة تدرج الظل الناعم عند استقبال التركيز أو التنشيط */
+        .option-btn:focus, .option-btn.active {
+            transform: scale(1.05);
             border-color: #fff;
             background: var(--glass-active);
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+            box-shadow: var(--focused-shadow); /* تفعيل تأثير الظل الناعم المطلوب */
         }
 
-        .option-btn:hover:not(.active) {
+        .option-btn:hover:not(.active):not(:focus) {
             background: rgba(255, 255, 255, 0.25);
-            transform: translateY(-3px);
+            transform: translateY(-2px);
         }
 
         /* شريط التتبع العلوي */
@@ -313,10 +324,6 @@
             filter: brightness(1.1);
         }
 
-        .nextBtn:active {
-            transform: translateX(-50%) translateY(1px);
-        }
-
         .backBtn {
             position: absolute;
             top: 25px;
@@ -337,23 +344,34 @@
         .backBtn:hover {
             background: #f8fafc;
             transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(0,0,0,0.15);
         }
 
-        /* استعلامات الوسائط لاستجابة تامة على الهواتف الشديدة الصغر */
+        /* تخصيص السكرول بار الخاص بالقوائم ليكون ناعماً ومتناسقاً */
+        .options::-webkit-scrollbar {
+            width: 6px;
+        }
+        .options::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        .options::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+        }
+
         @media (max-width: 600px) {
             .preview {
-                width: 160px;
-                height: 280px;
-                top: 35%;
+                width: 170px;
+                height: 300px;
+                top: 32%;
+            }
+            .innerLayer {
+                width: 110px;
+                top: 10%;
             }
             .option-btn img {
-                width: 55px;
-                height: 55px;
-            }
-            .typeGrid .option-btn img {
-                width: 65px;
-                height: 65px;
+                width: 50px;
+                height: 50px;
             }
             .options-container {
                 bottom: 110px;
@@ -375,7 +393,6 @@
 
     <div class="container">
         <div class="grid">
-            <!-- استخدام هيكل أزرار HTML دلالي بدلاً من div صامت لسهولة وصول قارئات الشاشة والـ SEO -->
             <div class="card-wrapper">
                 <button class="card" aria-label="Customize Premium Stick" onclick="Customizer.open()">
                     <img src="iced-cover.jpg" alt="Premium Custom Bar">
@@ -414,23 +431,22 @@
     </div>
 </div>
 
-<!-- نظام البناء والتخصيص الديناميكي (Customizer System) -->
+<!-- نظام البناء والتخصيص الديناميكي -->
 <div class="builder" id="builder" role="dialog" aria-modal="true" aria-labelledby="stepper">
     <button class="backBtn" onclick="Customizer.back()">← Back</button>
     <div class="stepper" id="stepper">Step 1 / 4</div>
 
     <div class="preview">
-        <!-- طبقات العرض المنفصلة بـ IDs مستقلة للتحكم الفوري السريع -->
         <img id="baseLayer" class="layer" alt="Ice Cream Base View">
         <img id="coatingLayer" class="layer" alt="Ice Cream Coating View">
+        <!-- عنصر الصلصة الداخلية المتموضع بدقة في أعلى القالب -->
         <img id="fillingLayer" class="innerLayer" alt="Ice Cream Filling View">
     </div>
 
     <div class="options-container">
-        <!-- طبقة نصية تفاعلية لعرض اسم النكهة المحددة حالياً للمستخدم -->
         <div class="item-label" id="activeLabel">Select a Base Flavor</div>
         
-        <!-- الخطوة 1: نكهات الآيس كريم الأساسية -->
+        <!-- الخطوة 1 -->
         <div class="options" id="baseOptions">
             <button class="option-btn" data-name="Premium Vanilla" data-src="images/base/vanilla.png"><img src="images/base/vanilla.png" alt="Vanilla"></button>
             <button class="option-btn" data-name="Rich Chocolate" data-src="images/base/chocolate.png"><img src="images/base/chocolate.png" alt="Chocolate"></button>
@@ -439,17 +455,17 @@
             <button class="option-btn" data-name="Roasted Hazelnut" data-src="images/base/hazelnut.png"><img src="images/base/hazelnut.png" alt="Hazelnut"></button>
         </div>
 
-        <!-- الخطوة 2: نوع الشوكولاتة المفضلة -->
+        <!-- الخطوة 2 -->
         <div class="options typeGrid" id="typeOptions" style="display:none;">
             <button class="option-btn" data-type="milk" data-name="Smooth Milk Chocolate"><img src="images/type/milk.jpg" alt="Milk Chocolate"></button>
             <button class="option-btn" data-type="dark" data-name="Belgian Dark Chocolate"><img src="images/type/dark.jpg" alt="Dark Chocolate"></button>
             <button class="option-btn" data-type="white" data-name="Creamy White Chocolate"><img src="images/type/white.jpg" alt="White Chocolate"></button>
         </div>
 
-        <!-- الخطوة 3: صوص التغطية الخارجي (يتم حقنه برمجياً بأمان تام وسرعة بدون ثغرات) -->
+        <!-- الخطوة 3 -->
         <div class="options" id="coatingOptions" style="display:none;"></div>
 
-        <!-- الخطوة 4: الحشوة الداخلية المقرمشة -->
+        <!-- الخطوة 4 -->
         <div class="options" id="fillingOptions" style="display:none;">
             <button class="option-btn" data-name="Chocolate Core" data-src="images/filling/chocolate.png"><img src="images/filling/chocolate.png" alt="Chocolate Filling"></button>
             <button class="option-btn" data-name="Crushed Lotus Biscuit" data-src="images/filling/lotus.png"><img src="images/filling/lotus.png" alt="Lotus Filling"></button>
@@ -465,15 +481,13 @@
 
 <script>
 /**
- * Thrillz Customizer Engine - حزمة معمارية مغلقة لإدارة حالة الموقع بأمان وعزل كامل
+ * Thrillz Customizer Engine
  */
 "use strict";
 
 const Customizer = (function() {
-    // كاش مركزي لعناصر الـ DOM لمنع الاستدعاء المتكرر وتحسين سرعة استجابة التطبيق
     let DOM = {};
     
-    // إدارة الحالة الداخلية للتطبيق (State Management)
     const STATE = {
         bgList: [
             "images/bg/base-bg.jpg",
@@ -486,7 +500,6 @@ const Customizer = (function() {
         selections: { base: "", type: "", coating: "", filling: "" }
     };
 
-    // نصوص الإرشاد الذكية المخصصة لكل خطوة لتسهيل تجربة العميل
     const stepLabels = {
         1: "Select a Base Flavor",
         2: "Choose Your Chocolate Type",
@@ -494,9 +507,6 @@ const Customizer = (function() {
         4: "Inject Inner Core Crunch"
     };
 
-    /**
-     * إعداد كاش الواجهة وربط الأحداث بشكل مركزي (Event Listeners Integration)
-     */
     function init() {
         DOM = {
             builder: document.getElementById("builder"),
@@ -513,15 +523,11 @@ const Customizer = (function() {
             cards: document.querySelectorAll(".card")
         };
 
-        // تفعيل مستمعي الأحداث للعناصر الأساسية
         DOM.nextBtn.addEventListener("click", handleNextStep);
         setupStaticOptions();
         initIntersectionObserver();
     }
 
-    /**
-     * تشغيل مراقب التمرير التلقائي لبطاقات العرض الرئيسية (للهواتف الذكية)
-     */
     function initIntersectionObserver() {
         const observer = new IntersectionObserver(entries => {
             entries.forEach(entry => {
@@ -532,53 +538,43 @@ const Customizer = (function() {
         DOM.cards.forEach(card => observer.observe(card));
     }
 
-    /**
-     * ربط الأحداث بجميع خيارات القوائم الثابتة بأداء عالٍ وبدون inline onclick
-     */
     function setupStaticOptions() {
-        // أحداث الخطوة 1: Base
-        DOM.baseOptions.querySelectorAll(".option-btn").forEach(btn => {
-            btn.addEventListener("click", (e) => {
-                const target = e.currentTarget;
-                DOM.baseLayer.src = target.getAttribute("data-src");
-                updateActiveState(DOM.baseOptions, target);
-                STATE.selections.base = target.getAttribute("data-name");
-            });
-        });
+        bindGroupEvents(DOM.baseOptions, "base", DOM.baseLayer);
+        bindGroupEvents(DOM.typeOptions, "type", null, true);
+        bindGroupEvents(DOM.fillingOptions, "filling", DOM.fillingLayer);
+    }
 
-        // أحداث الخطوة 2: Chocolate Type
-        DOM.typeOptions.querySelectorAll(".option-btn").forEach(btn => {
+    /**
+     * ربط الأحداث مع إدراج ميزة الـ Auto-Focus Scroll والـ Focus Styling
+     */
+    function bindGroupEvents(container, stateKey, layerElement, isTypeStep = false) {
+        container.querySelectorAll(".option-btn").forEach(btn => {
+            // عند الضغط أو الاختيار المباشر
             btn.addEventListener("click", (e) => {
                 const target = e.currentTarget;
-                STATE.selectedType = target.getAttribute("data-type");
-                updateActiveState(DOM.typeOptions, target);
-                STATE.selections.type = target.getAttribute("data-name");
+                if (layerElement) target.getAttribute("data-src") ? layerElement.src = target.getAttribute("data-src") : null;
+                if (isTypeStep) STATE.selectedType = target.getAttribute("data-type");
+                
+                updateActiveState(container, target);
+                STATE.selections[stateKey] = target.getAttribute("data-name");
+                
+                // ميزة التمرير التلقائي الذكي لمركز العنصر المختار داخل الحاوية الثنائية
+                target.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
             });
-        });
 
-        // أحداث الخطوة 4: Filling
-        DOM.fillingOptions.querySelectorAll(".option-btn").forEach(btn => {
-            btn.addEventListener("click", (e) => {
-                const target = e.currentTarget;
-                DOM.fillingLayer.src = target.getAttribute("data-src");
-                updateActiveState(DOM.fillingOptions, target);
-                STATE.selections.filling = target.getAttribute("data-name");
+            // ميزة التمرير التلقائي الفوري لمجرد تحرك الـ Focus (مثال عند استخدام لوحة المفاتيح Tab للتنقل)
+            btn.addEventListener("focus", (e) => {
+                e.currentTarget.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             });
         });
     }
 
-    /**
-     * تحديث فئات التنشيط البصري وتغيير التسمية التوضيحية الحية للنكهة المختارة
-     */
     function updateActiveState(container, activeElement) {
         container.querySelectorAll(".option-btn").forEach(img => img.classList.remove("active"));
         activeElement.classList.add("active");
         DOM.activeLabel.textContent = activeElement.getAttribute("data-name");
     }
 
-    /**
-     * فتح لوحة التخصيص وتصفير البيانات القديمة لبدء بناء منتج جديد فريد
-     */
     function openBuilder() {
         DOM.baseLayer.removeAttribute('src');
         DOM.coatingLayer.removeAttribute('src');
@@ -593,9 +589,6 @@ const Customizer = (function() {
         updateStepUI();
     }
 
-    /**
-     * التراجع للخطوة السابقة أو إغلاق الواجهة بالكامل
-     */
     function goBack() {
         if (STATE.step === 1) {
             DOM.builder.style.display = "none";
@@ -605,38 +598,29 @@ const Customizer = (function() {
         }
     }
 
-    /**
-     * إدارة النوافذ وعرض عناصر التحكم والخيارات المناسبة للخطوة الحالية
-     */
     function updateStepUI() {
-        DOM.baseOptions.style.display    = STATE.step === 1 ? "flex" : "none";
-        DOM.typeOptions.style.display    = STATE.step === 2 ? "flex" : "none";
-        DOM.coatingOptions.style.display = STATE.step === 3 ? "flex" : "none";
-        DOM.fillingOptions.style.display = STATE.step === 4 ? "flex" : "none";
+        DOM.baseOptions.style.display    = STATE.step === 1 ? "grid" : "none";
+        DOM.typeOptions.style.display    = STATE.step === 2 ? "grid" : "none";
+        DOM.coatingOptions.style.display = STATE.step === 3 ? "grid" : "none";
+        DOM.fillingOptions.style.display = STATE.step === 4 ? "grid" : "none";
 
-        // تحديث الخلفية والخطوات وعناوين الإرشاد
         DOM.builder.style.backgroundImage = `url(${STATE.bgList[STATE.step - 1]})`;
         DOM.stepper.textContent = `Step ${STATE.step} / 4`;
         DOM.nextBtn.textContent = STATE.step === 4 ? "Add to Cart 🛒" : "Next";
 
-        // الحفاظ على عرض التسمية التوضيحية المناسبة للمكون المختار أو التوجيه الافتراضي
         const currentSelectionKey = ['base', 'type', 'coating', 'filling'][STATE.step - 1];
-        if (STATE.selections[currentSelectionKey]) {
-            DOM.activeLabel.textContent = STATE.selections[currentSelectionKey];
-        } else {
-            DOM.activeLabel.textContent = stepLabels[STATE.step];
-        }
+        DOM.activeLabel.textContent = STATE.selections[currentSelectionKey] || stepLabels[STATE.step];
+
+        // ميزة إعادة التمرير التلقائي لأعلى قائمة الخيارات عند انتقال الخطوات
+        const activeContainer = [DOM.baseOptions, DOM.typeOptions, DOM.coatingOptions, DOM.fillingOptions][STATE.step - 1];
+        activeContainer.scrollTop = 0;
     }
 
-    /**
-     * معالجة التحقق من صحة المدخلات والانتقال للخطوة التالية (Validation & Engine Flow)
-     */
     function handleNextStep() {
         if (STATE.step === 1 && !DOM.baseLayer.getAttribute('src')) return alert("Please select a base flavor first!");
         if (STATE.step === 2 && !STATE.selectedType) return alert("Please choose your preferred chocolate type!");
         if (STATE.step === 3 && !DOM.coatingLayer.getAttribute('src')) return alert("Please pick a topping coating!");
 
-        // توليد خيارات الـ Coating ديناميكياً بأمان فائق وثبات برميجي تام في الخطوة الثانية
         if (STATE.step === 2) {
             generateCoatingOptions(STATE.selectedType);
         }
@@ -645,17 +629,13 @@ const Customizer = (function() {
             STATE.step++;
             updateStepUI();
         } else {
-            // الخطوة النهائية: إرسال الطلبية بنجاح
             alert(`Delicious custom stick added to cart! 🎉\n- Base: ${STATE.selections.base}\n- Chocolate: ${STATE.selections.type}\n- Coating: ${STATE.selections.coating}\n- Filling: ${STATE.selections.filling || "None"}`);
             DOM.builder.style.display = "none";
         }
     }
 
-    /**
-     * توليد خيارات التغطية الخارجية بأداء برميجي سريع وآمن (تجنب ثغرات XSS الناتجة عن innerHTML)
-     */
     function generateCoatingOptions(type) {
-        DOM.coatingOptions.innerHTML = ""; // تنظيف آمن للحاوية قبل الحقن
+        DOM.coatingOptions.innerHTML = "";
         
         const variants = [
             { id: 'plain', name: `Plain ${type.charAt(0).toUpperCase() + type.slice(1)}` },
@@ -663,7 +643,6 @@ const Customizer = (function() {
             { id: 'hazelnut', name: 'Roasted Hazelnut Pieces' }
         ];
         
-        // استخدام DocumentFragment لتقليل عمليات الـ Repaint والـ Reflow في المتصفح لسرعة فائقة
         const fragment = document.createDocumentFragment();
         
         variants.forEach(variant => {
@@ -684,6 +663,11 @@ const Customizer = (function() {
                 DOM.coatingLayer.src = this.getAttribute('data-src');
                 updateActiveState(DOM.coatingOptions, this);
                 STATE.selections.coating = this.getAttribute('data-name');
+                this.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            });
+
+            button.addEventListener("focus", (e) => {
+                e.currentTarget.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             });
             
             fragment.appendChild(button);
@@ -692,10 +676,8 @@ const Customizer = (function() {
         DOM.coatingOptions.appendChild(fragment);
     }
 
-    // تهيئة محرك الواجهة عند انتهاء تحميل الملف بالكامل
     window.addEventListener("DOMContentLoaded", init);
 
-    // تصدير الدوال والعمليات المطلوبة فقط للتحكم الخارجي الآمن وحماية الكود من التلوث العالمي
     return {
         open: openBuilder,
         back: goBack
