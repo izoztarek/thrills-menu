@@ -1,284 +1,971 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kod El Fa7l V2</title>
-
-<script src="https://cdn.tailwindcss.com"></script>
-
-<style>
-body{margin:0;background:#0c0a09;color:#fff;font-family:Inter,sans-serif}
-.lock{overflow:hidden}
-
-/* CARD */
-.card{transition:.4s;border-radius:16px;overflow:hidden;cursor:pointer}
-.card.active{transform:scale(1.06);box-shadow:0 0 25px rgba(255,255,255,.2)}
-
-/* BUILDER */
-.layer{position:absolute;inset:0;object-fit:contain;transition:.3s}
-.fade{opacity:0;transform:scale(.95)}
-.show{opacity:1;transform:scale(1)}
-
-.option{background:#1f1f1f;padding:12px;border-radius:12px;text-align:center;cursor:pointer;transition:.3s}
-.option.active{transform:scale(1.1);box-shadow:0 0 15px #fff}
-
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Kod El Fa7l - Premium Dessert Menu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0c0a09;
+            color: #f5f5f4;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .glass-panel {
+            background: rgba(28, 25, 23, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(68, 64, 60, 0.4);
+        }
+        .glass-card {
+            background: rgba(39, 39, 42, 0.4);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(63, 63, 70, 0.3);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .glass-card.active {
+            background: linear-gradient(135deg, rgba(234, 179, 8, 0.15) 0%, rgba(251, 191, 36, 0.05) 100%);
+            border-color: #eab308;
+            box-shadow: 0 0 20px rgba(234, 179, 8, 0.25);
+            transform: scale(1.04);
+        }
+        .scroll-reveal {
+            opacity: 0.4;
+            transform: scale(0.96);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .scroll-reveal.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+        /* Custom smooth scrollbars */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0c0a09;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #44403c;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #78716c;
+        }
+        /* Lock screen when overlay or builder is functional */
+        .lock-scroll {
+            overflow: hidden !important;
+            height: 100vh !important;
+        }
+    </style>
 </head>
+<body class="bg-stone-950 text-stone-100 antialiased selection:bg-amber-500 selection:text-black">
 
-<body>
+    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+        <div class="absolute -top-[40%] -left-[30%] w-[80vw] h-[80vw] bg-amber-500/10 rounded-full blur-[120px]"></div>
+        <div class="absolute -bottom-[20%] -right-[20%] w-[70vw] h-[70vw] bg-orange-600/10 rounded-full blur-[100px]"></div>
+    </div>
 
-<!-- LOGO -->
-<div class="text-center py-6 text-2xl font-bold text-amber-400">
-KOD EL FA7L
-</div>
+    <div class="relative z-10 min-h-screen flex flex-col max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        
+        <header class="w-full flex flex-col items-center justify-center pt-4 pb-8 border-b border-stone-800/60 mb-8">
+            <div class="relative flex items-center justify-center w-20 h-20 bg-stone-900 border-2 border-amber-500 rounded-full shadow-[0_0_25px_rgba(234,179,8,0.2)] mb-3">
+                <i class="fa-solid fa-ice-cream text-3xl text-amber-500"></i>
+            </div>
+            <h1 class="text-3xl font-black tracking-tight text-center bg-gradient-to-r from-stone-100 via-amber-400 to-amber-200 bg-clip-text text-transparent">
+                KOD EL FA7L
+            </h1>
+            <p class="text-xs tracking-[0.25em] font-medium text-stone-500 uppercase mt-1">Premium Dessert Experience</p>
+        </header>
 
-<!-- GRID -->
-<div id="grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4"></div>
+        <main class="flex-grow">
+            <div id="main-menu-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+                </div>
+        </main>
 
-<!-- VIEWER -->
-<div id="viewer" class="fixed inset-0 bg-black/95 hidden flex-col z-50">
-<div class="flex justify-between p-4">
-<h2 id="viewerTitle"></h2>
-<button onclick="closeViewer()">X</button>
-</div>
-<div id="viewerImgs" class="p-4 space-y-4 overflow-y-auto"></div>
-<div id="cta" class="p-4 hidden">
-<button onclick="openBuilder(active)" class="w-full bg-amber-400 text-black py-3 rounded-xl">
-Make Your Own
-</button>
-</div>
-</div>
+        <footer class="w-full text-center py-8 text-xs text-stone-600 border-t border-stone-900 mt-12">
+            &copy; 2026 Kod El Fa7l. Built for the next generation of taste.
+        </footer>
+    </div>
 
-<!-- BUILDER -->
-<div id="builder" class="fixed inset-0 bg-black/95 hidden flex-col z-50">
+    <div id="viewer-overlay" class="fixed inset-0 z-50 invisible opacity-0 transition-all duration-300 flex flex-col bg-stone-950/95 backdrop-blur-md">
+        <div class="w-full px-6 py-4 flex items-center justify-between border-b border-stone-800/60 bg-stone-900/40">
+            <h2 id="viewer-title" class="text-xl font-bold text-stone-100 tracking-wide">Menu Section</h2>
+            <button onclick="closeViewerOverlay()" class="w-10 h-10 flex items-center justify-center rounded-full bg-stone-800/80 text-stone-400 hover:text-stone-100 hover:bg-stone-700 transition-all">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+        </div>
 
-<div class="flex justify-between p-4">
-<span id="stepTitle"></span>
-<span id="price">0 EGP</span>
-</div>
+        <div class="flex-grow overflow-y-auto px-4 py-6 flex flex-col items-center">
+            
+            <div id="viewer-gallery-container" class="w-full max-w-md space-y-6">
+                </div>
 
-<!-- PREVIEW -->
-<div class="flex-1 flex items-center justify-center relative">
-<div class="w-48 h-48 relative">
-<img id="layer1" class="layer fade">
-<img id="layer2" class="layer fade">
-<img id="layer3" class="layer fade">
-<img id="layer4" class="layer fade">
-</div>
-</div>
+            <div id="hybrid-cta-container" class="hidden w-full max-w-md mt-8 p-6 rounded-2xl border border-amber-500/30 bg-gradient-to-b from-amber-500/10 to-stone-900/60 text-center shadow-lg">
+                <h3 id="hybrid-cta-title" class="text-lg font-bold text-amber-400 mb-2">Want to create yours?</h3>
+                <p class="text-xs text-stone-400 mb-5">Customize ingredients, bases, sauces and flavors in real time.</p>
+                <button id="hybrid-cta-btn" class="w-full py-3.5 bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold rounded-xl shadow-lg transition-all transform active:scale-[0.98]">
+                    Make Your Own
+                </button>
+            </div>
+        </div>
+    </div>
 
-<!-- OPTIONS -->
-<div id="options" class="grid grid-cols-3 gap-3 p-4"></div>
+    <div id="builder-overlay" class="fixed inset-0 z-50 invisible opacity-0 transition-all duration-300 flex flex-col bg-stone-950/95 backdrop-blur-xl">
+        <div class="w-full px-6 py-4 flex items-center justify-between border-b border-stone-800/60 bg-stone-900/40">
+            <div>
+                <h2 id="builder-menu-title" class="text-lg font-bold text-stone-100">Custom Builder</h2>
+                <p id="builder-live-price" class="text-xs font-semibold text-amber-400 mt-0.5">Total: 0 EGP</p>
+            </div>
+            <button onclick="closeCustomBuilderOverlay()" class="w-10 h-10 flex items-center justify-center rounded-full bg-stone-800/80 text-stone-400 hover:text-stone-100 hover:bg-stone-700 transition-all">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+        </div>
 
-<!-- BUTTONS -->
-<div class="flex justify-between p-4">
-<button onclick="prev()">Back</button>
-<button id="next" onclick="next()">Next</button>
-</div>
+        <div id="builder-stepper" class="w-full px-6 py-3 flex items-center justify-center gap-2 bg-stone-900/20 border-b border-stone-900/50">
+            </div>
 
-</div>
+        <div class="flex-grow overflow-y-auto flex flex-col md:flex-row pb-32">
+            
+            <div id="preview-canvas-area" class="w-full md:w-1/2 flex flex-col items-center justify-center p-6 min-h-[280px] md:min-h-[auto] bg-stone-950/40 sticky top-0 md:relative z-20 backdrop-blur-sm md:backdrop-blur-none border-b md:border-b-0 md:border-r border-stone-900/60 bg-cover bg-center">
+                <div class="relative w-48 h-48 sm:w-64 sm:h-64 flex items-center justify-center bg-stone-900/10 rounded-3xl border border-stone-800/20 p-4 shadow-inner">
+                    <img id="layer-base" class="absolute inset-0 w-full h-full object-contain p-4 transition-all duration-300 opacity-0 transform scale-95" alt="Base">
+                    <img id="layer-mod1" class="absolute inset-0 w-full h-full object-contain p-4 transition-all duration-300 opacity-0 transform scale-95" alt="Modifier 1">
+                    <img id="layer-mod2" class="absolute inset-0 w-full h-full object-contain p-4 transition-all duration-300 opacity-0 transform scale-95" alt="Modifier 2">
+                    <img id="layer-mod3" class="absolute inset-0 w-full h-full object-contain p-4 transition-all duration-300 opacity-0 transform scale-95" alt="Modifier 3">
+                    
+                    <div id="preview-loader" class="absolute inset-0 flex items-center justify-center bg-stone-950/60 rounded-3xl hidden">
+                        <i class="fa-solid fa-circle-notch fa-spin text-2xl text-amber-500"></i>
+                    </div>
+                </div>
+                <p id="preview-composition-desc" class="text-center text-xs text-stone-400 font-medium px-4 mt-4 max-w-xs bg-stone-950/80 py-1.5 px-3 rounded-full backdrop-blur-sm border border-stone-800/60">Select options to compose your custom creation</p>
+            </div>
 
-<script>
+            <div class="w-full md:w-1/2 p-6 flex flex-col">
+                <div class="mb-4">
+                    <span id="step-badge" class="px-2.5 py-1 text-[10px] uppercase font-bold tracking-widest bg-amber-500/10 text-amber-400 rounded-md border border-amber-500/20">Step 1</span>
+                    <h3 id="step-display-title" class="text-xl font-extrabold text-stone-100 mt-2">Choose Base</h3>
+                    <p id="step-display-desc" class="text-xs text-stone-400 mt-1">Select the foundational layout variant for your dessert.</p>
+                </div>
 
-/* MENU */
+                <div id="options-matrix-grid" class="grid grid-cols-2 gap-3 mt-2">
+                    </div>
+            </div>
+        </div>
 
-const MENU=[
-{id:"ice",type:"custom",img:"assets/menu/ice-cream.jpg"},
-{id:"mini",type:"static",img:"assets/menu/mini.jpg",folder:"mini"},
-{id:"v60",type:"static",img:"assets/menu/v60.jpg",folder:"v60"},
-{id:"coldbrew",type:"static",img:"assets/menu/cold-brew.jpg",folder:"coldbrew"},
-{id:"matcha",type:"static",img:"assets/menu/matcha.jpg",folder:"matcha"},
-{id:"waffle",type:"hybrid",img:"assets/menu/waffle.jpg",folder:"waffle"},
-{id:"milk",type:"hybrid",img:"assets/menu/milkshake.jpg",folder:"milkshake"},
-{id:"special",type:"static",img:"assets/menu/special.jpg",folder:"special"}
-];
+        <div class="absolute bottom-0 inset-x-0 glass-panel border-t border-stone-800/60 p-5 flex items-center justify-between z-30">
+            <button id="btn-builder-prev" onclick="handleBuilderBack()" class="px-5 py-3.5 bg-stone-800 hover:bg-stone-700 text-stone-300 text-sm font-bold rounded-xl transition-all disabled:opacity-30 disabled:pointer-events-none">
+                <i class="fa-solid fa-arrow-left mr-2"></i> Back
+            </button>
+            <button id="btn-builder-next" onclick="handleBuilderNext()" class="px-8 py-3.5 bg-amber-500 hover:bg-amber-400 text-stone-950 text-sm font-bold rounded-xl shadow-lg shadow-amber-500/10 transition-all disabled:opacity-40 disabled:cursor-not-allowed transform active:scale-[0.98]">
+                Next Step <i class="fa-solid fa-arrow-right ml-2"></i>
+            </button>
+        </div>
+    </div>
 
-const grid=document.getElementById("grid");
+    <div id="summary-overlay" class="fixed inset-0 z-[60] invisible opacity-0 transition-all duration-300 flex items-center justify-center p-4 bg-stone-950/90 backdrop-blur-md">
+        <div class="w-full max-w-md glass-panel rounded-3xl p-6 border border-stone-800/80 shadow-2xl relative overflow-hidden transform scale-95 transition-all duration-300">
+            <div class="absolute -top-12 -right-12 w-32 h-32 bg-amber-500/10 rounded-full blur-xl pointer-events-none"></div>
+            
+            <div class="text-center mb-6">
+                <div class="w-14 h-14 bg-amber-500/20 text-amber-400 border border-amber-500/30 rounded-full flex items-center justify-center mx-auto mb-3 text-xl shadow-lg">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                </div>
+                <h3 class="text-2xl font-black tracking-tight text-stone-100">Your Masterpiece!</h3>
+                <p class="text-xs text-stone-400 mt-1">Here is a summary of your customized creation</p>
+            </div>
 
-MENU.forEach(m=>{
-let d=document.createElement("div");
-d.className="card bg-stone-800";
-d.innerHTML=`<img src="${m.img}" class="w-full h-40 object-cover">`;
-d.onclick=()=>openSection(m);
-grid.appendChild(d);
-});
+            <div id="summary-items-box" class="space-y-2.5 my-4 bg-stone-900/50 p-4 rounded-xl border border-stone-800/40 max-h-[220px] overflow-y-auto">
+                </div>
 
-/* VIEWER */
+            <div class="flex items-center justify-between border-t border-stone-800/60 pt-4 mt-5">
+                <span class="text-sm font-medium text-stone-400">Total Calculation Value</span>
+                <span id="summary-final-price" class="text-xl font-black text-amber-400">0 EGP</span>
+            </div>
 
-let active=null;
+            <div class="grid grid-cols-2 gap-3 mt-6">
+                <button onclick="closeSummaryAndReopenBuilder()" class="py-3 bg-stone-800 hover:bg-stone-700 text-stone-300 text-xs font-bold rounded-xl transition-all">
+                    <i class="fa-solid fa-rotate-left mr-1.5"></i> Re-configure
+                </button>
+                <button onclick="clearAllOverlays()" class="py-3 bg-amber-500 hover:bg-amber-400 text-stone-950 text-xs font-bold rounded-xl shadow-md transition-all">
+                    Done Exploring
+                </button>
+            </div>
+        </div>
+    </div>
 
-function openSection(m){
-active=m.id;
 
-if(m.type==="custom"){openBuilder(m.id);return;}
+    <script>
+        // ==========================================
+        // 1. DATA DEFINITIONS & DATABASE SIMULATION
+        // ==========================================
 
-viewer.classList.remove("hidden");
-viewerImgs.innerHTML="";
-viewerTitle.innerText=m.id;
+        const MENU_DATA = [
+            { id: "ice-cream", name: "Ice Cream", type: "custom", baseImage: "assets/menu/ice-cream.jpg", desc: "Premium custom churn core builder experience" },
+            { id: "mini-ice-cream", name: "Mini Ice Cream", type: "static", baseImage: "assets/menu/mini.jpg", desc: "Curated rich assortment of 11 premium flavors", count: 11, folder: "mini", prefix: "mini" },
+            { id: "v60", name: "V60", type: "static", baseImage: "assets/menu/v60.jpg", desc: "Artisanal hand-poured single origin pour-overs", count: 3, folder: "v60", prefix: "v60" },
+            { id: "cold-brew", name: "Cold Brew", type: "static", baseImage: "assets/menu/cold-brew.jpg", desc: "Slow steeped, clean profile chilled essence extracts", count: 3, folder: "coldbrew", prefix: "coldbrew" },
+            { id: "matcha", name: "Matcha", type: "static", baseImage: "assets/menu/matcha.jpg", desc: "Uji-sourced stone-ground shade grown teas", count: 3, folder: "matcha", prefix: "matcha" },
+            { id: "tree-waffle", name: "Tree Waffle", type: "hybrid", baseImage: "assets/menu/waffle.jpg", desc: "Signature golden geometric grid waffle bars", count: 3, folder: "waffle", prefix: "waffle" },
+            { id: "milkshake", name: "Milkshake", type: "hybrid", baseImage: "assets/menu/milkshake.jpg", desc: "Velvety hand-spun hyper blended milkshakes", count: 3, folder: "milkshake", prefix: "milkshake" },
+            { id: "special-drinks", name: "Special Drinks", type: "static", baseImage: "assets/menu/special.jpg", desc: "In-house custom conceptual signature configurations", count: 3, folder: "special", prefix: "special" }
+        ];
 
-for(let i=1;i<=3;i++){
-let img=document.createElement("img");
-img.src=`assets/${m.folder}/${m.folder}${i}.jpg`;
-img.className="w-full";
-viewerImgs.appendChild(img);
-}
+        // Custom builders technical workflow steps tracking structures matching repository files structure perfectly
+        const BUILDER_SCHEMAS = {
+            "ice-cream": {
+                title: "Ice Cream Laboratory",
+                basePrice: 45,
+                steps: [
+                    {
+                        id: "base",
+                        title: "Choose Base",
+                        desc: "Select foundational churn template architecture layer",
+                        bgImage: "images/bg/base-bg.jpg",
+                        options: [
+                            { id: "vanilla", name: "Classic Vanilla", price: 0, image: "images/base/vanilla.png" },
+                            { id: "chocolate", name: "Chocolate Base", price: 5, image: "images/base/chocolate.png" },
+                            { id: "pistachio", name: "Pistachio Base", price: 15, image: "images/base/pistachio.png" },
+                            { id: "hazelnut", name: "Hazelnut Base", price: 12, image: "images/base/hazelnut.png" },
+                            { id: "yogurt_berry", name: "Yogurt Berry", price: 10, image: "images/base/yogurt_berry.png" }
+                        ]
+                    },
+                    {
+                        id: "type",
+                        title: "Choose Chocolate Type",
+                        desc: "Inject premium hot standard core layer core base selection melt",
+                        bgImage: "images/bg/type-bg.jpg",
+                        options: [
+                            { id: "milk-t", name: "Milk Chocolate", price: 10, image: "images/type/milk.jpg" },
+                            { id: "dark-t", name: "Dark Chocolate", price: 10, image: "images/type/dark.jpg" },
+                            { id: "white-t", name: "White Chocolate", price: 12, image: "images/type/white.jpg" }
+                        ]
+                    },
+                    {
+                        id: "coating",
+                        title: "Choose Coating",
+                        desc: "Hardening snap shell outer coating outer armor component",
+                        bgImage: "images/bg/coating-bg.jpg",
+                        options: [
+                            { id: "milk_plain", name: "Milk Plain", price: 10, image: "images/coating/milk_plain.png" },
+                            { id: "milk_hazelnut", name: "Milk Hazelnut", price: 15, image: "images/coating/milk_hazelnut.png" },
+                            { id: "milk_pistachio", name: "Milk Pistachio", price: 18, image: "images/coating/milk_pistachio.png" },
+                            { id: "dark_plain", name: "Dark Plain", price: 10, image: "images/coating/dark_plain.png" },
+                            { id: "dark_hazelnut", name: "Dark Hazelnut", price: 15, image: "images/coating/dark_hazelnut.png" },
+                            { id: "dark_pistachio", name: "Dark Pistachio", price: 18, image: "images/coating/dark_pistachio.png" }
+                        ]
+                    },
+                    {
+                        id: "filling",
+                        title: "Choose Filling",
+                        desc: "Internal foundational pocket blast core liquid element injectable",
+                        bgImage: "images/bg/filling-bg.jpg",
+                        options: [
+                            { id: "caramel-f", name: "Caramel Filling", price: 12, image: "images/filling/caramel.png" },
+                            { id: "berry-f", name: "Berry Filling", price: 10, image: "images/filling/berry.png" },
+                            { id: "chocolate-f", name: "Chocolate Filling", price: 10, image: "images/filling/chocolate.png" },
+                            { id: "lotus-f", name: "Lotus Filling", price: 14, image: "images/filling/lotus.png" },
+                            { id: "milk-f", name: "Milk Filling", price: 8, image: "images/filling/milk.png" },
+                            { id: "pistachio-f", name: "Pistachio Filling", price: 15, image: "images/filling/pistachio.png" }
+                        ]
+                    }
+                ]
+            },
+            "tree-waffle": {
+                title: "Tree Waffle Architect",
+                basePrice: 50,
+                steps: [
+                    {
+                        id: "base",
+                        title: "Waffle Grid Base",
+                        desc: "Standard base template setup confirmation framework",
+                        bgImage: "images/bg/base-bg.jpg",
+                        options: [
+                            { id: "signature-waffle", name: "Classic Golden Waffle Base", price: 0, image: "images/base/vanilla.png" }
+                        ]
+                    },
+                    {
+                        id: "sauce",
+                        title: "Choose Sauce Type",
+                        desc: "Primary premium surface flooding sauce fluid overlay configuration",
+                        bgImage: "images/bg/type-bg.jpg",
+                        options: [
+                            { id: "w-milk", name: "Milk Chocolate Drizzle", price: 10, image: "images/type/milk.jpg" },
+                            { id: "w-dark", name: "Dark Chocolate Silk", price: 10, image: "images/type/dark.jpg" },
+                            { id: "w-white", name: "White Velvet Drizzle", price: 12, image: "images/type/white.jpg" }
+                        ]
+                    },
+                    {
+                        id: "toppings",
+                        title: "Select Crust Toppings",
+                        desc: "Crisp structural aggregate textures to sprinkle across profile surface",
+                        bgImage: "images/bg/coating-bg.jpg",
+                        options: [
+                            { id: "w-hazelnut", name: "Crushed Hazelnuts", price: 12, image: "images/coating/milk_hazelnut.png" },
+                            { id: "w-pistachio", name: "Pistachio Shards", price: 15, image: "images/coating/milk_pistachio.png" }
+                        ]
+                    },
+                    {
+                        id: "filling",
+                        title: "Optional Filling Core",
+                        desc: "Optional addition element to enrich general structure density",
+                        bgImage: "images/bg/filling-bg.jpg",
+                        options: [
+                            { id: "w-fill-caramel", name: "Caramel Core", price: 12, image: "images/filling/caramel.png" },
+                            { id: "w-fill-lotus", name: "Lotus Core", price: 14, image: "images/filling/lotus.png" }
+                        ]
+                    }
+                ]
+            },
+            "milkshake": {
+                title: "Milkshake Lab Formulation",
+                basePrice: 60,
+                steps: [
+                    {
+                        id: "base",
+                        title: "STEP 1: Choose Base Blend",
+                        desc: "Select foundational hand-spun dairy cream profile structure variant",
+                        bgImage: "images/bg/base-bg.jpg",
+                        options: [
+                            { id: "shake-vanilla", name: "Vanilla Base Blend", price: 0, image: "images/base/vanilla.png" },
+                            { id: "shake-chocolate", name: "Chocolate Base Blend", price: 5, image: "images/base/chocolate.png" }
+                        ]
+                    },
+                    {
+                        id: "category",
+                        title: "STEP 2: Select Profile Direction",
+                        desc: "Filters focus dynamically to structure customized sub-selections pathing",
+                        bgImage: "images/bg/type-bg.jpg",
+                        options: [
+                            { id: "cat-choc", name: "Chocolate Matrix", price: 0, image: "images/type/dark.jpg", branch: "chocolate" },
+                            { id: "cat-fruit", name: "Fruits Matrix", price: 0, image: "images/type/white.jpg", branch: "fruits" },
+                            { id: "cat-mix", name: "Hybrid Fusion Blend", price: 10, image: "images/type/milk.jpg", branch: "mix" }
+                        ]
+                    },
+                    {
+                        id: "dynamic-step",
+                        title: "STEP 3: Flavor Element Injections",
+                        desc: "Conditional runtime properties generation mapping matrix layer nodes",
+                        bgImage: "images/bg/filling-bg.jpg",
+                        options: [] // Populates dynamically via contextual selection state filters engine
+                    }
+                ]
+            }
+        };
 
-if(m.type==="hybrid"){
-cta.classList.remove("hidden");
-}else{
-cta.classList.add("hidden");
-}
-}
+        // Milkshake specialized dynamic sub-options branch index structures pointing to accurate paths
+        const SHAKE_DYNAMIC_OPTIONS = {
+            "chocolate": [
+                { id: "f-chocolate", name: "Chocolate Filling Swirl", price: 10, image: "images/filling/chocolate.png" },
+                { id: "f-lotus", name: "Lotus Crunch Crumb", price: 14, image: "images/filling/lotus.png" }
+            ],
+            "fruits": [
+                { id: "f-berry", name: "Wild Field Raspberry Coulis", price: 10, image: "images/filling/berry.png" }
+            ]
+        };
 
-function closeViewer(){
-viewer.classList.add("hidden");
-}
 
-/* BUILDER */
+        // ==========================================
+        // 2. STATE ARCHITECTURE APPLICATION LAYER
+        // ==========================================
+        
+        let currentActiveSectionId = null;
+        let builderActiveSchemaId = null;
+        let builderCurrentStepIndex = 0;
+        let builderSelectedSelections = {}; // Schema steps mapping structures selections store object
 
-let step=0;
-let total=0;
 
-let selections={};
+        // ==========================================
+        // 3. CORE ROUTING & VIEW CONTROLLERS 
+        // ==========================================
 
-const STEPS=[
-{
-name:"Base",
-key:"base",
-price:45,
-options:[
-"base-vanilla.png",
-"base-chocolate.png",
-"base-pistachio.png"
-]
-},
-{
-name:"Chocolate",
-key:"choc",
-price:10,
-options:[
-"choc-milk.png",
-"choc-dark.png",
-"choc-white.png"
-]
-},
-{
-name:"Coating",
-key:"coat",
-price:20,
-options:[
-"coat-lotus.png",
-"coat-rocher.png"
-]
-},
-{
-name:"Filling",
-key:"fill",
-price:10,
-options:[
-"fill-caramel.png",
-"fill-nutella.png",
-"fill-berry.png"
-]
-}
-];
+        document.addEventListener("DOMContentLoaded", () => {
+            initializeMainMenuGrid();
+            setupIntersectionAutoObserver();
+        });
 
-function openBuilder(){
-builder.classList.remove("hidden");
-step=0;
-total=0;
-selections={};
-render();
-}
+        function initializeMainMenuGrid() {
+            const grid = document.getElementById("main-menu-grid");
+            grid.innerHTML = "";
 
-/* RENDER */
+            MENU_DATA.forEach(item => {
+                const card = document.createElement("div");
+                card.className = "scroll-reveal glass-card rounded-2xl overflow-hidden cursor-pointer flex flex-col group relative";
+                card.dataset.id = item.id;
+                
+                // Content UI construction adhering to rigid design rules (Dark overlay background + Centered labels)
+                card.innerHTML = `
+                    <div class="relative w-full aspect-square overflow-hidden bg-stone-900">
+                        <img src="${item.baseImage}" alt="${item.name}" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-75">
+                        <div class="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-950/40 to-stone-900/20 group-hover:via-stone-950/30 transition-all duration-300"></div>
+                        
+                        <div class="absolute top-2.5 right-2.5 px-2 py-0.5 text-[9px] font-bold tracking-wider rounded bg-stone-950/80 backdrop-blur text-stone-400 border border-stone-800 uppercase">
+                            ${item.type === 'custom' ? '<span class="text-amber-400"><i class="fa-solid fa-wand-magic-sparkles mr-1"></i>Builder</span>' : item.type === 'hybrid' ? 'Menu + Build' : 'Menu'}
+                        </div>
+                    </div>
+                    <div class="p-4 flex-grow flex flex-col justify-between bg-stone-900/30 border-t border-stone-900/60">
+                        <div>
+                            <h3 class="text-base font-bold text-stone-100 tracking-tight group-hover:text-amber-400 transition-colors">${item.name}</h3>
+                            <p class="text-xs text-stone-500 line-clamp-2 mt-1 leading-relaxed font-light">${item.desc}</p>
+                        </div>
+                        <div class="mt-3 pt-2.5 border-t border-stone-800/40 flex items-center text-xs font-semibold text-amber-500 group-hover:translate-x-1 transition-transform">
+                            ${item.type === 'custom' ? 'Open Customizer' : 'View Selections'} <i class="fa-solid fa-chevron-right text-[10px] ml-1.5"></i>
+                        </div>
+                    </div>
+                `;
 
-function render(){
-stepTitle.innerText=STEPS[step].name;
-options.innerHTML="";
+                // Navigation execution pipeline rules routing gateway logic assignment
+                card.addEventListener("click", () => handleMenuCardClick(item));
+                grid.appendChild(card);
+            });
+        }
 
-STEPS[step].options.forEach(o=>{
-let el=document.createElement("div");
-el.className="option";
-el.innerText=o;
+        function handleMenuCardClick(item) {
+            currentActiveSectionId = item.id;
+            
+            if (item.type === "custom") {
+                // Ice Cream (MAIN CUSTOM BUILDER) -> open builder directly bypassing asset views gallery module
+                openCustomBuilder(item.id);
+            } else if (item.type === "static") {
+                // Static section target execution structure -> view images only context layout
+                openImageViewerOnly(item);
+            } else if (item.type === "hybrid") {
+                // Hybrid structure rule (Milkshake / Tree Waffle) -> open images first, then display clear customizer transition CTA bridges
+                openHybridViewer(item);
+            }
+        }
 
-el.onclick=()=>{
-select(o,el);
-};
+        // Auto Focus Scaling System utilizing an intersection entry observer metrics standard
+        function setupIntersectionAutoObserver() {
+            const options = { root: null, rootMargin: "0px", threshold: 0.25 };
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("visible");
+                        entry.target.classList.add("shadow-[0_10px_30px_rgba(0,0,0,0.5)]");
+                    } else {
+                        entry.target.classList.remove("visible");
+                        entry.target.classList.remove("shadow-[0_10px_30px_rgba(0,0,0,0.5)]");
+                    }
+                });
+            }, options);
 
-options.appendChild(el);
-});
-}
+            setTimeout(() => {
+                document.querySelectorAll(".scroll-reveal").forEach(el => observer.observe(el));
+            }, 300);
+        }
 
-/* SELECT */
 
-function select(o,el){
+        // ==========================================
+        // 4. IMAGE GALLERY VIEWER SUBSYSTEM
+        // ==========================================
 
-document.querySelectorAll(".option").forEach(x=>x.classList.remove("active"));
-el.classList.add("active");
+        function openImageViewerOnly(item) {
+            document.body.classList.add("lock-scroll");
+            const overlay = document.getElementById("viewer-overlay");
+            const title = document.getElementById("viewer-title");
+            const galleryContainer = document.getElementById("viewer-gallery-container");
+            const hybridCta = document.getElementById("hybrid-cta-container");
 
-selections[STEPS[step].key]=o;
+            title.innerText = item.name;
+            hybridCta.classList.add("hidden"); // Enforce pure static containment enforcement
+            galleryContainer.innerHTML = "";
 
-total = calcPrice();
-price.innerText=total+" EGP";
+            // Dynamic asset assembly parser generation loop engine
+            if (item.id === "mini-ice-cream") {
+                // Show ready products only - around 11 flavors inside structural assets pipeline loop
+                for (let i = 1; i <= 11; i++) {
+                    appendImageItemNode(galleryContainer, item.folder, `${item.prefix}${i}.jpg`, `Flavor Formulation Track v0${i}`);
+                }
+            } else {
+                for (let i = 1; i <= (item.count || 3); i++) {
+                    appendImageItemNode(galleryContainer, item.folder, `${item.prefix}${i}.jpg`, `${item.name} Edition Variant Selection Option 0${i}`);
+                }
+            }
 
-updatePreview();
-}
+            overlay.classList.remove("invisible", "opacity-0");
+        }
 
-/* PREVIEW LAYERS */
+        function openHybridViewer(item) {
+            document.body.classList.add("lock-scroll");
+            const overlay = document.getElementById("viewer-overlay");
+            const title = document.getElementById("viewer-title");
+            const galleryContainer = document.getElementById("viewer-gallery-container");
+            const hybridCta = document.getElementById("hybrid-cta-container");
+            const hybridCtaTitle = document.getElementById("hybrid-cta-title");
+            const hybridCtaBtn = document.getElementById("hybrid-cta-btn");
 
-function updatePreview(){
+            title.innerText = `${item.name} House Menu`;
+            galleryContainer.innerHTML = "";
 
-const map=[
-"layer1",
-"layer2",
-"layer3",
-"layer4"
-];
+            // Inject the 3 specific standardized immutable ready-to-consume product line assets inside layout canvas frame
+            for (let i = 1; i <= 3; i++) {
+                appendImageItemNode(galleryContainer, item.folder, `${item.prefix}${i}.jpg`, `Signature Premade ${item.name} Concept Item 0${i}`);
+            }
 
-Object.keys(selections).forEach((k,i)=>{
-let img=document.getElementById(map[i]);
-img.src="assets/ice-cream/"+selections[k];
-img.classList.remove("fade");
-img.classList.add("show");
-});
-}
+            // Expose the "Make Your Own" custom builder pathway bridge anchor control mechanics interface blocks
+            hybridCtaTitle.innerText = `Make Your Own ${item.name}`;
+            hybridCta.classList.remove("hidden");
+            
+            hybridCtaBtn.onclick = () => {
+                closeViewerOverlay();
+                openCustomBuilder(item.id);
+            };
 
-/* PRICE */
+            overlay.classList.remove("invisible", "opacity-0");
+        }
 
-function calcPrice(){
-let p=0;
-Object.keys(selections).forEach((k,i)=>{
-p+=STEPS[i].price;
-});
-return p;
-}
+        // DOM element compilation factories for image viewing streams
+        function appendImageItemNode(parent, folder, filename, labelText) {
+            const container = document.createElement("div");
+            container.className = "w-full rounded-2xl bg-stone-900/60 border border-stone-800/80 overflow-hidden flex flex-col shadow-lg";
+            
+            // EXACT NAME CONSTRAINTS IMPLEMENTED VIA HARDCODED COMMENTARY AS REQUESTED:
+            // This references standard GitHub paths e.g. assets/v60/v601.jpg, assets/coldbrew/coldbrew1.jpg, assets/waffle/waffle1.jpg, etc.
+            const imagePath = `assets/${folder}/${filename}`;
 
-/* NAV */
+            container.innerHTML = `
+                <div class="w-full aspect-[4/3] bg-stone-950 relative flex items-center justify-center overflow-hidden">
+                    <img src="${imagePath}" alt="${labelText}" loading="lazy" 
+                         onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1551024601-bec78aea704b?w=500&auto=format&fit=crop&q=60'; this.nextElementSibling.classList.remove('hidden');"
+                         class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-stone-900/90 flex flex-col items-center justify-center p-4 text-center hidden pointer-events-none">
+                        <i class="fa-solid fa-image text-2xl text-stone-600 mb-2"></i>
+                        <p class="text-xs text-stone-500 font-mono">${folder}/${filename}</p>
+                    </div>
+                </div>
+                <div class="p-3 bg-stone-900/40 flex items-center justify-between border-t border-stone-900/40">
+                    <span class="text-xs font-semibold tracking-wide text-stone-200">${labelText}</span>
+                    <span class="text-[10px] uppercase font-bold px-2 py-0.5 bg-stone-800 text-stone-400 rounded">Ready Base</span>
+                </div>
+            `;
+            parent.appendChild(container);
+        }
 
-function next(){
-if(!selections[STEPS[step].key]) return;
+        function closeViewerOverlay() {
+            document.body.classList.remove("lock-scroll");
+            const overlay = document.getElementById("viewer-overlay");
+            overlay.classList.add("invisible", "opacity-0");
+        }
 
-if(step<STEPS.length-1){
-step++;
-render();
-}else{
-alert("Order Ready!");
-builder.classList.add("hidden");
-}
-}
 
-function prev(){
-if(step>0){
-step--;
-render();
-}else{
-builder.classList.add("hidden");
-}
-}
+        // ==========================================
+        // 5. CUSTOM BUILDER REAL-TIME SYSTEM ENGINE
+        // ==========================================
 
-</script>
+        function openCustomBuilder(schemaId) {
+            document.body.classList.add("lock-scroll");
+            builderActiveSchemaId = schemaId;
+            builderCurrentStepIndex = 0;
+            builderSelectedSelections = {}; // Clear previous context configurations stores instances safely
 
+            const schema = BUILDER_SCHEMAS[schemaId];
+            document.getElementById("builder-menu-title").innerText = schema.title;
+            
+            // Build initialization parameters tracking architectures setup triggers
+            initializeStepperUI(schema);
+            renderBuilderCurrentStep();
+
+            const builderOverlay = document.getElementById("builder-overlay");
+            builderOverlay.classList.remove("invisible", "opacity-0");
+        }
+
+        function initializeStepperUI(schema) {
+            const stepper = document.getElementById("builder-stepper");
+            stepper.innerHTML = "";
+            
+            schema.steps.forEach((step, index) => {
+                const stepDot = document.createElement("div");
+                stepDot.id = `step-dot-${index}`;
+                stepDot.className = `h-1.5 rounded-full transition-all duration-300 ${index === 0 ? "w-8 bg-amber-500" : "w-3 bg-stone-800"}`;
+                stepper.appendChild(stepDot);
+            });
+        }
+
+        function updateStepperUI() {
+            const schema = BUILDER_SCHEMAS[builderActiveSchemaId];
+            schema.steps.forEach((_, index) => {
+                const stepDot = document.getElementById(`step-dot-${index}`);
+                if (stepDot) {
+                    if (index === builderCurrentStepIndex) {
+                        stepDot.className = "h-1.5 w-8 bg-amber-500 transition-all duration-300";
+                    } else if (index < builderCurrentStepIndex) {
+                        stepDot.className = "h-1.5 w-3 bg-amber-600/70 transition-all duration-300";
+                    } else {
+                        stepDot.className = "h-1.5 w-3 bg-stone-800 transition-all duration-300";
+                    }
+                }
+            });
+        }
+
+        function renderBuilderCurrentStep() {
+            const schema = BUILDER_SCHEMAS[builderActiveSchemaId];
+            
+            // Structural branching intercept logic execution mapping for Milkshake Step 3 Dynamic parameters tracking
+            if (builderActiveSchemaId === "milkshake" && builderCurrentStepIndex === 2) {
+                configureMilkshakeDynamicStepSchema(schema);
+            }
+
+            const stepData = schema.steps[builderCurrentStepIndex];
+            
+            // Dynamic Preview Canvas Background Image Sync
+            const canvasArea = document.getElementById("preview-canvas-area");
+            if (stepData.bgImage) {
+                canvasArea.style.backgroundImage = `url('${stepData.bgImage}')`;
+            } else {
+                canvasArea.style.backgroundImage = "none";
+            }
+            
+            // DOM texts update updates arrays mapping executions
+            document.getElementById("step-badge").innerText = `Step ${builderCurrentStepIndex + 1} of ${schema.steps.length}`;
+            document.getElementById("step-display-title").innerText = stepData.title;
+            document.getElementById("step-display-desc").innerText = stepData.desc;
+
+            // Generate selection option card matrices UI blocks instances components
+            const matrixGrid = document.getElementById("options-matrix-grid");
+            matrixGrid.innerHTML = "";
+
+            stepData.options.forEach(opt => {
+                const optCard = document.createElement("div");
+                
+                // Track currently active selected status elements states variables mappings
+                const isSelected = builderSelectedSelections[stepData.id] && (
+                    Array.isArray(builderSelectedSelections[stepData.id]) 
+                    ? builderSelectedSelections[stepData.id].some(s => s.id === opt.id)
+                    : builderSelectedSelections[stepData.id].id === opt.id
+                );
+
+                optCard.className = `glass-card p-4 rounded-xl cursor-pointer flex flex-col justify-between min-h-[110px] ${isSelected ? "active" : ""}`;
+                
+                const trackingPriceDisplay = opt.price > 0 ? `+${opt.price} EGP` : "Included";
+                
+                optCard.innerHTML = `
+                    <div class="flex items-start justify-between gap-1">
+                        <span class="text-xs font-bold text-stone-100 tracking-tight leading-tight">${opt.name}</span>
+                        ${isSelected ? '<i class="fa-solid fa-circle-check text-amber-400 text-sm shrink-0"></i>' : '<div class="w-3.5 h-3.5 rounded-full border border-stone-600 shrink-0 mt-0.5"></div>'}
+                    </div>
+                    <div class="mt-4 flex items-center justify-between">
+                        <span class="text-[10px] font-mono font-semibold text-amber-500/90">${trackingPriceDisplay}</span>
+                        <div class="w-6 h-6 rounded-full bg-stone-900 flex items-center justify-center border border-stone-800 text-[10px] text-stone-500">
+                            <i class="fa-solid fa-plus"></i>
+                        </div>
+                    </div>
+                `;
+
+                optCard.onclick = () => selectBuilderOption(stepData, opt);
+                matrixGrid.appendChild(optCard);
+            });
+
+            // Evaluation logic execution configuration to enforce disabled next tracking navigation flows rules parameters
+            evaluateNavigationControlState();
+            updateStepperUI();
+            calculateLivePriceTrackers();
+        }
+
+        // Milkshake multi-category step structural processing logic algorithms
+        function configureMilkshakeDynamicStepSchema(schema) {
+            const targetStepNode = schema.steps[2];
+            const chosenCategorySelection = builderSelectedSelections["category"];
+            const branchId = chosenCategorySelection.branch;
+
+            if (branchId === "chocolate") {
+                targetStepNode.title = "STEP 3: Choose Chocolates";
+                targetStepNode.desc = "Select premium rich cocoa compound extensions to mix into your cream blend";
+                targetStepNode.options = SHAKE_DYNAMIC_OPTIONS["chocolate"];
+                targetStepNode.allowMultiple = false;
+            } else if (branchId === "fruits") {
+                targetStepNode.title = "STEP 3: Choose Fresh Fruits";
+                targetStepNode.desc = "Select premium organic direct field-harvested fructose elements textures infusions";
+                targetStepNode.options = SHAKE_DYNAMIC_OPTIONS["fruits"];
+                targetStepNode.allowMultiple = false;
+            } else if (branchId === "mix") {
+                targetStepNode.title = "STEP 3: Premium Hybrid Fusion Mix";
+                targetStepNode.desc = "Select exactly one item component element from BOTH chocolate AND fruit tracks below";
+                
+                // Concat structures securely mapped into single flattened layout layer index fields options
+                targetStepNode.options = [
+                    ...SHAKE_DYNAMIC_OPTIONS["chocolate"].map(o => ({...o, name: `[Choc] ${o.name}`, origin: "chocolate"})),
+                    ...SHAKE_DYNAMIC_OPTIONS["fruits"].map(o => ({...o, name: `[Fruit] ${o.name}`, origin: "fruits"}))
+                ];
+                targetStepNode.allowMultiple = true;
+            }
+        }
+
+        function selectBuilderOption(stepData, option) {
+            if (stepData.allowMultiple) {
+                // Specialized hybrid validation execution routing configuration mechanics tracking context
+                let currentList = builderSelectedSelections[stepData.id] || [];
+                
+                const existingIndex = currentList.findIndex(item => item.id === option.id);
+                if (existingIndex > -1) {
+                    currentList.splice(existingIndex, 1);
+                } else {
+                    // Rule check for Mix category step criteria logic alignment constraint validations parameters
+                    if (builderActiveSchemaId === "milkshake" && stepData.id === "dynamic-step") {
+                        const countOfSameOrigin = currentList.filter(item => item.origin === option.origin).length;
+                        if (countOfSameOrigin >= 1) {
+                            // Enforce rule constraint: evict the previous option item belonging to same lineage block track category instantly
+                            currentList = currentList.filter(item => item.origin !== option.origin);
+                        }
+                    }
+                    currentList.push(option);
+                }
+                builderSelectedSelections[stepData.id] = currentList;
+            } else {
+                // Standard default configuration flow execution: save directly as structural item entry mapping instance
+                builderSelectedSelections[stepData.id] = option;
+            }
+
+            // Execute instantaneous live preview composition canvas texture layers synchronization
+            synchronizeLivePreviewLayers();
+            renderBuilderCurrentStep();
+        }
+
+        // VISUAL PREVIEW SYSTEM - Visual rendering layers assembler pipeline engine
+        function synchronizeLivePreviewLayers() {
+            const baseImg = document.getElementById("layer-base");
+            const mod1Img = document.getElementById("layer-mod1");
+            const mod2Img = document.getElementById("layer-mod2");
+            const mod3Img = document.getElementById("layer-mod3");
+            const loader = document.getElementById("preview-loader");
+
+            // Flash loader element node smoothly to reinforce responsive perception updates states parameters
+            loader.classList.remove("hidden");
+            setTimeout(() => loader.classList.add("hidden"), 200);
+
+            const stepsList = BUILDER_SCHEMAS[builderActiveSchemaId].steps;
+            
+            // Layer 1: Base Element Synchronization
+            if (stepsList[0] && builderSelectedSelections[stepsList[0].id]) {
+                baseImg.src = builderSelectedSelections[stepsList[0].id].image;
+                baseImg.classList.remove("opacity-0", "scale-95");
+                baseImg.classList.add("opacity-100", "scale-100");
+            } else {
+                baseImg.classList.add("opacity-0");
+            }
+
+            // Layer 2: Modifier Item 1 Synchronization
+            if (stepsList[1] && builderSelectedSelections[stepsList[1].id]) {
+                const chosen = builderSelectedSelections[stepsList[1].id];
+                if (chosen.image) {
+                    mod1Img.src = chosen.image;
+                    mod1Img.classList.remove("opacity-0", "scale-95");
+                    mod1Img.classList.add("opacity-100", "scale-100");
+                } else {
+                    mod1Img.classList.add("opacity-0");
+                }
+            } else {
+                mod1Img.classList.add("opacity-0");
+            }
+
+            // Layer 3: Modifier Item 2 Synchronization
+            if (stepsList[2] && builderSelectedSelections[stepsList[2].id]) {
+                const chosen = builderSelectedSelections[stepsList[2].id];
+                
+                if (Array.isArray(chosen)) {
+                    // Handle complex multi-selection layers stacking context rules processing outputs mapping parameters
+                    if (chosen.length > 0) {
+                        mod2Img.src = chosen[0].image;
+                        mod2Img.classList.remove("opacity-0", "scale-95");
+                        mod2Img.classList.add("opacity-100", "scale-100");
+                    } else {
+                        mod2Img.classList.add("opacity-0");
+                    }
+                } else if (chosen.image) {
+                    mod2Img.src = chosen.image;
+                    mod2Img.classList.remove("opacity-0", "scale-95");
+                    mod2Img.classList.add("opacity-100", "scale-100");
+                } else {
+                    mod2Img.classList.add("opacity-0");
+                }
+            } else {
+                mod2Img.classList.add("opacity-0");
+            }
+
+            // Layer 4: Modifier Item 3 Synchronization
+            if (stepsList[3] && builderSelectedSelections[stepsList[3].id]) {
+                const chosen = builderSelectedSelections[stepsList[3].id];
+                if (chosen.image) {
+                    mod3Img.src = chosen.image;
+                    mod3Img.classList.remove("opacity-0", "scale-95");
+                    mod3Img.classList.add("opacity-100", "scale-100");
+                } else {
+                    mod3Img.classList.add("opacity-0");
+                }
+            } else {
+                mod3Img.classList.add("opacity-0");
+            }
+
+            // Compile textual readout tag trace tracking string representation descriptions descriptor
+            buildPreviewTextualSummaryDescription();
+        }
+
+        function buildPreviewTextualSummaryDescription() {
+            const textNode = document.getElementById("preview-composition-desc");
+            const parts = [];
+            
+            Object.keys(builderSelectedSelections).forEach(key => {
+                const selectedVal = builderSelectedSelections[key];
+                if (Array.isArray(selectedVal)) {
+                    selectedVal.forEach(item => parts.push(item.name));
+                } else if (selectedVal && selectedVal.name) {
+                    parts.push(selectedVal.name);
+                }
+            });
+
+            textNode.innerText = parts.length > 0 ? parts.join(" + ") : "Select options to compose your custom creation";
+        }
+
+        function calculateLivePriceTrackers() {
+            if (!builderActiveSchemaId) return 0;
+            
+            const schema = BUILDER_SCHEMAS[builderActiveSchemaId];
+            let aggregatePriceSum = schema.basePrice;
+
+            Object.keys(builderSelectedSelections).forEach(key => {
+                const nodeVal = builderSelectedSelections[key];
+                if (Array.isArray(nodeVal)) {
+                    nodeVal.forEach(item => aggregatePriceSum += item.price);
+                } else if (nodeVal && nodeVal.price) {
+                    aggregatePriceSum += nodeVal.price;
+                }
+            });
+
+            document.getElementById("builder-live-price").innerText = `Total: ${aggregatePriceSum} EGP`;
+            return aggregatePriceSum;
+        }
+
+        function evaluateNavigationControlState() {
+            const schema = BUILDER_SCHEMAS[builderActiveSchemaId];
+            const stepData = schema.steps[builderCurrentStepIndex];
+            const activeSelectionInstance = builderSelectedSelections[stepData.id];
+
+            let stepIsCompleteAndValid = false;
+
+            if (stepData.allowMultiple) {
+                if (builderActiveSchemaId === "milkshake" && stepData.id === "dynamic-step") {
+                    const chosenCategory = builderSelectedSelections["category"];
+                    if (chosenCategory && chosenCategory.branch === "mix") {
+                        // Mix branch category requires exactly 2 choices components elements to meet validation parameters
+                        const structurallyValid = Array.isArray(activeSelectionInstance) && 
+                                                 activeSelectionInstance.some(i => i.origin === "chocolate") && 
+                                                 activeSelectionInstance.some(i => i.origin === "fruits");
+                        stepIsCompleteAndValid = structurallyValid;
+                    } else {
+                        stepIsCompleteAndValid = Array.isArray(activeSelectionInstance) && activeSelectionInstance.length >= 1;
+                    }
+                } else {
+                    stepIsCompleteAndValid = Array.isArray(activeSelectionInstance) && activeSelectionInstance.length >= 1;
+                }
+            } else {
+                stepIsCompleteAndValid = typeof activeSelectionInstance === "object" && activeSelectionInstance !== null;
+            }
+
+            // Update DOM control button node instances attributes mapping states parameters values updates strings
+            document.getElementById("btn-builder-prev").disabled = (builderCurrentStepIndex === 0);
+            
+            const nextBtn = document.getElementById("btn-builder-next");
+            if (builderCurrentStepIndex === schema.steps.length - 1) {
+                nextBtn.innerHTML = `Complete Structure <i class="fa-solid fa-wand-magic-sparkles ml-2"></i>`;
+            } else {
+                nextBtn.innerHTML = `Next Step <i class="fa-solid fa-arrow-right ml-2"></i>`;
+            }
+
+            nextBtn.disabled = !stepIsCompleteAndValid;
+        }
+
+        function handleBuilderNext() {
+            const schema = BUILDER_SCHEMAS[builderActiveSchemaId];
+            if (builderCurrentStepIndex < schema.steps.length - 1) {
+                builderCurrentStepIndex++;
+                renderBuilderCurrentStep();
+            } else {
+                // Ultimate step index threshold reached -> render result review screen layer summary block
+                launchSummaryScreenOverlay();
+            }
+        }
+
+        function handleBuilderBack() {
+            if (builderCurrentStepIndex > 0) {
+                builderCurrentStepIndex--;
+                renderBuilderCurrentStep();
+            }
+        }
+
+        function closeCustomBuilderOverlay() {
+            document.body.classList.remove("lock-scroll");
+            document.getElementById("builder-overlay").classWithAttributes = "";
+            document.getElementById("builder-overlay").classList.add("fixed", "inset-0", "z-50", "invisible", "opacity-0", "transition-all", "duration-300", "flex", "flex-col", "bg-stone-950/95", "backdrop-blur-xl");
+        }
+
+
+        // ==========================================
+        // 6. RESULT SUMMARY VISUALIZATION MODULE
+        // ==========================================
+
+        function launchSummaryScreenOverlay() {
+            const schema = BUILDER_SCHEMAS[builderActiveSchemaId];
+            const listContainer = document.getElementById("summary-items-box");
+            listContainer.innerHTML = "";
+
+            // Structural loop generation parsing values to map out visual summaries entries parameters
+            schema.steps.forEach(stepNode => {
+                const selection = builderSelectedSelections[stepNode.id];
+                const itemRow = document.createElement("div");
+                itemRow.className = "flex items-center justify-between py-2 border-b border-stone-800/40 text-xs";
+
+                if (Array.isArray(selection)) {
+                    const namesJoined = selection.map(s => s.name).join(", ");
+                    const pricesSummed = selection.reduce((acc, curr) => acc + curr.price, 0);
+                    itemRow.innerHTML = `
+                        <div class="flex flex-col">
+                            <span class="text-[10px] uppercase tracking-wider text-stone-500 font-bold">${stepNode.title}</span>
+                            <span class="text-stone-200 font-medium mt-0.5">${namesJoined}</span>
+                        </div>
+                        <span class="font-mono text-amber-500 font-semibold">+${pricesSummed} EGP</span>
+                    `;
+                } else {
+                    itemRow.innerHTML = `
+                        <div class="flex flex-col">
+                            <span class="text-[10px] uppercase tracking-wider text-stone-500 font-bold">${stepNode.title}</span>
+                            <span class="text-stone-200 font-medium mt-0.5">${selection.name}</span>
+                        </div>
+                        <span class="font-mono text-amber-500 font-semibold">${selection.price > 0 ? `+${selection.price} EGP` : "Included"}</span>
+                    `;
+                }
+                listContainer.appendChild(itemRow);
+            });
+
+            // Set finalized pricing strings parameters nodes updates fields
+            const finalizedCalculatedPrice = calculateLivePriceTrackers();
+            document.getElementById("summary-final-price").innerText = `${finalizedCalculatedPrice} EGP`;
+
+            // Active display container wrappers animations processing transitions fields updates
+            const wrapper = document.getElementById("summary-overlay");
+            wrapper.classList.remove("invisible", "opacity-0");
+            wrapper.firstElementChild.classList.remove("scale-95");
+            wrapper.firstElementChild.classList.add("scale-100");
+        }
+
+        function closeSummaryAndReopenBuilder() {
+            const wrapper = document.getElementById("summary-overlay");
+            wrapper.classList.add("invisible", "opacity-0");
+            wrapper.firstElementChild.classList.remove("scale-100");
+            wrapper.firstElementChild.classList.add("scale-95");
+        }
+
+        function clearAllOverlays() {
+            closeSummaryAndReopenBuilder();
+            closeCustomBuilderOverlay();
+            closeViewerOverlay();
+        }
+    </script>
 </body>
 </html>
