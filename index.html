@@ -32,12 +32,6 @@
             border: 1px solid rgba(255, 255, 255, 0.08);
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .glass-card.active-option {
-            background: linear-gradient(135deg, rgba(254, 240, 138, 0.25) 0%, rgba(254, 240, 138, 0.05) 100%);
-            border-color: #fef08a;
-            box-shadow: 0 0 20px rgba(254, 240, 138, 0.2);
-            transform: scale(1.02);
-        }
         .scroll-reveal {
             opacity: 0.1;
             transform: translateY(20px);
@@ -77,6 +71,28 @@
             object-fit: contain;
             transition: opacity 0.3s ease;
         }
+        
+        /* PURE IMAGE SELECTION STYLE - NO CARDS, NO BORDERS, NO BOXES */
+        .pure-image-option {
+            background: none !important;
+            border: none !important;
+            box-shadow: none !important;
+            padding: 0 !important;
+            outline: none !important;
+            cursor: pointer;
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), filter 0.3s ease, drop-shadow 0.3s ease;
+        }
+        .pure-image-option img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transition: all 0.3s ease;
+        }
+        .pure-image-option.active-option {
+            transform: scale(1.1);
+            filter: drop-shadow(0 0 15px rgba(254, 240, 138, 0.6));
+        }
+
         ::-webkit-scrollbar {
             width: 6px;
         }
@@ -302,7 +318,7 @@
                     <h3 id="panel-title" class="brand-font text-xl font-bold text-white mb-1">Options Layer</h3>
                     <p id="panel-desc" class="text-xs text-purple-200/70 mb-4">Isolate selection vectors structural layout nodes.</p>
                     
-                    <div id="options-viewport-grid" class="grid grid-cols-3 gap-3 max-h-[360px] overflow-y-auto pr-1"></div>
+                    <div id="options-viewport-grid" class="grid grid-cols-3 gap-6 max-h-[420px] overflow-y-auto pr-1 py-2"></div>
                 </div>
             </div>
         </div>
@@ -489,7 +505,7 @@
         }
 
         // =========================================================================
-        // 5. ICE CREAM CONTEXT CHURN ENGINE FLOWS (EXACT WORK LOGIC RETAINED)
+        // 5. ICE CREAM CONTEXT CHURN ENGINE FLOWS (5 BASES, 3 CHOCOLATES, 6 FILLINGS)
         // =========================================================================
         function openIceCreamBuilder() {
             resetStudioCache("icecream", 4);
@@ -501,29 +517,34 @@
             evaluateNextButtonState();
 
             if (currentStep === 1) {
-                updateStudioStepHeader("Structural Base Core", "Select thin cylindrical foundational inner core track parameters flavor mapping profiles.", "Choose structural ice cream base core parameters");
+                updateStudioStepHeader("Choose Base", "Select thin cylindrical foundational inner core track parameters flavor mapping profiles.", "Choose structural ice cream base core parameters");
                 createOptionImageCard("images/base/vanilla.png", () => selectBase("images/base/vanilla.png", "Classic Vanilla Core"), selectionsCache.base?.src === "images/base/vanilla.png");
                 createOptionImageCard("images/base/chocolate.png", () => selectBase("images/base/chocolate.png", "Deep Chocolate Core"), selectionsCache.base?.src === "images/base/chocolate.png");
+                createOptionImageCard("images/base/strawberry.png", () => selectBase("images/base/strawberry.png", "Sweet Strawberry Core"), selectionsCache.base?.src === "images/base/strawberry.png");
                 createOptionImageCard("images/base/pistachio.png", () => selectBase("images/base/pistachio.png", "Premium Pistachio Core"), selectionsCache.base?.src === "images/base/pistachio.png");
+                createOptionImageCard("images/base/hazelnut.png", () => selectBase("images/base/hazelnut.png", "Rich Hazelnut Core"), selectionsCache.base?.src === "images/base/hazelnut.png");
             } 
             else if (currentStep === 2) {
-                updateStudioStepHeader("Chocolate Melt Sub-Bath Type", "Primary fluid hot dip compound formula structural setup track configuration.", "Select chocolate sub-bath structural matrix type link");
+                updateStudioStepHeader("Choose Chocolate Type", "Primary fluid hot dip compound formula structural setup track configuration.", "Select chocolate sub-bath structural matrix type link");
                 createOptionImageCard("images/type/milk.jpg", () => selectType("images/type/milk.jpg", "milk", "Smooth Milk Chocolate Bath"), selectedType === "milk");
                 createOptionImageCard("images/type/dark.jpg", () => selectType("images/type/dark.jpg", "dark", "Rich Dark Chocolate Bath"), selectedType === "dark");
                 createOptionImageCard("images/type/white.jpg", () => selectType("images/type/white.jpg", "white", "Velvet White Chocolate Bath"), selectedType === "white");
             } 
             else if (currentStep === 3) {
-                updateStudioStepHeader("Outer Crunch Armor Coating Shell", "Snap hardening textured layer applied flawlessly covering base architectures.", "Select protective external crunch coating shell layer configurations");
+                updateStudioStepHeader("Choose Coating", "Snap hardening textured layer applied flawlessly covering base architectures.", "Select protective external crunch coating shell layer configurations");
                 const pathPlain = `images/coating/${selectedType}_plain.png`;
                 const pathPistachio = `images/coating/${selectedType}_pistachio.png`;
                 createOptionImageCard(pathPlain, () => selectCoating(pathPlain, "Hardened Plain Crust Snap Shell"), selectionsCache.coating?.src === pathPlain);
                 createOptionImageCard(pathPistachio, () => selectCoating(pathPistachio, "Premium Crisp Pistachio Infused Armor"), selectionsCache.coating?.src === pathPistachio);
             } 
             else if (currentStep === 4) {
-                updateStudioStepHeader("Internal Flavor Pocket Blast", "Concentrated liquid injectable vectors embedded into the architecture parameters.", "Choose your hidden inner pocket injection fluid parameter profile");
+                updateStudioStepHeader("Choose Filling", "Concentrated liquid injectable vectors embedded into the architecture parameters.", "Choose your hidden inner pocket injection fluid parameter profile");
                 createOptionImageCard("images/filling/chocolate.png", () => selectFilling("images/filling/chocolate.png", "Fudge Chocolate Ribbon Blast Injection"), selectionsCache.inner?.src === "images/filling/chocolate.png");
                 createOptionImageCard("images/filling/lotus.png", () => selectFilling("images/filling/lotus.png", "Lotus Speculoos Biscuit Cream Spread Influx"), selectionsCache.inner?.src === "images/filling/lotus.png");
                 createOptionImageCard("images/filling/caramel.png", () => selectFilling("images/filling/caramel.png", "Salted Slow Caramel Pure Toffee Core Pocket"), selectionsCache.inner?.src === "images/filling/caramel.png");
+                createOptionImageCard("images/filling/pistachio.png", () => selectFilling("images/filling/pistachio.png", "Pistachio Praline Filling Injection"), selectionsCache.inner?.src === "images/filling/pistachio.png");
+                createOptionImageCard("images/filling/hazelnut.png", () => selectFilling("images/filling/hazelnut.png", "Creamy Gianduja Hazelnut Core Spread"), selectionsCache.inner?.src === "images/filling/hazelnut.png");
+                createOptionImageCard("images/filling/strawberry.png", () => selectFilling("images/filling/strawberry.png", "Wild Strawberry Glaze Core Influx"), selectionsCache.inner?.src === "images/filling/strawberry.png");
             }
         }
 
@@ -698,17 +719,14 @@
         }
 
         // =========================================================================
-        // 9. REUSABLE ATOMIC DOM UI INJECTOR GENERATOR PIPELINES
+        // 9. REUSABLE ATOMIC DOM UI INJECTOR GENERATOR PIPELINES (PURE IMAGE OPTION)
         // =========================================================================
         function createOptionImageCard(imgSrcPath, clickHandlerCallback, activeFlagIndicator) {
             const wrapperCard = document.createElement("div");
-            wrapperCard.className = `glass-card p-3 rounded-2xl flex flex-col items-center justify-center cursor-pointer border transition-all duration-300 aspect-square ${activeFlagIndicator ? "active-option" : ""}`;
+            wrapperCard.className = `pure-image-option flex items-center justify-center ${activeFlagIndicator ? "active-option" : ""}`;
             
             wrapperCard.innerHTML = `
-                <div class="w-16 h-16 relative flex items-center justify-center overflow-hidden mb-1">
-                    <img src="${imgSrcPath}" alt="Option Graphic Node Node Asset" class="w-full h-full object-contain pointer-events-none" onerror="this.src='base-bg.jpg'">
-                </div>
-                <span class="text-[9px] uppercase tracking-wider text-purple-200/40 font-bold block text-center truncate w-full">Select Layer Item</span>
+                <img src="${imgSrcPath}" alt="Option Graphic Node" onerror="this.src='base-bg.jpg'">
             `;
             wrapperCard.onclick = clickHandlerCallback;
             optionsViewportGrid.appendChild(wrapperCard);
