@@ -2,688 +2,984 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thrillz Menu - Premium Dynamic Customizer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Kod El Fa7l - Premium Dessert Menu</title>
+    <!-- Tailwind CSS for modern layout architecture -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter for slick, clean Gen-Z typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome for precise UI icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- استيراد خطوط حديثة تناسب الهوية البصرية لمتجر آيس كريم فاخر -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@500;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-
-    <!-- تحسين التحميل المسبق للخلفيات الأساسية لمنع وميض الشاشة الأبيض المتكرر -->
-    <link rel="preload" as="image" href="images/bg/base-bg.jpg">
-    <link rel="preload" as="image" href="images/bg/type-bg.jpg">
-    <link rel="preload" as="image" href="images/bg/coating-bg.jpg">
-    <link rel="preload" as="image" href="images/bg/filling-bg.jpg">
-
     <style>
-        :root {
-            --primary-gradient: linear-gradient(135deg, #FF6B6B, #FF8E53);
-            --secondary-gradient: linear-gradient(135deg, #c68a4a, #e09f5b);
-            --dark-color: #2c3e50;
-            --glass-bg: rgba(255, 255, 255, 0.15);
-            --glass-active: rgba(255, 255, 255, 0.35);
-            --shadow-sm: 0 8px 24px rgba(0, 0, 0, 0.15);
-            --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.3);
-            --focused-shadow: 0 0 25px rgba(255, 142, 83, 0.6); /* تأثير ظل ناعم ومميز عند التركيز */
-            --font-main: 'Poppins', sans-serif;
-            --font-rounded: 'Comfortaa', cursive;
-        }
-
-        * {
-            box-sizing: border-box;
-            outline: none;
-        }
-
         body {
-            margin: 0;
-            font-family: var(--font-main);
-            background: url('bg.jpg') no-repeat center center fixed;
-            background-size: cover;
-            color: #fff;
-            -webkit-font-smoothing: antialiased;
+            font-family: 'Inter', sans-serif;
+            background-color: #0c0a09;
+            color: #f5f5f4;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
         }
-
-        /* الطبقة الضبابية فوق الخلفية الأساسية */
-        .overlay {
-            background: rgba(15, 23, 42, 0.55);
-            backdrop-filter: blur(4px);
-            min-height: 100vh;
-            padding-bottom: 50px;
+        .glass-panel {
+            background: rgba(28, 25, 23, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(68, 64, 60, 0.4);
         }
-
-        /* الهيدر والشعار */
-        .logo {
-            text-align: center;
-            padding: 40px 20px;
+        .glass-card {
+            background: rgba(39, 39, 42, 0.4);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(63, 63, 70, 0.3);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
-
-        .logo img {
-            width: 160px;
-            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
-            transition: transform 0.3s ease;
+        .glass-card.active {
+            background: linear-gradient(135deg, rgba(234, 179, 8, 0.15) 0%, rgba(251, 191, 36, 0.05) 100%);
+            border-color: #eab308;
+            box-shadow: 0 0 20px rgba(234, 179, 8, 0.25);
+            transform: scale(1.04);
         }
-
-        .logo img:hover {
-            transform: scale(1.05);
+        .scroll-reveal {
+            opacity: 0.4;
+            transform: scale(0.96);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
-
-        /* نظام الشبكة المرن للبطاقات */
-        .container {
-            max-width: 1400px;
-            margin: auto;
-            padding: 0 20px;
+        .scroll-reveal.visible {
+            opacity: 1;
+            transform: scale(1);
         }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
-        }
-
-        /* بطاقات المنتجات */
-        .card-wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .card {
-            width: 100%;
-            height: 320px;
-            border-radius: 24px;
-            overflow: hidden;
-            cursor: pointer;
-            position: relative;
-            border: 4px solid #fff;
-            box-shadow: var(--shadow-sm);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            background-color: rgba(255,255,255,0.05);
-        }
-
-        .card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: var(--shadow-lg);
-            border-color: #FF8E53;
-        }
-
-        .card:hover img {
-            transform: scale(1.08);
-        }
-
-        .card.active {
-            transform: scale(1.03);
-            border-color: #FF8E53;
-        }
-
-        .card-title {
-            margin-top: 12px;
-            font-family: var(--font-rounded);
-            font-size: 1.1rem;
-            font-weight: 700;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.6);
-            letter-spacing: 0.5px;
-        }
-
-        /* واجهة تخصيص المنتج الديناميكية المتقدمة */
-        .builder {
-            display: none;
-            position: fixed;
-            inset: 0;
-            z-index: 2000;
-            overflow: hidden;
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            transition: background-image 0.6s ease-in-out;
-        }
-
-        .builder::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, rgba(15, 23, 42, 0.4), rgba(0, 0, 0, 0.75));
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            z-index: 1;
-        }
-
-        /* نافذة المعاينة والطبقات */
-        .preview {
-            position: absolute;
-            top: 35%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 220px;
-            height: 380px;
-            z-index: 5;
-        }
-
-        .layer {
-            position: absolute;
-            width: 100%;
-            height: auto;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.3));
-        }
-
-        /* تعديل موضع صوص الحشو الداخلي لكي يجلس في الأعلى بشكل واقعي متناسق */
-        .innerLayer {
-            position: absolute;
-            width: 140px; /* زيادة حجم الصوص ليتناسب مع الجزء العلوي العريض */
-            height: auto;
-            top: 12%; /* سحب العنصر للأعلى ليكون متموضعاً فوق قمة عصا الآيس كريم مباشرة بدلاً من المنتصف */
-            left: 50%;
-            transform: translateX(-50%) scale(0.95);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            z-index: 6; /* ليكون أعلى طبقة الجسم الأساسي */
-            filter: drop-shadow(0 6px 12px rgba(0,0,0,0.35));
-        }
-
-        /* حاوية الخيارات التفاعلية */
-        .options-container {
-            position: absolute;
-            bottom: 120px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 92%;
-            max-width: 650px;
-            z-index: 5;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .item-label {
-            font-family: var(--font-rounded);
-            font-size: 1rem;
-            font-weight: 700;
-            background: rgba(0,0,0,0.4);
-            padding: 6px 16px;
-            border-radius: 12px;
-            min-height: 32px;
-            transition: all 0.2s ease;
-        }
-
-        /* تعديل التصميم لعرض العناصر في أزواج جنباً إلى جنب بدلاً من عمود فردي */
-        .options {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr); /* تفعيل العرض الثنائي المشترك */
-            gap: 15px;
-            width: 100%;
-            max-height: 240px; /* تفعيل حد أقصى للارتفاع لضمان عدم تداخل الواجهات */
-            overflow-y: auto;  /* إضافة تمرير داخلي ناعم إذا زادت العناصر عن الحد */
-            padding: 10px 5px;
-            scroll-behavior: smooth;
-        }
-
-        /* جعل خيارات نوع الشوكولاتة متناسقة ثنائياً أيضاً */
-        .options.typeGrid {
-            grid-template-columns: repeat(2, 1fr);
-        }
-        
-        /* إذا كان هناك عنصر فردي ثالث، يمتد ليأخذ العرض كاملاً من أجل توازن الشكل */
-        .options.typeGrid .option-btn:last-child:nth-child(odd) {
-            grid-column: span 2;
-        }
-
-        /* تحسين مظهر أزرار الخيارات التفاعلية */
-        .option-btn {
-            background: var(--glass-bg);
-            border: 3px solid transparent;
-            padding: 12px;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .option-btn img {
-            width: 70px;
-            height: 70px;
-            object-fit: contain;
-            pointer-events: none;
-        }
-
-        .typeGrid .option-btn img {
-            width: 85px;
-            height: 85px;
-            object-fit: cover;
-            border-radius: 12px;
-        }
-
-        /* إضاءة تدرج الظل الناعم عند استقبال التركيز أو التنشيط */
-        .option-btn:focus, .option-btn.active {
-            transform: scale(1.05);
-            border-color: #fff;
-            background: var(--glass-active);
-            box-shadow: var(--focused-shadow); /* تفعيل تأثير الظل الناعم المطلوب */
-        }
-
-        .option-btn:hover:not(.active):not(:focus) {
-            background: rgba(255, 255, 255, 0.25);
-            transform: translateY(-2px);
-        }
-
-        /* شريط التتبع العلوي */
-        .stepper {
-            position: absolute;
-            top: 25px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 10;
-            font-family: var(--font-rounded);
-            font-size: 16px;
-            font-weight: bold;
-            letter-spacing: 1px;
-            background: rgba(15, 23, 42, 0.7);
-            border: 1px solid rgba(255,255,255,0.1);
-            padding: 10px 24px;
-            border-radius: 50px;
-            box-shadow: var(--shadow-sm);
-        }
-
-        /* أزرار التحكم والعمليات المحدثة */
-        .nextBtn {
-            position: absolute;
-            bottom: 35px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--primary-gradient);
-            color: #fff;
-            border: none;
-            padding: 16px 60px;
-            border-radius: 50px;
-            font-family: var(--font-main);
-            font-size: 18px;
-            font-weight: 700;
-            cursor: pointer;
-            z-index: 10;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
-        }
-
-        .nextBtn:hover {
-            transform: translateX(-50%) translateY(-2px);
-            box-shadow: 0 12px 30px rgba(255, 107, 107, 0.6);
-            filter: brightness(1.1);
-        }
-
-        .backBtn {
-            position: absolute;
-            top: 25px;
-            left: 20px;
-            background: #fff;
-            color: var(--dark-color);
-            border: none;
-            padding: 12px 24px;
-            border-radius: 50px;
-            font-weight: 700;
-            font-family: var(--font-main);
-            cursor: pointer;
-            z-index: 10;
-            box-shadow: var(--shadow-sm);
-            transition: all 0.2s ease;
-        }
-
-        .backBtn:hover {
-            background: #f8fafc;
-            transform: translateY(-2px);
-        }
-
-        /* تخصيص السكرول بار الخاص بالقوائم ليكون ناعماً ومتناسقاً */
-        .options::-webkit-scrollbar {
+        /* Custom smooth scrollbars */
+        ::-webkit-scrollbar {
             width: 6px;
+            height: 6px;
         }
-        .options::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
+        ::-webkit-scrollbar-track {
+            background: #0c0a09;
         }
-        .options::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 10px;
+        ::-webkit-scrollbar-thumb {
+            background: #44403c;
+            border-radius: 9999px;
         }
-
-        @media (max-width: 600px) {
-            .preview {
-                width: 170px;
-                height: 300px;
-                top: 32%;
-            }
-            .innerLayer {
-                width: 110px;
-                top: 10%;
-            }
-            .option-btn img {
-                width: 50px;
-                height: 50px;
-            }
-            .options-container {
-                bottom: 110px;
-            }
-            .nextBtn {
-                padding: 14px 45px;
-                font-size: 16px;
-                bottom: 25px;
-            }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #78716c;
+        }
+        /* Lock screen when overlay or builder is functional */
+        .lock-scroll {
+            overflow: hidden !important;
+            height: 100vh !important;
         }
     </style>
 </head>
-<body>
+<body class="bg-stone-950 text-stone-100 antialiased selection:bg-amber-500 selection:text-black">
 
-<div class="overlay">
-    <div class="logo">
-        <img src="logo.png" alt="Thrillz Logo">
+    <!-- Premium Background Accent Gradients -->
+    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+        <div class="absolute -top-[40%] -left-[30%] w-[80vw] h-[80vw] bg-amber-500/10 rounded-full blur-[120px]"></div>
+        <div class="absolute -bottom-[20%] -right-[20%] w-[70vw] h-[70vw] bg-orange-600/10 rounded-full blur-[100px]"></div>
     </div>
 
-    <div class="container">
-        <div class="grid">
-            <div class="card-wrapper">
-                <button class="card" aria-label="Customize Premium Stick" onclick="Customizer.open()">
-                    <img src="iced-cover.jpg" alt="Premium Custom Bar">
-                </button>
-                <span class="card-title">Design Your Stick</span>
-            </div>
-            <div class="card-wrapper">
-                <button class="card" aria-label="Frappe Menu"><img src="frappe-cover.jpg" alt="Frappes"></button>
-                <span class="card-title">Frappuccino</span>
-            </div>
-            <div class="card-wrapper">
-                <button class="card" aria-label="Hot Drinks Menu"><img src="hot-cover.jpg" alt="Hot Drinks"></button>
-                <span class="card-title">Hot Specialties</span>
-            </div>
-            <div class="card-wrapper">
-                <button class="card" aria-label="Desserts Menu"><img src="dessert-cover.jpg" alt="Desserts"></button>
-                <span class="card-title">Plated Desserts</span>
-            </div>
-            <div class="card-wrapper">
-                <button class="card" aria-label="Bakery Menu"><img src="bakery-cover.jpg" alt="Bakery Items"></button>
-                <span class="card-title">Fresh Bakery</span>
-            </div>
-            <div class="card-wrapper">
-                <button class="card" aria-label="Breakfast Menu"><img src="breakfast-cover.jpg" alt="Breakfast"></button>
-                <span class="card-title">Signature Breakfast</span>
-            </div>
-            <div class="card-wrapper">
-                <button class="card" aria-label="Matcha Menu"><img src="matcha-cover.jpg" alt="Matcha Selection"></button>
-                <span class="card-title">Pure Matcha</span>
-            </div>
-            <div class="card-wrapper">
-                <button class="card" aria-label="Smoothies Menu"><img src="smoothie-cover.jpg" alt="Smoothies"></button>
-                <span class="card-title">Organic Smoothies</span>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- نظام البناء والتخصيص الديناميكي -->
-<div class="builder" id="builder" role="dialog" aria-modal="true" aria-labelledby="stepper">
-    <button class="backBtn" onclick="Customizer.back()">← Back</button>
-    <div class="stepper" id="stepper">Step 1 / 4</div>
-
-    <div class="preview">
-        <img id="baseLayer" class="layer" alt="Ice Cream Base View">
-        <img id="coatingLayer" class="layer" alt="Ice Cream Coating View">
-        <!-- عنصر الصلصة الداخلية المتموضع بدقة في أعلى القالب -->
-        <img id="fillingLayer" class="innerLayer" alt="Ice Cream Filling View">
-    </div>
-
-    <div class="options-container">
-        <div class="item-label" id="activeLabel">Select a Base Flavor</div>
+    <!-- MAIN INTERFACE CONTAINER -->
+    <div class="relative z-10 min-h-screen flex flex-col max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         
-        <!-- الخطوة 1 -->
-        <div class="options" id="baseOptions">
-            <button class="option-btn" data-name="Premium Vanilla" data-src="images/base/vanilla.png"><img src="images/base/vanilla.png" alt="Vanilla"></button>
-            <button class="option-btn" data-name="Rich Chocolate" data-src="images/base/chocolate.png"><img src="images/base/chocolate.png" alt="Chocolate"></button>
-            <button class="option-btn" data-name="Fresh Strawberry" data-src="images/base/strawberry.png"><img src="images/base/strawberry.png" alt="Strawberry"></button>
-            <button class="option-btn" data-name="Gourmet Pistachio" data-src="images/base/pistachio.png"><img src="images/base/pistachio.png" alt="Pistachio"></button>
-            <button class="option-btn" data-name="Roasted Hazelnut" data-src="images/base/hazelnut.png"><img src="images/base/hazelnut.png" alt="Hazelnut"></button>
+        <!-- HEADER LOGO BLOCK -->
+        <header class="w-full flex flex-col items-center justify-center pt-4 pb-8 border-b border-stone-800/60 mb-8">
+            <div class="relative flex items-center justify-center w-20 h-20 bg-stone-900 border-2 border-amber-500 rounded-full shadow-[0_0_25px_rgba(234,179,8,0.2)] mb-3">
+                <i class="fa-solid fa-ice-cream text-3xl text-amber-500"></i>
+            </div>
+            <h1 class="text-3xl font-black tracking-tight text-center bg-gradient-to-r from-stone-100 via-amber-400 to-amber-200 bg-clip-text text-transparent">
+                KOD EL FA7L
+            </h1>
+            <p class="text-xs tracking-[0.25em] font-medium text-stone-500 uppercase mt-1">Premium Dessert Experience</p>
+        </header>
+
+        <!-- MAIN MENU GRID SYSTEM (2 Cols Mobile, 3 Tablet, 4 Desktop) -->
+        <main class="flex-grow">
+            <div id="main-menu-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+                <!-- Cards inject dynamically via JS to fulfill specific navigation and layout structures -->
+            </div>
+        </main>
+
+        <!-- PREMIUM FOOTER -->
+        <footer class="w-full text-center py-8 text-xs text-stone-600 border-t border-stone-900 mt-12">
+            &copy; 2026 Kod El Fa7l. Built for the next generation of taste.
+        </footer>
+    </div>
+
+    <!-- OVERLAY SYSTEM: IMAGE VIEWER / HYBRID CONTAINER -->
+    <div id="viewer-overlay" class="fixed inset-0 z-50 invisible opacity-0 transition-all duration-300 flex flex-col bg-stone-950/95 backdrop-blur-md">
+        <!-- Close Control and Title Header -->
+        <div class="w-full px-6 py-4 flex items-center justify-between border-b border-stone-800/60 bg-stone-900/40">
+            <h2 id="viewer-title" class="text-xl font-bold text-stone-100 tracking-wide">Menu Section</h2>
+            <button onclick="closeViewerOverlay()" class="w-10 h-10 flex items-center justify-center rounded-full bg-stone-800/80 text-stone-400 hover:text-stone-100 hover:bg-stone-700 transition-all">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
         </div>
 
-        <!-- الخطوة 2 -->
-        <div class="options typeGrid" id="typeOptions" style="display:none;">
-            <button class="option-btn" data-type="milk" data-name="Smooth Milk Chocolate"><img src="images/type/milk.jpg" alt="Milk Chocolate"></button>
-            <button class="option-btn" data-type="dark" data-name="Belgian Dark Chocolate"><img src="images/type/dark.jpg" alt="Dark Chocolate"></button>
-            <button class="option-btn" data-type="white" data-name="Creamy White Chocolate"><img src="images/type/white.jpg" alt="White Chocolate"></button>
-        </div>
+        <!-- Scrollable dynamic view segment -->
+        <div class="flex-grow overflow-y-auto px-4 py-6 flex flex-col items-center">
+            
+            <!-- Target container for static images -->
+            <div id="viewer-gallery-container" class="w-full max-w-md space-y-6">
+                <!-- Static images inject dynamically -->
+            </div>
 
-        <!-- الخطوة 3 -->
-        <div class="options" id="coatingOptions" style="display:none;"></div>
-
-        <!-- الخطوة 4 -->
-        <div class="options" id="fillingOptions" style="display:none;">
-            <button class="option-btn" data-name="Chocolate Core" data-src="images/filling/chocolate.png"><img src="images/filling/chocolate.png" alt="Chocolate Filling"></button>
-            <button class="option-btn" data-name="Crushed Lotus Biscuit" data-src="images/filling/lotus.png"><img src="images/filling/lotus.png" alt="Lotus Filling"></button>
-            <button class="option-btn" data-name="Salted Caramel" data-src="images/filling/caramel.png"><img src="images/filling/caramel.png" alt="Caramel Filling"></button>
-            <button class="option-btn" data-name="Wild Berry Compote" data-src="images/filling/berry.png"><img src="images/filling/berry.png" alt="Berry Filling"></button>
-            <button class="option-btn" data-name="Pistachio Crunch" data-src="images/filling/pistachio.png"><img src="images/filling/pistachio.png" alt="Pistachio Filling"></button>
-            <button class="option-btn" data-name="Sweet Milk Cream" data-src="images/filling/milk.png"><img src="images/filling/milk.png" alt="Milk Filling"></button>
+            <!-- Intermediary Call-To-Action for Custom Builders within Hybrid Sections -->
+            <div id="hybrid-cta-container" class="hidden w-full max-w-md mt-8 p-6 rounded-2xl border border-amber-500/30 bg-gradient-to-b from-amber-500/10 to-stone-900/60 text-center shadow-lg">
+                <h3 id="hybrid-cta-title" class="text-lg font-bold text-amber-400 mb-2">Want to create yours?</h3>
+                <p class="text-xs text-stone-400 mb-5">Customize ingredients, bases, sauces and flavors in real time.</p>
+                <button id="hybrid-cta-btn" class="w-full py-3.5 bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold rounded-xl shadow-lg transition-all transform active:scale-[0.98]">
+                    Make Your Own
+                </button>
+            </div>
         </div>
     </div>
 
-    <button class="nextBtn" id="nextBtn">Next</button>
-</div>
+    <!-- OVERLAY SYSTEM: FULL CUSTOMIZATION FLOW BUILDER -->
+    <div id="builder-overlay" class="fixed inset-0 z-50 invisible opacity-0 transition-all duration-300 flex flex-col bg-stone-950/95 backdrop-blur-xl">
+        <!-- Header Controls -->
+        <div class="w-full px-6 py-4 flex items-center justify-between border-b border-stone-800/60 bg-stone-900/40">
+            <div>
+                <h2 id="builder-menu-title" class="text-lg font-bold text-stone-100">Custom Builder</h2>
+                <p id="builder-live-price" class="text-xs font-semibold text-amber-400 mt-0.5">Total: 0 EGP</p>
+            </div>
+            <button onclick="closeCustomBuilderOverlay()" class="w-10 h-10 flex items-center justify-center rounded-full bg-stone-800/80 text-stone-400 hover:text-stone-100 hover:bg-stone-700 transition-all">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+        </div>
 
-<script>
-/**
- * Thrillz Customizer Engine
- */
-"use strict";
+        <!-- Stepper Indicator Node Bar -->
+        <div id="builder-stepper" class="w-full px-6 py-3 flex items-center justify-center gap-2 bg-stone-900/20 border-b border-stone-900/50">
+            <!-- Stepper steps render dynamically -->
+        </div>
 
-const Customizer = (function() {
-    let DOM = {};
-    
-    const STATE = {
-        bgList: [
-            "images/bg/base-bg.jpg",
-            "images/bg/type-bg.jpg",
-            "images/bg/coating-bg.jpg",
-            "images/bg/filling-bg.jpg"
-        ],
-        step: 1,
-        selectedType: "",
-        selections: { base: "", type: "", coating: "", filling: "" }
-    };
+        <!-- Primary Building Field Layout (Split-view on desktop, Stacked on mobile) -->
+        <div class="flex-grow overflow-y-auto flex flex-col md:flex-row pb-32">
+            
+            <!-- Real-Time Live Preview Layer Canvas Block -->
+            <div class="w-full md:w-1/2 flex flex-col items-center justify-center p-6 min-h-[280px] md:min-h-[auto] bg-stone-950/40 sticky top-0 md:relative z-20 backdrop-blur-sm md:backdrop-blur-none border-b md:border-b-0 md:border-r border-stone-900/60">
+                <div class="relative w-48 h-48 sm:w-64 sm:h-64 flex items-center justify-center bg-stone-900/40 rounded-3xl border border-stone-800/40 p-4 shadow-inner">
+                    <!-- Layer components stacked to assemble final asset composition -->
+                    <img id="layer-base" class="absolute inset-0 w-full h-full object-contain p-4 transition-all duration-300 opacity-0 transform scale-95" alt="Base">
+                    <img id="layer-mod1" class="absolute inset-0 w-full h-full object-contain p-4 transition-all duration-300 opacity-0 transform scale-95" alt="Modifier 1">
+                    <img id="layer-mod2" class="absolute inset-0 w-full h-full object-contain p-4 transition-all duration-300 opacity-0 transform scale-95" alt="Modifier 2">
+                    <img id="layer-mod3" class="absolute inset-0 w-full h-full object-contain p-4 transition-all duration-300 opacity-0 transform scale-95" alt="Modifier 3">
+                    
+                    <!-- Dynamic Loading Placeholder Indicator -->
+                    <div id="preview-loader" class="absolute inset-0 flex items-center justify-center bg-stone-950/60 rounded-3xl hidden">
+                        <i class="fa-solid fa-circle-notch fa-spin text-2xl text-amber-500"></i>
+                    </div>
+                </div>
+                <p id="preview-composition-desc" class="text-center text-xs text-stone-500 font-medium px-4 mt-4 max-w-xs">Select options to compose your custom creation</p>
+            </div>
 
-    const stepLabels = {
-        1: "Select a Base Flavor",
-        2: "Choose Your Chocolate Type",
-        3: "Pick Your Topping Coating",
-        4: "Inject Inner Core Crunch"
-    };
+            <!-- Custom Options Picker Panel Node Area -->
+            <div class="w-full md:w-1/2 p-6 flex flex-col">
+                <div class="mb-4">
+                    <span id="step-badge" class="px-2.5 py-1 text-[10px] uppercase font-bold tracking-widest bg-amber-500/10 text-amber-400 rounded-md border border-amber-500/20">Step 1</span>
+                    <h3 id="step-display-title" class="text-xl font-extrabold text-stone-100 mt-2">Choose Base</h3>
+                    <p id="step-display-desc" class="text-xs text-stone-400 mt-1">Select the foundational layout variant for your dessert.</p>
+                </div>
 
-    function init() {
-        DOM = {
-            builder: document.getElementById("builder"),
-            stepper: document.getElementById("stepper"),
-            nextBtn: document.getElementById("nextBtn"),
-            activeLabel: document.getElementById("activeLabel"),
-            baseOptions: document.getElementById("baseOptions"),
-            typeOptions: document.getElementById("typeOptions"),
-            coatingOptions: document.getElementById("coatingOptions"),
-            fillingOptions: document.getElementById("fillingOptions"),
-            baseLayer: document.getElementById("baseLayer"),
-            coatingLayer: document.getElementById("coatingLayer"),
-            fillingLayer: document.getElementById("fillingLayer"),
-            cards: document.querySelectorAll(".card")
+                <!-- Active Step Selection Matrix Grid -->
+                <div id="options-matrix-grid" class="grid grid-cols-2 gap-3 mt-2">
+                    <!-- Items inject dynamically -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Persistent Fixed Floating Utility Dock Base Control Layout -->
+        <div class="absolute bottom-0 inset-x-0 glass-panel border-t border-stone-800/60 p-5 flex items-center justify-between z-30">
+            <button id="btn-builder-prev" onclick="handleBuilderBack()" class="px-5 py-3.5 bg-stone-800 hover:bg-stone-700 text-stone-300 text-sm font-bold rounded-xl transition-all disabled:opacity-30 disabled:pointer-events-none">
+                <i class="fa-solid fa-arrow-left mr-2"></i> Back
+            </button>
+            <button id="btn-builder-next" onclick="handleBuilderNext()" class="px-8 py-3.5 bg-amber-500 hover:bg-amber-400 text-stone-950 text-sm font-bold rounded-xl shadow-lg shadow-amber-500/10 transition-all disabled:opacity-40 disabled:cursor-not-allowed transform active:scale-[0.98]">
+                Next Step <i class="fa-solid fa-arrow-right ml-2"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- SUMMARY / RESULT OVERLAY SCREEN MODULE -->
+    <div id="summary-overlay" class="fixed inset-0 z-[60] invisible opacity-0 transition-all duration-300 flex items-center justify-center p-4 bg-stone-950/90 backdrop-blur-md">
+        <div class="w-full max-w-md glass-panel rounded-3xl p-6 border border-stone-800/80 shadow-2xl relative overflow-hidden transform scale-95 transition-all duration-300">
+            <!-- Decorative burst pattern inside card layout -->
+            <div class="absolute -top-12 -right-12 w-32 h-32 bg-amber-500/10 rounded-full blur-xl pointer-events-none"></div>
+            
+            <div class="text-center mb-6">
+                <div class="w-14 h-14 bg-amber-500/20 text-amber-400 border border-amber-500/30 rounded-full flex items-center justify-center mx-auto mb-3 text-xl shadow-lg">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                </div>
+                <h3 class="text-2xl font-black tracking-tight text-stone-100">Your Masterpiece!</h3>
+                <p class="text-xs text-stone-400 mt-1">Here is a summary of your customized creation</p>
+            </div>
+
+            <!-- Summary dynamic line items checklist stack -->
+            <div id="summary-items-box" class="space-y-2.5 my-4 bg-stone-900/50 p-4 rounded-xl border border-stone-800/40 max-h-[220px] overflow-y-auto">
+                <!-- Summary items list injected dynamically -->
+            </div>
+
+            <!-- Dynamic Pricing Output display grid section -->
+            <div class="flex items-center justify-between border-t border-stone-800/60 pt-4 mt-5">
+                <span class="text-sm font-medium text-stone-400">Total Calculation Value</span>
+                <span id="summary-final-price" class="text-xl font-black text-amber-400">0 EGP</span>
+            </div>
+
+            <!-- Dismiss Interface Operations Callbacks -->
+            <div class="grid grid-cols-2 gap-3 mt-6">
+                <button onclick="closeSummaryAndReopenBuilder()" class="py-3 bg-stone-800 hover:bg-stone-700 text-stone-300 text-xs font-bold rounded-xl transition-all">
+                    <i class="fa-solid fa-rotate-left mr-1.5"></i> Re-configure
+                </button>
+                <button onclick="clearAllOverlays()" class="py-3 bg-amber-500 hover:bg-amber-400 text-stone-950 text-xs font-bold rounded-xl shadow-md transition-all">
+                    Done Exploring
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- COMPLETE CORE APPLICATION JAVASCRIPT SYSTEM ENGINE -->
+    <script>
+        // ==========================================
+        // 1. DATA DEFINITIONS & DATABASE SIMULATION
+        // ==========================================
+
+        const MENU_DATA = [
+            { id: "ice-cream", name: "Ice Cream", type: "custom", baseImage: "assets/menu/ice-cream.jpg", desc: "Premium custom churn core builder experience" },
+            { id: "mini-ice-cream", name: "Mini Ice Cream", type: "static", baseImage: "assets/menu/mini.jpg", desc: "Curated rich assortment of 11 premium flavors", count: 11, folder: "mini", prefix: "mini" },
+            { id: "v60", name: "V60", type: "static", baseImage: "assets/menu/v60.jpg", desc: "Artisanal hand-poured single origin pour-overs", count: 3, folder: "v60", prefix: "v60" },
+            { id: "cold-brew", name: "Cold Brew", type: "static", baseImage: "assets/menu/cold-brew.jpg", desc: "Slow steeped, clean profile chilled essence extracts", count: 3, folder: "coldbrew", prefix: "coldbrew" },
+            { id: "matcha", name: "Matcha", type: "static", baseImage: "assets/menu/matcha.jpg", desc: "Uji-sourced stone-ground shade grown teas", count: 3, folder: "matcha", prefix: "matcha" },
+            { id: "tree-waffle", name: "Tree Waffle", type: "hybrid", baseImage: "assets/menu/waffle.jpg", desc: "Signature golden geometric grid waffle bars", count: 3, folder: "waffle", prefix: "waffle" },
+            { id: "milkshake", name: "Milkshake", type: "hybrid", baseImage: "assets/menu/milkshake.jpg", desc: "Velvety hand-spun hyper blended milkshakes", count: 3, folder: "milkshake", prefix: "milkshake" },
+            { id: "special-drinks", name: "Special Drinks", type: "static", baseImage: "assets/menu/special.jpg", desc: "In-house custom conceptual signature configurations", count: 3, folder: "special", prefix: "special" }
+        ];
+
+        // Custom builders technical workflow steps tracking structures configuration specs
+        const BUILDER_SCHEMAS = {
+            "ice-cream": {
+                title: "Ice Cream Laboratory",
+                basePrice: 45,
+                steps: [
+                    {
+                        id: "base",
+                        title: "Choose Base",
+                        desc: "Select foundational churn template architecture layer",
+                        options: [
+                            { id: "vanilla-b", name: "Classic Madagascar Vanilla", price: 0, image: "assets/ice-cream/base-vanilla.png" },
+                            { id: "chocolate-b", name: "Belgian Deep Cocoa", price: 5, image: "assets/ice-cream/base-chocolate.png" },
+                            { id: "pistachio-b", name: "Sicilian Roasted Pistachio", price: 15, image: "assets/ice-cream/base-pistachio.png" }
+                        ]
+                    },
+                    {
+                        id: "chocolate",
+                        title: "Choose Chocolate Type",
+                        desc: "Inject premium hot standard core layer core base selection melt",
+                        options: [
+                            { id: "milk-choc", name: "Creamy Alpine Milk Chocolate", price: 10, image: "assets/ice-cream/choc-milk.png" },
+                            { id: "dark-choc", name: "70% Ecuador Dark Cocoa", price: 10, image: "assets/ice-cream/choc-dark.png" },
+                            { id: "white-choc", name: "Ivory Coast Velvet White", price: 12, image: "assets/ice-cream/choc-white.png" }
+                        ]
+                    },
+                    {
+                        id: "coating",
+                        title: "Choose Coating",
+                        desc: "Hardening snap shell outer coating outer armor component",
+                        options: [
+                            { id: "lotus-shell", name: "Lotus Biscoff Crunch Shell", price: 15, image: "assets/ice-cream/coat-lotus.png" },
+                            { id: "hazelnut-shell", name: "Roasted Hazelnut Rocher", price: 18, image: "assets/ice-cream/coat-rocher.png" },
+                            { id: "none-shell", name: "Skip Outer Coating Layer", price: 0, image: "" }
+                        ]
+                    },
+                    {
+                        id: "filling",
+                        title: "Choose Filling",
+                        desc: "Internal foundational pocket blast core liquid element injectable",
+                        options: [
+                            { id: "salted-caramel", name: "Gooey Salted Toffee Caramel", price: 12, image: "assets/ice-cream/fill-caramel.png" },
+                            { id: "berry-compote", name: "Wild Field Raspberry Coulis", price: 10, image: "assets/ice-cream/fill-berry.png" },
+                            { id: "nutella-core", name: "Liquid Gianduja Nutella Cream", price: 14, image: "assets/ice-cream/fill-nutella.png" }
+                        ]
+                    }
+                ]
+            },
+            "tree-waffle": {
+                title: "Tree Waffle Architect",
+                basePrice: 50,
+                steps: [
+                    {
+                        id: "base",
+                        title: "Waffle Grid Base",
+                        desc: "Standard base template setup confirmation framework",
+                        options: [
+                            { id: "signature-waffle", name: "Classic Golden Buttermilk Base", price: 0, image: "assets/waffle/base-standard.png" }
+                        ]
+                    },
+                    {
+                        id: "sauce",
+                        title: "Choose Sauce Type",
+                        desc: "Primary premium surface flooding sauce fluid overlay configuration",
+                        options: [
+                            { id: "belgian-milk", name: "Warm Milk Chocolate Drizzle", price: 10, image: "assets/waffle/sauce-milk.png" },
+                            { id: "white-velvet", name: "Melted White Chocolate Silk", price: 10, image: "assets/waffle/sauce-white.png" },
+                            { id: "pistachio-spread", name: "Premium Pistachio Cream Sauce", price: 20, image: "assets/waffle/sauce-pistachio.png" }
+                        ]
+                    },
+                    {
+                        id: "toppings",
+                        title: "Select Crust Toppings",
+                        desc: "Crisp structural aggregate textures to sprinkle across profile surface",
+                        options: [
+                            { id: "oreos", name: "Crushed Oreo Biscuit Sand", price: 8, image: "assets/waffle/top-oreo.png" },
+                            { id: "almonds", name: "Toasted Flaked Californian Almonds", price: 12, image: "assets/waffle/top-almond.png" },
+                            { id: "sprinkles", name: "Rainbow Festive Confectionery Glass", price: 5, image: "assets/waffle/top-sprinkles.png" }
+                        ]
+                    },
+                    {
+                        id: "filling",
+                        title: "Optional Filling Core",
+                        desc: "Optional addition element to enrich general structure density",
+                        options: [
+                            { id: "no-w-fill", name: "No Additional Filling Vector", price: 0, image: "" },
+                            { id: "marshmallow", name: "Fluffy Whipped Marshmallow Cream", price: 10, image: "assets/waffle/fill-marsh.png" },
+                            { id: "banana", name: "Fresh Sliced Local Organic Banana", price: 8, image: "assets/waffle/fill-banana.png" }
+                        ]
+                    }
+                ]
+            },
+            "milkshake": {
+                title: "Milkshake Lab Formulation",
+                basePrice: 60,
+                steps: [
+                    {
+                        id: "base",
+                        title: "STEP 1: Choose Base Blend",
+                        desc: "Select foundational hand-spun dairy cream profile structure variant",
+                        options: [
+                            { id: "shake-vanilla", name: "White Cream Blend (Vanilla)", price: 0, image: "assets/milkshake/base-vanilla.png" },
+                            { id: "shake-chocolate", name: "Chocolate Base Blend (Cocoa)", price: 5, image: "assets/milkshake/base-chocolate.png" }
+                        ]
+                    },
+                    {
+                        id: "category",
+                        title: "STEP 2: Select Profile Direction",
+                        desc: "Filters focus dynamically to structure customized sub-selections pathing",
+                        options: [
+                            { id: "cat-choc", name: "Chocolate Only Matrix", price: 0, image: "assets/milkshake/cat-choc.png", branch: "chocolate" },
+                            { id: "cat-fruit", name: "Fruits Only Matrix", price: 0, image: "assets/milkshake/cat-fruit.png", branch: "fruits" },
+                            { id: "cat-mix", name: "Hybrid Fusion Combination Blend", price: 10, image: "assets/milkshake/cat-mix.png", branch: "mix" }
+                        ]
+                    },
+                    {
+                        id: "dynamic-step",
+                        title: "STEP 3: Flavor Element Injections",
+                        desc: "Conditional runtime properties generation mapping matrix layer nodes",
+                        options: [] // Populates dynamically via contextual selection state filters engine
+                    }
+                ]
+            }
         };
 
-        DOM.nextBtn.addEventListener("click", handleNextStep);
-        setupStaticOptions();
-        initIntersectionObserver();
-    }
+        // Milkshake specialized dynamic sub-options branch index structures
+        const SHAKE_DYNAMIC_OPTIONS = {
+            "chocolate": [
+                { id: "f-flakes", name: "Flaked Cadbury Flake Shards", price: 15, image: "assets/milkshake/flav-flake.png" },
+                { id: "f-kitkat", name: "Crushed Chunky KitKat Segments", price: 12, image: "assets/milkshake/flav-kitkat.png" },
+                { id: "f-brownie", name: "Fudge Double-Choc Bakery Brownie", price: 20, image: "assets/milkshake/flav-brownie.png" }
+            ],
+            "fruits": [
+                { id: "f-strawberry", name: "Fresh Alpine Strawberry Puree", price: 12, image: "assets/milkshake/flav-straw.png" },
+                { id: "f-mango", name: "Fresh Alphonso Mango Nectar Pulp", price: 15, image: "assets/milkshake/flav-mango.png" },
+                { id: "f-blueberry", name: "Wild Mountain Blueberry Coulis", price: 14, image: "assets/milkshake/flav-blue.png" }
+            ]
+        };
 
-    function initIntersectionObserver() {
-        const observer = new IntersectionObserver(entries => {
-            entries.forEach(entry => {
-                entry.target.classList.toggle("active", entry.isIntersecting);
-            });
-        }, { threshold: 0.6 });
 
-        DOM.cards.forEach(card => observer.observe(card));
-    }
+        // ==========================================
+        // 2. STATE ARCHITECTURE APPLICATION LAYER
+        // ==========================================
+        
+        let currentActiveSectionId = null;
+        let builderActiveSchemaId = null;
+        let builderCurrentStepIndex = 0;
+        let builderSelectedSelections = {}; // Schema steps mapping structures selections store object
 
-    function setupStaticOptions() {
-        bindGroupEvents(DOM.baseOptions, "base", DOM.baseLayer);
-        bindGroupEvents(DOM.typeOptions, "type", null, true);
-        bindGroupEvents(DOM.fillingOptions, "filling", DOM.fillingLayer);
-    }
 
-    /**
-     * ربط الأحداث مع إدراج ميزة الـ Auto-Focus Scroll والـ Focus Styling
-     */
-    function bindGroupEvents(container, stateKey, layerElement, isTypeStep = false) {
-        container.querySelectorAll(".option-btn").forEach(btn => {
-            // عند الضغط أو الاختيار المباشر
-            btn.addEventListener("click", (e) => {
-                const target = e.currentTarget;
-                if (layerElement) target.getAttribute("data-src") ? layerElement.src = target.getAttribute("data-src") : null;
-                if (isTypeStep) STATE.selectedType = target.getAttribute("data-type");
-                
-                updateActiveState(container, target);
-                STATE.selections[stateKey] = target.getAttribute("data-name");
-                
-                // ميزة التمرير التلقائي الذكي لمركز العنصر المختار داخل الحاوية الثنائية
-                target.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-            });
+        // ==========================================
+        // 3. CORE ROUTING & VIEW CONTROLLERS 
+        // ==========================================
 
-            // ميزة التمرير التلقائي الفوري لمجرد تحرك الـ Focus (مثال عند استخدام لوحة المفاتيح Tab للتنقل)
-            btn.addEventListener("focus", (e) => {
-                e.currentTarget.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            });
+        document.addEventListener("DOMContentLoaded", () => {
+            initializeMainMenuGrid();
+            setupIntersectionAutoObserver();
         });
-    }
 
-    function updateActiveState(container, activeElement) {
-        container.querySelectorAll(".option-btn").forEach(img => img.classList.remove("active"));
-        activeElement.classList.add("active");
-        DOM.activeLabel.textContent = activeElement.getAttribute("data-name");
-    }
+        function initializeMainMenuGrid() {
+            const grid = document.getElementById("main-menu-grid");
+            grid.innerHTML = "";
 
-    function openBuilder() {
-        DOM.baseLayer.removeAttribute('src');
-        DOM.coatingLayer.removeAttribute('src');
-        DOM.fillingLayer.removeAttribute('src');
-        document.querySelectorAll(".option-btn").forEach(btn => btn.classList.remove("active"));
-        
-        STATE.selectedType = "";
-        STATE.step = 1;
-        STATE.selections = { base: "", type: "", coating: "", filling: "" };
-        
-        DOM.builder.style.display = "block";
-        updateStepUI();
-    }
+            MENU_DATA.forEach(item => {
+                const card = document.createElement("div");
+                card.className = "scroll-reveal glass-card rounded-2xl overflow-hidden cursor-pointer flex flex-col group relative";
+                card.dataset.id = item.id;
+                
+                // Content UI construction adhering to rigid design rules (Dark overlay background + Centered labels)
+                card.innerHTML = `
+                    <div class="relative w-full aspect-square overflow-hidden bg-stone-900">
+                        <img src="${item.baseImage}" alt="${item.name}" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-75">
+                        <div class="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-950/40 to-stone-900/20 group-hover:via-stone-950/30 transition-all duration-300"></div>
+                        
+                        <!-- Visual indicator pill flags based on product variant structural parameters -->
+                        <div class="absolute top-2.5 right-2.5 px-2 py-0.5 text-[9px] font-bold tracking-wider rounded bg-stone-950/80 backdrop-blur text-stone-400 border border-stone-800 uppercase">
+                            ${item.type === 'custom' ? '<span class="text-amber-400"><i class="fa-solid fa-wand-magic-sparkles mr-1"></i>Builder</span>' : item.type === 'hybrid' ? 'Menu + Build' : 'Menu'}
+                        </div>
+                    </div>
+                    <div class="p-4 flex-grow flex flex-col justify-between bg-stone-900/30 border-t border-stone-900/60">
+                        <div>
+                            <h3 class="text-base font-bold text-stone-100 tracking-tight group-hover:text-amber-400 transition-colors">${item.name}</h3>
+                            <p class="text-xs text-stone-500 line-clamp-2 mt-1 leading-relaxed font-light">${item.desc}</p>
+                        </div>
+                        <div class="mt-3 pt-2.5 border-t border-stone-800/40 flex items-center text-xs font-semibold text-amber-500 group-hover:translate-x-1 transition-transform">
+                            ${item.type === 'custom' ? 'Open Customizer' : 'View Selections'} <i class="fa-solid fa-chevron-right text-[10px] ml-1.5"></i>
+                        </div>
+                    </div>
+                `;
 
-    function goBack() {
-        if (STATE.step === 1) {
-            DOM.builder.style.display = "none";
-        } else {
-            STATE.step--;
-            updateStepUI();
-        }
-    }
-
-    function updateStepUI() {
-        DOM.baseOptions.style.display    = STATE.step === 1 ? "grid" : "none";
-        DOM.typeOptions.style.display    = STATE.step === 2 ? "grid" : "none";
-        DOM.coatingOptions.style.display = STATE.step === 3 ? "grid" : "none";
-        DOM.fillingOptions.style.display = STATE.step === 4 ? "grid" : "none";
-
-        DOM.builder.style.backgroundImage = `url(${STATE.bgList[STATE.step - 1]})`;
-        DOM.stepper.textContent = `Step ${STATE.step} / 4`;
-        DOM.nextBtn.textContent = STATE.step === 4 ? "Add to Cart 🛒" : "Next";
-
-        const currentSelectionKey = ['base', 'type', 'coating', 'filling'][STATE.step - 1];
-        DOM.activeLabel.textContent = STATE.selections[currentSelectionKey] || stepLabels[STATE.step];
-
-        // ميزة إعادة التمرير التلقائي لأعلى قائمة الخيارات عند انتقال الخطوات
-        const activeContainer = [DOM.baseOptions, DOM.typeOptions, DOM.coatingOptions, DOM.fillingOptions][STATE.step - 1];
-        activeContainer.scrollTop = 0;
-    }
-
-    function handleNextStep() {
-        if (STATE.step === 1 && !DOM.baseLayer.getAttribute('src')) return alert("Please select a base flavor first!");
-        if (STATE.step === 2 && !STATE.selectedType) return alert("Please choose your preferred chocolate type!");
-        if (STATE.step === 3 && !DOM.coatingLayer.getAttribute('src')) return alert("Please pick a topping coating!");
-
-        if (STATE.step === 2) {
-            generateCoatingOptions(STATE.selectedType);
+                // Navigation execution pipeline rules routing gateway logic assignment
+                card.addEventListener("click", () => handleMenuCardClick(item));
+                grid.appendChild(card);
+            });
         }
 
-        if (STATE.step < 4) {
-            STATE.step++;
-            updateStepUI();
-        } else {
-            alert(`Delicious custom stick added to cart! 🎉\n- Base: ${STATE.selections.base}\n- Chocolate: ${STATE.selections.type}\n- Coating: ${STATE.selections.coating}\n- Filling: ${STATE.selections.filling || "None"}`);
-            DOM.builder.style.display = "none";
+        function handleMenuCardClick(item) {
+            currentActiveSectionId = item.id;
+            
+            if (item.type === "custom") {
+                // Ice Cream (MAIN CUSTOM BUILDER) -> open builder directly bypassing asset views gallery module
+                openCustomBuilder(item.id);
+            } else if (item.type === "static") {
+                // Static section target execution structure -> view images only context layout
+                openImageViewerOnly(item);
+            } else if (item.type === "hybrid") {
+                // Hybrid structure rule (Milkshake / Tree Waffle) -> open images first, then display clear customizer transition CTA bridges
+                openHybridViewer(item);
+            }
         }
-    }
 
-    function generateCoatingOptions(type) {
-        DOM.coatingOptions.innerHTML = "";
-        
-        const variants = [
-            { id: 'plain', name: `Plain ${type.charAt(0).toUpperCase() + type.slice(1)}` },
-            { id: 'pistachio', name: 'Crunchy Pistachio Flakes' },
-            { id: 'hazelnut', name: 'Roasted Hazelnut Pieces' }
-        ];
-        
-        const fragment = document.createDocumentFragment();
-        
-        variants.forEach(variant => {
-            const button = document.createElement('button');
-            button.className = 'option-btn';
-            button.setAttribute('data-name', variant.name);
+        // Auto Focus Scaling System utilizing an intersection entry observer metrics standard
+        function setupIntersectionAutoObserver() {
+            const options = { root: null, rootMargin: "0px", threshold: 0.25 };
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("visible");
+                        entry.target.classList.add("shadow-[0_10px_30px_rgba(0,0,0,0.5)]");
+                    } else {
+                        entry.target.classList.remove("visible");
+                        entry.target.classList.remove("shadow-[0_10px_30px_rgba(0,0,0,0.5)]");
+                    }
+                });
+            }, options);
+
+            setTimeout(() => {
+                document.querySelectorAll(".scroll-reveal").forEach(el => observer.observe(el));
+            }, 300);
+        }
+
+
+        // ==========================================
+        // 4. IMAGE GALLERY VIEWER SUBSYSTEM
+        // ==========================================
+
+        function openImageViewerOnly(item) {
+            document.body.classList.add("lock-scroll");
+            const overlay = document.getElementById("viewer-overlay");
+            const title = document.getElementById("viewer-title");
+            const galleryContainer = document.getElementById("viewer-gallery-container");
+            const hybridCta = document.getElementById("hybrid-cta-container");
+
+            title.innerText = item.name;
+            hybridCta.classList.add("hidden"); // Enforce pure static containment enforcement
+            galleryContainer.innerHTML = "";
+
+            // Dynamic asset assembly parser generation loop engine
+            if (item.id === "mini-ice-cream") {
+                // Show ready products only - around 11 flavors inside structural assets pipeline loop
+                for (let i = 1; i <= 11; i++) {
+                    appendImageItemNode(galleryContainer, item.folder, `${item.prefix}${i}.jpg`, `Flavor Formulation Track v0${i}`);
+                }
+            } else {
+                for (let i = 1; i <= (item.count || 3); i++) {
+                    appendImageItemNode(galleryContainer, item.folder, `${item.prefix}${i}.jpg`, `${item.name} Edition Variant Selection Option 0${i}`);
+                }
+            }
+
+            overlay.classList.remove("invisible", "opacity-0");
+        }
+
+        function openHybridViewer(item) {
+            document.body.classList.add("lock-scroll");
+            const overlay = document.getElementById("viewer-overlay");
+            const title = document.getElementById("viewer-title");
+            const galleryContainer = document.getElementById("viewer-gallery-container");
+            const hybridCta = document.getElementById("hybrid-cta-container");
+            const hybridCtaTitle = document.getElementById("hybrid-cta-title");
+            const hybridCtaBtn = document.getElementById("hybrid-cta-btn");
+
+            title.innerText = `${item.name} House Menu`;
+            galleryContainer.innerHTML = "";
+
+            // Inject the 3 specific standardized immutable ready-to-consume product line assets inside layout canvas frame
+            for (let i = 1; i <= 3; i++) {
+                appendImageItemNode(galleryContainer, item.folder, `${item.prefix}${i}.jpg`, `Signature Premade ${item.name} Concept Item 0${i}`);
+            }
+
+            // Expose the "Make Your Own" custom builder pathway bridge anchor control mechanics interface blocks
+            hybridCtaTitle.innerText = `Make Your Own ${item.name}`;
+            hybridCta.classList.remove("hidden");
             
-            const imgPath = `images/coating/${type}_${variant.id}.png`;
-            button.setAttribute('data-src', imgPath);
+            hybridCtaBtn.onclick = () => {
+                closeViewerOverlay();
+                openCustomBuilder(item.id);
+            };
+
+            overlay.classList.remove("invisible", "opacity-0");
+        }
+
+        // DOM element compilation factories for image viewing streams
+        function appendImageItemNode(parent, folder, filename, labelText) {
+            const container = document.createElement("div");
+            container.className = "w-full rounded-2xl bg-stone-900/60 border border-stone-800/80 overflow-hidden flex flex-col shadow-lg";
             
-            const img = document.createElement('img');
-            img.src = imgPath;
-            img.alt = variant.name;
+            // EXACT NAME CONSTRAINTS IMPLEMENTED VIA HARDCODED COMMENTARY AS REQUESTED:
+            // This references standard GitHub paths e.g. assets/v60/v601.jpg, assets/coldbrew/coldbrew1.jpg, assets/waffle/waffle1.jpg, etc.
+            const imagePath = `assets/${folder}/${filename}`;
+
+            container.innerHTML = `
+                <div class="w-full aspect-[4/3] bg-stone-950 relative flex items-center justify-center overflow-hidden">
+                    <img src="${imagePath}" alt="${labelText}" loading="lazy" 
+                         onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1551024601-bec78aea704b?w=500&auto=format&fit=crop&q=60'; this.nextElementSibling.classList.remove('hidden');"
+                         class="w-full h-full object-cover">
+                    <!-- Graceful Fallback notification tag block component -->
+                    <div class="absolute inset-0 bg-stone-900/90 flex flex-col items-center justify-center p-4 text-center hidden pointer-events-none">
+                        <i class="fa-solid fa-image text-2xl text-stone-600 mb-2"></i>
+                        <p class="text-xs text-stone-500 font-mono">${folder}/${filename}</p>
+                    </div>
+                </div>
+                <div class="p-3 bg-stone-900/40 flex items-center justify-between border-t border-stone-900/40">
+                    <span class="text-xs font-semibold tracking-wide text-stone-200">${labelText}</span>
+                    <span class="text-[10px] uppercase font-bold px-2 py-0.5 bg-stone-800 text-stone-400 rounded">Ready Base</span>
+                </div>
+            `;
+            parent.appendChild(container);
+        }
+
+        function closeViewerOverlay() {
+            document.body.classList.remove("lock-scroll");
+            const overlay = document.getElementById("viewer-overlay");
+            overlay.classList.add("invisible", "opacity-0");
+        }
+
+
+        // ==========================================
+        // 5. CUSTOM BUILDER REAL-TIME SYSTEM ENGINE
+        // ==========================================
+
+        function openCustomBuilder(schemaId) {
+            document.body.classList.add("lock-scroll");
+            builderActiveSchemaId = schemaId;
+            builderCurrentStepIndex = 0;
+            builderSelectedSelections = {}; // Clear previous context configurations stores instances safely
+
+            const schema = BUILDER_SCHEMAS[schemaId];
+            document.getElementById("builder-menu-title").innerText = schema.title;
             
-            button.appendChild(img);
+            // Build initialization parameters tracking architectures setup triggers
+            initializeStepperUI(schema);
+            renderBuilderCurrentStep();
+
+            const builderOverlay = document.getElementById("builder-overlay");
+            builderOverlay.classList.remove("invisible", "opacity-0");
+        }
+
+        function initializeStepperUI(schema) {
+            const stepper = document.getElementById("builder-stepper");
+            stepper.innerHTML = "";
             
-            button.addEventListener('click', function() {
-                DOM.coatingLayer.src = this.getAttribute('data-src');
-                updateActiveState(DOM.coatingOptions, this);
-                STATE.selections.coating = this.getAttribute('data-name');
-                this.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            schema.steps.forEach((step, index) => {
+                const stepDot = document.createElement("div");
+                stepDot.id = `step-dot-${index}`;
+                stepDot.className = `h-1.5 rounded-full transition-all duration-300 ${index === 0 ? "w-8 bg-amber-500" : "w-3 bg-stone-800"}`;
+                stepper.appendChild(stepDot);
+            });
+        }
+
+        function updateStepperUI() {
+            const schema = BUILDER_SCHEMAS[builderActiveSchemaId];
+            schema.steps.forEach((_, index) => {
+                const stepDot = document.getElementById(`step-dot-${index}`);
+                if (stepDot) {
+                    if (index === builderCurrentStepIndex) {
+                        stepDot.className = "h-1.5 w-8 bg-amber-500 transition-all duration-300";
+                    } else if (index < builderCurrentStepIndex) {
+                        stepDot.className = "h-1.5 w-3 bg-amber-600/70 transition-all duration-300";
+                    } else {
+                        stepDot.className = "h-1.5 w-3 bg-stone-800 transition-all duration-300";
+                    }
+                }
+            });
+        }
+
+        function renderBuilderCurrentStep() {
+            const schema = BUILDER_SCHEMAS[builderActiveSchemaId];
+            
+            // Structural branching intercept logic execution mapping for Milkshake Step 3 Dynamic parameters tracking
+            if (builderActiveSchemaId === "milkshake" && builderCurrentStepIndex === 2) {
+                configureMilkshakeDynamicStepSchema(schema);
+            }
+
+            const stepData = schema.steps[builderCurrentStepIndex];
+            
+            // DOM texts update updates arrays mapping executions
+            document.getElementById("step-badge").innerText = `Step ${builderCurrentStepIndex + 1} of ${schema.steps.length}`;
+            document.getElementById("step-display-title").innerText = stepData.title;
+            document.getElementById("step-display-desc").innerText = stepData.desc;
+
+            // Generate selection option card matrices UI blocks instances components
+            const matrixGrid = document.getElementById("options-matrix-grid");
+            matrixGrid.innerHTML = "";
+
+            stepData.options.forEach(opt => {
+                const optCard = document.createElement("div");
+                
+                // Track currently active selected status elements states variables mappings
+                const isSelected = builderSelectedSelections[stepData.id] && (
+                    Array.isArray(builderSelectedSelections[stepData.id]) 
+                    ? builderSelectedSelections[stepData.id].some(s => s.id === opt.id)
+                    : builderSelectedSelections[stepData.id].id === opt.id
+                );
+
+                optCard.className = `glass-card p-4 rounded-xl cursor-pointer flex flex-col justify-between min-h-[110px] ${isSelected ? "active" : ""}`;
+                
+                const trackingPriceDisplay = opt.price > 0 ? `+${opt.price} EGP` : "Included";
+                
+                optCard.innerHTML = `
+                    <div class="flex items-start justify-between gap-1">
+                        <span class="text-xs font-bold text-stone-100 tracking-tight leading-tight">${opt.name}</span>
+                        ${isSelected ? '<i class="fa-solid fa-circle-check text-amber-400 text-sm shrink-0"></i>' : '<div class="w-3.5 h-3.5 rounded-full border border-stone-600 shrink-0 mt-0.5"></div>'}
+                    </div>
+                    <div class="mt-4 flex items-center justify-between">
+                        <span class="text-[10px] font-mono font-semibold text-amber-500/90">${trackingPriceDisplay}</span>
+                        <div class="w-6 h-6 rounded-full bg-stone-900 flex items-center justify-center border border-stone-800 text-[10px] text-stone-500">
+                            <i class="fa-solid fa-plus"></i>
+                        </div>
+                    </div>
+                `;
+
+                optCard.onclick = () => selectBuilderOption(stepData, opt);
+                matrixGrid.appendChild(optCard);
             });
 
-            button.addEventListener("focus", (e) => {
-                e.currentTarget.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            });
+            // Evaluation logic execution configuration to enforce disabled next tracking navigation flows rules parameters
+            evaluateNavigationControlState();
+            updateStepperUI();
+            calculateLivePriceTrackers();
+        }
+
+        // Milkshake multi-category step structural processing logic algorithms
+        function configureMilkshakeDynamicStepSchema(schema) {
+            const targetStepNode = schema.steps[2];
+            const chosenCategorySelection = builderSelectedSelections["category"];
+            const branchId = chosenCategorySelection.branch;
+
+            if (branchId === "chocolate") {
+                targetStepNode.title = "STEP 3: Choose Chocolates";
+                targetStepNode.desc = "Select premium rich cocoa compound extensions to mix into your cream blend";
+                targetStepNode.options = SHAKE_DYNAMIC_OPTIONS["chocolate"];
+                targetStepNode.allowMultiple = false;
+            } else if (branchId === "fruits") {
+                targetStepNode.title = "STEP 3: Choose Fresh Fruits";
+                targetStepNode.desc = "Select premium organic direct field-harvested fructose elements textures infusions";
+                targetStepNode.options = SHAKE_DYNAMIC_OPTIONS["fruits"];
+                targetStepNode.allowMultiple = false;
+            } else if (branchId === "mix") {
+                targetStepNode.title = "STEP 3: Premium Hybrid Fusion Mix";
+                targetStepNode.desc = "Select exactly one item component element from BOTH chocolate AND fruit tracks below";
+                
+                // Concat structures securely mapped into single flattened layout layer index fields options
+                targetStepNode.options = [
+                    ...SHAKE_DYNAMIC_OPTIONS["chocolate"].map(o => ({...o, name: `[Choc] ${o.name}`, origin: "chocolate"})),
+                    ...SHAKE_DYNAMIC_OPTIONS["fruits"].map(o => ({...o, name: `[Fruit] ${o.name}`, origin: "fruits"}))
+                ];
+                targetStepNode.allowMultiple = true;
+            }
+        }
+
+        function selectBuilderOption(stepData, option) {
+            if (stepData.allowMultiple) {
+                // Specialized hybrid validation execution routing configuration mechanics tracking context
+                let currentList = builderSelectedSelections[stepData.id] || [];
+                
+                const existingIndex = currentList.findIndex(item => item.id === option.id);
+                if (existingIndex > -1) {
+                    currentList.splice(existingIndex, 1);
+                } else {
+                    // Rule check for Mix category step criteria logic alignment constraint validations parameters
+                    if (builderActiveSchemaId === "milkshake" && stepData.id === "dynamic-step") {
+                        const countOfSameOrigin = currentList.filter(item => item.origin === option.origin).length;
+                        if (countOfSameOrigin >= 1) {
+                            // Enforce rule constraint: evict the previous option item belonging to same lineage block track category instantly
+                            currentList = currentList.filter(item => item.origin !== option.origin);
+                        }
+                    }
+                    currentList.push(option);
+                }
+                builderSelectedSelections[stepData.id] = currentList;
+            } else {
+                // Standard default configuration flow execution: save directly as structural item entry mapping instance
+                builderSelectedSelections[stepData.id] = option;
+            }
+
+            // Execute instantaneous live preview composition canvas texture layers synchronization
+            synchronizeLivePreviewLayers();
+            renderBuilderCurrentStep();
+        }
+
+        // VISUAL PREVIEW SYSTEM - Visual rendering layers assembler pipeline engine
+        function synchronizeLivePreviewLayers() {
+            const baseImg = document.getElementById("layer-base");
+            const mod1Img = document.getElementById("layer-mod1");
+            const mod2Img = document.getElementById("layer-mod2");
+            const mod3Img = document.getElementById("layer-mod3");
+            const loader = document.getElementById("preview-loader");
+
+            // Flash loader element node smoothly to reinforce responsive perception updates states parameters
+            loader.classList.remove("hidden");
+            setTimeout(() => loader.classList.add("hidden"), 200);
+
+            const stepsList = BUILDER_SCHEMAS[builderActiveSchemaId].steps;
             
-            fragment.appendChild(button);
-        });
-        
-        DOM.coatingOptions.appendChild(fragment);
-    }
+            // Layer 1: Base Element Synchronization
+            if (stepsList[0] && builderSelectedSelections[stepsList[0].id]) {
+                baseImg.src = builderSelectedSelections[stepsList[0].id].image;
+                baseImg.classList.remove("opacity-0", "scale-95");
+                baseImg.classList.add("opacity-100", "scale-100");
+            } else {
+                baseImg.classList.add("opacity-0");
+            }
 
-    window.addEventListener("DOMContentLoaded", init);
+            // Layer 2: Modifier Item 1 Synchronization
+            if (stepsList[1] && builderSelectedSelections[stepsList[1].id]) {
+                const chosen = builderSelectedSelections[stepsList[1].id];
+                if (chosen.image) {
+                    mod1Img.src = chosen.image;
+                    mod1Img.classList.remove("opacity-0", "scale-95");
+                    mod1Img.classList.add("opacity-100", "scale-100");
+                } else {
+                    mod1Img.classList.add("opacity-0");
+                }
+            } else {
+                mod1Img.classList.add("opacity-0");
+            }
 
-    return {
-        open: openBuilder,
-        back: goBack
-    };
-})();
-</script>
+            // Layer 3: Modifier Item 2 Synchronization
+            if (stepsList[2] && builderSelectedSelections[stepsList[2].id]) {
+                const chosen = builderSelectedSelections[stepsList[2].id];
+                
+                if (Array.isArray(chosen)) {
+                    // Handle complex multi-selection layers stacking context rules processing outputs mapping parameters
+                    if (chosen.length > 0) {
+                        mod2Img.src = chosen[0].image;
+                        mod2Img.classList.remove("opacity-0", "scale-95");
+                        mod2Img.classList.add("opacity-100", "scale-100");
+                    } else {
+                        mod2Img.classList.add("opacity-0");
+                    }
+                } else if (chosen.image) {
+                    mod2Img.src = chosen.image;
+                    mod2Img.classList.remove("opacity-0", "scale-95");
+                    mod2Img.classList.add("opacity-100", "scale-100");
+                } else {
+                    mod2Img.classList.add("opacity-0");
+                }
+            } else {
+                mod2Img.classList.add("opacity-0");
+            }
 
+            // Layer 4: Modifier Item 3 Synchronization
+            if (stepsList[3] && builderSelectedSelections[stepsList[3].id]) {
+                const chosen = builderSelectedSelections[stepsList[3].id];
+                if (chosen.image) {
+                    mod3Img.src = chosen.image;
+                    mod3Img.classList.remove("opacity-0", "scale-95");
+                    mod3Img.classList.add("opacity-100", "scale-100");
+                } else {
+                    mod3Img.classList.add("opacity-0");
+                }
+            } else {
+                mod3Img.classList.add("opacity-0");
+            }
+
+            // Compile textual readout tag trace tracking string representation descriptions descriptor
+            buildPreviewTextualSummaryDescription();
+        }
+
+        function buildPreviewTextualSummaryDescription() {
+            const textNode = document.getElementById("preview-composition-desc");
+            const parts = [];
+            
+            Object.keys(builderSelectedSelections).forEach(key => {
+                const selectedVal = builderSelectedSelections[key];
+                if (Array.isArray(selectedVal)) {
+                    selectedVal.forEach(item => parts.push(item.name));
+                } else if (selectedVal && selectedVal.name) {
+                    parts.push(selectedVal.name);
+                }
+            });
+
+            textNode.innerText = parts.length > 0 ? parts.join(" + ") : "Select options to compose your custom creation";
+        }
+
+        function calculateLivePriceTrackers() {
+            if (!builderActiveSchemaId) return 0;
+            
+            const schema = BUILDER_SCHEMAS[builderActiveSchemaId];
+            let aggregatePriceSum = schema.basePrice;
+
+            Object.keys(builderSelectedSelections).forEach(key => {
+                const nodeVal = builderSelectedSelections[key];
+                if (Array.isArray(nodeVal)) {
+                    nodeVal.forEach(item => aggregatePriceSum += item.price);
+                } else if (nodeVal && nodeVal.price) {
+                    aggregatePriceSum += nodeVal.price;
+                }
+            });
+
+            document.getElementById("builder-live-price").innerText = `Total: ${aggregatePriceSum} EGP`;
+            return aggregatePriceSum;
+        }
+
+        function evaluateNavigationControlState() {
+            const schema = BUILDER_SCHEMAS[builderActiveSchemaId];
+            const stepData = schema.steps[builderCurrentStepIndex];
+            const activeSelectionInstance = builderSelectedSelections[stepData.id];
+
+            let stepIsCompleteAndValid = false;
+
+            if (stepData.allowMultiple) {
+                if (builderActiveSchemaId === "milkshake" && stepData.id === "dynamic-step") {
+                    const chosenCategory = builderSelectedSelections["category"];
+                    if (chosenCategory && chosenCategory.branch === "mix") {
+                        // Mix branch category requires exactly 2 choices components elements to meet validation parameters
+                        const structurallyValid = Array.isArray(activeSelectionInstance) && 
+                                                 activeSelectionInstance.some(i => i.origin === "chocolate") && 
+                                                 activeSelectionInstance.some(i => i.origin === "fruits");
+                        stepIsCompleteAndValid = structurallyValid;
+                    } else {
+                        stepIsCompleteAndValid = Array.isArray(activeSelectionInstance) && activeSelectionInstance.length >= 1;
+                    }
+                } else {
+                    stepIsCompleteAndValid = Array.isArray(activeSelectionInstance) && activeSelectionInstance.length >= 1;
+                }
+            } else {
+                stepIsCompleteAndValid = typeof activeSelectionInstance === "object" && activeSelectionInstance !== null;
+            }
+
+            // Update DOM control button node instances attributes mapping states parameters values updates strings
+            document.getElementById("btn-builder-prev").disabled = (builderCurrentStepIndex === 0);
+            
+            const nextBtn = document.getElementById("btn-builder-next");
+            if (builderCurrentStepIndex === schema.steps.length - 1) {
+                nextBtn.innerHTML = `Complete Structure <i class="fa-solid fa-wand-magic-sparkles ml-2"></i>`;
+            } else {
+                nextBtn.innerHTML = `Next Step <i class="fa-solid fa-arrow-right ml-2"></i>`;
+            }
+
+            nextBtn.disabled = !stepIsCompleteAndValid;
+        }
+
+        function handleBuilderNext() {
+            const schema = BUILDER_SCHEMAS[builderActiveSchemaId];
+            if (builderCurrentStepIndex < schema.steps.length - 1) {
+                builderCurrentStepIndex++;
+                renderBuilderCurrentStep();
+            } else {
+                // Ultimate step index threshold reached -> render result review screen layer summary block
+                launchSummaryScreenOverlay();
+            }
+        }
+
+        function handleBuilderBack() {
+            if (builderCurrentStepIndex > 0) {
+                builderCurrentStepIndex--;
+                renderBuilderCurrentStep();
+            }
+        }
+
+        function closeCustomBuilderOverlay() {
+            document.body.classList.remove("lock-scroll");
+            document.getElementById("builder-overlay").classWithAttributes = "";
+            document.getElementById("builder-overlay").classList.add("fixed", "inset-0", "z-50", "invisible", "opacity-0", "transition-all", "duration-300", "flex", "flex-col", "bg-stone-950/95", "backdrop-blur-xl");
+        }
+
+
+        // ==========================================
+        // 6. RESULT SUMMARY VISUALIZATION MODULE
+        // ==========================================
+
+        function launchSummaryScreenOverlay() {
+            const schema = BUILDER_SCHEMAS[builderActiveSchemaId];
+            const listContainer = document.getElementById("summary-items-box");
+            listContainer.innerHTML = "";
+
+            // Structural loop generation parsing values to map out visual summaries entries parameters
+            schema.steps.forEach(stepNode => {
+                const selection = builderSelectedSelections[stepNode.id];
+                const itemRow = document.createElement("div");
+                itemRow.className = "flex items-center justify-between py-2 border-b border-stone-800/40 text-xs";
+
+                if (Array.isArray(selection)) {
+                    const namesJoined = selection.map(s => s.name).join(", ");
+                    const pricesSummed = selection.reduce((acc, curr) => acc + curr.price, 0);
+                    itemRow.innerHTML = `
+                        <div class="flex flex-col">
+                            <span class="text-[10px] uppercase tracking-wider text-stone-500 font-bold">${stepNode.title}</span>
+                            <span class="text-stone-200 font-medium mt-0.5">${namesJoined}</span>
+                        </div>
+                        <span class="font-mono text-amber-500 font-semibold">+${pricesSummed} EGP</span>
+                    `;
+                } else {
+                    itemRow.innerHTML = `
+                        <div class="flex flex-col">
+                            <span class="text-[10px] uppercase tracking-wider text-stone-500 font-bold">${stepNode.title}</span>
+                            <span class="text-stone-200 font-medium mt-0.5">${selection.name}</span>
+                        </div>
+                        <span class="font-mono text-amber-500 font-semibold">${selection.price > 0 ? `+${selection.price} EGP` : "Included"}</span>
+                    `;
+                }
+                listContainer.appendChild(itemRow);
+            });
+
+            // Set finalized pricing strings parameters nodes updates fields
+            const finalizedCalculatedPrice = calculateLivePriceTrackers();
+            document.getElementById("summary-final-price").innerText = `${finalizedCalculatedPrice} EGP`;
+
+            // Active display container wrappers animations processing transitions fields updates
+            const wrapper = document.getElementById("summary-overlay");
+            wrapper.classList.remove("invisible", "opacity-0");
+            wrapper.firstElementChild.classList.remove("scale-95");
+            wrapper.firstElementChild.classList.add("scale-100");
+        }
+
+        function closeSummaryAndReopenBuilder() {
+            const wrapper = document.getElementById("summary-overlay");
+            wrapper.classList.add("invisible", "opacity-0");
+            wrapper.firstElementChild.classList.remove("scale-100");
+            wrapper.firstElementChild.classList.add("scale-95");
+        }
+
+        function clearAllOverlays() {
+            closeSummaryAndReopenBuilder();
+            closeCustomBuilderOverlay();
+            closeViewerOverlay();
+        }
+    </script>
 </body>
 </html>
