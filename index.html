@@ -1,1946 +1,284 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Kod El Fa7l</title>
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kod El Fa7l V2</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
 <style>
-/* ===========================
-   CSS VARIABLES & RESET
-=========================== */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body{margin:0;background:#0c0a09;color:#fff;font-family:Inter,sans-serif}
+.lock{overflow:hidden}
 
-:root {
-  --bg: #0a0805;
-  --surface: #130f0a;
-  --surface2: #1c1610;
-  --surface3: #261e15;
-  --accent: #d4952a;
-  --accent2: #f0b84a;
-  --accent3: #8b5e1a;
-  --text: #f5ede0;
-  --text2: #b8a48e;
-  --text3: #7a6a57;
-  --danger: #e05555;
-  --radius: 18px;
-  --radius-sm: 10px;
-  --shadow: 0 8px 40px rgba(0,0,0,0.6);
-  --glow: 0 0 30px rgba(212,149,42,0.25);
-  --transition: 0.35s cubic-bezier(0.4,0,0.2,1);
-}
+/* CARD */
+.card{transition:.4s;border-radius:16px;overflow:hidden;cursor:pointer}
+.card.active{transform:scale(1.06);box-shadow:0 0 25px rgba(255,255,255,.2)}
 
-html { scroll-behavior: smooth; }
+/* BUILDER */
+.layer{position:absolute;inset:0;object-fit:contain;transition:.3s}
+.fade{opacity:0;transform:scale(.95)}
+.show{opacity:1;transform:scale(1)}
 
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'DM Sans', sans-serif;
-  min-height: 100vh;
-  overflow-x: hidden;
-}
+.option{background:#1f1f1f;padding:12px;border-radius:12px;text-align:center;cursor:pointer;transition:.3s}
+.option.active{transform:scale(1.1);box-shadow:0 0 15px #fff}
 
-/* ===========================
-   SCROLLBAR
-=========================== */
-::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: var(--accent3); border-radius: 4px; }
-
-/* ===========================
-   HERO / MAIN PAGE
-=========================== */
-#main-page {
-  min-height: 100vh;
-  padding: 0 0 60px;
-}
-
-.hero-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 48px 24px 32px;
-  position: relative;
-}
-
-.logo-wrap {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  background: var(--surface2);
-  border: 2px solid var(--accent3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 18px;
-  box-shadow: var(--glow);
-  overflow: hidden;
-}
-
-/* Logo image — place logo.png in same folder */
-.logo-wrap img {
-  width: 80px;
-  height: 80px;
-  object-fit: contain;
-}
-
-/* Fallback text logo */
-.logo-text-fallback {
-  font-family: 'Playfair Display', serif;
-  font-size: 13px;
-  font-weight: 900;
-  color: var(--accent);
-  text-align: center;
-  line-height: 1.2;
-  letter-spacing: 1px;
-}
-
-.hero-title {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(2rem, 7vw, 3.5rem);
-  font-weight: 900;
-  color: var(--text);
-  text-align: center;
-  line-height: 1.1;
-}
-
-.hero-title span {
-  color: var(--accent);
-  font-style: italic;
-}
-
-.hero-sub {
-  margin-top: 8px;
-  color: var(--text2);
-  font-size: 0.9rem;
-  font-weight: 300;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-}
-
-/* Decorative separator */
-.sep {
-  width: 60px;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--accent), transparent);
-  margin: 24px auto 0;
-}
-
-/* ===========================
-   MENU GRID
-=========================== */
-.menu-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 14px;
-  padding: 32px 16px 0;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-@media (min-width: 600px) {
-  .menu-grid { grid-template-columns: repeat(3, 1fr); gap: 18px; padding: 32px 24px 0; }
-}
-
-@media (min-width: 900px) {
-  .menu-grid { grid-template-columns: repeat(4, 1fr); gap: 22px; }
-}
-
-/* ===========================
-   MENU CARD
-=========================== */
-.menu-card {
-  position: relative;
-  border-radius: var(--radius);
-  overflow: hidden;
-  cursor: pointer;
-  aspect-ratio: 3/4;
-  background: var(--surface2);
-  transition: transform var(--transition), box-shadow var(--transition);
-  border: 1px solid rgba(255,255,255,0.06);
-}
-
-.menu-card:hover,
-.menu-card.in-view {
-  transform: translateY(-6px) scale(1.02);
-  box-shadow: var(--shadow), var(--glow);
-}
-
-.menu-card:active {
-  transform: scale(0.97);
-}
-
-/* Card image */
-.card-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  transition: transform 0.6s ease;
-  loading: lazy;
-}
-
-.menu-card:hover .card-img {
-  transform: scale(1.07);
-}
-
-/* Dark overlay */
-.card-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to top,
-    rgba(5,3,2,0.92) 0%,
-    rgba(5,3,2,0.45) 40%,
-    rgba(5,3,2,0.15) 100%
-  );
-}
-
-/* Card content */
-.card-content {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 16px 14px 18px;
-}
-
-.card-name {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(1rem, 3vw, 1.25rem);
-  font-weight: 700;
-  color: var(--text);
-  line-height: 1.2;
-  margin-bottom: 4px;
-}
-
-.card-tag {
-  font-size: 0.7rem;
-  font-weight: 500;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--accent);
-}
-
-/* Custom badge */
-.card-badge {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  background: var(--accent);
-  color: #0a0805;
-  font-size: 0.6rem;
-  font-weight: 600;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  padding: 4px 8px;
-  border-radius: 20px;
-}
-
-/* Card shimmer loading */
-.card-shimmer {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.04) 50%, transparent 100%);
-  background-size: 200% 100%;
-  animation: shimmer 1.8s infinite;
-  display: none;
-}
-
-.menu-card.loading .card-shimmer { display: block; }
-
-@keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
-}
-
-/* ===========================
-   FULLSCREEN OVERLAY BASE
-=========================== */
-.overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 100;
-  background: rgba(5,3,2,0.97);
-  backdrop-filter: blur(12px);
-  display: none;
-  flex-direction: column;
-  overflow-y: auto;
-  animation: fadeIn 0.3s ease;
-}
-
-.overlay.active { display: flex; }
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(16px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* Overlay header */
-.overlay-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 20px 20px 16px;
-  border-bottom: 1px solid rgba(255,255,255,0.06);
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  background: rgba(5,3,2,0.95);
-  backdrop-filter: blur(16px);
-}
-
-.overlay-title {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.4rem;
-  font-weight: 700;
-  color: var(--text);
-}
-
-.btn-close {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  border: 1px solid rgba(255,255,255,0.12);
-  background: var(--surface2);
-  color: var(--text2);
-  font-size: 1.1rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s;
-  flex-shrink: 0;
-}
-
-.btn-close:hover {
-  background: var(--danger);
-  color: #fff;
-  border-color: var(--danger);
-}
-
-/* ===========================
-   IMAGE VIEWER
-=========================== */
-#image-viewer {
-  background: var(--bg);
-}
-
-.img-viewer-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 2px;
-  padding: 0;
-}
-
-@media (min-width: 600px) {
-  .img-viewer-grid { grid-template-columns: repeat(2, 1fr); }
-}
-
-@media (min-width: 900px) {
-  .img-viewer-grid { grid-template-columns: repeat(3, 1fr); }
-}
-
-.viewer-img {
-  width: 100%;
-  aspect-ratio: 4/3;
-  object-fit: cover;
-  display: block;
-  transition: transform 0.4s ease;
-  cursor: zoom-in;
-}
-
-.viewer-img:hover {
-  transform: scale(1.02);
-  z-index: 2;
-  position: relative;
-}
-
-/* Lightbox */
-#lightbox {
-  position: fixed;
-  inset: 0;
-  z-index: 200;
-  background: rgba(0,0,0,0.95);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  cursor: zoom-out;
-}
-
-#lightbox.active { display: flex; }
-
-#lightbox-img {
-  max-width: 95vw;
-  max-height: 90vh;
-  object-fit: contain;
-  border-radius: var(--radius-sm);
-}
-
-/* "Make Your Own" CTA section */
-.make-own-section {
-  padding: 48px 24px;
-  text-align: center;
-  border-top: 1px solid rgba(255,255,255,0.06);
-}
-
-.make-own-title {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(1.4rem, 4vw, 2rem);
-  color: var(--text);
-  margin-bottom: 12px;
-}
-
-.make-own-desc {
-  color: var(--text2);
-  font-size: 0.9rem;
-  margin-bottom: 24px;
-  max-width: 420px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.btn-primary {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--accent);
-  color: #0a0805;
-  font-family: 'DM Sans', sans-serif;
-  font-weight: 600;
-  font-size: 0.9rem;
-  letter-spacing: 0.5px;
-  padding: 14px 32px;
-  border-radius: 50px;
-  border: none;
-  cursor: pointer;
-  transition: all 0.25s;
-  box-shadow: 0 4px 20px rgba(212,149,42,0.35);
-}
-
-.btn-primary:hover {
-  background: var(--accent2);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(212,149,42,0.5);
-}
-
-.btn-primary:active { transform: translateY(0); }
-
-/* ===========================
-   BUILDER — SHARED
-=========================== */
-#builder-overlay {
-  background: var(--bg);
-}
-
-/* Stepper */
-.stepper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  padding: 16px 20px 0;
-  flex-wrap: wrap;
-}
-
-.step-pill {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.72rem;
-  font-weight: 500;
-  color: var(--text3);
-  padding: 6px 12px;
-  border-radius: 50px;
-  background: var(--surface2);
-  border: 1px solid rgba(255,255,255,0.06);
-  transition: all 0.25s;
-  white-space: nowrap;
-}
-
-.step-pill.active {
-  background: var(--accent);
-  color: #0a0805;
-  border-color: var(--accent);
-  font-weight: 600;
-}
-
-.step-pill.done {
-  background: var(--surface3);
-  color: var(--accent);
-  border-color: var(--accent3);
-}
-
-.step-num {
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.08);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.65rem;
-  font-weight: 700;
-  flex-shrink: 0;
-}
-
-.step-pill.active .step-num { background: rgba(0,0,0,0.2); }
-.step-pill.done .step-num { background: rgba(212,149,42,0.2); }
-
-.step-connector {
-  width: 20px;
-  height: 1px;
-  background: var(--surface3);
-  flex-shrink: 0;
-}
-
-/* Builder body */
-.builder-body {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  padding: 0 0 120px;
-}
-
-/* Preview area */
-.preview-area {
-  position: relative;
-  width: 100%;
-  max-width: 360px;
-  margin: 24px auto 0;
-  aspect-ratio: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.preview-bg-glow {
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(212,149,42,0.12) 0%, transparent 70%);
-  pointer-events: none;
-}
-
-.preview-plate {
-  position: relative;
-  width: 260px;
-  height: 260px;
-}
-
-.preview-layer {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  transition: opacity 0.4s ease, transform 0.4s ease;
-}
-
-.preview-layer.hidden {
-  opacity: 0;
-  transform: scale(0.9);
-  pointer-events: none;
-}
-
-/* Placeholder when no selection */
-.preview-placeholder {
-  width: 160px;
-  height: 160px;
-  border-radius: 50%;
-  border: 2px dashed var(--surface3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--text3);
-  font-size: 0.8rem;
-  text-align: center;
-  transition: all 0.3s;
-}
-
-/* Step section */
-.step-section {
-  padding: 20px 16px 0;
-  display: none;
-}
-
-.step-section.active { display: block; }
-
-.step-label {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--text);
-  margin-bottom: 4px;
-}
-
-.step-hint {
-  color: var(--text3);
-  font-size: 0.78rem;
-  margin-bottom: 16px;
-}
-
-/* Options grid */
-.options-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-}
-
-@media (min-width: 480px) {
-  .options-grid { grid-template-columns: repeat(3, 1fr); }
-}
-
-@media (min-width: 700px) {
-  .options-grid { grid-template-columns: repeat(4, 1fr); }
-}
-
-/* Option card */
-.opt-card {
-  position: relative;
-  border-radius: var(--radius-sm);
-  border: 1.5px solid rgba(255,255,255,0.07);
-  background: var(--surface2);
-  padding: 14px 10px 12px;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.22s;
-  overflow: hidden;
-  user-select: none;
-}
-
-.opt-card:hover {
-  border-color: rgba(212,149,42,0.4);
-  background: var(--surface3);
-}
-
-.opt-card.selected {
-  border-color: var(--accent);
-  background: var(--surface3);
-  transform: scale(1.05);
-  box-shadow: 0 0 20px rgba(212,149,42,0.3);
-}
-
-.opt-card.selected::after {
-  content: '✓';
-  position: absolute;
-  top: 6px;
-  right: 8px;
-  font-size: 0.7rem;
-  color: var(--accent);
-  font-weight: 700;
-}
-
-.opt-icon {
-  font-size: 1.8rem;
-  margin-bottom: 6px;
-  display: block;
-  line-height: 1;
-}
-
-.opt-name {
-  font-size: 0.78rem;
-  font-weight: 500;
-  color: var(--text);
-  line-height: 1.3;
-}
-
-.opt-price {
-  font-size: 0.7rem;
-  color: var(--accent);
-  font-weight: 600;
-  margin-top: 3px;
-}
-
-/* Multi-select hint */
-.multi-hint {
-  font-size: 0.72rem;
-  color: var(--text3);
-  margin-bottom: 12px;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-/* ===========================
-   BOTTOM ACTION BAR
-=========================== */
-.bottom-bar {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 20;
-  padding: 16px 20px;
-  background: linear-gradient(to top, rgba(5,3,2,1) 60%, rgba(5,3,2,0) 100%);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.price-display {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.1rem;
-  font-weight: 700;
-}
-
-.price-display span {
-  color: var(--accent);
-}
-
-.price-display small {
-  display: block;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 0.7rem;
-  font-weight: 400;
-  color: var(--text3);
-  letter-spacing: 0.5px;
-}
-
-.btn-next {
-  background: var(--accent);
-  color: #0a0805;
-  border: none;
-  border-radius: 50px;
-  padding: 13px 28px;
-  font-family: 'DM Sans', sans-serif;
-  font-weight: 600;
-  font-size: 0.88rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  transition: all 0.22s;
-  box-shadow: 0 4px 20px rgba(212,149,42,0.4);
-  flex-shrink: 0;
-}
-
-.btn-next:hover:not(:disabled) {
-  background: var(--accent2);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(212,149,42,0.55);
-}
-
-.btn-next:disabled {
-  opacity: 0.35;
-  cursor: not-allowed;
-  transform: none;
-  box-shadow: none;
-}
-
-.btn-back {
-  background: var(--surface2);
-  color: var(--text2);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 50px;
-  padding: 13px 20px;
-  font-family: 'DM Sans', sans-serif;
-  font-weight: 500;
-  font-size: 0.88rem;
-  cursor: pointer;
-  transition: all 0.22s;
-  flex-shrink: 0;
-}
-
-.btn-back:hover {
-  background: var(--surface3);
-  color: var(--text);
-}
-
-/* ===========================
-   RESULT SCREEN
-=========================== */
-.result-screen {
-  padding: 40px 24px 140px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  display: none;
-}
-
-.result-screen.active { display: flex; }
-
-.result-icon {
-  font-size: 3rem;
-  margin-bottom: 16px;
-  animation: popIn 0.5s cubic-bezier(0.4,0,0.2,1);
-}
-
-@keyframes popIn {
-  0% { transform: scale(0); }
-  70% { transform: scale(1.2); }
-  100% { transform: scale(1); }
-}
-
-.result-title {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.6rem;
-  font-weight: 700;
-  margin-bottom: 8px;
-}
-
-.result-sub {
-  color: var(--text2);
-  font-size: 0.85rem;
-  margin-bottom: 32px;
-}
-
-.result-card {
-  background: var(--surface2);
-  border: 1px solid rgba(255,255,255,0.07);
-  border-radius: var(--radius);
-  padding: 24px;
-  width: 100%;
-  max-width: 400px;
-  text-align: left;
-  margin-bottom: 24px;
-}
-
-.result-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 0;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-  font-size: 0.88rem;
-}
-
-.result-row:last-child { border-bottom: none; }
-
-.result-row-label {
-  color: var(--text2);
-  font-weight: 400;
-}
-
-.result-row-value {
-  color: var(--text);
-  font-weight: 500;
-  text-align: right;
-  max-width: 55%;
-}
-
-.result-total {
-  background: var(--surface2);
-  border: 1px solid var(--accent3);
-  border-radius: var(--radius);
-  padding: 18px 24px;
-  width: 100%;
-  max-width: 400px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 28px;
-}
-
-.result-total-label {
-  font-family: 'Playfair Display', serif;
-  font-size: 1rem;
-  color: var(--text2);
-}
-
-.result-total-price {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.5rem;
-  font-weight: 900;
-  color: var(--accent);
-}
-
-/* ===========================
-   LIGHTBOX
-=========================== */
-#lightbox { cursor: zoom-out; }
-
-#lightbox-close {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.1);
-  border: none;
-  color: #fff;
-  font-size: 1.2rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10;
-}
-
-/* ===========================
-   TOAST NOTIFICATION
-=========================== */
-#toast {
-  position: fixed;
-  bottom: 100px;
-  left: 50%;
-  transform: translateX(-50%) translateY(20px);
-  background: var(--surface3);
-  border: 1px solid var(--accent3);
-  color: var(--text);
-  padding: 12px 24px;
-  border-radius: 50px;
-  font-size: 0.82rem;
-  font-weight: 500;
-  z-index: 300;
-  opacity: 0;
-  transition: all 0.3s;
-  pointer-events: none;
-  white-space: nowrap;
-}
-
-#toast.show {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
-}
-
-/* ===========================
-   SECTION LABEL BADGE
-=========================== */
-.section-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: var(--surface3);
-  border: 1px solid var(--accent3);
-  color: var(--accent);
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  padding: 5px 12px;
-  border-radius: 20px;
-  margin-bottom: 10px;
-}
-
-/* ===========================
-   MINI ICE CREAM FLAVORS
-=========================== */
-.flavor-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-  padding: 20px 16px 120px;
-}
-
-@media (min-width: 500px) {
-  .flavor-grid { grid-template-columns: repeat(3, 1fr); }
-}
-
-@media (min-width: 700px) {
-  .flavor-grid { grid-template-columns: repeat(4, 1fr); }
-}
-
-.flavor-card {
-  background: var(--surface2);
-  border: 1px solid rgba(255,255,255,0.06);
-  border-radius: var(--radius-sm);
-  padding: 20px 12px 16px;
-  text-align: center;
-  transition: all 0.2s;
-  cursor: default;
-}
-
-.flavor-card:hover {
-  border-color: rgba(212,149,42,0.3);
-  background: var(--surface3);
-  transform: translateY(-3px);
-}
-
-.flavor-icon { font-size: 2.2rem; margin-bottom: 8px; display: block; }
-.flavor-name { font-size: 0.82rem; font-weight: 500; color: var(--text); }
-.flavor-price { font-size: 0.75rem; color: var(--accent); font-weight: 600; margin-top: 4px; }
-
-/* ===========================
-   MILKSHAKE — CATEGORY SELECT
-=========================== */
-.cat-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-}
-
-.cat-card {
-  background: var(--surface2);
-  border: 2px solid rgba(255,255,255,0.07);
-  border-radius: var(--radius-sm);
-  padding: 20px 10px;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.22s;
-}
-
-.cat-card:hover { border-color: rgba(212,149,42,0.4); }
-.cat-card.selected { border-color: var(--accent); background: var(--surface3); box-shadow: var(--glow); }
-.cat-icon { font-size: 2rem; margin-bottom: 8px; display: block; }
-.cat-name { font-size: 0.8rem; font-weight: 500; color: var(--text); }
-
-/* ===========================
-   ANIMATIONS
-=========================== */
-@keyframes slideUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.step-section.active { animation: slideUp 0.3s ease; }
 </style>
 </head>
+
 <body>
 
-<!-- ===========================
-     MAIN PAGE
-=========================== -->
-<div id="main-page">
-  <div class="hero-header">
-    <div class="logo-wrap">
-      <!-- Place your logo.png in same folder as index.html -->
-      <img src="logo.png" alt="Kod El Fa7l" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
-      <div class="logo-text-fallback" style="display:none;">KOD<br>EL FA7L</div>
-    </div>
-    <h1 class="hero-title">Kod El <span>Fa7l</span></h1>
-    <p class="hero-sub">Premium Dessert Experience</p>
-    <div class="sep"></div>
-  </div>
-
-  <div class="menu-grid" id="menu-grid">
-    <!-- Cards are rendered by JS -->
-  </div>
+<!-- LOGO -->
+<div class="text-center py-6 text-2xl font-bold text-amber-400">
+KOD EL FA7L
 </div>
 
-<!-- ===========================
-     IMAGE VIEWER OVERLAY
-=========================== -->
-<div class="overlay" id="image-viewer">
-  <div class="overlay-header">
-    <h2 class="overlay-title" id="viewer-title">Menu</h2>
-    <button class="btn-close" onclick="closeViewer()">✕</button>
-  </div>
-  <div class="img-viewer-grid" id="viewer-grid"></div>
-  <!-- "Make Your Own" — only shown for milkshake & waffle -->
-  <div class="make-own-section" id="make-own-section" style="display:none;">
-    <div class="section-badge">✦ Custom Order</div>
-    <h2 class="make-own-title" id="make-own-title">Make Your Own</h2>
-    <p class="make-own-desc" id="make-own-desc">Build your perfect creation, step by step.</p>
-    <button class="btn-primary" id="make-own-btn">
-      <span>✦</span> Customize Now
-    </button>
-  </div>
+<!-- GRID -->
+<div id="grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4"></div>
+
+<!-- VIEWER -->
+<div id="viewer" class="fixed inset-0 bg-black/95 hidden flex-col z-50">
+<div class="flex justify-between p-4">
+<h2 id="viewerTitle"></h2>
+<button onclick="closeViewer()">X</button>
+</div>
+<div id="viewerImgs" class="p-4 space-y-4 overflow-y-auto"></div>
+<div id="cta" class="p-4 hidden">
+<button onclick="openBuilder(active)" class="w-full bg-amber-400 text-black py-3 rounded-xl">
+Make Your Own
+</button>
+</div>
 </div>
 
-<!-- ===========================
-     ICE CREAM BUILDER OVERLAY
-=========================== -->
-<div class="overlay" id="builder-overlay">
-  <div class="overlay-header">
-    <h2 class="overlay-title" id="builder-title">Ice Cream Builder</h2>
-    <button class="btn-close" id="builder-close-btn">✕</button>
-  </div>
+<!-- BUILDER -->
+<div id="builder" class="fixed inset-0 bg-black/95 hidden flex-col z-50">
 
-  <!-- Stepper -->
-  <div class="stepper" id="stepper-wrap"></div>
-
-  <div class="builder-body">
-    <!-- Live Preview -->
-    <div class="preview-area" id="preview-area">
-      <div class="preview-bg-glow"></div>
-      <div class="preview-plate" id="preview-plate">
-        <div class="preview-placeholder" id="preview-placeholder">
-          <span>Choose options<br>to preview</span>
-        </div>
-        <!-- Layers injected by JS -->
-      </div>
-    </div>
-
-    <!-- Step sections injected by JS -->
-    <div id="steps-container"></div>
-
-    <!-- Result screen -->
-    <div class="result-screen" id="result-screen">
-      <div class="result-icon">🎉</div>
-      <h2 class="result-title">Your Order is Ready!</h2>
-      <p class="result-sub">Here's your custom creation summary</p>
-      <div class="result-card" id="result-rows"></div>
-      <div class="result-total">
-        <span class="result-total-label">Total</span>
-        <span class="result-total-price" id="result-price">0 EGP</span>
-      </div>
-      <button class="btn-primary" onclick="closeBuilder()">✦ Order Another</button>
-    </div>
-  </div>
-
-  <!-- Bottom action bar -->
-  <div class="bottom-bar" id="builder-bottom-bar">
-    <div>
-      <div class="price-display">
-        <small>Total</small>
-        <span id="live-price">0 EGP</span>
-      </div>
-    </div>
-    <div style="display:flex;gap:10px;">
-      <button class="btn-back" id="btn-back" onclick="builderBack()">← Back</button>
-      <button class="btn-next" id="btn-next" onclick="builderNext()" disabled>Next →</button>
-    </div>
-  </div>
+<div class="flex justify-between p-4">
+<span id="stepTitle"></span>
+<span id="price">0 EGP</span>
 </div>
 
-<!-- ===========================
-     LIGHTBOX
-=========================== -->
-<div id="lightbox" onclick="closeLightbox()">
-  <button id="lightbox-close" onclick="closeLightbox()">✕</button>
-  <img id="lightbox-img" src="" alt="" />
+<!-- PREVIEW -->
+<div class="flex-1 flex items-center justify-center relative">
+<div class="w-48 h-48 relative">
+<img id="layer1" class="layer fade">
+<img id="layer2" class="layer fade">
+<img id="layer3" class="layer fade">
+<img id="layer4" class="layer fade">
+</div>
 </div>
 
-<!-- Toast -->
-<div id="toast"></div>
+<!-- OPTIONS -->
+<div id="options" class="grid grid-cols-3 gap-3 p-4"></div>
+
+<!-- BUTTONS -->
+<div class="flex justify-between p-4">
+<button onclick="prev()">Back</button>
+<button id="next" onclick="next()">Next</button>
+</div>
+
+</div>
 
 <script>
-/* ===========================
-   DATA — MENU SECTIONS
-   Images: place all images in same folder as index.html
-=========================== */
-const MENU = [
-  {
-    id: 'icecream',
-    name: 'Ice Cream',
-    tag: 'Custom Builder',
-    badge: 'BUILD YOURS',
-    img: 'icecream.jpg', // place icecream.jpg in same folder
-    action: 'builder',
-    builderType: 'icecream'
-  },
-  {
-    id: 'mini',
-    name: 'Mini Ice Cream',
-    tag: 'Ready Products',
-    img: 'mini1.jpg',
-    action: 'mini',
-    images: ['mini1.jpg','mini2.jpg','mini3.jpg']
-  },
-  {
-    id: 'v60',
-    name: 'V60',
-    tag: 'Coffee',
-    img: 'v601.jpg',
-    action: 'viewer',
-    images: ['v601.jpg','v602.jpg','v603.jpg']
-  },
-  {
-    id: 'coldbrew',
-    name: 'Cold Brew',
-    tag: 'Coffee',
-    img: 'coldbrew1.jpg',
-    action: 'viewer',
-    images: ['coldbrew1.jpg','coldbrew2.jpg','coldbrew3.jpg']
-  },
-  {
-    id: 'matcha',
-    name: 'Matcha',
-    tag: 'Drinks',
-    img: 'matcha1.jpg',
-    action: 'viewer',
-    images: ['matcha1.jpg','matcha2.jpg','matcha3.jpg']
-  },
-  {
-    id: 'waffle',
-    name: 'Tree Waffle',
-    tag: 'Custom Builder',
-    badge: 'BUILD YOURS',
-    img: 'waffle1.jpg',
-    action: 'viewer+builder',
-    images: ['waffle1.jpg','waffle2.jpg','waffle3.jpg'],
-    builderType: 'waffle',
-    makeOwnTitle: 'Make Your Own Tree Waffle',
-    makeOwnDesc: 'Choose your sauce, toppings, and filling.'
-  },
-  {
-    id: 'milkshake',
-    name: 'Milkshake',
-    tag: 'Custom Builder',
-    badge: 'BUILD YOURS',
-    img: 'milkshake1.jpg',
-    action: 'viewer+builder',
-    images: ['milkshake1.jpg','milkshake2.jpg','milkshake3.jpg'],
-    builderType: 'milkshake',
-    makeOwnTitle: 'Make Your Own Milkshake',
-    makeOwnDesc: 'Pick your base, flavors, and mix-ins.'
-  },
-  {
-    id: 'special',
-    name: 'Special Drinks',
-    tag: 'Drinks',
-    img: 'special1.jpg',
-    action: 'viewer',
-    images: ['special1.jpg','special2.jpg','special3.jpg']
-  }
+
+/* MENU */
+
+const MENU=[
+{id:"ice",type:"custom",img:"assets/menu/ice-cream.jpg"},
+{id:"mini",type:"static",img:"assets/menu/mini.jpg",folder:"mini"},
+{id:"v60",type:"static",img:"assets/menu/v60.jpg",folder:"v60"},
+{id:"coldbrew",type:"static",img:"assets/menu/cold-brew.jpg",folder:"coldbrew"},
+{id:"matcha",type:"static",img:"assets/menu/matcha.jpg",folder:"matcha"},
+{id:"waffle",type:"hybrid",img:"assets/menu/waffle.jpg",folder:"waffle"},
+{id:"milk",type:"hybrid",img:"assets/menu/milkshake.jpg",folder:"milkshake"},
+{id:"special",type:"static",img:"assets/menu/special.jpg",folder:"special"}
 ];
 
-/* ===========================
-   BUILDER DATA
-=========================== */
+const grid=document.getElementById("grid");
 
-// ICE CREAM BUILDER
-const ICE_CREAM_STEPS = [
-  {
-    id: 'base',
-    label: 'Choose Base',
-    hint: 'Pick your ice cream base',
-    multi: false,
-    options: [
-      { id: 'vanilla', name: 'Vanilla', icon: '🍦', price: 60, img: null },
-      { id: 'chocolate', name: 'Chocolate', icon: '🍫', price: 60, img: null },
-      { id: 'strawberry', name: 'Strawberry', icon: '🍓', price: 65, img: null },
-      { id: 'mango', name: 'Mango', icon: '🥭', price: 65, img: null },
-      { id: 'mixed', name: 'Mixed Berry', icon: '🫐', price: 70, img: null },
-      { id: 'caramel', name: 'Caramel', icon: '🍮', price: 70, img: null }
-    ]
-  },
-  {
-    id: 'chocolate_type',
-    label: 'Chocolate Type',
-    hint: 'Choose your chocolate coating type',
-    multi: false,
-    options: [
-      { id: 'dark', name: 'Dark Choco', icon: '🫕', price: 10, img: null },
-      { id: 'milk', name: 'Milk Choco', icon: '🥛', price: 10, img: null },
-      { id: 'white', name: 'White Choco', icon: '🤍', price: 15, img: null },
-      { id: 'ruby', name: 'Ruby Choco', icon: '💗', price: 20, img: null }
-    ]
-  },
-  {
-    id: 'coating',
-    label: 'Choose Coating',
-    hint: 'Add an outer coating (optional)',
-    multi: false,
-    options: [
-      { id: 'none', name: 'No Coating', icon: '✕', price: 0, img: null },
-      { id: 'oreo', name: 'Oreo Crumble', icon: '⚫', price: 10, img: null },
-      { id: 'nuts', name: 'Crushed Nuts', icon: '🥜', price: 10, img: null },
-      { id: 'sprinkles', name: 'Sprinkles', icon: '🎉', price: 5, img: null },
-      { id: 'coconut', name: 'Coconut', icon: '🥥', price: 10, img: null },
-      { id: 'carameldrizzle', name: 'Caramel Drizzle', icon: '🍯', price: 15, img: null }
-    ]
-  },
-  {
-    id: 'filling',
-    label: 'Choose Filling',
-    hint: 'Pick what\'s inside (optional)',
-    multi: false,
-    options: [
-      { id: 'none', name: 'No Filling', icon: '✕', price: 0, img: null },
-      { id: 'nutella', name: 'Nutella', icon: '🍫', price: 15, img: null },
-      { id: 'lotus', name: 'Lotus', icon: '🌰', price: 15, img: null },
-      { id: 'caramel_fill', name: 'Caramel', icon: '🍮', price: 15, img: null },
-      { id: 'strawberry_fill', name: 'Strawberry Jam', icon: '🍓', price: 15, img: null },
-      { id: 'pistachio', name: 'Pistachio', icon: '🟢', price: 20, img: null }
-    ]
-  }
+MENU.forEach(m=>{
+let d=document.createElement("div");
+d.className="card bg-stone-800";
+d.innerHTML=`<img src="${m.img}" class="w-full h-40 object-cover">`;
+d.onclick=()=>openSection(m);
+grid.appendChild(d);
+});
+
+/* VIEWER */
+
+let active=null;
+
+function openSection(m){
+active=m.id;
+
+if(m.type==="custom"){openBuilder(m.id);return;}
+
+viewer.classList.remove("hidden");
+viewerImgs.innerHTML="";
+viewerTitle.innerText=m.id;
+
+for(let i=1;i<=3;i++){
+let img=document.createElement("img");
+img.src=`assets/${m.folder}/${m.folder}${i}.jpg`;
+img.className="w-full";
+viewerImgs.appendChild(img);
+}
+
+if(m.type==="hybrid"){
+cta.classList.remove("hidden");
+}else{
+cta.classList.add("hidden");
+}
+}
+
+function closeViewer(){
+viewer.classList.add("hidden");
+}
+
+/* BUILDER */
+
+let step=0;
+let total=0;
+
+let selections={};
+
+const STEPS=[
+{
+name:"Base",
+key:"base",
+price:45,
+options:[
+"base-vanilla.png",
+"base-chocolate.png",
+"base-pistachio.png"
+]
+},
+{
+name:"Chocolate",
+key:"choc",
+price:10,
+options:[
+"choc-milk.png",
+"choc-dark.png",
+"choc-white.png"
+]
+},
+{
+name:"Coating",
+key:"coat",
+price:20,
+options:[
+"coat-lotus.png",
+"coat-rocher.png"
+]
+},
+{
+name:"Filling",
+key:"fill",
+price:10,
+options:[
+"fill-caramel.png",
+"fill-nutella.png",
+"fill-berry.png"
+]
+}
 ];
 
-// WAFFLE BUILDER
-const WAFFLE_STEPS = [
-  {
-    id: 'base',
-    label: 'Waffle Base',
-    hint: 'Your tree waffle base is included ✓',
-    multi: false,
-    fixed: true,
-    options: [
-      { id: 'tree_base', name: 'Tree Waffle Base', icon: '🧇', price: 70, img: null }
-    ]
-  },
-  {
-    id: 'sauce',
-    label: 'Choose Sauce',
-    hint: 'Pick your drizzle sauce',
-    multi: false,
-    options: [
-      { id: 'chocolate_sauce', name: 'Chocolate', icon: '🍫', price: 10, img: null },
-      { id: 'caramel_sauce', name: 'Caramel', icon: '🍮', price: 10, img: null },
-      { id: 'strawberry_sauce', name: 'Strawberry', icon: '🍓', price: 10, img: null },
-      { id: 'honey', name: 'Honey', icon: '🍯', price: 10, img: null },
-      { id: 'lotus_sauce', name: 'Lotus', icon: '🌰', price: 15, img: null }
-    ]
-  },
-  {
-    id: 'toppings',
-    label: 'Choose Toppings',
-    hint: 'Select up to 3 toppings',
-    multi: true,
-    maxSelect: 3,
-    options: [
-      { id: 'banana', name: 'Banana', icon: '🍌', price: 10, img: null },
-      { id: 'strawberry_top', name: 'Strawberry', icon: '🍓', price: 10, img: null },
-      { id: 'blueberry', name: 'Blueberry', icon: '🫐', price: 10, img: null },
-      { id: 'oreo_top', name: 'Oreo', icon: '⚫', price: 10, img: null },
-      { id: 'nuts_top', name: 'Nuts', icon: '🥜', price: 10, img: null },
-      { id: 'marshmallow', name: 'Marshmallow', icon: '☁️', price: 10, img: null },
-      { id: 'icecream_scoop', name: 'Ice Cream Scoop', icon: '🍨', price: 20, img: null }
-    ]
-  },
-  {
-    id: 'filling',
-    label: 'Optional Filling',
-    hint: 'Add filling inside your waffle (optional)',
-    multi: false,
-    options: [
-      { id: 'none', name: 'No Filling', icon: '✕', price: 0, img: null },
-      { id: 'nutella_w', name: 'Nutella', icon: '🍫', price: 15, img: null },
-      { id: 'lotus_w', name: 'Lotus', icon: '🌰', price: 15, img: null },
-      { id: 'banana_choco', name: 'Banana & Choco', icon: '🍌', price: 20, img: null },
-      { id: 'cream', name: 'Fresh Cream', icon: '🥛', price: 10, img: null }
-    ]
-  }
+function openBuilder(){
+builder.classList.remove("hidden");
+step=0;
+total=0;
+selections={};
+render();
+}
+
+/* RENDER */
+
+function render(){
+stepTitle.innerText=STEPS[step].name;
+options.innerHTML="";
+
+STEPS[step].options.forEach(o=>{
+let el=document.createElement("div");
+el.className="option";
+el.innerText=o;
+
+el.onclick=()=>{
+select(o,el);
+};
+
+options.appendChild(el);
+});
+}
+
+/* SELECT */
+
+function select(o,el){
+
+document.querySelectorAll(".option").forEach(x=>x.classList.remove("active"));
+el.classList.add("active");
+
+selections[STEPS[step].key]=o;
+
+total = calcPrice();
+price.innerText=total+" EGP";
+
+updatePreview();
+}
+
+/* PREVIEW LAYERS */
+
+function updatePreview(){
+
+const map=[
+"layer1",
+"layer2",
+"layer3",
+"layer4"
 ];
 
-// MILKSHAKE BUILDER
-const MILKSHAKE_STEPS = [
-  {
-    id: 'base',
-    label: 'Choose Base',
-    hint: 'Pick your milkshake base',
-    multi: false,
-    options: [
-      { id: 'vanilla', name: 'White (Vanilla)', icon: '🤍', price: 70, img: null },
-      { id: 'chocolate', name: 'Chocolate', icon: '🍫', price: 70, img: null }
-    ]
-  },
-  {
-    id: 'category',
-    label: 'Choose Category',
-    hint: 'What kind of flavors do you want?',
-    multi: false,
-    isCategoryStep: true,
-    options: [
-      { id: 'chocolate_cat', name: 'Chocolate Only', icon: '🍫', price: 0, img: null },
-      { id: 'fruits_cat', name: 'Fruits Only', icon: '🍓', price: 0, img: null },
-      { id: 'mix_cat', name: 'Mix', icon: '🎨', price: 0, img: null }
-    ]
-  },
-  {
-    id: 'flavors',
-    label: 'Choose Flavors',
-    hint: '', // dynamically set
-    multi: false, // dynamically set
-    isDynamic: true,
-    options: [] // filled dynamically
-  },
-  {
-    id: 'fruits_mix', // only shown when Mix
-    label: 'Choose Fruits',
-    hint: 'Add fruits to your mix',
-    multi: true,
-    isExtraStep: true,
-    options: [] // filled dynamically
-  }
-];
-
-const CHOCO_OPTIONS = [
-  { id: 'kitkat', name: 'KitKat', icon: '🍫', price: 20, img: null },
-  { id: 'oreo_m', name: 'Oreo', icon: '⚫', price: 15, img: null },
-  { id: 'nutella_m', name: 'Nutella', icon: '🟤', price: 20, img: null },
-  { id: 'twix', name: 'Twix', icon: '🟡', price: 20, img: null },
-  { id: 'snickers', name: 'Snickers', icon: '🤎', price: 20, img: null },
-  { id: 'bounty', name: 'Bounty', icon: '🥥', price: 20, img: null }
-];
-
-const FRUIT_OPTIONS = [
-  { id: 'strawberry_m', name: 'Strawberry', icon: '🍓', price: 15, img: null },
-  { id: 'mango_m', name: 'Mango', icon: '🥭', price: 15, img: null },
-  { id: 'banana_m', name: 'Banana', icon: '🍌', price: 15, img: null },
-  { id: 'blueberry_m', name: 'Blueberry', icon: '🫐', price: 15, img: null },
-  { id: 'passion', name: 'Passion Fruit', icon: '🟣', price: 20, img: null },
-  { id: 'mixed_fruit', name: 'Mixed Berry', icon: '🍒', price: 20, img: null }
-];
-
-/* ===========================
-   MINI ICE CREAM FLAVORS
-=========================== */
-const MINI_FLAVORS = [
-  { name: 'Classic Vanilla', icon: '🍦', price: 35 },
-  { name: 'Dark Chocolate', icon: '🍫', price: 35 },
-  { name: 'Strawberry Dream', icon: '🍓', price: 40 },
-  { name: 'Mango Tango', icon: '🥭', price: 40 },
-  { name: 'Pistachio', icon: '🟢', price: 45 },
-  { name: 'Lotus Cream', icon: '🌰', price: 45 },
-  { name: 'Nutella Swirl', icon: '🌀', price: 40 },
-  { name: 'Mixed Berry', icon: '🫐', price: 40 },
-  { name: 'Caramel Crunch', icon: '🍮', price: 40 },
-  { name: 'Coconut Bliss', icon: '🥥', price: 40 },
-  { name: 'Rose Water', icon: '🌹', price: 45 }
-];
-
-/* ===========================
-   STATE
-=========================== */
-let currentBuilder = null;
-let currentSteps = [];
-let currentStep = 0;
-let selections = {};
-let totalPrice = 0;
-
-/* ===========================
-   RENDER MENU GRID
-=========================== */
-function renderMenu() {
-  const grid = document.getElementById('menu-grid');
-  grid.innerHTML = MENU.map((item, i) => `
-    <div class="menu-card" onclick="handleCardClick('${item.id}')" data-id="${item.id}" style="animation-delay:${i * 0.07}s">
-      <div class="card-shimmer"></div>
-      <!-- Image: make sure ${item.img} is in the same folder -->
-      <img class="card-img" src="${item.img}" alt="${item.name}" loading="lazy" onerror="this.style.background='#1c1610'" />
-      <div class="card-overlay"></div>
-      ${item.badge ? `<div class="card-badge">${item.badge}</div>` : ''}
-      <div class="card-content">
-        <div class="card-name">${item.name}</div>
-        <div class="card-tag">${item.tag}</div>
-      </div>
-    </div>
-  `).join('');
-  setupIntersectionObserver();
+Object.keys(selections).forEach((k,i)=>{
+let img=document.getElementById(map[i]);
+img.src="assets/ice-cream/"+selections[k];
+img.classList.remove("fade");
+img.classList.add("show");
+});
 }
 
-/* ===========================
-   INTERSECTION OBSERVER (scroll scale)
-=========================== */
-function setupIntersectionObserver() {
-  const cards = document.querySelectorAll('.menu-card');
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) e.target.classList.add('in-view');
-      else e.target.classList.remove('in-view');
-    });
-  }, { threshold: 0.3 });
-  cards.forEach(c => obs.observe(c));
+/* PRICE */
+
+function calcPrice(){
+let p=0;
+Object.keys(selections).forEach((k,i)=>{
+p+=STEPS[i].price;
+});
+return p;
 }
 
-/* ===========================
-   CARD CLICK HANDLER
-=========================== */
-function handleCardClick(id) {
-  const item = MENU.find(m => m.id === id);
-  if (!item) return;
+/* NAV */
 
-  if (item.action === 'builder') {
-    openBuilder(item.builderType);
-  } else if (item.action === 'mini') {
-    openMiniViewer();
-  } else if (item.action === 'viewer') {
-    openViewer(item.name, item.images);
-  } else if (item.action === 'viewer+builder') {
-    openViewerWithBuilder(item);
-  }
+function next(){
+if(!selections[STEPS[step].key]) return;
+
+if(step<STEPS.length-1){
+step++;
+render();
+}else{
+alert("Order Ready!");
+builder.classList.add("hidden");
+}
 }
 
-/* ===========================
-   IMAGE VIEWER
-=========================== */
-function openViewer(title, images) {
-  document.getElementById('viewer-title').textContent = title;
-  document.getElementById('make-own-section').style.display = 'none';
-  const grid = document.getElementById('viewer-grid');
-  // Images: all image files must be in same folder as index.html
-  grid.innerHTML = images.map(img => `
-    <img class="viewer-img" src="${img}" alt="${title}" loading="lazy"
-      onclick="openLightbox('${img}')"
-      onerror="this.style.background='#1c1610';this.style.aspectRatio='4/3'" />
-  `).join('');
-  document.getElementById('image-viewer').classList.add('active');
-  document.body.style.overflow = 'hidden';
+function prev(){
+if(step>0){
+step--;
+render();
+}else{
+builder.classList.add("hidden");
+}
 }
 
-function openViewerWithBuilder(item) {
-  document.getElementById('viewer-title').textContent = item.name;
-  const grid = document.getElementById('viewer-grid');
-  grid.innerHTML = item.images.map(img => `
-    <img class="viewer-img" src="${img}" alt="${item.name}" loading="lazy"
-      onclick="openLightbox('${img}')"
-      onerror="this.style.background='#1c1610';this.style.aspectRatio='4/3'" />
-  `).join('');
-  // Show "Make Your Own"
-  const section = document.getElementById('make-own-section');
-  section.style.display = 'block';
-  document.getElementById('make-own-title').textContent = item.makeOwnTitle;
-  document.getElementById('make-own-desc').textContent = item.makeOwnDesc;
-  const btn = document.getElementById('make-own-btn');
-  btn.onclick = () => { closeViewer(); openBuilder(item.builderType); };
-  document.getElementById('image-viewer').classList.add('active');
-  document.body.style.overflow = 'hidden';
-}
-
-function closeViewer() {
-  document.getElementById('image-viewer').classList.remove('active');
-  document.body.style.overflow = '';
-}
-
-/* ===========================
-   MINI ICE CREAM VIEWER
-=========================== */
-function openMiniViewer() {
-  document.getElementById('viewer-title').textContent = 'Mini Ice Cream';
-  document.getElementById('make-own-section').style.display = 'none';
-  const grid = document.getElementById('viewer-grid');
-  // Mini images + flavor grid combined
-  const imgHtml = ['mini1.jpg','mini2.jpg','mini3.jpg'].map(img => `
-    <img class="viewer-img" src="${img}" alt="Mini Ice Cream" loading="lazy"
-      onclick="openLightbox('${img}')"
-      onerror="this.style.background='#1c1610';this.style.aspectRatio='4/3'" />
-  `).join('');
-  grid.innerHTML = imgHtml;
-
-  // Append flavor grid after images
-  const flavorsDiv = document.createElement('div');
-  flavorsDiv.style.cssText = 'grid-column:1/-1;padding:24px 16px 0;';
-  flavorsDiv.innerHTML = `
-    <div style="padding:0 0 16px;">
-      <div class="section-badge">✦ All Flavors</div>
-      <h3 style="font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--text);margin-top:6px;">Available Flavors</h3>
-    </div>
-    <div class="flavor-grid" style="padding:0;">
-      ${MINI_FLAVORS.map(f => `
-        <div class="flavor-card">
-          <span class="flavor-icon">${f.icon}</span>
-          <div class="flavor-name">${f.name}</div>
-          <div class="flavor-price">${f.price} EGP</div>
-        </div>
-      `).join('')}
-    </div>
-    <div style="height:80px;"></div>
-  `;
-  grid.appendChild(flavorsDiv);
-
-  document.getElementById('image-viewer').classList.add('active');
-  document.body.style.overflow = 'hidden';
-}
-
-/* ===========================
-   LIGHTBOX
-=========================== */
-function openLightbox(src) {
-  document.getElementById('lightbox-img').src = src;
-  document.getElementById('lightbox').classList.add('active');
-}
-
-function closeLightbox() {
-  document.getElementById('lightbox').classList.remove('active');
-}
-
-/* ===========================
-   BUILDER — CORE
-=========================== */
-function openBuilder(type) {
-  currentBuilder = type;
-  selections = {};
-  totalPrice = 0;
-  currentStep = 0;
-
-  if (type === 'icecream') {
-    currentSteps = ICE_CREAM_STEPS;
-    document.getElementById('builder-title').textContent = '🍦 Build Your Ice Cream';
-  } else if (type === 'waffle') {
-    currentSteps = WAFFLE_STEPS;
-    document.getElementById('builder-title').textContent = '🧇 Build Your Waffle';
-  } else if (type === 'milkshake') {
-    currentSteps = buildMilkshakeSteps();
-    document.getElementById('builder-title').textContent = '🥤 Build Your Milkshake';
-  }
-
-  renderBuilder();
-  document.getElementById('builder-overlay').classList.add('active');
-  document.getElementById('result-screen').classList.remove('active');
-  document.getElementById('builder-bottom-bar').style.display = 'flex';
-  document.body.style.overflow = 'hidden';
-
-  // Auto-select fixed steps (waffle base)
-  if (type === 'waffle') {
-    const baseStep = currentSteps[0];
-    if (baseStep.fixed) {
-      selections['base'] = [baseStep.options[0].id];
-      totalPrice += baseStep.options[0].price;
-      updatePrice();
-      goToStep(1);
-      return;
-    }
-  }
-
-  goToStep(0);
-}
-
-function buildMilkshakeSteps() {
-  // Returns base milkshake steps; dynamic flavors are filled in at runtime
-  return [
-    { ...MILKSHAKE_STEPS[0] },
-    { ...MILKSHAKE_STEPS[1] },
-    {
-      id: 'flavors',
-      label: 'Choose Flavors',
-      hint: 'Select your flavor(s)',
-      multi: false,
-      isDynamic: true,
-      options: []
-    }
-  ];
-}
-
-function closeBuilder() {
-  document.getElementById('builder-overlay').classList.remove('active');
-  document.body.style.overflow = '';
-  currentBuilder = null;
-  selections = {};
-  totalPrice = 0;
-}
-
-document.getElementById('builder-close-btn').onclick = closeBuilder;
-
-/* ===========================
-   BUILDER — RENDER
-=========================== */
-function renderBuilder() {
-  renderStepper();
-  renderStepSections();
-  renderPreview();
-}
-
-function renderStepper() {
-  const wrap = document.getElementById('stepper-wrap');
-  const visibleSteps = getVisibleSteps();
-  wrap.innerHTML = visibleSteps.map((step, i) => {
-    const stepIdx = currentSteps.indexOf(step);
-    let cls = '';
-    if (stepIdx < currentStep) cls = 'done';
-    else if (stepIdx === currentStep) cls = 'active';
-    return `
-      ${i > 0 ? '<div class="step-connector"></div>' : ''}
-      <div class="step-pill ${cls}">
-        <div class="step-num">${stepIdx < currentStep ? '✓' : i+1}</div>
-        ${step.label}
-      </div>
-    `;
-  }).join('');
-}
-
-function getVisibleSteps() {
-  // For milkshake Mix mode, add fruits step
-  return currentSteps;
-}
-
-function renderStepSections() {
-  const container = document.getElementById('steps-container');
-  container.innerHTML = currentSteps.map((step, idx) => {
-    const isActive = idx === currentStep;
-    const isMulti = step.multi;
-    return `
-      <div class="step-section ${isActive ? 'active' : ''}" id="step-${idx}">
-        <div class="section-badge">Step ${idx+1}</div>
-        <div class="step-label">${step.label}</div>
-        <div class="step-hint">${step.hint}</div>
-        ${isMulti ? `<div class="multi-hint">☝️ Select up to ${step.maxSelect || 'multiple'}</div>` : ''}
-        ${step.isCategoryStep ? renderCategoryStep(step) : renderOptionsGrid(step, idx)}
-      </div>
-    `;
-  }).join('');
-}
-
-function renderCategoryStep(step) {
-  return `
-    <div class="cat-grid">
-      ${step.options.map(opt => `
-        <div class="cat-card" id="catcard-${opt.id}" onclick="selectCategory('${opt.id}')">
-          <span class="cat-icon">${opt.icon}</span>
-          <div class="cat-name">${opt.name}</div>
-        </div>
-      `).join('')}
-    </div>
-  `;
-}
-
-function renderOptionsGrid(step, idx) {
-  return `
-    <div class="options-grid" id="opts-${idx}">
-      ${step.options.map(opt => `
-        <div class="opt-card" id="opt-${idx}-${opt.id}" onclick="selectOption(${idx},'${opt.id}',${step.multi || false})">
-          <span class="opt-icon">${opt.icon}</span>
-          <div class="opt-name">${opt.name}</div>
-          ${opt.price > 0 ? `<div class="opt-price">+${opt.price} EGP</div>` : ''}
-        </div>
-      `).join('')}
-    </div>
-  `;
-}
-
-/* ===========================
-   BUILDER — SELECTION LOGIC
-=========================== */
-function selectOption(stepIdx, optId, multi) {
-  const step = currentSteps[stepIdx];
-  if (!step) return;
-
-  if (multi) {
-    if (!selections[step.id]) selections[step.id] = [];
-    const arr = selections[step.id];
-    const pos = arr.indexOf(optId);
-    if (pos > -1) {
-      arr.splice(pos, 1);
-    } else {
-      if (step.maxSelect && arr.length >= step.maxSelect) {
-        showToast(`Max ${step.maxSelect} selections`);
-        return;
-      }
-      arr.push(optId);
-    }
-    // Update UI
-    step.options.forEach(o => {
-      const el = document.getElementById(`opt-${stepIdx}-${o.id}`);
-      if (el) el.classList.toggle('selected', arr.includes(o.id));
-    });
-  } else {
-    selections[step.id] = [optId];
-    step.options.forEach(o => {
-      const el = document.getElementById(`opt-${stepIdx}-${o.id}`);
-      if (el) el.classList.toggle('selected', o.id === optId);
-    });
-  }
-
-  recalcPrice();
-  updateNextBtn();
-  renderPreview();
-}
-
-function selectCategory(catId) {
-  const stepIdx = currentSteps.findIndex(s => s.isCategoryStep);
-  if (stepIdx < 0) return;
-  const step = currentSteps[stepIdx];
-  selections[step.id] = [catId];
-  step.options.forEach(o => {
-    const el = document.getElementById(`catcard-${o.id}`);
-    if (el) el.classList.toggle('selected', o.id === catId);
-  });
-
-  // Rebuild dynamic flavor step
-  rebuildMilkshakeFlavors(catId);
-  updateNextBtn();
-}
-
-function rebuildMilkshakeFlavors(catId) {
-  // Find and update the dynamic flavors step
-  let flavorsStep = currentSteps.find(s => s.isDynamic);
-  if (!flavorsStep) return;
-
-  if (catId === 'chocolate_cat') {
-    flavorsStep.hint = 'Pick your chocolate mix-in';
-    flavorsStep.multi = false;
-    flavorsStep.options = CHOCO_OPTIONS;
-  } else if (catId === 'fruits_cat') {
-    flavorsStep.hint = 'Pick your fruit mix-in';
-    flavorsStep.multi = false;
-    flavorsStep.options = FRUIT_OPTIONS;
-  } else if (catId === 'mix_cat') {
-    flavorsStep.hint = 'Choose your chocolates first';
-    flavorsStep.multi = true;
-    flavorsStep.maxSelect = 3;
-    flavorsStep.options = CHOCO_OPTIONS;
-    // Add fruits step if not present
-    const hasExtra = currentSteps.find(s => s.isExtraStep);
-    if (!hasExtra) {
-      const fruitsStep = {
-        id: 'fruits_mix',
-        label: 'Choose Fruits',
-        hint: 'Add fruits to your mix',
-        multi: true,
-        maxSelect: 3,
-        isExtraStep: true,
-        options: FRUIT_OPTIONS
-      };
-      currentSteps.push(fruitsStep);
-    }
-  }
-  // Remove extra step if not mix
-  if (catId !== 'mix_cat') {
-    currentSteps = currentSteps.filter(s => !s.isExtraStep);
-  }
-
-  delete selections[flavorsStep.id];
-  delete selections['fruits_mix'];
-  renderBuilder();
-}
-
-/* ===========================
-   PRICE CALCULATION
-=========================== */
-function recalcPrice() {
-  let total = 0;
-  currentSteps.forEach(step => {
-    const sel = selections[step.id];
-    if (!sel || sel.length === 0) return;
-    sel.forEach(optId => {
-      const opt = step.options.find(o => o.id === optId);
-      if (opt) total += opt.price;
-    });
-  });
-  totalPrice = total;
-  updatePrice();
-}
-
-function updatePrice() {
-  document.getElementById('live-price').textContent = totalPrice + ' EGP';
-}
-
-/* ===========================
-   NAVIGATION
-=========================== */
-function updateNextBtn() {
-  const btn = document.getElementById('btn-next');
-  const step = currentSteps[currentStep];
-  if (!step) return;
-  const sel = selections[step.id];
-  const hasSelection = sel && sel.length > 0;
-  btn.disabled = !hasSelection;
-  btn.textContent = currentStep === currentSteps.length - 1 ? 'Finish ✓' : 'Next →';
-}
-
-function goToStep(idx) {
-  currentStep = idx;
-  // Show correct step section
-  document.querySelectorAll('.step-section').forEach((el, i) => {
-    el.classList.toggle('active', i === idx);
-  });
-  renderStepper();
-  updateNextBtn();
-
-  // Back button visibility
-  document.getElementById('btn-back').style.display = idx === 0 ? 'none' : '';
-  // Scroll to top of builder
-  document.getElementById('builder-overlay').scrollTop = 0;
-}
-
-function builderNext() {
-  const step = currentSteps[currentStep];
-  const sel = selections[step.id];
-  if (!sel || sel.length === 0) return;
-
-  if (currentStep < currentSteps.length - 1) {
-    goToStep(currentStep + 1);
-  } else {
-    showResult();
-  }
-}
-
-function builderBack() {
-  if (currentStep > 0) goToStep(currentStep - 1);
-}
-
-/* ===========================
-   LIVE PREVIEW SYSTEM
-   NOTE: Replace emoji-based preview with actual layered images if available.
-   To use real images: create images for each selection state and set their src here.
-=========================== */
-function renderPreview() {
-  const plate = document.getElementById('preview-plate');
-  const placeholder = document.getElementById('preview-placeholder');
-
-  const baseStep = currentSteps[0];
-  const baseSel = selections[baseStep?.id];
-
-  if (!baseSel || baseSel.length === 0) {
-    plate.innerHTML = `<div class="preview-placeholder"><span>Choose options<br>to preview</span></div>`;
-    return;
-  }
-
-  // Build visual preview using emoji layers stacked
-  // Replace this with actual <img> layers when you have preview images
-  const layers = [];
-
-  if (currentBuilder === 'icecream') {
-    const base = currentSteps[0].options.find(o => o.id === (baseSel[0]));
-    const choco = selections['chocolate_type'] ? currentSteps[1].options.find(o => o.id === selections['chocolate_type'][0]) : null;
-    const coating = selections['coating'] ? currentSteps[2].options.find(o => o.id === selections['coating'][0]) : null;
-    const filling = selections['filling'] ? currentSteps[3].options.find(o => o.id === selections['filling'][0]) : null;
-
-    plate.innerHTML = `
-      <div style="width:260px;height:260px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;">
-        <div style="font-size:5rem;filter:drop-shadow(0 8px 16px rgba(0,0,0,0.5));animation:popIn 0.4s ease;">${base?.icon || '🍦'}</div>
-        ${choco ? `<div style="font-size:1rem;color:var(--accent2);font-weight:600;">${choco.icon} ${choco.name}</div>` : ''}
-        ${coating && coating.id !== 'none' ? `<div style="font-size:0.85rem;color:var(--text2);">${coating.icon} ${coating.name}</div>` : ''}
-        ${filling && filling.id !== 'none' ? `<div style="font-size:0.8rem;color:var(--text3);">${filling.icon} inside</div>` : ''}
-      </div>
-    `;
-  } else if (currentBuilder === 'waffle') {
-    const sauce = selections['sauce'] ? currentSteps[1].options.find(o => o.id === selections['sauce'][0]) : null;
-    const toppings = selections['toppings'] || [];
-    const toppingOpts = currentSteps[2].options.filter(o => toppings.includes(o.id));
-
-    plate.innerHTML = `
-      <div style="width:260px;height:260px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;">
-        <div style="font-size:5rem;filter:drop-shadow(0 8px 16px rgba(0,0,0,0.5));animation:popIn 0.4s ease;">🧇</div>
-        ${sauce ? `<div style="font-size:1rem;color:var(--accent2);font-weight:600;">${sauce.icon} ${sauce.name} sauce</div>` : ''}
-        ${toppingOpts.length > 0 ? `<div style="font-size:0.85rem;color:var(--text2);">${toppingOpts.map(t=>t.icon).join(' ')}</div>` : ''}
-      </div>
-    `;
-  } else if (currentBuilder === 'milkshake') {
-    const base = currentSteps[0].options.find(o => o.id === baseSel[0]);
-    const cat = selections['category'] ? currentSteps[1].options.find(o => o.id === selections['category'][0]) : null;
-    const flavors = selections['flavors'] || [];
-    const flavorOpts = (currentSteps.find(s => s.isDynamic)?.options || []).filter(o => flavors.includes(o.id));
-
-    plate.innerHTML = `
-      <div style="width:260px;height:260px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;">
-        <div style="font-size:5rem;filter:drop-shadow(0 8px 16px rgba(0,0,0,0.5));animation:popIn 0.4s ease;">${base?.icon || '🥤'}</div>
-        ${cat ? `<div style="font-size:0.9rem;color:var(--accent2);font-weight:600;">${cat.icon} ${cat.name}</div>` : ''}
-        ${flavorOpts.length > 0 ? `<div style="font-size:0.85rem;color:var(--text2);">${flavorOpts.map(f=>f.icon).join(' ')}</div>` : ''}
-      </div>
-    `;
-  }
-}
-
-/* ===========================
-   RESULT SCREEN
-=========================== */
-function showResult() {
-  document.querySelectorAll('.step-section').forEach(el => el.classList.remove('active'));
-  document.getElementById('builder-bottom-bar').style.display = 'none';
-  document.getElementById('stepper-wrap').innerHTML = '';
-
-  const rows = [];
-  currentSteps.forEach(step => {
-    const sel = selections[step.id];
-    if (!sel || sel.length === 0) return;
-    const names = sel.map(id => step.options.find(o => o.id === id)?.name || id).join(', ');
-    rows.push({ label: step.label, value: names });
-  });
-
-  document.getElementById('result-rows').innerHTML = rows.map(r => `
-    <div class="result-row">
-      <span class="result-row-label">${r.label}</span>
-      <span class="result-row-value">${r.value}</span>
-    </div>
-  `).join('');
-
-  recalcPrice();
-  document.getElementById('result-price').textContent = totalPrice + ' EGP';
-  document.getElementById('result-screen').classList.add('active');
-  document.getElementById('builder-overlay').scrollTop = 0;
-}
-
-/* ===========================
-   TOAST
-=========================== */
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2200);
-}
-
-/* ===========================
-   INIT
-=========================== */
-renderMenu();
 </script>
+
 </body>
 </html>
