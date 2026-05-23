@@ -9,6 +9,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
+        /* =========================================================================
+           CORE SITE ARCHITECTURE & BACKGROUNDS
+           ========================================================================= */
         body {
             font-family: 'Inter', sans-serif;
             background-color: #5c4378; 
@@ -25,13 +28,28 @@
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
+
+        /* =========================================================================
+           UX OPTIMIZATION: REMOVED SHADOWS FOR ENHANCED SHARPNESS & CLARITY
+           ========================================================================= */
         .glass-card {
             background: rgba(45, 30, 65, 0.55);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: none !important; /* Strict shadow removal for flat, sharp layout clarity */
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
+        
+        /* Clear sharp borders for section previews */
+        .section-image-frame {
+            box-shadow: none !important;
+            filter: drop-shadow(0 0 0 transparent) !important;
+        }
+
+        /* =========================================================================
+           DYNAMIC SCROLL & SCROLL REVEAL UTILITIES
+           ========================================================================= */
         .scroll-reveal {
             opacity: 0.1;
             transform: translateY(20px);
@@ -41,10 +59,22 @@
             opacity: 1;
             transform: translateY(0);
         }
+        
+        /* Auto-Focus Highlight target styling triggered via dynamic scroll indexing */
+        .scroll-focused-element {
+            transform: scale(1.02);
+            border-color: rgba(254, 240, 138, 0.4) !important;
+            background: rgba(65, 45, 90, 0.75) !important;
+        }
+        
         .lock-scroll {
             overflow: hidden !important;
             height: 100vh !important;
         }
+
+        /* =========================================================================
+           BUILDER ENGINE LIVE PREVIEW LAYERS
+           ========================================================================= */
         .preview-container {
             position: relative;
             width: 240px;
@@ -72,7 +102,9 @@
             transition: opacity 0.3s ease;
         }
         
-        /* PURE IMAGE SELECTION STYLE - NO CARDS, NO BORDERS, NO BOXES */
+        /* =========================================================================
+           UX OPTIMIZATION: COMPACT RESPONSIVE ICE CREAM BUILDER ICON VECTOR GRAPHICS
+           ========================================================================= */
         .pure-image-option {
             background: none !important;
             border: none !important;
@@ -80,17 +112,25 @@
             padding: 0 !important;
             outline: none !important;
             cursor: pointer;
-            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), filter 0.3s ease, drop-shadow 0.3s ease;
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), filter 0.3s ease;
         }
+        /* Strict scaling restrictions ensuring total visibility without mobile scrolling text overflow */
         .pure-image-option img {
             width: 100%;
-            height: 100%;
+            max-width: 75px; /* Scaled down from original format to fit flawlessly on compact viewports */
+            height: auto;
+            margin: 0 auto;
             object-fit: contain;
             transition: all 0.3s ease;
         }
+        @media (min-width: 768px) {
+            .pure-image-option img {
+                max-width: 105px; /* Graceful scaling fallback properties for desktop configurations */
+            }
+        }
         .pure-image-option.active-option {
             transform: scale(1.1);
-            filter: drop-shadow(0 0 15px rgba(254, 240, 138, 0.6));
+            filter: drop-shadow(0 0 12px rgba(254, 240, 138, 0.5));
         }
 
         ::-webkit-scrollbar {
@@ -114,11 +154,11 @@
 
     <div class="relative z-10 min-h-screen flex flex-col max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         
-        <header class="w-full flex flex-col items-center justify-center pt-4 pb-6 border-b border-white/10 mb-8">
-            <div class="flex items-center justify-center mb-2">
-                <img src="m_logo.png" alt="Thrills Logo" class="h-20 w-auto object-contain drop-shadow-[0_4px_10px_rgba(0,0,0,0.3)]">
+        <header class="w-full flex flex-col items-center justify-center pt-6 pb-6 border-b border-white/10 mb-8">
+            <div class="flex items-center justify-center mb-3">
+                <img src="m_logo.png" alt="Thrills Logo" class="h-28 sm:h-36 w-auto object-contain transition-transform duration-500 hover:scale-105">
             </div>
-            <h1 class="brand-font text-3xl font-bold tracking-wide text-center text-yellow-100">
+            <h1 class="brand-font text-3xl sm:text-4xl font-bold tracking-wide text-center text-yellow-100">
                 KOD EL FA7L
             </h1>
             <p class="text-xs tracking-[0.2em] font-medium text-purple-200/60 uppercase mt-1">Refined Dessert Architecture</p>
@@ -126,8 +166,9 @@
 
         <main class="flex-grow">
             <div id="main-menu-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+                
                 <div class="scroll-reveal glass-card rounded-2xl overflow-hidden cursor-pointer flex flex-col group relative" onclick="openIceCreamBuilder()">
-                    <div class="relative w-full aspect-square overflow-hidden bg-purple-900/30">
+                    <div class="relative w-full aspect-square overflow-hidden bg-purple-900/30 section-image-frame">
                         <img src="base-bg.jpg" alt="Ice Cream Laboratory" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80">
                         <div class="absolute inset-0 bg-gradient-to-t from-purple-950 via-purple-950/40 to-transparent"></div>
                         <div class="absolute top-2.5 right-2.5 px-2 py-0.5 text-[9px] font-bold tracking-wider rounded bg-purple-950/80 backdrop-blur text-yellow-200 border border-white/10 uppercase">
@@ -146,7 +187,7 @@
                 </div>
 
                 <div class="scroll-reveal glass-card rounded-2xl overflow-hidden cursor-pointer flex flex-col group relative" onclick="openStaticViewer('mini', 'Mini Ice Cream Assortment', 3)">
-                    <div class="relative w-full aspect-square overflow-hidden bg-purple-900/30">
+                    <div class="relative w-full aspect-square overflow-hidden bg-purple-900/30 section-image-frame">
                         <img src="assets/mini/mini1.jpg" alt="Mini Ice Cream" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80" onerror="this.src='base-bg.jpg'">
                         <div class="absolute inset-0 bg-gradient-to-t from-purple-950 via-purple-950/40 to-transparent"></div>
                         <div class="absolute top-2.5 right-2.5 px-2 py-0.5 text-[9px] font-bold tracking-wider rounded bg-purple-950/80 backdrop-blur text-purple-200 border border-white/10 uppercase">Ready Menu</div>
@@ -163,7 +204,7 @@
                 </div>
 
                 <div class="scroll-reveal glass-card rounded-2xl overflow-hidden cursor-pointer flex flex-col group relative" onclick="openStaticViewer('v60', 'V60 Brews', 3)">
-                    <div class="relative w-full aspect-square overflow-hidden bg-purple-900/30">
+                    <div class="relative w-full aspect-square overflow-hidden bg-purple-900/30 section-image-frame">
                         <img src="assets/v60/v601.jpg" alt="V60" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80" onerror="this.src='base-bg.jpg'">
                         <div class="absolute inset-0 bg-gradient-to-t from-purple-950 via-purple-950/40 to-transparent"></div>
                         <div class="absolute top-2.5 right-2.5 px-2 py-0.5 text-[9px] font-bold tracking-wider rounded bg-purple-950/80 backdrop-blur text-purple-200 border border-white/10 uppercase">Ready Menu</div>
@@ -180,7 +221,7 @@
                 </div>
 
                 <div class="scroll-reveal glass-card rounded-2xl overflow-hidden cursor-pointer flex flex-col group relative" onclick="openStaticViewer('coldbrew', 'Cold Brew Formula', 3)">
-                    <div class="relative w-full aspect-square overflow-hidden bg-purple-900/30">
+                    <div class="relative w-full aspect-square overflow-hidden bg-purple-900/30 section-image-frame">
                         <img src="assets/coldbrew/coldbrew1.jpg" alt="Cold Brew" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80" onerror="this.src='base-bg.jpg'">
                         <div class="absolute inset-0 bg-gradient-to-t from-purple-950 via-purple-950/40 to-transparent"></div>
                         <div class="absolute top-2.5 right-2.5 px-2 py-0.5 text-[9px] font-bold tracking-wider rounded bg-purple-950/80 backdrop-blur text-purple-200 border border-white/10 uppercase">Ready Menu</div>
@@ -197,7 +238,7 @@
                 </div>
 
                 <div class="scroll-reveal glass-card rounded-2xl overflow-hidden cursor-pointer flex flex-col group relative" onclick="openStaticViewer('matcha', 'Matcha Essences', 3)">
-                    <div class="relative w-full aspect-square overflow-hidden bg-purple-900/30">
+                    <div class="relative w-full aspect-square overflow-hidden bg-purple-900/30 section-image-frame">
                         <img src="assets/matcha/matcha1.jpg" alt="Matcha" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80" onerror="this.src='base-bg.jpg'">
                         <div class="absolute inset-0 bg-gradient-to-t from-purple-950 via-purple-950/40 to-transparent"></div>
                         <div class="absolute top-2.5 right-2.5 px-2 py-0.5 text-[9px] font-bold tracking-wider rounded bg-purple-950/80 backdrop-blur text-purple-200 border border-white/10 uppercase">Ready Menu</div>
@@ -214,10 +255,12 @@
                 </div>
 
                 <div class="scroll-reveal glass-card rounded-2xl overflow-hidden cursor-pointer flex flex-col group relative" onclick="openHybridViewer('waffle', 'Tree Waffle Matrix', 3, 'waffle')">
-                    <div class="relative w-full aspect-square overflow-hidden bg-purple-900/30">
+                    <div class="bg-gradient-to-r from-yellow-200 to-amber-300 text-purple-950 px-3 py-1.5 text-center text-xs font-black tracking-wider uppercase brand-font z-10 shadow-sm">
+                        <i class="fa-solid fa-wand-magic-sparkles mr-1 animate-pulse"></i> Make Your Own Waffle
+                    </div>
+                    <div class="relative w-full aspect-square overflow-hidden bg-purple-900/30 section-image-frame">
                         <img src="assets/waffle/waffle1.jpg" alt="Tree Waffle" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80" onerror="this.src='base-bg.jpg'">
                         <div class="absolute inset-0 bg-gradient-to-t from-purple-950 via-purple-950/40 to-transparent"></div>
-                        <div class="absolute top-2.5 right-2.5 px-2 py-0.5 text-[9px] font-bold tracking-wider rounded bg-purple-950/80 backdrop-blur text-yellow-200 border border-white/10 uppercase">Catalog + Build</div>
                     </div>
                     <div class="p-4 flex-grow flex flex-col justify-between bg-purple-900/40 border-t border-white/5">
                         <div>
@@ -231,10 +274,12 @@
                 </div>
 
                 <div class="scroll-reveal glass-card rounded-2xl overflow-hidden cursor-pointer flex flex-col group relative" onclick="openHybridViewer('milkshake', 'Milkshake Formulation', 3, 'milkshake')">
-                    <div class="relative w-full aspect-square overflow-hidden bg-purple-900/30">
+                    <div class="bg-gradient-to-r from-yellow-200 to-amber-300 text-purple-950 px-3 py-1.5 text-center text-xs font-black tracking-wider uppercase brand-font z-10 shadow-sm">
+                        <i class="fa-solid fa-blender mr-1 animate-pulse"></i> Make Your Own Shake
+                    </div>
+                    <div class="relative w-full aspect-square overflow-hidden bg-purple-900/30 section-image-frame">
                         <img src="assets/milkshake/milkshake1.jpg" alt="Milkshake" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80" onerror="this.src='base-bg.jpg'">
                         <div class="absolute inset-0 bg-gradient-to-t from-purple-950 via-purple-950/40 to-transparent"></div>
-                        <div class="absolute top-2.5 right-2.5 px-2 py-0.5 text-[9px] font-bold tracking-wider rounded bg-purple-950/80 backdrop-blur text-yellow-200 border border-white/10 uppercase">Catalog + Build</div>
                     </div>
                     <div class="p-4 flex-grow flex flex-col justify-between bg-purple-900/40 border-t border-white/5">
                         <div>
@@ -248,7 +293,7 @@
                 </div>
 
                 <div class="scroll-reveal glass-card rounded-2xl overflow-hidden cursor-pointer flex flex-col group relative" onclick="openStaticViewer('special', 'Special Conceptual Sips', 3)">
-                    <div class="relative w-full aspect-square overflow-hidden bg-purple-900/30">
+                    <div class="relative w-full aspect-square overflow-hidden bg-purple-900/30 section-image-frame">
                         <img src="assets/special/special1.jpg" alt="Special Drinks" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80" onerror="this.src='base-bg.jpg'">
                         <div class="absolute inset-0 bg-gradient-to-t from-purple-950 via-purple-950/40 to-transparent"></div>
                         <div class="absolute top-2.5 right-2.5 px-2 py-0.5 text-[9px] font-bold tracking-wider rounded bg-purple-950/80 backdrop-blur text-purple-200 border border-white/10 uppercase">Ready Menu</div>
@@ -282,10 +327,10 @@
         <div class="flex-grow overflow-y-auto px-4 py-6 flex flex-col items-center">
             <div id="viewer-gallery-container" class="w-full max-w-md space-y-6"></div>
 
-            <div id="hybrid-cta-container" class="hidden w-full max-w-md mt-8 p-6 rounded-2xl border border-yellow-200/20 bg-gradient-to-b from-white/10 to-purple-900/40 text-center shadow-lg">
+            <div id="hybrid-cta-container" class="hidden w-full max-w-md mt-8 p-6 rounded-2xl border border-yellow-200/20 bg-gradient-to-b from-white/10 to-purple-900/40 text-center">
                 <h3 id="hybrid-cta-title" class="brand-font text-lg font-bold text-yellow-200 mb-2">Want to build your own?</h3>
                 <p class="text-xs text-purple-200/80 mb-5">Completely customize all layers, bases, sauces and flavors interactively.</p>
-                <button id="hybrid-cta-btn" class="w-full py-3.5 bg-yellow-200 hover:bg-yellow-300 text-purple-950 font-bold rounded-xl shadow-lg transition-all transform active:scale-[0.98]">
+                <button id="hybrid-cta-btn" class="w-full py-3.5 bg-yellow-200 hover:bg-yellow-300 text-purple-950 font-bold rounded-xl transition-all transform active:scale-[0.98]">
                     Launch Customizer
                 </button>
             </div>
@@ -305,7 +350,7 @@
 
         <div class="flex-grow overflow-y-auto flex flex-col md:flex-row pb-32">
             <div class="w-full md:w-1/2 flex flex-col items-center justify-center p-6 bg-purple-900/10 border-b md:border-b-0 md:border-r border-white/5">
-                <div class="preview-container bg-purple-950/40 rounded-3xl border border-white/10 p-4 shadow-inner overflow-hidden">
+                <div class="preview-container bg-purple-950/40 rounded-3xl border border-white/10 p-4 overflow-hidden">
                     <img id="layer-base" class="layer-graphic opacity-0" alt="Base Layer">
                     <img id="layer-coating" class="layer-graphic opacity-0" alt="Coating Layer">
                     <img id="layer-inner" class="inner-layer-graphic opacity-0" alt="Inner Layer">
@@ -318,7 +363,7 @@
                     <h3 id="panel-title" class="brand-font text-xl font-bold text-white mb-1">Options Layer</h3>
                     <p id="panel-desc" class="text-xs text-purple-200/70 mb-4">Isolate selection vectors structural layout nodes.</p>
                     
-                    <div id="options-viewport-grid" class="grid grid-cols-3 gap-6 max-h-[420px] overflow-y-auto pr-1 py-2"></div>
+                    <div id="options-viewport-grid" class="grid grid-cols-3 gap-6 max-h-[380px] overflow-y-auto pr-1 py-2"></div>
                 </div>
             </div>
         </div>
@@ -327,21 +372,21 @@
             <button id="studio-back-btn" onclick="studioGoBack()" class="px-5 py-3.5 bg-white/10 hover:bg-white/20 text-purple-100 text-sm font-bold rounded-xl transition-all">
                 <i class="fa-solid fa-arrow-left mr-2"></i> Back
             </button>
-            <button id="studio-next-btn" onclick="studioNextStep()" class="px-8 py-3.5 bg-yellow-200 hover:bg-yellow-300 text-purple-950 text-sm font-bold rounded-xl shadow-lg transition-all disabled:opacity-40 disabled:cursor-not-allowed">
+            <button id="studio-next-btn" onclick="studioNextStep()" class="px-8 py-3.5 bg-yellow-200 hover:bg-yellow-300 text-purple-950 text-sm font-bold rounded-xl transition-all disabled:opacity-40 disabled:cursor-not-allowed">
                 Next <i class="fa-solid fa-arrow-right ml-2"></i>
             </button>
         </div>
     </div>
 
     <div id="summary-overlay" class="fixed inset-0 z-[60] invisible opacity-0 transition-all duration-300 flex items-center justify-center p-4 bg-purple-950/90 backdrop-blur-md">
-        <div class="w-full max-w-md glass-panel rounded-3xl p-6 border border-white/10 shadow-2xl text-center">
-            <div class="w-14 h-14 bg-yellow-200/20 text-yellow-200 border border-yellow-200/30 rounded-full flex items-center justify-center mx-auto mb-3 text-xl shadow-lg">
+        <div class="w-full max-w-md glass-panel rounded-3xl p-6 border border-white/10 text-center">
+            <div class="w-14 h-14 bg-yellow-200/20 text-yellow-200 border border-yellow-200/30 rounded-full flex items-center justify-center mx-auto mb-3 text-xl">
                 <i class="fa-solid fa-wand-magic-sparkles"></i>
             </div>
             <h3 class="brand-font text-2xl font-bold text-yellow-100">Formula Fully Created!</h3>
             <p class="text-xs text-purple-200/70 mt-1 mb-4">Your custom structural recipe asset parameters</p>
             <div id="summary-content" class="bg-purple-950/50 p-4 rounded-xl text-left border border-white/5 space-y-2 text-xs text-purple-100 max-h-[200px] overflow-y-auto"></div>
-            <button onclick="clearAllOverlays()" class="w-full mt-6 py-3 bg-yellow-200 hover:bg-yellow-300 text-purple-950 font-bold rounded-xl shadow-md transition-all">
+            <button onclick="clearAllOverlays()" class="w-full mt-6 py-3 bg-yellow-200 hover:bg-yellow-300 text-purple-950 font-bold rounded-xl transition-all">
                 Done Exploring
             </button>
         </div>
@@ -351,12 +396,11 @@
         // =========================================================================
         // 1. ENGINE ROUTER STATES MATRIX MAPPINGS
         // =========================================================================
-        let builderMode = ""; // "icecream", "waffle", "milkshake"
+        let builderMode = ""; 
         let currentStep = 1;
         let totalStepsCount = 4;
-        let selectedType = ""; // 'milk', 'dark', 'white' for dynamic coating maps
+        let selectedType = ""; 
         
-        // Structured configurations tracks selected objects vectors cache arrays
         let selectionsCache = {
             base: null,
             type: null,
@@ -366,7 +410,6 @@
             milkshakeMixSecondary: null
         };
 
-        // DOM Element pointers handles shortcuts tracking maps safely
         const unifiedBuilder = document.getElementById("unified-builder");
         const layerBase = document.getElementById("layer-base");
         const layerCoating = document.getElementById("layer-coating");
@@ -375,10 +418,12 @@
         const nextBtn = document.getElementById("studio-next-btn");
 
         // =========================================================================
-        // 2. MAIN DISPLAY FRAME OBSERVERS APPLICATION
+        // 2. UX OPTIMIZATION: SCROLL-DRIVEN REVEAL & INTERACTIVE AUTO-FOCUS HIGHLIGHTER
         // =========================================================================
         document.addEventListener("DOMContentLoaded", () => {
             const items = document.querySelectorAll(".scroll-reveal");
+            
+            // Core visibility detection engine mapping
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -387,6 +432,32 @@
                 });
             }, { threshold: 0.1 });
             items.forEach(el => observer.observe(el));
+
+            // Dynamic Scroll Focus Engine: Highlights active elements directly in view
+            window.addEventListener("scroll", () => {
+                let currentFocusTarget = null;
+                let minimumDistance = Infinity;
+                const centerPointY = window.innerHeight / 2;
+
+                items.forEach(item => {
+                    const box = item.getBoundingClientRect();
+                    const elementCenterY = box.top + (box.height / 2);
+                    const distanceToCenter = Math.abs(centerPointY - elementCenterY);
+
+                    // Drop focus active styles by default
+                    item.classList.remove("scroll-focused-element");
+
+                    if (distanceToCenter < minimumDistance && box.top > 0 && box.bottom < window.innerHeight + 100) {
+                        minimumDistance = distanceToCenter;
+                        currentFocusTarget = item;
+                    }
+                });
+
+                // Apply active glow parameters onto isolated viewport node smoothly
+                if (currentFocusTarget) {
+                    currentFocusTarget.classList.add("scroll-focused-element");
+                }
+            });
         });
 
         // =========================================================================
@@ -435,7 +506,7 @@
 
         function appendGalleryNode(parent, folder, filename, label) {
             const wrap = document.createElement("div");
-            wrap.className = "w-full rounded-2xl bg-purple-900/40 border border-white/10 overflow-hidden flex flex-col shadow-lg";
+            wrap.className = "w-full rounded-2xl bg-purple-900/40 border border-white/10 overflow-hidden flex flex-col";
             wrap.innerHTML = `
                 <div class="w-full aspect-[4/3] bg-purple-950 relative flex items-center justify-center overflow-hidden">
                     <img src="assets/${folder}/${filename}" alt="${label}" loading="lazy" class="w-full h-full object-cover" onerror="this.src='base-bg.jpg'">
@@ -497,13 +568,6 @@
             nextBtn.disabled = !allowed;
         }
 
-        function updateStudioStepHeader(title, desc, instruction) {
-            document.getElementById("builder-step-indicator").innerText = `Step ${currentStep} of ${totalStepsCount}`;
-            document.getElementById("panel-title").innerText = title;
-            document.getElementById("panel-desc").innerText = desc;
-            document.getElementById("builder-instruction").innerText = instruction;
-        }
-
         // =========================================================================
         // 5. ICE CREAM CONTEXT CHURN ENGINE FLOWS (5 BASES, 3 CHOCOLATES, 6 FILLINGS)
         // =========================================================================
@@ -548,10 +612,8 @@
             }
         }
 
-        // Original logic assignment maps functions wrapper nodes
         function selectBase(srcPath, nameText) {
-            layerBase.src = srcPath;
-            layerBase.classList.remove("opacity-0");
+            layerBase.src = srcPath; layerBase.classList.remove("opacity-0");
             selectionsCache.base = { src: srcPath, name: nameText };
             renderIceCreamStep();
         }
@@ -561,14 +623,12 @@
             renderIceCreamStep();
         }
         function selectCoating(srcPath, nameText) {
-            layerCoating.src = srcPath;
-            layerCoating.classList.remove("opacity-0");
+            layerCoating.src = srcPath; layerCoating.classList.remove("opacity-0");
             selectionsCache.coating = { src: srcPath, name: nameText };
             renderIceCreamStep();
         }
         function selectFilling(srcPath, nameText) {
-            layerInner.src = srcPath;
-            layerInner.classList.remove("opacity-0");
+            layerInner.src = srcPath; layerInner.classList.remove("opacity-0");
             selectionsCache.inner = { src: srcPath, name: nameText };
             renderIceCreamStep();
         }
@@ -630,7 +690,7 @@
         // 7. MILKSHAKE LAB COMPLEX CONDITIONAL AUTOMATION SYSTEM 
         // =========================================================================
         function openMilkshakeBuilder() {
-            resetStudioCache("milkshake", 3); // Mutated dynamically based on Branch paths
+            resetStudioCache("milkshake", 3); 
             renderMilkshakeStep();
         }
 
@@ -692,7 +752,7 @@
         }
 
         // =========================================================================
-        // 8. PERSISTENT BACK/NEXT NAVIGATION DISPATCH ENGINES MANAGEMENT CONTROL
+        // 8. PERSISTENT NAVIGATION TERMINAL CONTROLS
         // =========================================================================
         function studioGoBack() {
             if (currentStep === 1) {
@@ -718,16 +778,20 @@
             if (builderMode === "milkshake") renderMilkshakeStep();
         }
 
+        function updateStudioStepHeader(title, desc, instruction) {
+            document.getElementById("builder-step-indicator").innerText = `Step ${currentStep} of ${totalStepsCount}`;
+            document.getElementById("panel-title").innerText = title;
+            document.getElementById("panel-desc").innerText = desc;
+            document.getElementById("builder-instruction").innerText = instruction;
+        }
+
         // =========================================================================
-        // 9. REUSABLE ATOMIC DOM UI INJECTOR GENERATOR PIPELINES (PURE IMAGE OPTION)
+        // 9. REUSABLE ATOMIC DOM UI INJECTOR GENERATOR PIPELINES
         // =========================================================================
         function createOptionImageCard(imgSrcPath, clickHandlerCallback, activeFlagIndicator) {
             const wrapperCard = document.createElement("div");
             wrapperCard.className = `pure-image-option flex items-center justify-center ${activeFlagIndicator ? "active-option" : ""}`;
-            
-            wrapperCard.innerHTML = `
-                <img src="${imgSrcPath}" alt="Option Graphic Node" onerror="this.src='base-bg.jpg'">
-            `;
+            wrapperCard.innerHTML = `<img src="${imgSrcPath}" alt="Option Graphic Node" onerror="this.src='base-bg.jpg'">`;
             wrapperCard.onclick = clickHandlerCallback;
             optionsViewportGrid.appendChild(wrapperCard);
         }
@@ -764,8 +828,7 @@
                 }
             });
 
-            const summaryModal = document.getElementById("summary-overlay");
-            summaryModal.classList.remove("invisible", "opacity-0");
+            document.getElementById("summary-overlay").classList.remove("invisible", "opacity-0");
         }
 
         function clearAllOverlays() {
@@ -774,6 +837,5 @@
             closeViewerOverlay();
         }
     </script>
-
 </body>
 </html>
