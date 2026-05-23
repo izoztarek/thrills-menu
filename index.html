@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,14 +7,12 @@
     <title>Thrills - Premium Dessert Menu</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #494a67;
+            background-color: #494a67; 
             color: #f5f5f4;
             overflow-x: hidden;
             -webkit-tap-highlight-color: transparent;
@@ -23,17 +22,19 @@
         }
         .glass-panel {
             background: rgba(45, 30, 65, 0.9);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
         .glass-card {
             background-color: #e7b5c5;
             border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: none;
+            box-shadow: none !important;
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .section-image-frame {
             box-shadow: none !important;
-            filter: none !important;
+            filter: drop-shadow(0 0 0 transparent) !important;
         }
         .scroll-reveal {
             opacity: 0.1;
@@ -73,7 +74,7 @@
             position: absolute;
             width: 140px;
             height: auto;
-            top: 0px;
+            top: 20px;
             left: 50%;
             transform: translateX(-50%);
             object-fit: contain;
@@ -95,8 +96,6 @@
             margin: 0 auto;
             object-fit: contain;
             transition: all 0.3s ease;
-            background-color: rgba(255,255,255,0.05);
-            min-height: 60px;
         }
         @media (min-width: 768px) {
             .pure-image-option img {
@@ -104,8 +103,8 @@
             }
         }
         .pure-image-option.active-option {
-            transform: scale(1.12);
-            filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.5));
+            transform: scale(1.05);
+            filter: drop-shadow(0 0 6px rgba(254, 240, 138, 0.3));
         }
         ::-webkit-scrollbar {
             width: 6px;
@@ -134,9 +133,6 @@
             transform: scale(1.05);
             box-shadow: 0 0 15px rgba(254, 240, 138, 0.4);
         }
-        #options-viewport-grid {
-            transition: opacity 0.2s ease;
-        }
     </style>
 </head>
 <body class="antialiased selection:bg-yellow-200 selection:text-purple-950">
@@ -145,7 +141,7 @@
         
         <header class="w-full flex flex-col items-center justify-center pt-6 pb-6 border-b border-white/10 mb-8">
             <div class="flex items-center justify-center mb-3">
-                <img src="m_logo.png" alt="Thrills Logo" class="h-28 sm:h-36 w-auto object-contain transition-transform duration-500 hover:scale-105" onerror="if(this.src !== 'base-bg.jpg'){ this.src='base-bg.jpg'; } else { this.onerror=null; this.style.opacity='0.3'; }">
+                <img src="m_logo.png" alt="Thrills Logo" class="h-28 sm:h-36 w-auto object-contain transition-transform duration-500 hover:scale-105">
             </div>
             <h1 class="brand-font text-3xl sm:text-4xl font-bold tracking-wide text-center text-yellow-100">
                 KOD EL FA7L
@@ -156,12 +152,11 @@
         <main class="flex-grow">
             <div id="main-menu-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
                 
-                <!-- 1. Ice Cream Laboratory -->
                 <div class="scroll-reveal glass-card rounded-2xl overflow-hidden cursor-pointer flex flex-col group relative" onclick="openIceCreamBuilder()">
                     <div class="relative w-full aspect-square overflow-hidden bg-purple-900/30 section-image-frame">
-                        <img src="base-bg.jpg" alt="Ice Cream Laboratory" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80" onerror="if(this.src !== 'base-bg.jpg'){ this.src='base-bg.jpg'; } else { this.onerror=null; this.style.opacity='0.3'; }">
+                        <img src="base-bg.jpg" alt="Ice Cream Laboratory" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80">
                         <div class="absolute inset-0 bg-gradient-to-t from-purple-950 via-purple-950/40 to-transparent"></div>
-                        <div class="absolute top-2.5 right-2.5 px-2 py-0.5 text-[9px] font-bold tracking-wider rounded bg-purple-950/80 text-yellow-200 border border-white/10 uppercase">
+                        <div class="absolute top-2.5 right-2.5 px-2 py-0.5 text-[9px] font-bold tracking-wider rounded bg-purple-950/80 backdrop-blur text-yellow-200 border border-white/10 uppercase">
                             <i class="fa-solid fa-wand-magic-sparkles mr-1"></i>Lab Builder
                         </div>
                     </div>
@@ -176,10 +171,9 @@
                     </div>
                 </div>
 
-                <!-- 2. Mini Ice Cream -->
                 <div class="scroll-reveal glass-card rounded-2xl overflow-hidden cursor-pointer flex flex-col group relative" onclick="openStaticViewer('mini', 'Mini Ice Cream Assortment', 3)">
                     <div class="relative w-full aspect-square overflow-hidden bg-purple-900/30 section-image-frame">
-                        <img src="assets/mini/mini1.jpg" alt="Mini Ice Cream" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80" onerror="if(this.src !== 'base-bg.jpg'){ this.src='base-bg.jpg'; } else { this.onerror=null; this.style.opacity='0.3'; }">
+                        <img src="assets/mini/mini1.jpg" alt="Mini Ice Cream" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80" onerror="this.src='base-bg.jpg'">
                     </div>
                     <div class="p-4 flex-grow flex flex-col justify-between border-t border-white/5">
                         <div>
@@ -192,10 +186,9 @@
                     </div>
                 </div>
 
-                <!-- 3. V60 -->
                 <div class="scroll-reveal glass-card rounded-2xl overflow-hidden cursor-pointer flex flex-col group relative" onclick="openStaticViewer('v60', 'V60 Brews', 3)">
                     <div class="relative w-full aspect-square overflow-hidden bg-purple-900/30 section-image-frame">
-                        <img src="assets/v60/v601.jpg" alt="V60" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80" onerror="if(this.src !== 'base-bg.jpg'){ this.src='base-bg.jpg'; } else { this.onerror=null; this.style.opacity='0.3'; }">
+                        <img src="assets/v60/v601.jpg" alt="V60" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80" onerror="this.src='base-bg.jpg'">
                     </div>
                     <div class="p-4 flex-grow flex flex-col justify-between border-t border-white/5">
                         <div>
@@ -208,10 +201,9 @@
                     </div>
                 </div>
 
-                <!-- 4. Cold Brew -->
                 <div class="scroll-reveal glass-card rounded-2xl overflow-hidden cursor-pointer flex flex-col group relative" onclick="openStaticViewer('coldbrew', 'Cold Brew Formula', 3)">
                     <div class="relative w-full aspect-square overflow-hidden bg-purple-900/30 section-image-frame">
-                        <img src="assets/coldbrew/coldbrew1.jpg" alt="Cold Brew" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80" onerror="if(this.src !== 'base-bg.jpg'){ this.src='base-bg.jpg'; } else { this.onerror=null; this.style.opacity='0.3'; }">
+                        <img src="assets/coldbrew/coldbrew1.jpg" alt="Cold Brew" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80" onerror="this.src='base-bg.jpg'">
                     </div>
                     <div class="p-4 flex-grow flex flex-col justify-between border-t border-white/5">
                         <div>
@@ -224,10 +216,9 @@
                     </div>
                 </div>
 
-                <!-- 5. Matcha -->
                 <div class="scroll-reveal glass-card rounded-2xl overflow-hidden cursor-pointer flex flex-col group relative" onclick="openStaticViewer('matcha', 'Matcha Essences', 3)">
                     <div class="relative w-full aspect-square overflow-hidden bg-purple-900/30 section-image-frame">
-                        <img src="assets/matcha/matcha1.jpg" alt="Matcha" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80" onerror="if(this.src !== 'base-bg.jpg'){ this.src='base-bg.jpg'; } else { this.onerror=null; this.style.opacity='0.3'; }">
+                        <img src="assets/matcha/matcha1.jpg" alt="Matcha" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80" onerror="this.src='base-bg.jpg'">
                     </div>
                     <div class="p-4 flex-grow flex flex-col justify-between border-t border-white/5">
                         <div>
@@ -240,13 +231,12 @@
                     </div>
                 </div>
 
-                <!-- 6. Tree Waffle -->
                 <div class="scroll-reveal glass-card rounded-2xl overflow-hidden cursor-pointer flex flex-col group relative" onclick="openHybridViewer('waffle', 'Tree Waffle Matrix', 3, 'waffle')">
-                    <div class="bg-yellow-200 text-purple-950 px-3 py-1.5 text-center text-xs font-black tracking-wider uppercase brand-font z-10">
+                    <div class="bg-gradient-to-r from-yellow-200 to-amber-300 text-purple-950 px-3 py-1.5 text-center text-xs font-black tracking-wider uppercase brand-font z-10 shadow-sm">
                         <i class="fa-solid fa-wand-magic-sparkles mr-1 animate-pulse"></i> Make Your Own Waffle
                     </div>
                     <div class="relative w-full aspect-square overflow-hidden bg-purple-900/30 section-image-frame">
-                        <img src="assets/waffle/waffle1.jpg" alt="Tree Waffle" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80" onerror="if(this.src !== 'base-bg.jpg'){ this.src='base-bg.jpg'; } else { this.onerror=null; this.style.opacity='0.3'; }">
+                        <img src="assets/waffle/waffle1.jpg" alt="Tree Waffle" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80" onerror="this.src='base-bg.jpg'">
                     </div>
                     <div class="p-4 flex-grow flex flex-col justify-between border-t border-white/5">
                         <div>
@@ -259,13 +249,12 @@
                     </div>
                 </div>
 
-                <!-- 7. Milkshake -->
                 <div class="scroll-reveal glass-card rounded-2xl overflow-hidden cursor-pointer flex flex-col group relative" onclick="openHybridViewer('milkshake', 'Milkshake Formulation', 3, 'milkshake')">
-                    <div class="bg-yellow-200 text-purple-950 px-3 py-1.5 text-center text-xs font-black tracking-wider uppercase brand-font z-10">
+                    <div class="bg-gradient-to-r from-yellow-200 to-amber-300 text-purple-950 px-3 py-1.5 text-center text-xs font-black tracking-wider uppercase brand-font z-10 shadow-sm">
                         <i class="fa-solid fa-blender mr-1 animate-pulse"></i> Make Your Own Shake
                     </div>
                     <div class="relative w-full aspect-square overflow-hidden bg-purple-900/30 section-image-frame">
-                        <img src="assets/milkshake/milkshake1.jpg" alt="Milkshake" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80" onerror="if(this.src !== 'base-bg.jpg'){ this.src='base-bg.jpg'; } else { this.onerror=null; this.style.opacity='0.3'; }">
+                        <img src="assets/milkshake/milkshake1.jpg" alt="Milkshake" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80" onerror="this.src='base-bg.jpg'">
                     </div>
                     <div class="p-4 flex-grow flex flex-col justify-between border-t border-white/5">
                         <div>
@@ -278,10 +267,9 @@
                     </div>
                 </div>
 
-                <!-- 8. Special Drinks -->
                 <div class="scroll-reveal glass-card rounded-2xl overflow-hidden cursor-pointer flex flex-col group relative" onclick="openStaticViewer('special', 'Special Conceptual Sips', 3)">
                     <div class="relative w-full aspect-square overflow-hidden bg-purple-900/30 section-image-frame">
-                        <img src="assets/special/special1.jpg" alt="Special Drinks" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80" onerror="if(this.src !== 'base-bg.jpg'){ this.src='base-bg.jpg'; } else { this.onerror=null; this.style.opacity='0.3'; }">
+                        <img src="assets/special/special1.jpg" alt="Special Drinks" loading="lazy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80" onerror="this.src='base-bg.jpg'">
                     </div>
                     <div class="p-4 flex-grow flex flex-col justify-between border-t border-white/5">
                         <div>
@@ -293,7 +281,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </main>
 
@@ -302,8 +289,7 @@
         </footer>
     </div>
 
-    <!-- ===== VIEWER OVERLAY ===== -->
-    <div id="viewer-overlay" class="fixed inset-0 z-50 invisible opacity-0 transition-all duration-300 flex flex-col bg-purple-950/95">
+    <div id="viewer-overlay" class="fixed inset-0 z-50 invisible opacity-0 transition-all duration-300 flex flex-col bg-purple-950/95 backdrop-blur-md">
         <div class="w-full px-6 py-4 flex items-center justify-between border-b border-white/10 bg-purple-900/40">
             <h2 id="viewer-title" class="brand-font text-xl font-bold text-yellow-100">Menu Section</h2>
             <button onclick="closeViewerOverlay()" class="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 text-purple-200 hover:text-white hover:bg-white/20 transition-all">
@@ -312,7 +298,7 @@
         </div>
 
         <div class="flex-grow overflow-y-auto px-4 py-6 flex flex-col items-center">
-            <div id="hybrid-cta-container" class="hidden w-full max-w-md mb-8 p-6 rounded-2xl border border-yellow-200/20 bg-yellow-200/10 text-center">
+            <div id="hybrid-cta-container" class="hidden w-full max-w-md mb-8 p-6 rounded-2xl border border-yellow-200/20 bg-gradient-to-b from-white/10 to-purple-900/40 text-center">
                 <h3 id="hybrid-cta-title" class="brand-font text-lg font-bold text-yellow-200 mb-2">Want to build your own?</h3>
                 <p class="text-xs text-purple-200/80 mb-5">Completely customize all layers, bases, sauces and flavors interactively.</p>
                 <button id="hybrid-cta-btn" class="w-full py-3.5 bg-yellow-200 hover:bg-yellow-300 text-purple-950 font-bold rounded-xl transition-all transform active:scale-[0.98]">
@@ -324,8 +310,7 @@
         </div>
     </div>
 
-    <!-- ===== UNIFIED BUILDER (ICE CREAM + WAFFLE) ===== -->
-    <div id="unified-builder" class="fixed inset-0 z-50 invisible opacity-0 transition-all duration-300 flex flex-col bg-purple-950/98">
+    <div id="unified-builder" class="fixed inset-0 z-50 invisible opacity-0 transition-all duration-300 flex flex-col bg-purple-950/98 backdrop-blur-xl">
         <div class="w-full px-6 py-4 flex items-center justify-between border-b border-white/10 bg-purple-900/40">
             <div>
                 <h2 id="builder-title" class="brand-font text-lg font-bold text-yellow-100">Design Studio</h2>
@@ -339,9 +324,9 @@
         <div class="flex-grow overflow-y-auto flex flex-col md:flex-row pb-32">
             <div class="w-full md:w-1/2 flex flex-col items-center justify-center p-6 bg-purple-900/10 border-b md:border-b-0 md:border-r border-white/5">
                 <div class="preview-container bg-purple-950/40 rounded-3xl border border-white/10 p-4 overflow-hidden">
-                    <img id="layer-base" class="layer-graphic opacity-0" alt="Base Layer" onerror="if(this.src !== 'base-bg.jpg'){ this.src='base-bg.jpg'; } else { this.onerror=null; this.style.opacity='0.3'; }">
-                    <img id="layer-coating" class="layer-graphic opacity-0" alt="Coating Layer" onerror="if(this.src !== 'base-bg.jpg'){ this.src='base-bg.jpg'; } else { this.onerror=null; this.style.opacity='0.3'; }">
-                    <img id="layer-inner" class="inner-layer-graphic opacity-0" alt="Inner Layer" onerror="if(this.src !== 'base-bg.jpg'){ this.src='base-bg.jpg'; } else { this.onerror=null; this.style.opacity='0.3'; }">
+                    <img id="layer-base" class="layer-graphic opacity-0" alt="Base Layer">
+                    <img id="layer-coating" class="layer-graphic opacity-0" alt="Coating Layer">
+                    <img id="layer-inner" class="inner-layer-graphic opacity-0" alt="Inner Layer">
                 </div>
                 
                 <div id="live-selection-reporter" class="mt-4 w-full max-w-[240px] text-center bg-black/40 border border-white/10 p-3 rounded-xl text-xs font-mono space-y-1 text-yellow-100 hidden"></div>
@@ -369,57 +354,7 @@
         </div>
     </div>
 
-    <!-- ===== MILKSHAKE BUILDER (SEPARATE) ===== -->
-    <div id="milkshake-builder" class="fixed inset-0 z-50 invisible opacity-0 transition-all duration-300 flex flex-col bg-purple-950/98">
-        <div class="w-full px-6 py-4 flex items-center justify-between border-b border-white/10 bg-purple-900/40">
-            <div>
-                <h2 class="brand-font text-lg font-bold text-yellow-100">Milkshake Formulation</h2>
-                <p id="ms-step-indicator" class="text-xs font-semibold text-purple-200/60 mt-0.5">Step 1 of 3</p>
-            </div>
-            <button onclick="closeMilkshakeBuilder()" class="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 text-purple-200 hover:text-white hover:bg-white/20 transition-all">
-                <i class="fa-solid fa-xmark text-lg"></i>
-            </button>
-        </div>
-
-        <div class="flex-grow overflow-y-auto flex flex-col md:flex-row pb-32">
-            <!-- Preview Panel -->
-            <div class="w-full md:w-1/2 flex flex-col items-center justify-center p-6 bg-purple-900/10 border-b md:border-b-0 md:border-r border-white/5">
-                <div class="preview-container bg-purple-950/40 rounded-3xl border border-white/10 p-4 overflow-hidden">
-                    <!-- Empty cup always visible as base -->
-                    <img id="ms-layer-cup" class="layer-graphic" src="milkshake-empty.png" alt="Cup" onerror="if(this.src !== 'base-bg.jpg'){ this.src='base-bg.jpg'; } else { this.onerror=null; this.style.opacity='0.3'; }">
-                    <!-- Base fills the cup -->
-                    <img id="ms-layer-base" class="layer-graphic opacity-0" alt="Milkshake Base" onerror="if(this.src !== 'base-bg.jpg'){ this.src='base-bg.jpg'; } else { this.onerror=null; this.style.opacity='0.3'; }">
-                    <!-- Ingredient shown inside cup (top portion) -->
-                    <img id="ms-layer-ingredient" class="inner-layer-graphic opacity-0" alt="Ingredient" onerror="if(this.src !== 'base-bg.jpg'){ this.src='base-bg.jpg'; } else { this.onerror=null; this.style.opacity='0.3'; }">
-                </div>
-
-                <div id="ms-live-reporter" class="mt-4 w-full max-w-[240px] text-center bg-black/40 border border-white/10 p-3 rounded-xl text-xs font-mono space-y-1 text-yellow-100 hidden"></div>
-
-                <p id="ms-builder-instruction" class="text-center text-xs text-purple-200 font-medium mt-4 bg-purple-900/60 py-1.5 px-3 rounded-full border border-white/5">Choose your base flavor</p>
-            </div>
-
-            <!-- Options Panel -->
-            <div class="w-full md:w-1/2 p-6 flex flex-col justify-between">
-                <div>
-                    <h3 id="ms-panel-title" class="brand-font text-xl font-bold text-white mb-1">Choose Base</h3>
-                    <p id="ms-panel-desc" class="text-xs text-purple-200/70 mb-4">Select your milkshake foundation flavor.</p>
-                    <div id="ms-options-grid" class="grid grid-cols-3 gap-6 max-h-[380px] overflow-y-auto pr-1 py-2" style="transition: opacity 0.2s ease;"></div>
-                </div>
-            </div>
-        </div>
-
-        <div class="absolute bottom-0 inset-x-0 glass-panel border-t border-white/10 p-5 flex items-center justify-between z-30">
-            <button id="ms-back-btn" onclick="msGoBack()" class="px-5 py-3.5 bg-white/10 hover:bg-white/20 text-purple-100 text-sm font-bold rounded-xl transition-all">
-                <i class="fa-solid fa-xmark mr-2"></i> Close
-            </button>
-            <button id="ms-next-btn" onclick="msNextStep()" disabled class="px-8 py-3.5 bg-yellow-200 hover:bg-yellow-300 text-purple-950 text-sm font-bold rounded-xl transition-all disabled:opacity-40 disabled:cursor-not-allowed">
-                Next <i class="fa-solid fa-arrow-right ml-2"></i>
-            </button>
-        </div>
-    </div>
-
-    <!-- ===== SUMMARY OVERLAY ===== -->
-    <div id="summary-overlay" class="fixed inset-0 z-[60] invisible opacity-0 transition-all duration-300 flex items-center justify-center p-4 bg-purple-950/90">
+    <div id="summary-overlay" class="fixed inset-0 z-[60] invisible opacity-0 transition-all duration-300 flex items-center justify-center p-4 bg-purple-950/90 backdrop-blur-md">
         <div class="w-full max-w-md glass-panel rounded-3xl p-6 border border-white/10 text-center">
             <div class="w-14 h-14 bg-yellow-200/20 text-yellow-200 border border-yellow-200/30 rounded-full flex items-center justify-center mx-auto mb-3 text-xl">
                 <i class="fa-solid fa-wand-magic-sparkles"></i>
@@ -434,19 +369,25 @@
     </div>
 
     <script>
-        // =========================================================================
-        // SHARED STATE
-        // =========================================================================
-        let builderMode = "";
+        let builderMode = ""; 
         let currentStep = 1;
         let totalStepsCount = 4;
-        let selectedType = "";
+        let selectedType = ""; 
         
         let selectionsCache = {
             base: null,
             type: null,
             coating: null,
             inner: null
+        };
+
+        let milkshakeState = {
+            step: 0,
+            base: null,       
+            category: null,   
+            mixSubStep: 1,    
+            selectedChocolates: [], 
+            selectedFruits: []      
         };
 
         let waffleState = {
@@ -457,18 +398,7 @@
             filling: null
         };
 
-        // Milkshake state — completely separate
-        let msState = {
-            step: 1,          // 1=base, 2=category, 3=ingredients
-            base: null,
-            category: null,   // 'fruits' | 'chocolate' | 'mix'
-            mixSubStep: 1,
-            selectedChocolates: [],
-            selectedFruits: []
-        };
-
         const unifiedBuilder = document.getElementById("unified-builder");
-        const milkshakeBuilderEl = document.getElementById("milkshake-builder");
         const layerBase = document.getElementById("layer-base");
         const layerCoating = document.getElementById("layer-coating");
         const layerInner = document.getElementById("layer-inner");
@@ -476,9 +406,6 @@
         const nextBtn = document.getElementById("studio-next-btn");
         const liveSelectionReporter = document.getElementById("live-selection-reporter");
 
-        // =========================================================================
-        // SCROLL REVEAL + FOCUS (with RAF throttle)
-        // =========================================================================
         document.addEventListener("DOMContentLoaded", () => {
             const items = document.querySelectorAll(".scroll-reveal");
             const observer = new IntersectionObserver((entries) => {
@@ -490,37 +417,30 @@
             }, { threshold: 0.1 });
             items.forEach(el => observer.observe(el));
 
-            let scrollRafPending = false;
             window.addEventListener("scroll", () => {
-                if (scrollRafPending) return;
-                scrollRafPending = true;
-                requestAnimationFrame(() => {
-                    scrollRafPending = false;
-                    let currentFocusTarget = null;
-                    let minimumDistance = Infinity;
-                    const centerPointY = window.innerHeight / 2;
+                let currentFocusTarget = null;
+                let minimumDistance = Infinity;
+                const centerPointY = window.innerHeight / 2;
 
-                    items.forEach(item => {
-                        const box = item.getBoundingClientRect();
-                        const elementCenterY = box.top + (box.height / 2);
-                        const distanceToCenter = Math.abs(centerPointY - elementCenterY);
-                        item.classList.remove("scroll-focused-element");
-                        if (distanceToCenter < minimumDistance && box.top > 0 && box.bottom < window.innerHeight + 100) {
-                            minimumDistance = distanceToCenter;
-                            currentFocusTarget = item;
-                        }
-                    });
+                items.forEach(item => {
+                    const box = item.getBoundingClientRect();
+                    const elementCenterY = box.top + (box.height / 2);
+                    const distanceToCenter = Math.abs(centerPointY - elementCenterY);
 
-                    if (currentFocusTarget) {
-                        currentFocusTarget.classList.add("scroll-focused-element");
+                    item.classList.remove("scroll-focused-element");
+
+                    if (distanceToCenter < minimumDistance && box.top > 0 && box.bottom < window.innerHeight + 100) {
+                        minimumDistance = distanceToCenter;
+                        currentFocusTarget = item;
                     }
                 });
+
+                if (currentFocusTarget) {
+                    currentFocusTarget.classList.add("scroll-focused-element");
+                }
             });
         });
 
-        // =========================================================================
-        // STATIC VIEWER
-        // =========================================================================
         function openStaticViewer(folder, titleText, count) {
             document.body.classList.add("lock-scroll");
             const overlay = document.getElementById("viewer-overlay");
@@ -568,7 +488,7 @@
             wrap.style.backgroundColor = "#e7b5c5";
             wrap.innerHTML = `
                 <div class="w-full aspect-[4/3] bg-purple-950 relative flex items-center justify-center overflow-hidden">
-                    <img src="assets/${folder}/${filename}" alt="${label}" loading="lazy" class="w-full h-full object-cover" onerror="if(this.src !== 'base-bg.jpg'){ this.src='base-bg.jpg'; } else { this.onerror=null; this.style.opacity='0.3'; }">
+                    <img src="assets/${folder}/${filename}" alt="${label}" loading="lazy" class="w-full h-full object-cover" onerror="this.src='base-bg.jpg'">
                 </div>
                 <div class="p-3 flex items-center justify-between border-t border-white/5">
                     <span class="text-xs font-semibold tracking-wide text-purple-950">${label}</span>
@@ -579,15 +499,10 @@
         }
 
         function closeViewerOverlay() {
+            document.body.classList.remove("lock-scroll");
             document.getElementById("viewer-overlay").classList.add("invisible", "opacity-0");
-            if (unifiedBuilder.classList.contains("invisible") && milkshakeBuilderEl.classList.contains("invisible")) {
-                document.body.classList.remove("lock-scroll");
-            }
         }
 
-        // =========================================================================
-        // UNIFIED BUILDER HELPERS (ICE CREAM + WAFFLE)
-        // =========================================================================
         function resetStudioCache(mode, maxSteps) {
             builderMode = mode;
             currentStep = 1;
@@ -618,6 +533,17 @@
                 if (selectionsCache.type) segments.push(`<div>Chocolate: ${selectionsCache.type.name}</div>`);
                 if (selectionsCache.coating) segments.push(`<div>Coating: ${selectionsCache.coating.name}</div>`);
                 if (selectionsCache.inner) segments.push(`<div>Filling: ${selectionsCache.inner.name}</div>`);
+            } else if (builderMode === "milkshake") {
+                if (milkshakeState.base) segments.push(`<div>Base: ${milkshakeState.base.name}</div>`);
+                if (milkshakeState.category) segments.push(`<div>Category: ${milkshakeState.category}</div>`);
+                if (milkshakeState.selectedChocolates.length > 0) {
+                    let cn = milkshakeState.selectedChocolates.map(x => x.name).join(", ");
+                    segments.push(`<div>Chocolates: ${cn}</div>`);
+                }
+                if (milkshakeState.selectedFruits.length > 0) {
+                    let fn = milkshakeState.selectedFruits.map(x => x.name).join(", ");
+                    segments.push(`<div>Fruits: ${fn}</div>`);
+                }
             } else if (builderMode === "waffle") {
                 if (waffleState.base) segments.push(`<div>Base: ${waffleState.base.name}</div>`);
                 if (waffleState.sauce) segments.push(`<div>Sauce: ${waffleState.sauce.name}</div>`);
@@ -634,7 +560,6 @@
         }
 
         function evaluateNextButtonState() {
-            if (!nextBtn) return;
             let allowed = false;
             if (builderMode === "icecream") {
                 if (currentStep === 1 && selectionsCache.base) allowed = true;
@@ -645,24 +570,22 @@
                 if (waffleState.step === 1) allowed = true;
                 if (waffleState.step === 2 && waffleState.sauce) allowed = true;
                 if (waffleState.step === 3 && waffleState.topping) allowed = true;
-                if (waffleState.step === 4) allowed = true;
+                if (waffleState.step === 4) allowed = true; 
+            } else if (builderMode === "milkshake") {
+                if (milkshakeState.step === 0) allowed = true;
+                if (milkshakeState.step === 1 && milkshakeState.base) allowed = true;
+                if (milkshakeState.step === 2 && milkshakeState.category) allowed = true;
+                if (milkshakeState.step === 3) {
+                    if (milkshakeState.category === 'fruits' && milkshakeState.selectedFruits.length > 0) allowed = true;
+                    if (milkshakeState.category === 'chocolate' && milkshakeState.selectedChocolates.length > 0) allowed = true;
+                    if (milkshakeState.category === 'mix') {
+                        if (milkshakeState.mixSubStep === 1 && milkshakeState.selectedChocolates.length > 0) allowed = true;
+                        if (milkshakeState.mixSubStep === 2 && milkshakeState.selectedFruits.length > 0) allowed = true;
+                    }
+                }
             }
             nextBtn.disabled = !allowed;
             updateLiveSelectionText();
-        }
-
-        function updateStudioStepHeader(title, desc, instruction) {
-            document.getElementById("panel-title").innerText = title;
-            document.getElementById("panel-desc").innerText = desc;
-            document.getElementById("builder-instruction").innerText = instruction;
-        }
-
-        function createOptionImageCard(imgSrcPath, clickHandlerCallback, activeFlagIndicator) {
-            const wrapperCard = document.createElement("div");
-            wrapperCard.className = `pure-image-option flex items-center justify-center ${activeFlagIndicator ? "active-option" : ""}`;
-            wrapperCard.innerHTML = `<img src="${imgSrcPath}" alt="Option Graphic Node" onerror="if(this.src !== 'base-bg.jpg'){ this.src='base-bg.jpg'; } else { this.onerror=null; this.style.opacity='0.3'; }">`;
-            wrapperCard.onclick = clickHandlerCallback;
-            optionsViewportGrid.appendChild(wrapperCard);
         }
 
         // =========================================================================
@@ -670,22 +593,14 @@
         // =========================================================================
         function openIceCreamBuilder() {
             resetStudioCache("icecream", 4);
-            document.getElementById("builder-title").innerText = "Ice Cream Laboratory";
             renderIceCreamStep();
         }
 
         function renderIceCreamStep() {
-            optionsViewportGrid.style.opacity = "0";
             optionsViewportGrid.innerHTML = "";
             evaluateNextButtonState();
 
             document.getElementById("builder-step-indicator").innerText = `Step ${currentStep} of ${totalStepsCount}`;
-
-            // Update back button label
-            const backBtn = document.getElementById("studio-back-btn");
-            backBtn.innerHTML = currentStep === 1
-                ? '<i class="fa-solid fa-xmark mr-2"></i> Close'
-                : '<i class="fa-solid fa-arrow-left mr-2"></i> Back';
 
             if (currentStep === 1) {
                 updateStudioStepHeader("Choose Base", "Select thin cylindrical foundational inner core track parameters flavor mapping profiles.", "Choose structural ice cream base core parameters");
@@ -717,8 +632,6 @@
                 createOptionImageCard("images/filling/hazelnut.png", () => selectFilling("images/filling/hazelnut.png", "Hazelnut"), selectionsCache.inner?.src === "images/filling/hazelnut.png");
                 createOptionImageCard("images/filling/strawberry.png", () => selectFilling("images/filling/strawberry.png", "Strawberry"), selectionsCache.inner?.src === "images/filling/strawberry.png");
             }
-
-            requestAnimationFrame(() => { optionsViewportGrid.style.opacity = "1"; });
         }
 
         function selectBase(srcPath, nameText) {
@@ -737,14 +650,152 @@
             renderIceCreamStep();
         }
         function selectFilling(srcPath, nameText) {
-            // Filling shown at TOP of stick using inner-layer-graphic (top: 0px)
             layerInner.src = srcPath; layerInner.classList.remove("opacity-0");
             selectionsCache.inner = { src: srcPath, name: nameText };
             renderIceCreamStep();
         }
 
         // =========================================================================
-        // WAFFLE BUILDER SYSTEM
+        // MILKSHAKE BUILDER SYSTEM
+        // =========================================================================
+        function openMilkshakeBuilder() {
+            builderMode = "milkshake";
+            milkshakeState = {
+                step: 0, base: null, category: null, mixSubStep: 1,
+                selectedChocolates: [], selectedFruits: []
+            };
+            
+            document.body.classList.add("lock-scroll");
+            unifiedBuilder.classList.remove("invisible", "opacity-0");
+            
+            layerBase.src = "milkshake-empty.png"; layerBase.classList.remove("opacity-0");
+            layerCoating.src = ""; layerCoating.classList.add("opacity-0");
+            layerInner.src = ""; layerInner.classList.add("opacity-0");
+            
+            renderMilkshakeFlow();
+        }
+
+        function renderMilkshakeFlow() {
+            optionsViewportGrid.innerHTML = "";
+            evaluateNextButtonState();
+            
+            let currentDisplayStep = milkshakeState.step + 1;
+            let currentTotalSteps = 4;
+            document.getElementById("builder-step-indicator").innerText = `Step ${currentDisplayStep} of ${currentTotalSteps}`;
+
+            if (milkshakeState.base) {
+                layerBase.src = milkshakeState.base.img;
+                layerBase.classList.remove("opacity-0");
+            } else {
+                layerBase.src = "milkshake-empty.png";
+                layerBase.classList.remove("opacity-0");
+            }
+
+            let activeIngredients = [...milkshakeState.selectedChocolates, ...milkshakeState.selectedFruits];
+            if (activeIngredients.length > 0) {
+                layerCoating.src = activeIngredients[activeIngredients.length - 1].img;
+                layerCoating.classList.remove("opacity-0");
+            } else {
+                layerCoating.src = "";
+                layerCoating.classList.add("opacity-0");
+            }
+
+            if (milkshakeState.step === 0) {
+                updateStudioStepHeader("Milkshake Initialization", "Review clear foundation profile setup architectures parameters.", "Tap Next to begin formulation architecture steps flow");
+            }
+            else if (milkshakeState.step === 1) {
+                updateStudioStepHeader("Choose Blended Base", "Configure rich foundational churn core density parameters maps.", "Select structural base liquid composition matrix flow");
+                createOptionImageCard("milkshake-base-vanilla.png", () => {
+                    milkshakeState.base = { id: 'vanilla', name: "Vanilla Milkshake", img: "milkshake-base-vanilla.png" };
+                    renderMilkshakeFlow();
+                }, milkshakeState.base?.id === 'vanilla');
+                
+                createOptionImageCard("milkshake-base-chocolate.png", () => {
+                    milkshakeState.base = { id: 'chocolate', name: "Chocolate Milkshake", img: "milkshake-base-chocolate.png" };
+                    renderMilkshakeFlow();
+                }, milkshakeState.base?.id === 'chocolate');
+            }
+            else if (milkshakeState.step === 2) {
+                updateStudioStepHeader("Select Track Category", "Isolate component tracks parameters profiles layout matrix node links safely.", "Choose track routing path");
+                
+                const cats = [
+                    { id: 'fruits', name: 'Fruits' },
+                    { id: 'chocolate', name: 'Chocolate' },
+                    { id: 'mix', name: 'Mix' }
+                ];
+                cats.forEach(c => {
+                    const badge = document.createElement("div");
+                    badge.className = `category-text-badge text-sm uppercase tracking-wider brand-font ${milkshakeState.category === c.id ? "active-badge" : ""}`;
+                    badge.innerText = c.name;
+                    badge.onclick = () => {
+                        milkshakeState.category = c.id;
+                        milkshakeState.mixSubStep = 1;
+                        milkshakeState.selectedFruits = [];
+                        milkshakeState.selectedChocolates = [];
+                        renderMilkshakeFlow();
+                    };
+                    optionsViewportGrid.appendChild(badge);
+                });
+            }
+            else if (milkshakeState.step === 3) {
+                if (milkshakeState.category === 'fruits') {
+                    updateStudioStepHeader("Fruits Inclusions", "Tap to toggle active natural fruit structural extract parameters.", "Select active fruits elements");
+                    const fruitsList = ['strawberry', 'blueberry', 'mango', 'mint', 'watermelon', 'melon', 'kiwi', 'lemon'];
+                    fruitsList.forEach(f => {
+                        let imgName = `${f}.png`;
+                        let isSel = milkshakeState.selectedFruits.some(x => x.id === f);
+                        createOptionImageCard(imgName, () => {
+                            if (isSel) milkshakeState.selectedFruits = milkshakeState.selectedFruits.filter(x => x.id !== f);
+                            else milkshakeState.selectedFruits.push({ id: f, name: f.charAt(0).toUpperCase() + f.slice(1), img: imgName });
+                            renderMilkshakeFlow();
+                        }, isSel);
+                    });
+                }
+                else if (milkshakeState.category === 'chocolate') {
+                    updateStudioStepHeader("Chocolate Crumb Inclusions", "Toggle active particulate crunch brand component structures.", "Select active chocolate elements");
+                    const chocList = ['snickers', 'kitkat', 'galaxy', 'bounty', 'twix', 'kinder', 'mms', 'twinkies', 'todo', 'oreo', 'lotus', 'hohos'];
+                    chocList.forEach(c => {
+                        let imgName = `${c}.png`;
+                        let isSel = milkshakeState.selectedChocolates.some(x => x.id === c);
+                        createOptionImageCard(imgName, () => {
+                            if (isSel) milkshakeState.selectedChocolates = milkshakeState.selectedChocolates.filter(x => x.id !== c);
+                            else milkshakeState.selectedChocolates.push({ id: c, name: c.charAt(0).toUpperCase() + c.slice(1), img: imgName });
+                            renderMilkshakeFlow();
+                        }, isSel);
+                    });
+                }
+                else if (milkshakeState.category === 'mix') {
+                    if (milkshakeState.mixSubStep === 1) {
+                        updateStudioStepHeader("Hybrid Phase 1: Chocolates", "Select primary layer component node parameters for multi-track configurations.", "Choose multi-track chocolate inclusions");
+                        const chocList = ['snickers', 'kitkat', 'galaxy', 'bounty', 'twix', 'kinder', 'mms', 'twinkies', 'todo', 'oreo', 'lotus', 'hohos'];
+                        chocList.forEach(c => {
+                            let imgName = `${c}.png`;
+                            let isSel = milkshakeState.selectedChocolates.some(x => x.id === c);
+                            createOptionImageCard(imgName, () => {
+                                if (isSel) milkshakeState.selectedChocolates = milkshakeState.selectedChocolates.filter(x => x.id !== c);
+                                else milkshakeState.selectedChocolates.push({ id: c, name: c.charAt(0).toUpperCase() + c.slice(1), img: imgName });
+                                renderMilkshakeFlow();
+                            }, isSel);
+                        });
+                    } else {
+                        updateStudioStepHeader("Hybrid Phase 2: Fruits", "Complete multi-path structural compound assembly maps parameters.", "Choose final phase fruits parameters components");
+                        const fruitsList = ['strawberry', 'blueberry', 'mango', 'mint', 'watermelon', 'melon', 'kiwi', 'lemon'];
+                        fruitsList.forEach(f => {
+                            let imgName = `${f}.png`;
+                            let isSel = milkshakeState.selectedFruits.some(x => x.id === f);
+                            createOptionImageCard(imgName, () => {
+                                if (isSel) milkshakeState.selectedFruits = milkshakeState.selectedFruits.filter(x => x.id !== f);
+                                else milkshakeState.selectedFruits.push({ id: f, name: f.charAt(0).toUpperCase() + f.slice(1), img: imgName });
+                                renderMilkshakeFlow();
+                            }, isSel);
+                        });
+                    }
+                }
+            }
+        }
+
+        // =========================================================================
+        // TREE WAFFLE BUILDER SYSTEM
         // =========================================================================
         function openWaffleBuilder() {
             builderMode = "waffle";
@@ -756,22 +807,15 @@
 
             document.body.classList.add("lock-scroll");
             unifiedBuilder.classList.remove("invisible", "opacity-0");
-            document.getElementById("builder-title").innerText = "Waffle Builder";
-
+            
             renderWaffleFlow();
         }
 
         function renderWaffleFlow() {
-            optionsViewportGrid.style.opacity = "0";
             optionsViewportGrid.innerHTML = "";
             evaluateNextButtonState();
 
             document.getElementById("builder-step-indicator").innerText = `Step ${waffleState.step} of 4`;
-
-            const backBtn = document.getElementById("studio-back-btn");
-            backBtn.innerHTML = waffleState.step === 1
-                ? '<i class="fa-solid fa-xmark mr-2"></i> Close'
-                : '<i class="fa-solid fa-arrow-left mr-2"></i> Back';
 
             layerBase.src = waffleState.base.img;
             layerBase.classList.remove("opacity-0");
@@ -784,11 +828,7 @@
                 layerCoating.classList.add("opacity-0");
             }
 
-            // Fixed: correct layer priority for topping vs filling
-            if (waffleState.step === 4 && waffleState.filling) {
-                layerInner.src = waffleState.filling.img;
-                layerInner.classList.remove("opacity-0");
-            } else if (waffleState.topping) {
+            if (waffleState.topping) {
                 layerInner.src = waffleState.topping.img;
                 layerInner.classList.remove("opacity-0");
             } else {
@@ -796,310 +836,86 @@
                 layerInner.classList.add("opacity-0");
             }
 
+            if (waffleState.step === 4 && waffleState.filling) {
+                layerInner.src = waffleState.filling.img; 
+            }
+
             if (waffleState.step === 1) {
                 updateStudioStepHeader("Lattice Waffle Foundation", "Review golden framework profile structural blueprint parameters configuration maps.", "Confirm your baseline frame parameters tracking setup flow");
-                createOptionImageCard("waffle-base.png", () => { renderWaffleFlow(); }, true);
+                createOptionImageCard("waffle-base.png", () => {
+                    renderWaffleFlow();
+                }, true);
             }
             else if (waffleState.step === 2) {
                 updateStudioStepHeader("Choose Sauce Compound", "Fluid cocoa viscous distribution tracking configuration layers profiles maps.", "Select specific primary sauce element parameters");
-                createOptionImageCard("waffle-sauce-chocolate.png", () => { waffleState.sauce = { name: "Chocolate Sauce", img: "waffle-sauce-chocolate.png" }; renderWaffleFlow(); }, waffleState.sauce?.img === "waffle-sauce-chocolate.png");
-                createOptionImageCard("waffle-sauce-white.png", () => { waffleState.sauce = { name: "White Sauce", img: "waffle-sauce-white.png" }; renderWaffleFlow(); }, waffleState.sauce?.img === "waffle-sauce-white.png");
-                createOptionImageCard("waffle-sauce-caramel.png", () => { waffleState.sauce = { name: "Caramel Sauce", img: "waffle-sauce-caramel.png" }; renderWaffleFlow(); }, waffleState.sauce?.img === "waffle-sauce-caramel.png");
+                createOptionImageCard("waffle-sauce-chocolate.png", () => {
+                    waffleState.sauce = { name: "Chocolate Sauce", img: "waffle-sauce-chocolate.png" };
+                    renderWaffleFlow();
+                }, waffleState.sauce?.img === "waffle-sauce-chocolate.png");
+
+                createOptionImageCard("waffle-sauce-white.png", () => {
+                    waffleState.sauce = { name: "White Sauce", img: "waffle-sauce-white.png" };
+                    renderWaffleFlow();
+                }, waffleState.sauce?.img === "waffle-sauce-white.png");
+
+                createOptionImageCard("waffle-sauce-caramel.png", () => {
+                    waffleState.sauce = { name: "Caramel Sauce", img: "waffle-sauce-caramel.png" };
+                    renderWaffleFlow();
+                }, waffleState.sauce?.img === "waffle-sauce-caramel.png");
             }
             else if (waffleState.step === 3) {
                 updateStudioStepHeader("Choose Crisp Toppings", "Particulate crunch shards scatter maps layer setup configurations.", "Select topping component asset options cleanly");
-                createOptionImageCard("waffle-top-nuts.png", () => { waffleState.topping = { name: "Nuts", img: "waffle-top-nuts.png" }; renderWaffleFlow(); }, waffleState.topping?.img === "waffle-top-nuts.png");
-                createOptionImageCard("waffle-top-sprinkles.png", () => { waffleState.topping = { name: "Sprinkles", img: "waffle-top-sprinkles.png" }; renderWaffleFlow(); }, waffleState.topping?.img === "waffle-top-sprinkles.png");
-                createOptionImageCard("waffle-top-mix.png", () => { waffleState.topping = { name: "Mix", img: "waffle-top-mix.png" }; renderWaffleFlow(); }, waffleState.topping?.img === "waffle-top-mix.png");
+                createOptionImageCard("waffle-top-nuts.png", () => {
+                    waffleState.topping = { name: "Nuts", img: "waffle-top-nuts.png" };
+                    renderWaffleFlow();
+                }, waffleState.topping?.img === "waffle-top-nuts.png");
+
+                createOptionImageCard("waffle-top-sprinkles.png", () => {
+                    waffleState.topping = { name: "Sprinkles", img: "waffle-top-sprinkles.png" };
+                    renderWaffleFlow();
+                }, waffleState.topping?.img === "waffle-top-sprinkles.png");
+
+                createOptionImageCard("waffle-top-mix.png", () => {
+                    waffleState.topping = { name: "Mix", img: "waffle-top-mix.png" };
+                    renderWaffleFlow();
+                }, waffleState.topping?.img === "waffle-top-mix.png");
             }
             else if (waffleState.step === 4) {
                 updateStudioStepHeader("Optional Flavor Filling Influx", "Secondary flavor pocket parameter nodes embedment selections paths cleanly.", "Select hidden injection formula asset (Optional)");
+                createOptionImageCard("waffle-fill-chocolate.png", () => {
+                    waffleState.filling = { name: "Chocolate Filling", img: "waffle-fill-chocolate.png" };
+                    renderWaffleFlow();
+                }, waffleState.filling?.img === "waffle-fill-chocolate.png");
 
-                // Optional skip note
-                const skipNote = document.createElement("p");
-                skipNote.className = "text-xs text-purple-200/50 text-center col-span-3 mb-2";
-                skipNote.innerText = "Optional — tap Next to skip";
-                optionsViewportGrid.appendChild(skipNote);
+                createOptionImageCard("waffle-fill-strawberry.png", () => {
+                    waffleState.filling = { name: "Strawberry Filling", img: "waffle-fill-strawberry.png" };
+                    renderWaffleFlow();
+                }, waffleState.filling?.img === "waffle-fill-strawberry.png");
 
-                createOptionImageCard("waffle-fill-chocolate.png", () => { waffleState.filling = { name: "Chocolate Filling", img: "waffle-fill-chocolate.png" }; renderWaffleFlow(); }, waffleState.filling?.img === "waffle-fill-chocolate.png");
-                createOptionImageCard("waffle-fill-strawberry.png", () => { waffleState.filling = { name: "Strawberry Filling", img: "waffle-fill-strawberry.png" }; renderWaffleFlow(); }, waffleState.filling?.img === "waffle-fill-strawberry.png");
-                createOptionImageCard("waffle-fill-nutella.png", () => { waffleState.filling = { name: "Nutella Filling", img: "waffle-fill-nutella.png" }; renderWaffleFlow(); }, waffleState.filling?.img === "waffle-fill-nutella.png");
+                createOptionImageCard("waffle-fill-nutella.png", () => {
+                    waffleState.filling = { name: "Nutella Filling", img: "waffle-fill-nutella.png" };
+                    renderWaffleFlow();
+                }, waffleState.filling?.img === "waffle-fill-nutella.png");
             }
-
-            requestAnimationFrame(() => { optionsViewportGrid.style.opacity = "1"; });
         }
 
         // =========================================================================
-        // MILKSHAKE BUILDER — COMPLETELY SEPARATE SYSTEM
-        // =========================================================================
-        function openMilkshakeBuilder() {
-            msState = {
-                step: 1,
-                base: null,
-                category: null,
-                mixSubStep: 1,
-                selectedChocolates: [],
-                selectedFruits: []
-            };
-
-            document.body.classList.add("lock-scroll");
-            milkshakeBuilderEl.classList.remove("invisible", "opacity-0");
-
-            // Show empty cup immediately
-            const cupLayer = document.getElementById("ms-layer-cup");
-            cupLayer.src = "milkshake-empty.png";
-
-            renderMilkshakeStep();
-        }
-
-        function closeMilkshakeBuilder() {
-            document.body.classList.remove("lock-scroll");
-            milkshakeBuilderEl.classList.add("invisible", "opacity-0");
-        }
-
-        function msUpdateLiveReporter() {
-            const reporter = document.getElementById("ms-live-reporter");
-            let segments = [];
-            if (msState.base) segments.push(`<div>Base: ${msState.base.name}</div>`);
-            if (msState.category) segments.push(`<div>Type: ${msState.category.charAt(0).toUpperCase() + msState.category.slice(1)}</div>`);
-            if (msState.selectedChocolates.length > 0) segments.push(`<div>Chocolates: ${msState.selectedChocolates.map(x => x.name).join(', ')}</div>`);
-            if (msState.selectedFruits.length > 0) segments.push(`<div>Fruits: ${msState.selectedFruits.map(x => x.name).join(', ')}</div>`);
-
-            if (segments.length > 0) {
-                reporter.innerHTML = segments.join("");
-                reporter.classList.remove("hidden");
-            } else {
-                reporter.classList.add("hidden");
-            }
-        }
-
-        function msEvaluateNext() {
-            const btn = document.getElementById("ms-next-btn");
-            if (!btn) return;
-            let allowed = false;
-            if (msState.step === 1 && msState.base) allowed = true;
-            if (msState.step === 2 && msState.category) allowed = true;
-            if (msState.step === 3) {
-                if (msState.category === 'fruits' && msState.selectedFruits.length > 0) allowed = true;
-                if (msState.category === 'chocolate' && msState.selectedChocolates.length > 0) allowed = true;
-                if (msState.category === 'mix') {
-                    if (msState.mixSubStep === 1 && msState.selectedChocolates.length > 0) allowed = true;
-                    if (msState.mixSubStep === 2 && msState.selectedFruits.length > 0) allowed = true;
-                }
-            }
-            btn.disabled = !allowed;
-            msUpdateLiveReporter();
-        }
-
-        function msCreateOptionCard(imgSrcPath, clickFn, isActive) {
-            const grid = document.getElementById("ms-options-grid");
-            const card = document.createElement("div");
-            card.className = `pure-image-option flex items-center justify-center ${isActive ? "active-option" : ""}`;
-            card.innerHTML = `<img src="${imgSrcPath}" alt="Option" onerror="if(this.src !== 'base-bg.jpg'){ this.src='base-bg.jpg'; } else { this.onerror=null; this.style.opacity='0.3'; }">`;
-            card.onclick = clickFn;
-            grid.appendChild(card);
-        }
-
-        function renderMilkshakeStep() {
-            const grid = document.getElementById("ms-options-grid");
-            const backBtn = document.getElementById("ms-back-btn");
-
-            grid.style.opacity = "0";
-            grid.innerHTML = "";
-
-            // Step indicator: 3 total steps
-            let displayStep = msState.step;
-            if (msState.step === 3 && msState.category === 'mix') {
-                displayStep = msState.mixSubStep === 1 ? 3 : 4;
-                document.getElementById("ms-step-indicator").innerText = `Step ${displayStep} of 4`;
-            } else {
-                document.getElementById("ms-step-indicator").innerText = `Step ${displayStep} of 3`;
-            }
-
-            // Back button label
-            backBtn.innerHTML = msState.step === 1
-                ? '<i class="fa-solid fa-xmark mr-2"></i> Close'
-                : '<i class="fa-solid fa-arrow-left mr-2"></i> Back';
-
-            // Update preview layers
-            const msLayerBase = document.getElementById("ms-layer-base");
-            const msLayerIngredient = document.getElementById("ms-layer-ingredient");
-
-            if (msState.base) {
-                msLayerBase.src = msState.base.img;
-                msLayerBase.classList.remove("opacity-0");
-            } else {
-                msLayerBase.src = "";
-                msLayerBase.classList.add("opacity-0");
-            }
-
-            // Show last selected ingredient inside cup
-            const allIngredients = [...msState.selectedChocolates, ...msState.selectedFruits];
-            if (allIngredients.length > 0) {
-                msLayerIngredient.src = allIngredients[allIngredients.length - 1].img;
-                msLayerIngredient.classList.remove("opacity-0");
-            } else {
-                msLayerIngredient.src = "";
-                msLayerIngredient.classList.add("opacity-0");
-            }
-
-            if (msState.step === 1) {
-                document.getElementById("ms-panel-title").innerText = "Choose Blended Base";
-                document.getElementById("ms-panel-desc").innerText = "Configure rich foundational churn core density parameters maps.";
-                document.getElementById("ms-builder-instruction").innerText = "Select your base milkshake flavor";
-
-                msCreateOptionCard("milkshake-base-vanilla.png", () => {
-                    msState.base = { id: 'vanilla', name: "Vanilla Milkshake", img: "milkshake-base-vanilla.png" };
-                    renderMilkshakeStep();
-                }, msState.base?.id === 'vanilla');
-
-                msCreateOptionCard("milkshake-base-chocolate.png", () => {
-                    msState.base = { id: 'chocolate', name: "Chocolate Milkshake", img: "milkshake-base-chocolate.png" };
-                    renderMilkshakeStep();
-                }, msState.base?.id === 'chocolate');
-            }
-            else if (msState.step === 2) {
-                document.getElementById("ms-panel-title").innerText = "Select Track Category";
-                document.getElementById("ms-panel-desc").innerText = "Isolate component tracks parameters profiles layout matrix node links safely.";
-                document.getElementById("ms-builder-instruction").innerText = "Choose your ingredient category";
-
-                const cats = [
-                    { id: 'fruits', name: 'Fruits' },
-                    { id: 'chocolate', name: 'Chocolate' },
-                    { id: 'mix', name: 'Mix' }
-                ];
-                cats.forEach(c => {
-                    const badge = document.createElement("div");
-                    badge.className = `category-text-badge text-sm uppercase tracking-wider brand-font ${msState.category === c.id ? "active-badge" : ""}`;
-                    badge.innerText = c.name;
-                    badge.onclick = () => {
-                        msState.category = c.id;
-                        msState.mixSubStep = 1;
-                        msState.selectedFruits = [];
-                        msState.selectedChocolates = [];
-                        renderMilkshakeStep();
-                    };
-                    grid.appendChild(badge);
-                });
-            }
-            else if (msState.step === 3) {
-                if (msState.category === 'fruits') {
-                    document.getElementById("ms-panel-title").innerText = "Fruits Inclusions";
-                    document.getElementById("ms-panel-desc").innerText = "Tap to toggle active natural fruit structural extract parameters.";
-                    document.getElementById("ms-builder-instruction").innerText = "Select your fruits";
-                    const fruitsList = ['strawberry', 'blueberry', 'mango', 'mint', 'watermelon', 'melon', 'kiwi', 'lemon'];
-                    fruitsList.forEach(f => {
-                        let imgName = `${f}.png`;
-                        let isSel = msState.selectedFruits.some(x => x.id === f);
-                        msCreateOptionCard(imgName, () => {
-                            if (isSel) msState.selectedFruits = msState.selectedFruits.filter(x => x.id !== f);
-                            else msState.selectedFruits.push({ id: f, name: f.charAt(0).toUpperCase() + f.slice(1), img: imgName });
-                            renderMilkshakeStep();
-                        }, isSel);
-                    });
-                }
-                else if (msState.category === 'chocolate') {
-                    document.getElementById("ms-panel-title").innerText = "Chocolate Crumb Inclusions";
-                    document.getElementById("ms-panel-desc").innerText = "Toggle active particulate crunch brand component structures.";
-                    document.getElementById("ms-builder-instruction").innerText = "Select your chocolates";
-                    const chocList = ['snickers', 'kitkat', 'galaxy', 'bounty', 'twix', 'kinder', 'mms', 'twinkies', 'todo', 'oreo', 'lotus', 'hohos'];
-                    chocList.forEach(c => {
-                        let imgName = `${c}.png`;
-                        let isSel = msState.selectedChocolates.some(x => x.id === c);
-                        msCreateOptionCard(imgName, () => {
-                            if (isSel) msState.selectedChocolates = msState.selectedChocolates.filter(x => x.id !== c);
-                            else msState.selectedChocolates.push({ id: c, name: c.charAt(0).toUpperCase() + c.slice(1), img: imgName });
-                            renderMilkshakeStep();
-                        }, isSel);
-                    });
-                }
-                else if (msState.category === 'mix') {
-                    if (msState.mixSubStep === 1) {
-                        document.getElementById("ms-panel-title").innerText = "Hybrid Phase 1: Chocolates";
-                        document.getElementById("ms-panel-desc").innerText = "Select primary layer component node parameters for multi-track configurations.";
-                        document.getElementById("ms-builder-instruction").innerText = "Choose chocolate inclusions";
-                        const chocList = ['snickers', 'kitkat', 'galaxy', 'bounty', 'twix', 'kinder', 'mms', 'twinkies', 'todo', 'oreo', 'lotus', 'hohos'];
-                        chocList.forEach(c => {
-                            let imgName = `${c}.png`;
-                            let isSel = msState.selectedChocolates.some(x => x.id === c);
-                            msCreateOptionCard(imgName, () => {
-                                if (isSel) msState.selectedChocolates = msState.selectedChocolates.filter(x => x.id !== c);
-                                else msState.selectedChocolates.push({ id: c, name: c.charAt(0).toUpperCase() + c.slice(1), img: imgName });
-                                renderMilkshakeStep();
-                            }, isSel);
-                        });
-                    } else {
-                        document.getElementById("ms-panel-title").innerText = "Hybrid Phase 2: Fruits";
-                        document.getElementById("ms-panel-desc").innerText = "Complete multi-path structural compound assembly maps parameters.";
-                        document.getElementById("ms-builder-instruction").innerText = "Choose fruit inclusions";
-                        const fruitsList = ['strawberry', 'blueberry', 'mango', 'mint', 'watermelon', 'melon', 'kiwi', 'lemon'];
-                        fruitsList.forEach(f => {
-                            let imgName = `${f}.png`;
-                            let isSel = msState.selectedFruits.some(x => x.id === f);
-                            msCreateOptionCard(imgName, () => {
-                                if (isSel) msState.selectedFruits = msState.selectedFruits.filter(x => x.id !== f);
-                                else msState.selectedFruits.push({ id: f, name: f.charAt(0).toUpperCase() + f.slice(1), img: imgName });
-                                renderMilkshakeStep();
-                            }, isSel);
-                        });
-                    }
-                }
-            }
-
-            requestAnimationFrame(() => { grid.style.opacity = "1"; });
-            msEvaluateNext();
-        }
-
-        function msGoBack() {
-            if (msState.step === 1) {
-                closeMilkshakeBuilder();
-            } else if (msState.step === 3 && msState.category === 'mix' && msState.mixSubStep === 2) {
-                msState.mixSubStep = 1;
-                renderMilkshakeStep();
-            } else {
-                msState.step = Math.max(1, msState.step - 1);
-                renderMilkshakeStep();
-            }
-        }
-
-        function msNextStep() {
-            if (msState.step === 3) {
-                if (msState.category === 'mix' && msState.mixSubStep === 1) {
-                    msState.mixSubStep = 2;
-                    renderMilkshakeStep();
-                } else {
-                    launchMilkshakeSummary();
-                }
-            } else {
-                msState.step++;
-                renderMilkshakeStep();
-            }
-        }
-
-        function launchMilkshakeSummary() {
-            const contentBox = document.getElementById("summary-content");
-            let baseName = msState.base ? msState.base.name : "Milkshake";
-            let itemsList = [];
-            if (msState.category === 'fruits' || msState.category === 'mix') {
-                msState.selectedFruits.forEach(x => itemsList.push(x.name));
-            }
-            if (msState.category === 'chocolate' || msState.category === 'mix') {
-                msState.selectedChocolates.forEach(x => itemsList.push(x.name));
-            }
-            contentBox.innerHTML = `
-                <div class="mb-1 text-yellow-200">${baseName}</div>
-                ${itemsList.map(i => `<div class="text-purple-200 text-xs">+ ${i}</div>`).join('')}
-            `;
-            document.getElementById("summary-overlay").classList.remove("invisible", "opacity-0");
-        }
-
-        // =========================================================================
-        // UNIFIED BUILDER NAVIGATION
+        // NAVIGATION HANDLERS
         // =========================================================================
         function studioGoBack() {
             if (builderMode === "icecream") {
                 if (currentStep === 1) closeStudioBuilder();
                 else { currentStep--; renderIceCreamStep(); }
+            } 
+            else if (builderMode === "milkshake") {
+                if (milkshakeState.step === 0) closeStudioBuilder();
+                else if (milkshakeState.step === 3 && milkshakeState.category === 'mix' && milkshakeState.mixSubStep === 2) {
+                    milkshakeState.mixSubStep = 1;
+                    renderMilkshakeFlow();
+                } else {
+                    milkshakeState.step--;
+                    renderMilkshakeFlow();
+                }
             } 
             else if (builderMode === "waffle") {
                 if (waffleState.step === 1) closeStudioBuilder();
@@ -1112,43 +928,78 @@
                 if (currentStep < totalStepsCount) { currentStep++; renderIceCreamStep(); }
                 else launchFormulaSummaryOutput();
             } 
+            else if (builderMode === "milkshake") {
+                if (milkshakeState.step === 3) {
+                    if (milkshakeState.category === 'mix' && milkshakeState.mixSubStep === 1) {
+                        milkshakeState.mixSubStep = 2;
+                        renderMilkshakeFlow();
+                    } else {
+                        launchFormulaSummaryOutput();
+                    }
+                } else {
+                    milkshakeState.step++;
+                    renderMilkshakeFlow();
+                }
+            } 
             else if (builderMode === "waffle") {
                 if (waffleState.step < 4) { waffleState.step++; renderWaffleFlow(); }
                 else launchFormulaSummaryOutput();
             }
         }
 
+        function updateStudioStepHeader(title, desc, instruction) {
+            document.getElementById("panel-title").innerText = title;
+            document.getElementById("panel-desc").innerText = desc;
+            document.getElementById("builder-instruction").innerText = instruction;
+        }
+
+        function createOptionImageCard(imgSrcPath, clickHandlerCallback, activeFlagIndicator) {
+            const wrapperCard = document.createElement("div");
+            wrapperCard.className = `pure-image-option flex items-center justify-center ${activeFlagIndicator ? "active-option" : ""}`;
+            wrapperCard.innerHTML = `<img src="${imgSrcPath}" alt="Option Graphic Node" onerror="this.src='base-bg.jpg'">`;
+            wrapperCard.onclick = clickHandlerCallback;
+            optionsViewportGrid.appendChild(wrapperCard);
+        }
+
         function launchFormulaSummaryOutput() {
             const contentBox = document.getElementById("summary-content");
             contentBox.innerHTML = "";
 
+            let summaryTextString = "";
+
             if (builderMode === "icecream") {
-                contentBox.innerHTML = `
-                    <div class="mb-1 text-yellow-200">${selectionsCache.base?.name || 'Ice Cream Base'}</div>
-                    <div class="text-purple-200 text-xs">+ ${selectionsCache.type?.name || 'Chocolate'} Chocolate</div>
-                    <div class="text-purple-200 text-xs">+ ${selectionsCache.coating?.name || 'Coating'} Coating</div>
-                    <div class="text-purple-200 text-xs">+ ${selectionsCache.inner?.name || 'Filling'} Filling</div>
-                `;
-            } else if (builderMode === "waffle") {
+                summaryTextString = `${selectionsCache.base?.name || 'Ice Cream Base'} + ${selectionsCache.type?.name || 'Chocolate'} + ${selectionsCache.coating?.name || 'Coating'} + ${selectionsCache.inner?.name || 'Filling'}`;
+            } 
+            else if (builderMode === "milkshake") {
+                let baseName = milkshakeState.base ? milkshakeState.base.name : "Milkshake";
+                let itemsList = [];
+                if (milkshakeState.category === 'fruits' || milkshakeState.category === 'mix') {
+                    milkshakeState.selectedFruits.forEach(x => itemsList.push(x.name));
+                }
+                if (milkshakeState.category === 'chocolate' || milkshakeState.category === 'mix') {
+                    milkshakeState.selectedChocolates.forEach(x => itemsList.push(x.name));
+                }
+                summaryTextString = baseName + (itemsList.length > 0 ? " + " + itemsList.join(" + ") : "");
+            } 
+            else if (builderMode === "waffle") {
                 let parts = ["Waffle"];
                 if (waffleState.sauce) parts.push(waffleState.sauce.name);
                 if (waffleState.topping) parts.push(waffleState.topping.name);
                 if (waffleState.filling) parts.push(waffleState.filling.name);
-                contentBox.innerHTML = `
-                    <div class="mb-1 text-yellow-200">${parts[0]}</div>
-                    ${parts.slice(1).map(p => `<div class="text-purple-200 text-xs">+ ${p}</div>`).join('')}
-                `;
+                summaryTextString = parts.join(" + ");
             }
 
+            contentBox.innerText = summaryTextString;
             document.getElementById("summary-overlay").classList.remove("invisible", "opacity-0");
         }
 
         function clearAllOverlays() {
             document.getElementById("summary-overlay").classList.add("invisible", "opacity-0");
             closeStudioBuilder();
-            closeMilkshakeBuilder();
             closeViewerOverlay();
         }
     </script>
 </body>
 </html>
+
+```
