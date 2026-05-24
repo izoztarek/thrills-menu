@@ -88,11 +88,14 @@
             position: absolute;
             width: 140px;
             height: auto;
-            top: 20px;
+            top: 4%;
             left: 50%;
-            transform: translateX(-50%);
+            transform: translateX(-50%) scale(0.95);
             object-fit: contain;
             transition: opacity 0.2s ease;
+            z-index: 25;
+            mix-blend-mode: multiply;
+            opacity: 0.92;
         }
         .pure-image-option {
             background: none !important;
@@ -1074,6 +1077,9 @@
             }
         }
 
+        // =========================================================================
+        // REUSABLE DRAW UTILITIES
+        // =========================================================================
         function updateStudioStepHeader(title, desc, instruction) {
             DOM.panelTitle.innerText = title;
             DOM.panelDesc.innerText = desc;
@@ -1085,7 +1091,6 @@
             wrapperCard.className = `pure-image-option flex items-center justify-center ${activeFlagIndicator ? "active-option" : ""}`;
             
             const optionImg = document.createElement("img");
-            // Check memory cache matrix first to guarantee zero network latency on selection re-renders
             if (builderMode === "icecream" && iceCreamMemoryCache[imgSrcPath]) {
                 optionImg.src = iceCreamMemoryCache[imgSrcPath].src;
             } else {
