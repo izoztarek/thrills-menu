@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -83,6 +84,8 @@
             top: 50%;
             transform: translate(-50%, -50%);
             transition: opacity 0.2s ease;
+            box-shadow: none !important;
+            filter: none !important;
         }
         .inner-layer-graphic {
             position: absolute;
@@ -96,6 +99,8 @@
             z-index: 25;
             mix-blend-mode: multiply;
             opacity: 0.92;
+            box-shadow: none !important;
+            filter: none !important;
         }
         .pure-image-option {
             background: none !important;
@@ -418,10 +423,8 @@
             filling: null
         };
 
-        // Global Preload Memory Cache Matrix for Ice Cream Builder Assets
         const iceCreamMemoryCache = {};
 
-        // Complete asset manifestation dictionary for the Ice Cream Lab Builder
         const iceCreamManifest = [
             "images/base/vanilla.png",
             "images/base/chocolate.png",
@@ -445,7 +448,6 @@
             "images/filling/strawberry.png"
         ];
 
-        // Trigger safe parallel execution background pipeline instantiation on open event
         function preloadIceCreamBuilderAssets() {
             for (let i = 0; i < iceCreamManifest.length; i++) {
                 const path = iceCreamManifest[i];
@@ -457,7 +459,6 @@
             }
         }
 
-        // Cache Frequently Accessed DOM Elements Globally to eliminate layout/query thrashing
         const DOM = {
             unifiedBuilder: document.getElementById("unified-builder"),
             layerBase: document.getElementById("layer-base"),
@@ -482,7 +483,6 @@
         document.addEventListener("DOMContentLoaded", () => {
             const items = document.querySelectorAll(".scroll-reveal");
             
-            // Single Optimized IntersectionObserver running visibility tasks and synchronized UI updates
             const sharedObserver = new IntersectionObserver((entries) => {
                 let checkScrollFocus = false;
                 
@@ -541,7 +541,6 @@
                 }
             }
 
-            // High performance requestAnimationFrame ticking interface
             let scrollTimeout;
             window.addEventListener("scroll", () => {
                 if (scrollTimeout) cancelAnimationFrame(scrollTimeout);
@@ -648,7 +647,7 @@
                 }
             } else if (builderMode === "waffle") {
                 if (waffleState.base) segments.push(`<div>Base: ${waffleState.base.name}</div>`);
-                if (waffleState.sauce) segments.push(`<div>Sauce: ${waffleState.sauce.name}</div>`);
+                if (waffleState.waffleState?.sauce) segments.push(`<div>Sauce: ${waffleState.sauce.name}</div>`);
                 if (waffleState.topping) segments.push(`<div>Topping: ${waffleState.topping.name}</div>`);
                 if (waffleState.filling) segments.push(`<div>Filling: ${waffleState.filling.name}</div>`);
             }
@@ -690,9 +689,6 @@
             updateLiveSelectionText();
         }
 
-        // =========================================================================
-        // ICE CREAM SYSTEM
-        // =========================================================================
         function openIceCreamBuilder() {
             preloadIceCreamBuilderAssets();
             resetStudioCache("icecream", 4);
@@ -770,9 +766,6 @@
             renderIceCreamStep();
         }
 
-        // =========================================================================
-        // MILKSHAKE BUILDER SYSTEM
-        // =========================================================================
         function openMilkshakeBuilder() {
             builderMode = "milkshake";
             milkshakeState = {
@@ -913,9 +906,6 @@
             DOM.optionsViewportGrid.appendChild(fragment);
         }
 
-        // =========================================================================
-        // TREE WAFFLE BUILDER SYSTEM
-        // =========================================================================
         function openWaffleBuilder() {
             builderMode = "waffle";
             waffleState = {
@@ -1029,9 +1019,6 @@
             DOM.optionsViewportGrid.appendChild(fragment);
         }
 
-        // =========================================================================
-        // NAVIGATION HANDLERS
-        // =========================================================================
         function studioGoBack() {
             if (builderMode === "icecream") {
                 if (currentStep === 1) closeStudioBuilder();
@@ -1077,9 +1064,6 @@
             }
         }
 
-        // =========================================================================
-        // REUSABLE DRAW UTILITIES
-        // =========================================================================
         function updateStudioStepHeader(title, desc, instruction) {
             DOM.panelTitle.innerText = title;
             DOM.panelDesc.innerText = desc;
