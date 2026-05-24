@@ -83,23 +83,19 @@
             top: 50%;
             transform: translate(-50%, -50%);
             transition: opacity 0.2s ease;
-            z-index: 10;
-        }
-        #layer-coating {
-            z-index: 20;
         }
         .inner-layer-graphic {
             position: absolute;
             width: 140px;
             height: auto;
-            top: -24%;
+            top: 4%;
             left: 50%;
-            transform: translateX(-50%) scale(0.9);
+            transform: translateX(-50%) scale(0.95);
             object-fit: contain;
             transition: opacity 0.2s ease;
-            z-index: 30;
+            z-index: 25;
             mix-blend-mode: multiply;
-            opacity: 0.95;
+            opacity: 0.92;
         }
         .pure-image-option {
             background: none !important;
@@ -1090,7 +1086,6 @@
             DOM.builderInstruction.innerText = instruction;
         }
 
-        // Modified option renderer targeting caching structures cleanly
         function createOptionImageCard(targetFragment, imgSrcPath, clickHandlerCallback, activeFlagIndicator) {
             const wrapperCard = document.createElement("div");
             wrapperCard.className = `pure-image-option flex items-center justify-center ${activeFlagIndicator ? "active-option" : ""}`;
