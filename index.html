@@ -394,7 +394,7 @@
             filling: null
         };
 
-        // Cache Frequently Accessed DOM Elements
+        // Cache Frequently Accessed DOM Elements Globally to eliminate layout/query thrashing
         const DOM = {
             unifiedBuilder: document.getElementById("unified-builder"),
             layerBase: document.getElementById("layer-base"),
@@ -419,7 +419,7 @@
         document.addEventListener("DOMContentLoaded", () => {
             const items = document.querySelectorAll(".scroll-reveal");
             
-            // Unified Intersection Observer managing both visibility tracking and synchronized focus row calculation
+            // Single Optimized IntersectionObserver running visibility tasks and synchronized UI updates
             const sharedObserver = new IntersectionObserver((entries) => {
                 let checkScrollFocus = false;
                 
@@ -464,7 +464,9 @@
                     for (let i = 0; i < items.length; i++) {
                         const item = items[i];
                         if (Math.abs(item.offsetTop - targetTop) < 20) {
-                            item.classList.add("scroll-focused-element");
+                            if (!item.classList.contains("scroll-focused-element")) {
+                                item.classList.add("scroll-focused-element");
+                            }
                         } else {
                             item.classList.remove("scroll-focused-element");
                         }
@@ -476,7 +478,7 @@
                 }
             }
 
-            // Optimized scroll interaction using requestAnimationFrame layout thrashing protection
+            // High performance requestAnimationFrame ticking interface
             let scrollTimeout;
             window.addEventListener("scroll", () => {
                 if (scrollTimeout) cancelAnimationFrame(scrollTimeout);
@@ -487,10 +489,8 @@
         function openStaticViewer(folder, titleText, count) {
             document.body.classList.add("lock-scroll");
             DOM.hybridCtaContainer.classList.add("hidden");
-
             DOM.viewerTitle.innerText = titleText;
             
-            // Fragment-based batch rendering
             const fragment = document.createDocumentFragment();
             for (let i = 1; i <= count; i++) {
                 appendGalleryNode(fragment, folder, `${folder}${i}.jpg`, `Catalog Profile Vector 0${i}`);
