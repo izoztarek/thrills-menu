@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,15 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Thrills - Premium Dessert Menu</title>
     
-    <link rel="preload" as="image" href="m_logo.png">
-    <link rel="preload" as="image" href="base-bg.jpg">
-    <link rel="preload" as="image" href="assets/mini/mini1.jpg">
-    <link rel="preload" as="image" href="assets/v60/v601.jpg">
-    <link rel="preload" as="image" href="assets/coldbrew/coldbrew1.jpg">
-    <link rel="preload" as="image" href="assets/matcha/matcha1.jpg">
-    <link rel="preload" as="image" href="assets/waffle/waffle1.jpg">
-    <link rel="preload" as="image" href="assets/milkshake/milkshake1.jpg">
-    <link rel="preload" as="image" href="assets/special/special1.jpg">
+    <link rel="preload" as="image" href="m_logo.webp">
+    <link rel="preload" as="image" href="base-bg.webp">
+    <link rel="preload" as="image" href="assets/mini/mini1.webp">
+    <link rel="preload" as="image" href="assets/v60/v601.webp">
+    <link rel="preload" as="image" href="assets/coldbrew/coldbrew1.webp">
+    <link rel="preload" as="image" href="assets/matcha/matcha1.webp">
+    <link rel="preload" as="image" href="assets/waffle/waffle1.webp">
+    <link rel="preload" as="image" href="assets/milkshake/milkshake1.webp">
+    <link rel="preload" as="image" href="assets/special/special1.webp">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -155,7 +154,6 @@
             transform: scale(1.03);
         }
         
-        /* IMAGE LOADING COMPONENT OPTIMIZATIONS */
         img {
             content-visibility: auto;
             image-rendering: -webkit-optimize-contrast;
@@ -172,7 +170,7 @@
         
         <header class="w-full flex flex-col items-center justify-center pt-6 pb-6 border-b border-white/10 mb-8">
             <div class="flex items-center justify-center mb-3">
-                <img src="m_logo.png" alt="Thrills Logo" width="176" height="176" class="h-36 sm:h-44 w-auto object-contain transition-transform duration-500 hover:scale-105" loading="eager" decoding="async" fetchpriority="high">
+                <img src="m_logo.webp" alt="Thrills Logo" width="176" height="176" class="h-36 sm:h-44 w-auto object-contain transition-transform duration-500 hover:scale-105" loading="eager" decoding="async" fetchpriority="high">
             </div>
             <h1 class="brand-font text-3xl sm:text-4xl font-bold tracking-wide text-center text-yellow-100">
                 Feel the chill, love the thrill
@@ -185,7 +183,7 @@
                 
                 <div class="scroll-reveal glass-card rounded-2xl overflow-hidden cursor-pointer flex flex-col group relative" onclick="openIceCreamBuilder()">
                     <div class="relative w-full aspect-square overflow-hidden bg-[#494a67]/30 section-image-frame img-loading-placeholder">
-                        <img src="base-bg.jpg" alt="Ice Cream Laboratory" width="300" height="300" loading="eager" decoding="async" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 opacity-80 !shadow-none !filter-none" style="box-shadow: none !important; filter: none !important;" onerror="this.src='base-bg.jpg'">
+                        <img src="base-bg.webp" alt="Ice Cream Laboratory" width="300" height="300" loading="eager" decoding="async" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 opacity-80 !shadow-none !filter-none" style="box-shadow: none !important; filter: none !important;" onerror="this.src='base-bg.webp'">
                         <div class="absolute top-2.5 right-2.5 px-2 py-0.5 text-[9px] font-bold tracking-wider rounded bg-[#494a67]/80 backdrop-blur text-yellow-200 border border-white/10 uppercase">
                             <i class="fa-solid fa-wand-magic-sparkles mr-1"></i>Lab Builder
                         </div>
@@ -203,7 +201,7 @@
 
                 <div class="scroll-reveal glass-card rounded-2xl overflow-hidden cursor-pointer flex flex-col group relative" onclick="openStaticViewer('mini', 'Mini Ice Cream Assortment', 3)">
                     <div class="relative w-full aspect-square overflow-hidden bg-[#494a67]/30 section-image-frame img-loading-placeholder">
-                        <img src="assets/mini/mini1.jpg" alt="Mini Ice Cream" width="300" height="300" loading="eager" decoding="async" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 opacity-80" onerror="this.src='base-bg.jpg'">
+                        <img src="assets/mini/mini1.webp" alt="Mini Ice Cream" width="300" height="300" loading="eager" decoding="async" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 opacity-80" onerror="this.src='base-bg.webp'">
                     </div>
                     <div class="p-4 flex-grow flex flex-col justify-between border-t border-white/5">
                         <div>
@@ -218,7 +216,7 @@
 
                 <div class="scroll-reveal glass-card rounded-2xl overflow-hidden cursor-pointer flex flex-col group relative" onclick="openStaticViewer('v60', 'V60 Brews', 3)">
                     <div class="relative w-full aspect-square overflow-hidden bg-[#494a67]/30 section-image-frame img-loading-placeholder">
-                        <img src="assets/v60/v601.jpg" alt="V60" width="300" height="300" loading="eager" decoding="async" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 opacity-80" onerror="this.src='base-bg.jpg'">
+                        <img src="assets/v60/v601.webp" alt="V60" width="300" height="300" loading="eager" decoding="async" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 opacity-80" onerror="this.src='base-bg.webp'">
                     </div>
                     <div class="p-4 flex-grow flex flex-col justify-between border-t border-white/5">
                         <div>
@@ -233,7 +231,7 @@
 
                 <div class="scroll-reveal glass-card rounded-2xl overflow-hidden cursor-pointer flex flex-col group relative" onclick="openStaticViewer('coldbrew', 'Cold Brew Formula', 3)">
                     <div class="relative w-full aspect-square overflow-hidden bg-[#494a67]/30 section-image-frame img-loading-placeholder">
-                        <img src="assets/coldbrew/coldbrew1.jpg" alt="Cold Brew" width="300" height="300" loading="eager" decoding="async" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 opacity-80" onerror="this.src='base-bg.jpg'">
+                        <img src="assets/coldbrew/coldbrew1.webp" alt="Cold Brew" width="300" height="300" loading="eager" decoding="async" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 opacity-80" onerror="this.src='base-bg.webp'">
                     </div>
                     <div class="p-4 flex-grow flex flex-col justify-between border-t border-white/5">
                         <div>
@@ -248,7 +246,7 @@
 
                 <div class="scroll-reveal glass-card rounded-2xl overflow-hidden cursor-pointer flex flex-col group relative" onclick="openStaticViewer('matcha', 'Matcha Essences', 3)">
                     <div class="relative w-full aspect-square overflow-hidden bg-[#494a67]/30 section-image-frame img-loading-placeholder">
-                        <img src="assets/matcha/matcha1.jpg" alt="Matcha" width="300" height="300" loading="eager" decoding="async" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 opacity-80" onerror="this.src='base-bg.jpg'">
+                        <img src="assets/matcha/matcha1.webp" alt="Matcha" width="300" height="300" loading="eager" decoding="async" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 opacity-80" onerror="this.src='base-bg.webp'">
                     </div>
                     <div class="p-4 flex-grow flex flex-col justify-between border-t border-white/5">
                         <div>
@@ -263,7 +261,7 @@
 
                 <div class="scroll-reveal glass-card rounded-2xl overflow-hidden cursor-pointer flex flex-col group relative" onclick="openHybridViewer('waffle', 'Tree Waffle Matrix', 3, 'waffle')">
                     <div class="relative w-full aspect-square overflow-hidden bg-[#494a67]/30 section-image-frame img-loading-placeholder">
-                        <img src="assets/waffle/waffle1.jpg" alt="Tree Waffle" width="300" height="300" loading="eager" decoding="async" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 opacity-80" onerror="this.src='base-bg.jpg'">
+                        <img src="assets/waffle/waffle1.webp" alt="Tree Waffle" width="300" height="300" loading="lazy" decoding="async" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 opacity-80" onerror="this.src='base-bg.webp'">
                     </div>
                     <div class="p-4 flex-grow flex flex-col justify-between border-t border-white/5">
                         <div>
@@ -278,7 +276,7 @@
 
                 <div class="scroll-reveal glass-card rounded-2xl overflow-hidden cursor-pointer flex flex-col group relative" onclick="openStaticViewer('milkshake', 'Milkshake Formulation', 3)">
                     <div class="relative w-full aspect-square overflow-hidden bg-[#494a67]/30 section-image-frame img-loading-placeholder">
-                        <img src="assets/milkshake/milkshake1.jpg" alt="Milkshake" width="300" height="300" loading="eager" decoding="async" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 opacity-80" onerror="this.src='base-bg.jpg'">
+                        <img src="assets/milkshake/milkshake1.webp" alt="Milkshake" width="300" height="300" loading="lazy" decoding="async" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 opacity-80" onerror="this.src='base-bg.webp'">
                     </div>
                     <div class="p-4 flex-grow flex flex-col justify-between border-t border-white/5">
                         <div>
@@ -293,7 +291,7 @@
 
                 <div class="scroll-reveal glass-card rounded-2xl overflow-hidden cursor-pointer flex flex-col group relative" onclick="openStaticViewer('special', 'Special Conceptual Sips', 3)">
                     <div class="relative w-full aspect-square overflow-hidden bg-[#494a67]/30 section-image-frame img-loading-placeholder">
-                        <img src="assets/special/special1.jpg" alt="Special Drinks" width="300" height="300" loading="eager" decoding="async" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 opacity-80" onerror="this.src='base-bg.jpg'">
+                        <img src="assets/special/special1.webp" alt="Special Drinks" width="300" height="300" loading="lazy" decoding="async" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 opacity-80" onerror="this.src='base-bg.webp'">
                     </div>
                     <div class="p-4 flex-grow flex flex-col justify-between border-t border-white/5">
                         <div>
@@ -416,7 +414,7 @@
 
         let waffleState = {
             step: 1,
-            base: { name: "Waffle", img: "waffle-base.png" },
+            base: { name: "Waffle", img: "waffle-base.webp" },
             sauce: null,
             topping: null,
             filling: null
@@ -425,26 +423,26 @@
         const iceCreamMemoryCache = {};
 
         const iceCreamManifest = [
-            "images/base/vanilla.png",
-            "images/base/chocolate.png",
-            "images/base/strawberry.png",
-            "images/base/pistachio.png",
-            "images/base/hazelnut.png",
-            "images/type/milk.jpg",
-            "images/type/dark.jpg",
-            "images/type/white.jpg",
-            "images/coating/milk_plain.png",
-            "images/coating/milk_pistachio.png",
-            "images/coating/dark_plain.png",
-            "images/coating/dark_pistachio.png",
-            "images/coating/white_plain.png",
-            "images/coating/white_pistachio.png",
-            "images/filling/chocolate.png",
-            "images/filling/lotus.png",
-            "images/filling/caramel.png",
-            "images/filling/pistachio.png",
-            "images/filling/hazelnut.png",
-            "images/filling/strawberry.png"
+            "images/base/vanilla.webp",
+            "images/base/chocolate.webp",
+            "images/base/strawberry.webp",
+            "images/base/pistachio.webp",
+            "images/base/hazelnut.webp",
+            "images/type/milk.webp",
+            "images/type/dark.webp",
+            "images/type/white.webp",
+            "images/coating/milk_plain.webp",
+            "images/coating/milk_pistachio.webp",
+            "images/coating/dark_plain.webp",
+            "images/coating/dark_pistachio.webp",
+            "images/coating/white_plain.webp",
+            "images/coating/white_pistachio.webp",
+            "images/filling/chocolate.webp",
+            "images/filling/lotus.webp",
+            "images/filling/caramel.webp",
+            "images/filling/pistachio.webp",
+            "images/filling/hazelnut.webp",
+            "images/filling/strawberry.webp"
         ];
 
         function preloadIceCreamBuilderAssets() {
@@ -554,7 +552,7 @@
             
             const fragment = document.createDocumentFragment();
             for (let i = 1; i <= count; i++) {
-                appendGalleryNode(fragment, folder, `${folder}${i}.jpg`, `Catalog Profile Vector 0${i}`);
+                appendGalleryNode(fragment, folder, `${folder}${i}.webp`, `Catalog Profile Vector 0${i}`);
             }
             DOM.viewerGalleryContainer.innerHTML = "";
             DOM.viewerGalleryContainer.appendChild(fragment);
@@ -568,7 +566,7 @@
             
             const fragment = document.createDocumentFragment();
             for (let i = 1; i <= count; i++) {
-                appendGalleryNode(fragment, folder, `${folder}${i}.jpg`, `Pre-built Edition Framework 0${i}`);
+                appendGalleryNode(fragment, folder, `${folder}${i}.webp`, `Pre-built Edition Framework 0${i}`);
             }
             DOM.viewerGalleryContainer.innerHTML = "";
             DOM.viewerGalleryContainer.appendChild(fragment);
@@ -589,7 +587,7 @@
             wrap.style.backgroundColor = "#e7b5c5";
             wrap.innerHTML = `
                 <div class="w-full aspect-[4/3] bg-[#494a67] relative flex items-center justify-center overflow-hidden">
-                    <img src="assets/${folder}/${filename}" alt="${label}" width="400" height="300" loading="eager" decoding="async" class="w-full h-full object-cover" onerror="this.src='base-bg.jpg'">
+                    <img src="assets/${folder}/${filename}" alt="${label}" width="400" height="300" loading="lazy" decoding="async" class="w-full h-full object-cover" onerror="this.src='base-bg.webp'">
                 </div>
                 <div class="p-3 flex items-center justify-between border-t border-white/5">
                     <span class="text-xs font-semibold tracking-wide text-purple-950">${label}</span>
@@ -702,33 +700,33 @@
 
             if (currentStep === 1) {
                 updateStudioStepHeader("Choose Base", "Select thin cylindrical foundational inner core track parameters flavor mapping profiles.", "Choose structural ice cream base core parameters");
-                createOptionImageCard(fragment, "images/base/vanilla.png", () => selectBase("images/base/vanilla.png", "Vanilla"), selectionsCache.base?.src === "images/base/vanilla.png");
-                createOptionImageCard(fragment, "images/base/chocolate.png", () => selectBase("images/base/chocolate.png", "Chocolate"), selectionsCache.base?.src === "images/base/chocolate.png");
-                createOptionImageCard(fragment, "images/base/strawberry.png", () => selectBase("images/base/strawberry.png", "Strawberry"), selectionsCache.base?.src === "images/base/strawberry.png");
-                createOptionImageCard(fragment, "images/base/pistachio.png", () => selectBase("images/base/pistachio.png", "Pistachio"), selectionsCache.base?.src === "images/base/pistachio.png");
-                createOptionImageCard(fragment, "images/base/hazelnut.png", () => selectBase("images/base/hazelnut.png", "Hazelnut"), selectionsCache.base?.src === "images/base/hazelnut.png");
+                createOptionImageCard(fragment, "images/base/vanilla.webp", () => selectBase("images/base/vanilla.webp", "Vanilla"), selectionsCache.base?.src === "images/base/vanilla.webp");
+                createOptionImageCard(fragment, "images/base/chocolate.webp", () => selectBase("images/base/chocolate.webp", "Chocolate"), selectionsCache.base?.src === "images/base/chocolate.webp");
+                createOptionImageCard(fragment, "images/base/strawberry.webp", () => selectBase("images/base/strawberry.webp", "Strawberry"), selectionsCache.base?.src === "images/base/strawberry.webp");
+                createOptionImageCard(fragment, "images/base/pistachio.webp", () => selectBase("images/base/pistachio.webp", "Pistachio"), selectionsCache.base?.src === "images/base/pistachio.webp");
+                createOptionImageCard(fragment, "images/base/hazelnut.webp", () => selectBase("images/base/hazelnut.webp", "Hazelnut"), selectionsCache.base?.src === "images/base/hazelnut.webp");
             } 
             else if (currentStep === 2) {
                 updateStudioStepHeader("Choose Chocolate Type", "Primary fluid hot dip compound formula structural setup track configuration.", "Select chocolate sub-bath structural matrix type link");
-                createOptionImageCard(fragment, "images/type/milk.jpg", () => selectType("images/type/milk.jpg", "milk", "Milk"), selectedType === "milk");
-                createOptionImageCard(fragment, "images/type/dark.jpg", () => selectType("images/type/dark.jpg", "dark", "Dark"), selectedType === "dark");
-                createOptionImageCard(fragment, "images/type/white.jpg", () => selectType("images/type/white.jpg", "white", "White"), selectedType === "white");
+                createOptionImageCard(fragment, "images/type/milk.webp", () => selectType("images/type/milk.webp", "milk", "Milk"), selectedType === "milk");
+                createOptionImageCard(fragment, "images/type/dark.webp", () => selectType("images/type/dark.webp", "dark", "Dark"), selectedType === "dark");
+                createOptionImageCard(fragment, "images/type/white.webp", () => selectType("images/type/white.webp", "white", "White"), selectedType === "white");
             } 
             else if (currentStep === 3) {
                 updateStudioStepHeader("Choose Coating", "Snap hardening textured layer applied flawlessly covering base architectures.", "Select protective external crunch coating shell layer configurations");
-                const pathPlain = `images/coating/${selectedType}_plain.png`;
-                const pathPistachio = `images/coating/${selectedType}_pistachio.png`;
+                const pathPlain = `images/coating/${selectedType}_plain.webp`;
+                const pathPistachio = `images/coating/${selectedType}_pistachio.webp`;
                 createOptionImageCard(fragment, pathPlain, () => selectCoating(pathPlain, "Plain"), selectionsCache.coating?.src === pathPlain);
                 createOptionImageCard(fragment, pathPistachio, () => selectCoating(pathPistachio, "Pistachio"), selectionsCache.coating?.src === pathPistachio);
             } 
             else if (currentStep === 4) {
                 updateStudioStepHeader("Choose Filling", "Concentrated liquid injectable vectors embedded into the architecture parameters.", "Choose your hidden inner pocket injection fluid parameter profile");
-                createOptionImageCard(fragment, "images/filling/chocolate.png", () => selectFilling("images/filling/chocolate.png", "Chocolate"), selectionsCache.inner?.src === "images/filling/chocolate.png");
-                createOptionImageCard(fragment, "images/filling/lotus.png", () => selectFilling("images/filling/lotus.png", "Lotus"), selectionsCache.inner?.src === "images/filling/lotus.png");
-                createOptionImageCard(fragment, "images/filling/caramel.png", () => selectFilling("images/filling/caramel.png", "Caramel"), selectionsCache.inner?.src === "images/filling/caramel.png");
-                createOptionImageCard(fragment, "images/filling/pistachio.png", () => selectFilling("images/filling/pistachio.png", "Pistachio"), selectionsCache.inner?.src === "images/filling/pistachio.png");
-                createOptionImageCard(fragment, "images/filling/hazelnut.png", () => selectFilling("images/filling/hazelnut.png", "Hazelnut"), selectionsCache.inner?.src === "images/filling/hazelnut.png");
-                createOptionImageCard(fragment, "images/filling/strawberry.png", () => selectFilling("images/filling/strawberry.png", "Strawberry"), selectionsCache.inner?.src === "images/filling/strawberry.png");
+                createOptionImageCard(fragment, "images/filling/chocolate.webp", () => selectFilling("images/filling/chocolate.webp", "Chocolate"), selectionsCache.inner?.src === "images/filling/chocolate.webp");
+                createOptionImageCard(fragment, "images/filling/lotus.webp", () => selectFilling("images/filling/lotus.webp", "Lotus"), selectionsCache.inner?.src === "images/filling/lotus.webp");
+                createOptionImageCard(fragment, "images/filling/caramel.webp", () => selectFilling("images/filling/caramel.webp", "Caramel"), selectionsCache.inner?.src === "images/filling/caramel.webp");
+                createOptionImageCard(fragment, "images/filling/pistachio.webp", () => selectFilling("images/filling/pistachio.webp", "Pistachio"), selectionsCache.inner?.src === "images/filling/pistachio.webp");
+                createOptionImageCard(fragment, "images/filling/hazelnut.webp", () => selectFilling("images/filling/hazelnut.webp", "Hazelnut"), selectionsCache.inner?.src === "images/filling/hazelnut.webp");
+                createOptionImageCard(fragment, "images/filling/strawberry.webp", () => selectFilling("images/filling/strawberry.webp", "Strawberry"), selectionsCache.inner?.src === "images/filling/strawberry.webp");
             }
 
             DOM.optionsViewportGrid.innerHTML = "";
@@ -775,7 +773,7 @@
             document.body.classList.add("lock-scroll");
             DOM.unifiedBuilder.classList.remove("invisible", "opacity-0");
             
-            DOM.layerBase.src = "milkshake-empty.png"; DOM.layerBase.classList.remove("opacity-0");
+            DOM.layerBase.src = "milkshake-empty.webp"; DOM.layerBase.classList.remove("opacity-0");
             DOM.layerCoating.removeAttribute('src'); DOM.layerCoating.classList.add("opacity-0");
             DOM.layerInner.removeAttribute('src'); DOM.layerInner.classList.add("opacity-0");
             
@@ -790,7 +788,7 @@
             let currentTotalSteps = 4;
             DOM.builderStepIndicator.innerText = `Step ${currentDisplayStep} of ${currentTotalSteps}`;
 
-            const targetBaseSrc = milkshakeState.base ? milkshakeState.base.img : "milkshake-empty.png";
+            const targetBaseSrc = milkshakeState.base ? milkshakeState.base.img : "milkshake-empty.webp";
             if (DOM.layerBase.getAttribute('src') !== targetBaseSrc) {
                 DOM.layerBase.src = targetBaseSrc;
                 DOM.layerBase.classList.remove("opacity-0");
@@ -813,13 +811,13 @@
             }
             else if (milkshakeState.step === 1) {
                 updateStudioStepHeader("Choose Blended Base", "Configure rich foundational churn core density parameters maps.", "Select structural base liquid composition matrix flow");
-                createOptionImageCard(fragment, "milkshake-base-vanilla.png", () => {
-                    milkshakeState.base = { id: 'vanilla', name: "Vanilla Milkshake", img: "milkshake-base-vanilla.png" };
+                createOptionImageCard(fragment, "milkshake-base-vanilla.webp", () => {
+                    milkshakeState.base = { id: 'vanilla', name: "Vanilla Milkshake", img: "milkshake-base-vanilla.webp" };
                     renderMilkshakeFlow();
                 }, milkshakeState.base?.id === 'vanilla');
                 
-                createOptionImageCard(fragment, "milkshake-base-chocolate.png", () => {
-                    milkshakeState.base = { id: 'chocolate', name: "Chocolate Milkshake", img: "milkshake-base-chocolate.png" };
+                createOptionImageCard(fragment, "milkshake-base-chocolate.webp", () => {
+                    milkshakeState.base = { id: 'chocolate', name: "Chocolate Milkshake", img: "milkshake-base-chocolate.webp" };
                     renderMilkshakeFlow();
                 }, milkshakeState.base?.id === 'chocolate');
             }
@@ -850,7 +848,7 @@
                     updateStudioStepHeader("Fruits Inclusions", "Tap to toggle active natural fruit structural extract parameters.", "Select active fruits elements");
                     const fruitsList = ['strawberry', 'blueberry', 'mango', 'mint', 'watermelon', 'melon', 'kiwi', 'lemon'];
                     fruitsList.forEach(f => {
-                        let imgName = `${f}.png`;
+                        let imgName = `${f}.webp`;
                         let isSel = milkshakeState.selectedFruits.some(x => x.id === f);
                         createOptionImageCard(fragment, imgName, () => {
                             if (isSel) milkshakeState.selectedFruits = milkshakeState.selectedFruits.filter(x => x.id !== f);
@@ -863,7 +861,7 @@
                     updateStudioStepHeader("Chocolate Crumb Inclusions", "Toggle active particulate crunch brand component structures.", "Select active chocolate elements");
                     const chocList = ['snickers', 'kitkat', 'galaxy', 'bounty', 'twix', 'kinder', 'mms', 'twinkies', 'todo', 'oreo', 'lotus', 'hohos'];
                     chocList.forEach(c => {
-                        let imgName = `${c}.png`;
+                        let imgName = `${c}.webp`;
                         let isSel = milkshakeState.selectedChocolates.some(x => x.id === c);
                         createOptionImageCard(fragment, imgName, () => {
                             if (isSel) milkshakeState.selectedChocolates = milkshakeState.selectedChocolates.filter(x => x.id !== c);
@@ -877,7 +875,7 @@
                         updateStudioStepHeader("Hybrid Phase 1: Chocolates", "Select primary layer component node parameters for multi-track configurations.", "Choose multi-track chocolate inclusions");
                         const chocList = ['snickers', 'kitkat', 'galaxy', 'bounty', 'twix', 'kinder', 'mms', 'twinkies', 'todo', 'oreo', 'lotus', 'hohos'];
                         chocList.forEach(c => {
-                            let imgName = `${c}.png`;
+                            let imgName = `${c}.webp`;
                             let isSel = milkshakeState.selectedChocolates.some(x => x.id === c);
                             createOptionImageCard(fragment, imgName, () => {
                                 if (isSel) milkshakeState.selectedChocolates = milkshakeState.selectedChocolates.filter(x => x.id !== c);
@@ -889,7 +887,7 @@
                         updateStudioStepHeader("Hybrid Phase 2: Fruits", "Complete multi-path structural compound assembly maps parameters.", "Choose final phase fruits parameters components");
                         const fruitsList = ['strawberry', 'blueberry', 'mango', 'mint', 'watermelon', 'melon', 'kiwi', 'lemon'];
                         fruitsList.forEach(f => {
-                            let imgName = `${f}.png`;
+                            let imgName = `${f}.webp`;
                             let isSel = milkshakeState.selectedFruits.some(x => x.id === f);
                             createOptionImageCard(fragment, imgName, () => {
                                 if (isSel) milkshakeState.selectedFruits = milkshakeState.selectedFruits.filter(x => x.id !== f);
@@ -909,7 +907,7 @@
             builderMode = "waffle";
             waffleState = {
                 step: 1,
-                base: { name: "Waffle", img: "waffle-base.png" },
+                base: { name: "Waffle", img: "waffle-base.webp" },
                 sauce: null, topping: null, filling: null
             };
 
@@ -958,60 +956,60 @@
 
             if (waffleState.step === 1) {
                 updateStudioStepHeader("Lattice Waffle Foundation", "Review golden framework profile structural blueprint parameters configuration maps.", "Confirm your baseline frame parameters tracking setup flow");
-                createOptionImageCard(fragment, "waffle-base.png", () => {
+                createOptionImageCard(fragment, "waffle-base.webp", () => {
                     renderWaffleFlow();
                 }, true);
             }
             else if (waffleState.step === 2) {
                 updateStudioStepHeader("Choose Sauce Compound", "Fluid cocoa viscous distribution tracking configuration layers profiles maps.", "Select specific primary sauce element parameters");
-                createOptionImageCard(fragment, "waffle-sauce-chocolate.png", () => {
-                    waffleState.sauce = { name: "Chocolate Sauce", img: "waffle-sauce-chocolate.png" };
+                createOptionImageCard(fragment, "waffle-sauce-chocolate.webp", () => {
+                    waffleState.sauce = { name: "Chocolate Sauce", img: "waffle-sauce-chocolate.webp" };
                     renderWaffleFlow();
-                }, waffleState.sauce?.img === "waffle-sauce-chocolate.png");
+                }, waffleState.sauce?.img === "waffle-sauce-chocolate.webp");
 
-                createOptionImageCard(fragment, "waffle-sauce-white.png", () => {
-                    waffleState.sauce = { name: "White Sauce", img: "waffle-sauce-white.png" };
+                createOptionImageCard(fragment, "waffle-sauce-white.webp", () => {
+                    waffleState.sauce = { name: "White Sauce", img: "waffle-sauce-white.webp" };
                     renderWaffleFlow();
-                }, waffleState.sauce?.img === "waffle-sauce-white.png");
+                }, waffleState.sauce?.img === "waffle-sauce-white.webp");
 
-                createOptionImageCard(fragment, "waffle-sauce-caramel.png", () => {
-                    waffleState.sauce = { name: "Caramel Sauce", img: "waffle-sauce-caramel.png" };
+                createOptionImageCard(fragment, "waffle-sauce-caramel.webp", () => {
+                    waffleState.sauce = { name: "Caramel Sauce", img: "waffle-sauce-caramel.webp" };
                     renderWaffleFlow();
-                }, waffleState.sauce?.img === "waffle-sauce-caramel.png");
+                }, waffleState.sauce?.img === "waffle-sauce-caramel.webp");
             }
             else if (waffleState.step === 3) {
                 updateStudioStepHeader("Choose Crisp Toppings", "Particulate crunch shards scatter maps layer setup configurations.", "Select topping component asset options cleanly");
-                createOptionImageCard(fragment, "waffle-top-nuts.png", () => {
-                    waffleState.topping = { name: "Nuts", img: "waffle-top-nuts.png" };
+                createOptionImageCard(fragment, "waffle-top-nuts.webp", () => {
+                    waffleState.topping = { name: "Nuts", img: "waffle-top-nuts.webp" };
                     renderWaffleFlow();
-                }, waffleState.topping?.img === "waffle-top-nuts.png");
+                }, waffleState.topping?.img === "waffle-top-nuts.webp");
 
-                createOptionImageCard(fragment, "waffle-top-sprinkles.png", () => {
-                    waffleState.topping = { name: "Sprinkles", img: "waffle-top-sprinkles.png" };
+                createOptionImageCard(fragment, "waffle-top-sprinkles.webp", () => {
+                    waffleState.topping = { name: "Sprinkles", img: "waffle-top-sprinkles.webp" };
                     renderWaffleFlow();
-                }, waffleState.topping?.img === "waffle-top-sprinkles.png");
+                }, waffleState.topping?.img === "waffle-top-sprinkles.webp");
 
-                createOptionImageCard(fragment, "waffle-top-mix.png", () => {
-                    waffleState.topping = { name: "Mix", img: "waffle-top-mix.png" };
+                createOptionImageCard(fragment, "waffle-top-mix.webp", () => {
+                    waffleState.topping = { name: "Mix", img: "waffle-top-mix.webp" };
                     renderWaffleFlow();
-                }, waffleState.topping?.img === "waffle-top-mix.png");
+                }, waffleState.topping?.img === "waffle-top-mix.webp");
             }
             else if (waffleState.step === 4) {
                 updateStudioStepHeader("Optional Flavor Filling Influx", "Secondary flavor pocket parameter nodes embedment selections paths cleanly.", "Select hidden injection formula asset (Optional)");
-                createOptionImageCard(fragment, "waffle-fill-chocolate.png", () => {
-                    waffleState.filling = { name: "Chocolate Filling", img: "waffle-fill-chocolate.png" };
+                createOptionImageCard(fragment, "waffle-fill-chocolate.webp", () => {
+                    waffleState.filling = { name: "Chocolate Filling", img: "waffle-fill-chocolate.webp" };
                     renderWaffleFlow();
-                }, waffleState.filling?.img === "waffle-fill-chocolate.png");
+                }, waffleState.filling?.img === "waffle-fill-chocolate.webp");
 
-                createOptionImageCard(fragment, "waffle-fill-strawberry.png", () => {
-                    waffleState.filling = { name: "Strawberry Filling", img: "waffle-fill-strawberry.png" };
+                createOptionImageCard(fragment, "waffle-fill-strawberry.webp", () => {
+                    waffleState.filling = { name: "Strawberry Filling", img: "waffle-fill-strawberry.webp" };
                     renderWaffleFlow();
-                }, waffleState.filling?.img === "waffle-fill-strawberry.png");
+                }, waffleState.filling?.img === "waffle-fill-strawberry.webp");
 
-                createOptionImageCard(fragment, "waffle-fill-nutella.png", () => {
-                    waffleState.filling = { name: "Nutella Filling", img: "waffle-fill-nutella.png" };
+                createOptionImageCard(fragment, "waffle-fill-nutella.webp", () => {
+                    waffleState.filling = { name: "Nutella Filling", img: "waffle-fill-nutella.webp" };
                     renderWaffleFlow();
-                }, waffleState.filling?.img === "waffle-fill-nutella.png");
+                }, waffleState.filling?.img === "waffle-fill-nutella.webp");
             }
 
             DOM.optionsViewportGrid.innerHTML = "";
@@ -1082,9 +1080,9 @@
             optionImg.alt = "Option Graphic Node";
             optionImg.width = 65;
             optionImg.height = 65;
-            optionImg.loading = "eager";
+            optionImg.loading = "lazy";
             optionImg.setAttribute("decoding", "async");
-            optionImg.onerror = () => { optionImg.src = 'base-bg.jpg'; };
+            optionImg.onerror = () => { optionImg.src = 'base-bg.webp'; };
             
             wrapperCard.appendChild(optionImg);
             wrapperCard.onclick = clickHandlerCallback;
@@ -1128,4 +1126,3 @@
     </script>
 </body>
 </html>
-
