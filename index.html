@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -275,7 +276,7 @@
                     </div>
                 </div>
 
-                <div class="scroll-reveal glass-card rounded-2xl overflow-hidden cursor-pointer flex flex-col group relative" onclick="openHybridViewer('milkshake', 'Milkshake Formulation', 3, 'milkshake')">
+                <div class="scroll-reveal glass-card rounded-2xl overflow-hidden cursor-pointer flex flex-col group relative" onclick="openStaticViewer('milkshake', 'Milkshake Formulation', 3)">
                     <div class="relative w-full aspect-square overflow-hidden bg-[#494a67]/30 section-image-frame img-loading-placeholder">
                         <img src="assets/milkshake/milkshake1.jpg" alt="Milkshake" width="300" height="300" loading="eager" decoding="async" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 opacity-80" onerror="this.src='base-bg.jpg'">
                     </div>
@@ -347,9 +348,9 @@
         <div class="flex-grow overflow-y-auto flex flex-col md:flex-row pb-32">
             <div class="w-full md:w-1/2 flex flex-col items-center justify-center p-6 bg-[#494a67]/10 border-b md:border-b-0 md:border-r border-white/5">
                 <div class="preview-container bg-[#494a67]/40 rounded-3xl border border-white/10 p-4 overflow-hidden img-loading-placeholder">
-                    <img id="layer-base" width="240" height="340" loading="eager" decoding="async" class="layer-graphic opacity-0" alt="Base Layer" onerror="this.removeAttribute('src'); this.classList.add('opacity-0');">
-                    <img id="layer-coating" width="240" height="340" loading="eager" decoding="async" class="layer-graphic opacity-0" alt="Coating Layer" onerror="this.removeAttribute('src'); this.classList.add('opacity-0');">
-                    <img id="layer-inner" width="140" height="200" loading="eager" decoding="async" class="inner-layer-graphic opacity-0" alt="Inner Layer" onerror="this.removeAttribute('src'); this.classList.add('opacity-0');">
+                    <img id="layer-base" width="240" height="340" eager decoding="async" class="layer-graphic opacity-0" alt="Base Layer" onerror="this.removeAttribute('src'); this.classList.add('opacity-0');">
+                    <img id="layer-coating" width="240" height="340" eager decoding="async" class="layer-graphic opacity-0" alt="Coating Layer" onerror="this.removeAttribute('src'); this.classList.add('opacity-0');">
+                    <img id="layer-inner" width="140" height="200" eager decoding="async" class="inner-layer-graphic opacity-0" alt="Inner Layer" onerror="this.removeAttribute('src'); this.classList.add('opacity-0');">
                 </div>
                 
                 <div id="live-selection-reporter" class="mt-4 w-full max-w-[240px] text-center bg-black/40 border border-white/10 p-3 rounded-xl text-xs font-mono space-y-1 text-yellow-100 hidden"></div>
@@ -385,21 +386,13 @@
             <h3 class="brand-font text-2xl font-bold text-yellow-100">Formula Fully Created!</h3>
             <p class="text-xs text-purple-200/70 mt-1 mb-4">Your custom structural recipe asset parameters</p>
             <div id="summary-content" class="bg-[#494a67]/50 p-4 rounded-xl text-left border border-white/5 text-sm font-semibold tracking-wide text-purple-100 text-center"></div>
-            <button onclick="orderViaWhatsApp()" class="w-full mt-4 py-3 bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold rounded-xl transition-all flex items-center justify-center gap-2">
-                <i class="fa-brands fa-whatsapp text-lg"></i> Order on WhatsApp
-            </button>
-            <button onclick="clearAllOverlays()" class="w-full mt-3 py-3 bg-yellow-200 hover:bg-yellow-300 text-[#494a67] font-bold rounded-xl transition-all">
+            <button onclick="clearAllOverlays()" class="w-full mt-6 py-3 bg-yellow-200 hover:bg-yellow-300 text-[#494a67] font-bold rounded-xl transition-all">
                 Done Exploring
             </button>
         </div>
     </div>
 
     <script defer>
-        const CONFIG = {
-            whatsapp: "201234567890",
-            currency: "EGP"
-        };
-
         let builderMode = ""; 
         let currentStep = 1;
         let totalStepsCount = 4;
@@ -653,7 +646,7 @@
                 }
             } else if (builderMode === "waffle") {
                 if (waffleState.base) segments.push(`<div>Base: ${waffleState.base.name}</div>`);
-                if (waffleState.sauce) segments.push(`<div>Sauce: ${waffleState.sauce.name}</div>`);
+                if (waffleState.waffleState?.sauce) segments.push(`<div>Sauce: ${waffleState.sauce.name}</div>`);
                 if (waffleState.topping) segments.push(`<div>Topping: ${waffleState.topping.name}</div>`);
                 if (waffleState.filling) segments.push(`<div>Filling: ${waffleState.filling.name}</div>`);
             }
@@ -1127,13 +1120,6 @@
             DOM.summaryOverlay.classList.remove("invisible", "opacity-0");
         }
 
-        function orderViaWhatsApp() {
-            const text = DOM.summaryContent.innerText.trim();
-            if (!text) return;
-            const url = `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent("🍨 Thrills Order\n\n" + text)}`;
-            window.open(url, "_blank", "noopener,noreferrer");
-        }
-
         function clearAllOverlays() {
             DOM.summaryOverlay.classList.add("invisible", "opacity-0");
             closeStudioBuilder();
@@ -1142,3 +1128,4 @@
     </script>
 </body>
 </html>
+
