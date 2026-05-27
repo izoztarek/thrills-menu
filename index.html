@@ -70,35 +70,34 @@
         }
         .preview-container {
             position: relative;
-            width: 300px;
-            height: 300px;
+            width: 240px;
+            height: 340px;
             margin: auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
         .layer-graphic {
             position: absolute;
             width: 100%;
             height: 100%;
             object-fit: contain;
-            left: 0;
-            top: 0;
-            transform: none;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
             transition: opacity 0.2s ease;
             box-shadow: none !important;
             filter: none !important;
         }
         .inner-layer-graphic {
             position: absolute;
-            width: 100%;
-            height: 100%;
+            width: 140px;
+            height: auto;
+            top: 4%;
+            left: 50%;
+            transform: translateX(-50%) scale(0.95);
             object-fit: contain;
-            left: 0;
-            top: 0;
-            transform: none;
             transition: opacity 0.2s ease;
             z-index: 25;
+            mix-blend-mode: multiply;
+            opacity: 0.92;
             box-shadow: none !important;
             filter: none !important;
         }
@@ -109,7 +108,7 @@
             padding: 0 !important;
             outline: none !important;
             cursor: pointer;
-            transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), filter 0.2s ease;
+            transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
             margin-top: -12px !important;
         }
         .pure-image-option img {
@@ -118,23 +117,15 @@
             height: auto;
             margin: 0 auto;
             object-fit: contain;
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: transform 0.2s ease;
         }
         @media (min-width: 768px) {
             .pure-image-option img {
                 max-width: 65px;
             }
         }
-        .pure-image-option:hover img {
-            transform: scale(1.18);
-            filter: drop-shadow(0 4px 8px rgba(255, 255, 255, 0.25));
-        }
         .pure-image-option.active-option {
             transform: scale(1.05);
-        }
-        .pure-image-option.active-option img {
-            transform: scale(1.12);
-            filter: drop-shadow(0 0 12px #fef08a);
         }
         ::-webkit-scrollbar {
             width: 6px;
@@ -171,40 +162,30 @@
             background-color: rgba(73, 74, 103, 0.3);
             transition: opacity 0.2s ease-in-out;
         }
-        .gallery-interactive-img {
-            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            cursor: zoom-in;
-        }
-        .gallery-interactive-img.zoomed {
-            transform: scale(1.4);
-            cursor: zoom-out;
-            z-index: 30;
-        }
     </style>
 </head>
 <body class="antialiased selection:bg-yellow-200 selection:text-purple-950">
 
     <div class="relative z-10 min-h-screen flex flex-col max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         
-        <header class="w-full flex flex-col items-center justify-center pt-3 pb-4 border-b border-white/10 mb-8 sticky top-0 bg-[#494a67] z-40">
-            <div class="flex items-center justify-center mb-1">
-                <a href="javascript:void(0)" onclick="clearAllOverlays()" class="block cursor-pointer">
-                    <img src="m_logo.webp" alt="Thrills Logo" width="112" height="112" class="h-20 w-auto object-contain transition-transform duration-500 hover:scale-105" loading="eager" decoding="async" fetchpriority="high">
-                </a>
+        <header class="w-full flex flex-col items-center justify-center pt-6 pb-6 border-b border-white/10 mb-8">
+            <div class="flex items-center justify-center mb-3">
+                <img src="m_logo.webp" alt="Thrills Logo" width="176" height="176" class="h-36 sm:h-44 w-auto object-contain transition-transform duration-500 hover:scale-105" loading="eager" decoding="async" fetchpriority="high">
             </div>
-            <h1 class="brand-font text-xl sm:text-2xl font-bold tracking-wide text-center text-yellow-100 hidden sm:block">
+            <h1 class="brand-font text-3xl sm:text-4xl font-bold tracking-wide text-center text-yellow-100">
                 Feel the chill, love the thrill
             </h1>
+            <p class="text-xs tracking-[0.2em] font-medium text-purple-200/60 uppercase mt-1">Refined Dessert Architecture</p>
         </header>
 
         <main class="flex-grow">
             <div id="main-menu-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
                 
-                <div class="scroll-reveal glass-card rounded-2xl overflow-hidden cursor-pointer flex flex-col group relative" onclick="openIceCreamSectionViewer()">
+                <div class="scroll-reveal glass-card rounded-2xl overflow-hidden cursor-pointer flex flex-col group relative" onclick="openIceCreamBuilder()">
                     <div class="relative w-full aspect-square overflow-hidden bg-[#494a67]/30 section-image-frame img-loading-placeholder">
                         <img src="base-bg.webp" alt="Ice Cream Laboratory" width="300" height="300" loading="eager" decoding="async" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 opacity-80 !shadow-none !filter-none" style="box-shadow: none !important; filter: none !important;" onerror="this.src='base-bg.webp'">
                         <div class="absolute top-2.5 right-2.5 px-2 py-0.5 text-[9px] font-bold tracking-wider rounded bg-[#494a67]/80 backdrop-blur text-yellow-200 border border-white/10 uppercase">
-                            Customizable
+                            <i class="fa-solid fa-wand-magic-sparkles mr-1"></i>Lab Builder
                         </div>
                     </div>
                     <div class="p-4 flex-grow flex flex-col justify-between border-t border-white/5">
@@ -213,7 +194,7 @@
                             <p class="text-[11px] sm:text-xs text-purple-900 line-clamp-2 mt-1 leading-relaxed font-light">Interactive customized thin cylindrical premium churn system</p>
                         </div>
                         <div class="mt-3 pt-2.5 border-t border-white/5 flex items-center text-xs font-semibold text-purple-950 group-hover:translate-x-1 transition-transform">
-                            View Selections <i class="fa-solid fa-chevron-right text-[10px] ml-1.5"></i>
+                            Launch Customizer <i class="fa-solid fa-chevron-right text-[10px] ml-1.5"></i>
                         </div>
                     </div>
                 </div>
@@ -278,17 +259,17 @@
                     </div>
                 </div>
 
-                <div class="scroll-reveal glass-card rounded-2xl overflow-hidden cursor-pointer flex flex-col group relative" onclick="openStaticViewer('waffle', 'Tree Waffle Matrix', 3)">
+                <div class="scroll-reveal glass-card rounded-2xl overflow-hidden cursor-pointer flex flex-col group relative" onclick="openHybridViewer('waffle', 'Tree Waffle Matrix', 3, 'waffle')">
                     <div class="relative w-full aspect-square overflow-hidden bg-[#494a67]/30 section-image-frame img-loading-placeholder">
                         <img src="assets/waffle/waffle1.webp" alt="Tree Waffle" width="300" height="300" loading="lazy" decoding="async" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 opacity-80" onerror="this.src='base-bg.webp'">
                     </div>
                     <div class="p-4 flex-grow flex flex-col justify-between border-t border-white/5">
                         <div>
                             <h3 class="brand-font text-sm sm:text-base font-bold text-purple-950 tracking-tight transition-colors">Tree Waffle Matrix</h3>
-                            <p class="text-[11px] sm:text-xs text-purple-900 line-clamp-2 mt-1 leading-relaxed font-light">Geometric crisp lattice bars presented in pristine uniform sets</p>
+                            <p class="text-[11px] sm:text-xs text-purple-900 line-clamp-2 mt-1 leading-relaxed font-light">Geometric crisp lattice bars configured to customizable profiles</p>
                         </div>
                         <div class="mt-3 pt-2.5 border-t border-white/5 flex items-center text-xs font-semibold text-purple-950 group-hover:translate-x-1 transition-transform">
-                            View Selections <i class="fa-solid fa-chevron-right text-[10px] ml-1.5"></i>
+                            Explore Options <i class="fa-solid fa-chevron-right text-[10px] ml-1.5"></i>
                         </div>
                     </div>
                 </div>
@@ -300,7 +281,7 @@
                     <div class="p-4 flex-grow flex flex-col justify-between border-t border-white/5">
                         <div>
                             <h3 class="brand-font text-sm sm:text-base font-bold text-purple-950 tracking-tight transition-colors">Milkshake Formulation</h3>
-                            <p class="text-[11px] sm:text-xs text-purple-900 line-clamp-2 mt-1 leading-relaxed font-light">Velvety hand-spun heavy cream signature baseline milkshakes</p>
+                            <p class="text-[11px] sm:text-xs text-purple-900 line-clamp-2 mt-1 leading-relaxed font-light">Velvety hand-spun heavy cream hyper blended bases architectures</p>
                         </div>
                         <div class="mt-3 pt-2.5 border-t border-white/5 flex items-center text-xs font-semibold text-purple-950 group-hover:translate-x-1 transition-transform">
                             View Selections <i class="fa-solid fa-chevron-right text-[10px] ml-1.5"></i>
@@ -364,10 +345,10 @@
 
         <div class="flex-grow overflow-y-auto flex flex-col md:flex-row pb-32">
             <div class="w-full md:w-1/2 flex flex-col items-center justify-center p-6 bg-[#494a67]/10 border-b md:border-b-0 md:border-r border-white/5">
-                <div class="preview-container bg-[#494a67]/40 rounded-3xl border border-white/10 p-0 overflow-hidden img-loading-placeholder">
-                    <img id="layer-base" eager decoding="async" class="layer-graphic opacity-0" alt="Base Layer" onerror="this.removeAttribute('src'); this.classList.add('opacity-0');">
-                    <img id="layer-coating" eager decoding="async" class="layer-graphic opacity-0" alt="Coating Layer" onerror="this.removeAttribute('src'); this.classList.add('opacity-0');">
-                    <img id="layer-inner" eager decoding="async" class="inner-layer-graphic opacity-0" alt="Inner Layer" onerror="this.removeAttribute('src'); this.classList.add('opacity-0');">
+                <div class="preview-container bg-[#494a67]/40 rounded-3xl border border-white/10 p-4 overflow-hidden img-loading-placeholder">
+                    <img id="layer-base" width="240" height="340" eager decoding="async" class="layer-graphic opacity-0" alt="Base Layer" onerror="this.removeAttribute('src'); this.classList.add('opacity-0');">
+                    <img id="layer-coating" width="240" height="340" eager decoding="async" class="layer-graphic opacity-0" alt="Coating Layer" onerror="this.removeAttribute('src'); this.classList.add('opacity-0');">
+                    <img id="layer-inner" width="140" height="200" eager decoding="async" class="inner-layer-graphic opacity-0" alt="Inner Layer" onerror="this.removeAttribute('src'); this.classList.add('opacity-0');">
                 </div>
                 
                 <div id="live-selection-reporter" class="mt-4 w-full max-w-[240px] text-center bg-black/40 border border-white/10 p-3 rounded-xl text-xs font-mono space-y-1 text-yellow-100 hidden"></div>
@@ -420,6 +401,23 @@
             type: null,
             coating: null,
             inner: null
+        };
+
+        let milkshakeState = {
+            step: 0,
+            base: null,       
+            category: null,   
+            mixSubStep: 1,    
+            selectedChocolates: [], 
+            selectedFruits: []      
+        };
+
+        let waffleState = {
+            step: 1,
+            base: { name: "Waffle", img: "waffle-base.webp" },
+            sauce: null,
+            topping: null,
+            filling: null
         };
 
         const iceCreamMemoryCache = {};
@@ -540,260 +538,514 @@
                 }
             }
 
-            let scrollTimeout;
-            window.addEventListener("scroll", () => {
-                if (scrollTimeout) cancelAnimationFrame(scrollTimeout);
-                scrollTimeout = requestAnimationFrame(calculateSynchronizedFocus);
-            }, { passive: true });
+            window.addEventListener("scroll", calculateSynchronizedFocus, { passive: true });
         });
 
-        function toggleImageZoom(imgElement) {
-            if (imgElement.classList.contains('zoomed')) {
-                imgElement.classList.remove('zoomed');
-            } else {
-                const allZoomed = DOM.viewerGalleryContainer.querySelectorAll('.gallery-interactive-img.zoomed');
-                allZoomed.forEach(img => img.classList.remove('zoomed'));
-                imgElement.classList.add('zoomed');
-            }
-        }
+        const iceCreamDataSet = {
+            step1: [
+                { id: "v", name: "Vanilla Core", file: "images/base/vanilla.webp" },
+                { id: "c", name: "Chocolate Core", file: "images/base/chocolate.webp" },
+                { id: "s", name: "Strawberry Core", file: "images/base/strawberry.webp" },
+                { id: "p", name: "Pistachio Core", file: "images/base/pistachio.webp" },
+                { id: "h", name: "Hazelnut Core", file: "images/base/hazelnut.webp" }
+            ],
+            step2: [
+                { id: "milk", name: "Milk Chocolate", file: "images/type/milk.webp" },
+                { id: "dark", name: "Dark Chocolate", file: "images/type/dark.webp" },
+                { id: "white", name: "White Chocolate", file: "images/type/white.webp" }
+            ],
+            step3: {
+                milk: [
+                    { id: "m_plain", name: "Classic Milk", file: "images/coating/milk_plain.webp" },
+                    { id: "m_pistachio", name: "Milk Pistachio Crunch", file: "images/coating/milk_pistachio.webp" }
+                ],
+                dark: [
+                    { id: "d_plain", name: "Classic Dark", file: "images/coating/dark_plain.webp" },
+                    { id: "d_pistachio", name: "Dark Pistachio Crunch", file: "images/coating/dark_pistachio.webp" }
+                ],
+                white: [
+                    { id: "w_plain", name: "Classic White", file: "images/coating/white_plain.webp" },
+                    { id: "w_pistachio", name: "White Pistachio Crunch", file: "images/coating/white_pistachio.webp" }
+                ]
+            },
+            step4: [
+                { id: "f_choc", name: "Belgian Chocolate injection", file: "images/filling/chocolate.webp" },
+                { id: "f_lotus", name: "Lotus Biscoff Cream", file: "images/filling/lotus.webp" },
+                { id: "f_cara", name: "Salted Liquid Caramel", file: "images/filling/caramel.webp" },
+                { id: "f_pist", name: "Premium Pistachio Spread", file: "images/filling/pistachio.webp" },
+                { id: "f_hazel", name: "Roasted Hazelnut Praline", file: "images/filling/hazelnut.webp" },
+                { id: "f_straw", name: "Artisanal Strawberry Coulis", file: "images/filling/strawberry.webp" }
+            ]
+        };
 
-        function openStaticViewer(folder, titleText, count) {
-            document.body.classList.add("lock-scroll");
+        const milkshakeBases = [
+            { id: "v_base", name: "Vanilla Bean Base", img: "assets/milkshake/ms_v.webp" },
+            { id: "c_base", name: "Chocolate Base", img: "assets/milkshake/ms_c.webp" },
+            { id: "s_base", name: "Strawberry Base", img: "assets/milkshake/ms_s.webp" }
+        ];
+
+        const chocolateMixins = [
+            { id: "flake", name: "Flake", img: "assets/milkshake/flake.webp" },
+            { id: "kitkat", name: "KitKat", img: "assets/milkshake/kitkat.webp" },
+            { id: "kinder", name: "Kinder", img: "assets/milkshake/kinder.webp" },
+            { id: "maltesers", name: "Maltesers", img: "assets/milkshake/maltesers.webp" },
+            { id: "galaxy", name: "Galaxy", img: "assets/milkshake/galaxy.webp" },
+            { id: "snickers", name: "Snickers", img: "assets/milkshake/snickers.webp" },
+            { id: "twix", name: "Twix", img: "assets/milkshake/twix.webp" },
+            { id: "bounty", name: "Bounty", img: "assets/milkshake/bounty.webp" },
+            { id: "mars", name: "Mars", img: "assets/milkshake/mars.webp" },
+            { id: "lotus", name: "Lotus Biscuit", img: "assets/milkshake/lotus_m.webp" },
+            { id: "oreo", name: "Oreo Cookie", img: "assets/milkshake/oreo.webp" }
+        ];
+
+        const fruitMixins = [
+            { id: "fresh_s", name: "Fresh Strawberry", img: "assets/milkshake/fruit_s.webp" },
+            { id: "fresh_b", name: "Fresh Banana", img: "assets/milkshake/fruit_b.webp" },
+            { id: "fresh_mango", name: "Fresh Mango", img: "assets/milkshake/fruit_m.webp" }
+        ];
+
+        const waffleSauces = [
+            { id: "w_milk", name: "Milk Chocolate", img: "assets/waffle/sauce_milk.webp" },
+            { id: "w_dark", name: "Dark Chocolate", img: "assets/waffle/sauce_dark.webp" },
+            { id: "w_white", name: "White Chocolate", img: "assets/waffle/sauce_white.webp" },
+            { id: "w_pist", name: "Pistachio Sauce", img: "assets/waffle/sauce_pist.webp" },
+            { id: "w_kinder", name: "Kinder Sauce", img: "assets/waffle/sauce_kinder.webp" },
+            { id: "w_lotus", name: "Lotus Sauce", img: "assets/waffle/sauce_lotus.webp" },
+            { id: "w_caramel", name: "Caramel Sauce", img: "assets/waffle/sauce_caramel.webp" }
+        ];
+
+        const waffleToppings = [
+            { id: "t_flake", name: "Flake Crumbles", img: "assets/waffle/top_flake.webp" },
+            { id: "t_pist", name: "Crushed Pistachio", img: "assets/waffle/top_pist.webp" },
+            { id: "t_lotus", name: "Lotus Crumb Matrix", img: "assets/waffle/top_lotus.webp" },
+            { id: "t_oreo", name: "Oreo Dust Node", img: "assets/waffle/top_oreo.webp" },
+            { id: "t_hazel", name: "Toasted Hazelnut", img: "assets/waffle/top_hazel.webp" }
+        ];
+
+        const waffleFillings = [
+            { id: "fil_none", name: "No Inner Filling Core", img: "assets/waffle/fil_none.webp" },
+            { id: "fil_choc", name: "Chocolate Injection Core", img: "assets/waffle/fil_choc.webp" },
+            { id: "fil_kinder", name: "Kinder Cream Core", img: "assets/waffle/fil_kinder.webp" },
+            { id: "fil_pist", name: "Pistachio Praline Core", img: "assets/waffle/fil_pist.webp" },
+            { id: "fil_lotus", name: "Lotus Infusion Core", img: "assets/waffle/fil_lotus.webp" }
+        ];
+
+        function openStaticViewer(folder, title, count) {
             DOM.hybridCtaContainer.classList.add("hidden");
-            DOM.viewerTitle.innerText = titleText;
+            DOM.viewerTitle.innerText = title;
+            DOM.viewerGalleryContainer.innerHTML = "";
             
-            const fragment = document.createDocumentFragment();
             for (let i = 1; i <= count; i++) {
-                appendGalleryNode(fragment, folder, `${folder}${i}.webp`, `Catalog Profile Vector 0${i}`);
+                const node = document.createElement("div");
+                node.className = "w-full rounded-2xl overflow-hidden border border-white/5 bg-[#494a67]/40 p-2 img-loading-placeholder";
+                node.innerHTML = `<img src="assets/${folder}/${folder}${i}.webp" alt="${title} option ${i}" class="w-full h-auto object-contain rounded-xl opacity-95 transition-opacity duration-300" loading="lazy" onload="this.parentElement.classList.remove('img-loading-placeholder')" onerror="this.src='base-bg.webp'">`;
+                DOM.viewerGalleryContainer.appendChild(node);
             }
-            DOM.viewerGalleryContainer.innerHTML = "";
-            DOM.viewerGalleryContainer.appendChild(fragment);
             
             DOM.viewerOverlay.classList.remove("invisible", "opacity-0");
-        }
-
-        function openIceCreamSectionViewer() {
             document.body.classList.add("lock-scroll");
-            DOM.viewerTitle.innerText = "Ice Cream Laboratory";
-            
-            const fragment = document.createDocumentFragment();
-            for (let i = 1; i <= 3; i++) {
-                appendGalleryNode(fragment, "icecream", `icecream${i}.webp`, `Laboratory Showpiece 0${i}`);
-            }
-            DOM.viewerGalleryContainer.innerHTML = "";
-            DOM.viewerGalleryContainer.appendChild(fragment);
-
-            DOM.hybridCtaContainer.classList.remove("hidden");
-            DOM.hybridCtaTitle.innerText = "Access Design Customizer";
-            DOM.hybridCtaBtn.innerText = "Launch Customizer";
-            DOM.hybridCtaBtn.onclick = () => {
-                closeViewerOverlay();
-                openIceCreamBuilder();
-            };
-
-            DOM.viewerOverlay.classList.remove("invisible", "opacity-0");
         }
 
-        function appendGalleryNode(parentFragment, folder, filename, label) {
-            const wrap = document.createElement("div");
-            wrap.className = "w-full rounded-2xl border border-white/10 overflow-hidden flex flex-col img-loading-placeholder";
-            wrap.style.backgroundColor = "#e7b5c5";
-            wrap.innerHTML = `
-                <div class="w-full aspect-[4/3] bg-[#494a67] relative flex items-center justify-center overflow-hidden">
-                    <img src="assets/${folder}/${filename}" alt="${label}" width="400" height="300" loading="lazy" decoding="async" class="w-full h-full object-cover gallery-interactive-img" onclick="toggleImageZoom(this)" onerror="this.src='base-bg.webp'">
-                </div>
-                <div class="p-3 flex items-center justify-between border-t border-white/5">
-                    <span class="text-xs font-semibold tracking-wide text-purple-950">${label}</span>
-                    <span class="text-[10px] font-bold px-2 py-0.5 bg-[#494a67] text-yellow-200 rounded border border-white/5">Menu Matrix</span>
-                </div>
-            `;
-            parentFragment.appendChild(wrap);
+        function openHybridViewer(folder, title, count, type) {
+            openStaticViewer(folder, title, count);
+            DOM.hybridCtaContainer.classList.remove("hidden");
+            DOM.hybridCtaTitle.innerText = `Customize Your ${title}?`;
+            
+            if (type === 'waffle') {
+                DOM.hybridCtaBtn.onclick = () => { closeViewerOverlay(); openWaffleBuilder(); };
+            } else if (type === 'milkshake') {
+                DOM.hybridCtaBtn.onclick = () => { closeViewerOverlay(); openMilkshakeBuilder(); };
+            }
         }
 
         function closeViewerOverlay() {
-            document.body.classList.remove("lock-scroll");
             DOM.viewerOverlay.classList.add("invisible", "opacity-0");
+            document.body.classList.remove("lock-scroll");
         }
 
-        function resetStudioCache(mode, maxSteps) {
-            builderMode = mode;
+        function openIceCreamBuilder() {
+            builderMode = "icecream";
             currentStep = 1;
-            totalStepsCount = maxSteps;
-            selectedType = "";
+            totalStepsCount = 4;
+            
             selectionsCache = { base: null, type: null, coating: null, inner: null };
             
-            DOM.layerBase.removeAttribute('src'); DOM.layerBase.classList.add("opacity-0");
-            DOM.layerCoating.removeAttribute('src'); DOM.layerCoating.classList.add("opacity-0");
-            DOM.layerInner.removeAttribute('src'); DOM.layerInner.classList.add("opacity-0");
+            DOM.layerBase.src = ""; DOM.layerBase.classList.add("opacity-0");
+            DOM.layerCoating.src = ""; DOM.layerCoating.classList.add("opacity-0");
+            DOM.layerInner.src = ""; DOM.layerInner.classList.add("opacity-0");
             
-            document.body.classList.add("lock-scroll");
+            DOM.liveSelectionReporter.classList.remove("hidden");
+            preloadIceCreamBuilderAssets();
+            renderIceCreamStep();
+            
             DOM.unifiedBuilder.classList.remove("invisible", "opacity-0");
-            updateLiveSelectionText();
+            document.body.classList.add("lock-scroll");
         }
 
-        function closeStudioBuilder() {
-            document.body.classList.remove("lock-scroll");
-            DOM.unifiedBuilder.classList.add("invisible", "opacity-0");
-        }
+        function renderIceCreamStep() {
+            DOM.optionsViewportGrid.innerHTML = "";
+            DOM.builderStepIndicator.innerText = `Step ${currentStep} of ${totalStepsCount}`;
+            DOM.nextBtn.disabled = true;
+            updateLiveReporter();
 
-        function updateLiveSelectionText() {
-            let segments = [];
-
-            if (builderMode === "icecream") {
-                if (selectionsCache.base) segments.push(`<div>Base: ${selectionsCache.base.name}</div>`);
-                if (selectionsCache.type) segments.push(`<div>Chocolate: ${selectionsCache.type.name}</div>`);
-                if (selectionsCache.coating) segments.push(`<div>Coating: ${selectionsCache.coating.name}</div>`);
-                if (selectionsCache.inner) segments.push(`<div>Filling: ${selectionsCache.inner.name}</div>`);
+            if (currentStep === 1) {
+                DOM.panelTitle.innerText = "Select Structural Ice Cream Core Base";
+                DOM.panelDesc.innerText = "Establishes baseline molecular taste node profiles.";
+                DOM.builderInstruction.innerText = "Choose an internal cream churn core matrix";
+                
+                iceCreamDataSet.step1.forEach(item => {
+                    const active = selectionsCache.base && selectionsCache.base.id === item.id;
+                    if (active) DOM.nextBtn.disabled = false;
+                    createPureImageOption(item, active, () => {
+                        selectionsCache.base = item;
+                        DOM.layerBase.src = item.file;
+                        DOM.layerBase.classList.remove("opacity-0");
+                        renderIceCreamStep();
+                    });
+                });
+            } 
+            else if (currentStep === 2) {
+                DOM.panelTitle.innerText = "Select Shell Glass Coating Medium";
+                DOM.panelDesc.innerText = "Defines chemical parameters for outer envelope snap crisp factor.";
+                DOM.builderInstruction.innerText = "Isolate envelope structural chocolate standard";
+                
+                iceCreamDataSet.step2.forEach(item => {
+                    const active = selectionsCache.type && selectionsCache.type.id === item.id;
+                    if (active) DOM.nextBtn.disabled = false;
+                    createPureImageOption(item, active, () => {
+                        if (selectionsCache.type?.id !== item.id) {
+                            selectionsCache.coating = null;
+                            DOM.layerCoating.classList.add("opacity-0");
+                            DOM.layerCoating.src = "";
+                        }
+                        selectionsCache.type = item;
+                        selectedType = item.id;
+                        renderIceCreamStep();
+                    });
+                });
+            } 
+            else if (currentStep === 3) {
+                DOM.panelTitle.innerText = "Select Outer Texture Dynamic Enclosure";
+                DOM.panelDesc.innerText = "Topographic outer finish adjustments based on shell standard selection.";
+                DOM.builderInstruction.innerText = "Apply surface finish tactile elements layers";
+                
+                const options = iceCreamDataSet.step3[selectedType] || [];
+                options.forEach(item => {
+                    const active = selectionsCache.coating && selectionsCache.coating.id === item.id;
+                    if (active) DOM.nextBtn.disabled = false;
+                    createPureImageOption(item, active, () => {
+                        selectionsCache.coating = item;
+                        DOM.layerCoating.src = item.file;
+                        DOM.layerCoating.classList.remove("opacity-0");
+                        renderIceCreamStep();
+                    });
+                });
+            } 
+            else if (currentStep === 4) {
+                DOM.panelTitle.innerText = "Inject Pure Fluid Flavor Splice Core";
+                DOM.panelDesc.innerText = "High-pressure micro-injected inner concentration matrix node.";
+                DOM.builderInstruction.innerText = "Determine center high viscosity liquid dynamic core";
+                
+                iceCreamDataSet.step4.forEach(item => {
+                    const active = selectionsCache.inner && selectionsCache.inner.id === item.id;
+                    if (active) DOM.nextBtn.disabled = false;
+                    createPureImageOption(item, active, () => {
+                        selectionsCache.inner = item;
+                        DOM.layerInner.src = item.file;
+                        DOM.layerInner.classList.remove("opacity-0");
+                        renderIceCreamStep();
+                    });
+                });
             }
+        }
 
+        function createPureImageOption(item, isActive, clickCallback) {
+            const btn = document.createElement("button");
+            btn.className = `pure-image-option flex flex-col items-center group ${isActive ? 'active-option' : ''}`;
+            
+            btn.innerHTML = `
+                <div class="w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center rounded-2xl bg-white/5 border ${isActive ? 'border-yellow-200 bg-yellow-200/10' : 'border-white/10'} group-hover:border-white/30 transition-all p-1.5 overflow-hidden">
+                    <img src="${item.file || item.img}" alt="${item.name}" class="w-full h-full object-contain transition-transform group-hover:scale-105">
+                </div>
+                <span class="text-[10px] font-medium text-center text-purple-200 mt-2 line-clamp-2 max-w-[76px] leading-tight group-hover:text-white transition-colors">${item.name}</span>
+            `;
+            
+            btn.onclick = clickCallback;
+            DOM.optionsViewportGrid.appendChild(btn);
+        }
+
+        function updateLiveReporter() {
+            DOM.liveSelectionReporter.innerHTML = "";
+            let segments = [];
+            if (selectionsCache.base) segments.push(`CORE: ${selectionsCache.base.name}`);
+            if (selectionsCache.type) segments.push(`SHELL: ${selectionsCache.type.name}`);
+            if (selectionsCache.coating) segments.push(`FINISH: ${selectionsCache.coating.name}`);
+            if (selectionsCache.inner) segments.push(`INJECT: ${selectionsCache.inner.name}`);
+            
             if (segments.length > 0) {
-                DOM.liveSelectionReporter.innerHTML = segments.join("");
                 DOM.liveSelectionReporter.classList.remove("hidden");
+                segments.forEach(text => {
+                    const div = document.createElement("div");
+                    div.innerText = text;
+                    DOM.liveSelectionReporter.appendChild(div);
+                });
             } else {
                 DOM.liveSelectionReporter.classList.add("hidden");
             }
         }
 
-        function evaluateNextButtonState() {
-            let allowed = false;
-            if (builderMode === "icecream") {
-                if (currentStep === 1 && selectionsCache.base) allowed = true;
-                if (currentStep === 2 && selectionsCache.type) allowed = true;
-                if (currentStep === 3 && selectionsCache.coating) allowed = true;
-                if (currentStep === 4 && selectionsCache.inner) allowed = true;
-            }
-            DOM.nextBtn.disabled = !allowed;
-            updateLiveSelectionText();
+        function openMilkshakeBuilder() {
+            builderMode = "milkshake";
+            milkshakeState = { step: 1, base: null, category: null, mixSubStep: 1, selectedChocolates: [], selectedFruits: [] };
+            totalStepsCount = 3;
+            currentStep = 1;
+            
+            DOM.layerBase.src = "assets/milkshake/ms_empty.webp";
+            DOM.layerBase.classList.remove("opacity-0");
+            DOM.layerCoating.classList.add("opacity-0");
+            DOM.layerInner.classList.add("opacity-0");
+            DOM.liveSelectionReporter.classList.add("hidden");
+            
+            renderMilkshakeStep();
+            DOM.unifiedBuilder.classList.remove("invisible", "opacity-0");
+            document.body.classList.add("lock-scroll");
         }
 
-        function openIceCreamBuilder() {
-            preloadIceCreamBuilderAssets();
-            resetStudioCache("icecream", 4);
-            renderIceCreamStep();
-        }
-
-        function renderIceCreamStep() {
-            const fragment = document.createDocumentFragment();
-            evaluateNextButtonState();
-
+        function renderMilkshakeStep() {
+            DOM.optionsViewportGrid.innerHTML = "";
             DOM.builderStepIndicator.innerText = `Step ${currentStep} of ${totalStepsCount}`;
+            DOM.nextBtn.disabled = true;
 
             if (currentStep === 1) {
-                updateStudioStepHeader("Choose Base", "Select thin cylindrical foundational inner core track parameters flavor mapping profiles.", "Choose structural ice cream base core parameters");
-                createOptionImageCard(fragment, "images/base/vanilla.webp", () => selectBase("images/base/vanilla.webp", "Vanilla"), selectionsCache.base?.src === "images/base/vanilla.webp");
-                createOptionImageCard(fragment, "images/base/chocolate.webp", () => selectBase("images/base/chocolate.webp", "Chocolate"), selectionsCache.base?.src === "images/base/chocolate.webp");
-                createOptionImageCard(fragment, "images/base/strawberry.webp", () => selectBase("images/base/strawberry.webp", "Strawberry"), selectionsCache.base?.src === "images/base/strawberry.webp");
-                createOptionImageCard(fragment, "images/base/pistachio.webp", () => selectBase("images/base/pistachio.webp", "Pistachio"), selectionsCache.base?.src === "images/base/pistachio.webp");
-                createOptionImageCard(fragment, "images/base/hazelnut.webp", () => selectBase("images/base/hazelnut.webp", "Hazelnut"), selectionsCache.base?.src === "images/base/hazelnut.webp");
-            } 
+                DOM.panelTitle.innerText = "Select Milkshake Base Flavor Lattice";
+                DOM.panelDesc.innerText = "Heavy churn artisanal gourmet dairy vector.";
+                DOM.builderInstruction.innerText = "Isolate heavy density flavor foundational block";
+                
+                milkshakeBases.forEach(item => {
+                    const active = milkshakeState.base && milkshakeState.base.id === item.id;
+                    if (active) DOM.nextBtn.disabled = false;
+                    createPureImageOption(item, active, () => {
+                        milkshakeState.base = item;
+                        DOM.layerBase.src = item.img;
+                        renderMilkshakeStep();
+                    });
+                });
+            }
             else if (currentStep === 2) {
-                updateStudioStepHeader("Choose Chocolate Type", "Primary fluid hot dip compound formula structural setup track configuration.", "Select chocolate sub-bath structural matrix type link");
-                createOptionImageCard(fragment, "images/type/milk.webp", () => selectType("images/type/milk.webp", "milk", "Milk"), selectedType === "milk");
-                createOptionImageCard(fragment, "images/type/dark.webp", () => selectType("images/type/dark.webp", "dark", "Dark"), selectedType === "dark");
-                createOptionImageCard(fragment, "images/type/white.webp", () => selectType("images/type/white.webp", "white", "White"), selectedType === "white");
-            } 
+                DOM.panelTitle.innerText = "Select Structural Infusion Pathway";
+                DOM.panelDesc.innerText = "Branch operations layout between premium configurations nodes.";
+                DOM.builderInstruction.innerText = "Isolate addition matrix categories vectors";
+                
+                DOM.optionsViewportGrid.className = "flex flex-col space-y-3 w-full max-w-xs mx-auto";
+                
+                const c1 = document.createElement("div");
+                c1.className = `category-text-badge ${milkshakeState.category === 'chocolate' ? 'active-badge' : ''}`;
+                c1.innerText = "Gourmet Confectionery Infusions (Chocolates)";
+                c1.onclick = () => { milkshakeState.category = "chocolate"; renderMilkshakeStep(); };
+                
+                const c2 = document.createElement("div");
+                c2.className = `category-text-badge ${milkshakeState.category === 'fruit' ? 'active-badge' : ''}`;
+                c2.innerText = "Organic Macro Elements Extract (Fresh Fruits)";
+                c2.onclick = () => { milkshakeState.category = "fruit"; renderMilkshakeStep(); };
+                
+                DOM.optionsViewportGrid.appendChild(c1);
+                DOM.optionsViewportGrid.appendChild(c2);
+                
+                if (milkshakeState.category) DOM.nextBtn.disabled = false;
+            }
             else if (currentStep === 3) {
-                updateStudioStepHeader("Choose Coating", "Snap hardening textured layer applied flawlessly covering base architectures.", "Select protective external crunch coating shell layer configurations");
-                const pathPlain = `images/coating/${selectedType}_plain.webp`;
-                const pathPistachio = `images/coating/${selectedType}_pistachio.webp`;
-                createOptionImageCard(fragment, pathPlain, () => selectCoating(pathPlain, "Plain"), selectionsCache.coating?.src === pathPlain);
-                createOptionImageCard(fragment, pathPistachio, () => selectCoating(pathPistachio, "Pistachio"), selectionsCache.coating?.src === pathPistachio);
-            } 
-            else if (currentStep === 4) {
-                updateStudioStepHeader("Choose Filling", "Concentrated liquid injectable vectors embedded into the architecture parameters.", "Choose your hidden inner pocket injection fluid parameter profile");
-                createOptionImageCard(fragment, "images/filling/chocolate.webp", () => selectFilling("images/filling/chocolate.webp", "Chocolate"), selectionsCache.inner?.src === "images/filling/chocolate.webp");
-                createOptionImageCard(fragment, "images/filling/lotus.webp", () => selectFilling("images/filling/lotus.webp", "Lotus"), selectionsCache.inner?.src === "images/filling/lotus.webp");
-                createOptionImageCard(fragment, "images/filling/caramel.webp", () => selectFilling("images/filling/caramel.webp", "Caramel"), selectionsCache.inner?.src === "images/filling/caramel.webp");
-                createOptionImageCard(fragment, "images/filling/pistachio.webp", () => selectFilling("images/filling/pistachio.webp", "Pistachio"), selectionsCache.inner?.src === "images/filling/pistachio.webp");
-                createOptionImageCard(fragment, "images/filling/hazelnut.webp", () => selectFilling("images/filling/hazelnut.webp", "Hazelnut"), selectionsCache.inner?.src === "images/filling/hazelnut.webp");
-                createOptionImageCard(fragment, "images/filling/strawberry.webp", () => selectFilling("images/filling/strawberry.webp", "Strawberry"), selectionsCache.inner?.src === "images/filling/strawberry.webp");
+                DOM.optionsViewportGrid.className = "grid grid-cols-3 gap-4 max-h-none overflow-y-visible pr-1 py-2";
+                
+                if (milkshakeState.category === "chocolate") {
+                    DOM.panelTitle.innerText = "Select Chocolate Inclusions (Max 2)";
+                    DOM.panelDesc.innerText = `Selected elements: [${milkshakeState.selectedChocolates.length}/2] vector slots filled.`;
+                    DOM.builderInstruction.innerText = "Activate interactive blend nodes targets parameters";
+                    
+                    if (milkshakeState.selectedChocolates.length > 0) DOM.nextBtn.disabled = false;
+                    
+                    chocolateMixins.forEach(item => {
+                        const active = milkshakeState.selectedChocolates.some(x => x.id === item.id);
+                        createPureImageOption(item, active, () => {
+                            if (active) {
+                                milkshakeState.selectedChocolates = milkshakeState.selectedChocolates.filter(x => x.id !== item.id);
+                            } else {
+                                if (milkshakeState.selectedChocolates.length < 2) {
+                                    milkshakeState.selectedChocolates.push(item);
+                                } else {
+                                    milkshakeState.selectedChocolates.shift();
+                                    milkshakeState.selectedChocolates.push(item);
+                                }
+                            }
+                            renderMilkshakeStep();
+                        });
+                    });
+                } else {
+                    DOM.panelTitle.innerText = "Select Fruit Mineral Infusions (Max 1)";
+                    DOM.panelDesc.innerText = "Isolate organic additive compound matrix node elements.";
+                    DOM.builderInstruction.innerText = "Determine singular structural organic additive variable";
+                    
+                    if (milkshakeState.selectedFruits.length > 0) DOM.nextBtn.disabled = false;
+                    
+                    fruitMixins.forEach(item => {
+                        const active = milkshakeState.selectedFruits.some(x => x.id === item.id);
+                        createPureImageOption(item, active, () => {
+                            if (active) {
+                                milkshakeState.selectedFruits = [];
+                            } else {
+                                milkshakeState.selectedFruits = [item];
+                            }
+                            renderMilkshakeStep();
+                        });
+                    });
+                }
             }
+        }
 
+        function openWaffleBuilder() {
+            builderMode = "waffle";
+            waffleState = { step: 1, base: { name: "Signature Lattice Waffle", img: "assets/waffle/w_base.webp" }, sauce: null, topping: null, filling: null };
+            totalStepsCount = 3;
+            currentStep = 1;
+            
+            DOM.layerBase.src = "assets/waffle/w_base.webp";
+            DOM.layerBase.classList.remove("opacity-0");
+            DOM.layerCoating.classList.add("opacity-0");
+            DOM.layerInner.classList.add("opacity-0");
+            DOM.liveSelectionReporter.classList.add("hidden");
+            
+            renderWaffleStep();
+            DOM.unifiedBuilder.classList.remove("invisible", "opacity-0");
+            document.body.classList.add("lock-scroll");
+        }
+
+        function renderWaffleStep() {
             DOM.optionsViewportGrid.innerHTML = "";
-            DOM.optionsViewportGrid.appendChild(fragment);
-        }
+            DOM.builderStepIndicator.innerText = `Step ${currentStep} of ${totalStepsCount}`;
+            DOM.nextBtn.disabled = true;
+            DOM.optionsViewportGrid.className = "grid grid-cols-3 gap-4 max-h-none overflow-y-visible pr-1 py-2";
 
-        function selectBase(srcPath, nameText) {
-            if (DOM.layerBase.getAttribute('src') !== srcPath) {
-                DOM.layerBase.src = srcPath;
-                DOM.layerBase.classList.remove("opacity-0");
+            if (currentStep === 1) {
+                DOM.panelTitle.innerText = "Select Surface Sauce Topography";
+                DOM.panelDesc.innerText = "External fluid viscosity layout application over matrix grids.";
+                DOM.builderInstruction.innerText = "Apply viscosity overlay matrix configuration node";
+                
+                waffleSauces.forEach(item => {
+                    const active = waffleState.sauce && waffleState.sauce.id === item.id;
+                    if (active) DOM.nextBtn.disabled = false;
+                    createPureImageOption(item, active, () => {
+                        waffleState.sauce = item;
+                        DOM.layerCoating.src = item.img;
+                        DOM.layerCoating.classList.remove("opacity-0");
+                        renderWaffleStep();
+                    });
+                });
             }
-            selectionsCache.base = { src: srcPath, name: nameText };
-            renderIceCreamStep();
-        }
-        function selectType(imgSrc, typeKey, nameText) {
-            selectedType = typeKey;
-            selectionsCache.type = { src: imgSrc, name: nameText };
-            renderIceCreamStep();
-        }
-        function selectCoating(srcPath, nameText) {
-            if (DOM.layerCoating.getAttribute('src') !== srcPath) {
-                DOM.layerCoating.src = srcPath;
-                DOM.layerCoating.classList.remove("opacity-0");
+            else if (currentStep === 2) {
+                DOM.panelTitle.innerText = "Select High-Tactility Top Enclosure Crisps";
+                DOM.panelDesc.innerText = "Particulate density distribution parameters node profiles.";
+                DOM.builderInstruction.innerText = "Determine micro-crystalline exterior texture profile element";
+                
+                waffleToppings.forEach(item => {
+                    const active = waffleState.topping && waffleState.topping.id === item.id;
+                    if (active) DOM.nextBtn.disabled = false;
+                    createPureImageOption(item, active, () => {
+                        waffleState.topping = item;
+                        renderWaffleStep();
+                    });
+                });
             }
-            selectionsCache.coating = { src: srcPath, name: nameText };
-            renderIceCreamStep();
-        }
-        function selectFilling(srcPath, nameText) {
-            if (DOM.layerInner.getAttribute('src') !== srcPath) {
-                DOM.layerInner.src = srcPath;
-                DOM.layerInner.classList.remove("opacity-0");
+            else if (currentStep === 3) {
+                DOM.panelTitle.innerText = "Inject Internal Sub-Surface Core";
+                DOM.panelDesc.innerText = "Geometric crisp lattices inner core density configuration parameter.";
+                DOM.builderInstruction.innerText = "Isolate internal structure matrix compound node option";
+                
+                waffleFillings.forEach(item => {
+                    const active = waffleState.filling && waffleState.filling.id === item.id;
+                    if (active) DOM.nextBtn.disabled = false;
+                    createPureImageOption(item, active, () => {
+                        waffleState.filling = item;
+                        if (item.id !== "fil_none") {
+                            DOM.layerInner.src = item.img;
+                            DOM.layerInner.classList.remove("opacity-0");
+                        } else {
+                            DOM.layerInner.classList.add("opacity-0");
+                            DOM.layerInner.src = "";
+                        }
+                        renderWaffleStep();
+                    });
+                });
             }
-            selectionsCache.inner = { src: srcPath, name: nameText };
-            renderIceCreamStep();
-        }
-
-        function studioGoBack() {
-            if (builderMode === "icecream") {
-                if (currentStep === 1) closeStudioBuilder();
-                else { currentStep--; renderIceCreamStep(); }
-            } 
         }
 
         function studioNextStep() {
-            if (builderMode === "icecream") {
-                if (currentStep < totalStepsCount) { currentStep++; renderIceCreamStep(); }
-                else launchFormulaSummaryOutput();
-            } 
-        }
-
-        function updateStudioStepHeader(title, desc, instruction) {
-            DOM.panelTitle.innerText = title;
-            DOM.panelDesc.innerText = desc;
-            DOM.builderInstruction.innerText = instruction;
-        }
-
-        function createOptionImageCard(targetFragment, imgSrcPath, clickHandlerCallback, activeFlagIndicator) {
-            const wrapperCard = document.createElement("div");
-            wrapperCard.className = `pure-image-option flex items-center justify-center ${activeFlagIndicator ? "active-option" : ""}`;
-            
-            const optionImg = document.createElement("img");
-            if (builderMode === "icecream" && iceCreamMemoryCache[imgSrcPath]) {
-                optionImg.src = iceCreamMemoryCache[imgSrcPath].src;
+            if (currentStep < totalStepsCount) {
+                currentStep++;
+                if (builderMode === "icecream") renderIceCreamStep();
+                else if (builderMode === "milkshake") renderMilkshakeStep();
+                else if (builderMode === "waffle") renderWaffleStep();
             } else {
-                optionImg.src = imgSrcPath;
+                compileAndShowSummaryOutput();
             }
-            optionImg.alt = "Option Graphic Node";
-            optionImg.width = 65;
-            optionImg.height = 65;
-            optionImg.loading = "lazy";
-            optionImg.setAttribute("decoding", "async");
-            optionImg.onerror = () => { optionImg.src = 'base-bg.webp'; };
-            
-            wrapperCard.appendChild(optionImg);
-            wrapperCard.onclick = clickHandlerCallback;
-            targetFragment.appendChild(wrapperCard);
         }
 
-        function launchFormulaSummaryOutput() {
-            let summaryTextString = "";
+        function studioGoBack() {
+            if (currentStep > 1) {
+                currentStep--;
+                if (builderMode === "icecream") renderIceCreamStep();
+                else if (builderMode === "milkshake") renderMilkshakeStep();
+                else if (builderMode === "waffle") renderWaffleStep();
+            } else {
+                closeStudioBuilder();
+            }
+        }
 
+        function compileAndShowSummaryOutput() {
+            let htmlSummary = "";
+            
             if (builderMode === "icecream") {
-                summaryTextString = `${selectionsCache.base?.name || 'Ice Cream Base'} + ${selectionsCache.type?.name || 'Chocolate'} + ${selectionsCache.coating?.name || 'Coating'} + ${selectionsCache.inner?.name || 'Filling'}`;
+                htmlSummary = `
+                    <div class="space-y-2 uppercase text-xs tracking-wider text-left max-w-xs mx-auto text-purple-950 font-bold p-2 bg-[#e7b5c5] rounded-xl border border-white/20">
+                        <div class="flex justify-between border-b border-purple-950/20 pb-1"><span>[CORE BASE]:</span> <span class="text-[#494a67]">${selectionsCache.base.name}</span></div>
+                        <div class="flex justify-between border-b border-purple-950/20 pb-1"><span>[SHELL CLASSIFICATION]:</span> <span class="text-[#494a67]">${selectionsCache.type.name}</span></div>
+                        <div class="flex justify-between border-b border-purple-950/20 pb-1"><span>[TOPOGRAPHIC COAT]:</span> <span class="text-[#494a67]">${selectionsCache.coating.name}</span></div>
+                        <div class="flex justify-between pt-1"><span>[FLUID INJECTION]:</span> <span class="text-[#494a67]">${selectionsCache.inner.name}</span></div>
+                    </div>
+                `;
             } 
+            else if (builderMode === "milkshake") {
+                let mixinText = "";
+                if (milkshakeState.category === "chocolate") {
+                    mixinText = milkshakeState.selectedChocolates.map(x => x.name).join(" + ");
+                } else {
+                    mixinText = milkshakeState.selectedFruits[0]?.name || "None";
+                }
+                
+                htmlSummary = `
+                    <div class="space-y-2 uppercase text-xs tracking-wider text-left max-w-xs mx-auto text-purple-950 font-bold p-2 bg-[#e7b5c5] rounded-xl border border-white/20">
+                        <div class="flex justify-between border-b border-purple-950/20 pb-1"><span>[FOUNDATION BASE]:</span> <span class="text-[#494a67]">${milkshakeState.base.name}</span></div>
+                        <div class="flex justify-between border-b border-purple-950/20 pb-1"><span>[PATHWAY BLOCK]:</span> <span class="text-[#494a67]">${milkshakeState.category}</span></div>
+                        <div class="flex justify-between pt-1"><span>[INFUSION NODES]:</span> <span class="text-[#494a67] text-right max-w-[160px]">${mixinText}</span></div>
+                    </div>
+                `;
+            }
+            else if (builderMode === "waffle") {
+                htmlSummary = `
+                    <div class="space-y-2 uppercase text-xs tracking-wider text-left max-w-xs mx-auto text-purple-950 font-bold p-2 bg-[#e7b5c5] rounded-xl border border-white/20">
+                        <div class="flex justify-between border-b border-purple-950/20 pb-1"><span>[LATTICE STRUCTURE]:</span> <span class="text-[#494a67]">${waffleState.base.name}</span></div>
+                        <div class="flex justify-between border-b border-purple-950/20 pb-1"><span>[VISCOSITY OVERLAY]:</span> <span class="text-[#494a67]">${waffleState.sauce.name}</span></div>
+                        <div class="flex justify-between border-b border-purple-950/20 pb-1"><span>[CRYSTALLINE FINISH]:</span> <span class="text-[#494a67]">${waffleState.topping.name}</span></div>
+                        <div class="flex justify-between pt-1"><span>[SUB-SURFACE INNER]:</span> <span class="text-[#494a67]">${waffleState.filling.name}</span></div>
+                    </div>
+                `;
+            }
 
-            DOM.summaryContent.innerText = summaryTextString;
+            DOM.summaryContent.innerHTML = htmlSummary;
             DOM.summaryOverlay.classList.remove("invisible", "opacity-0");
+        }
+
+        function closeStudioBuilder() {
+            DOM.unifiedBuilder.classList.add("invisible", "opacity-0");
+            document.body.classList.remove("lock-scroll");
         }
 
         function clearAllOverlays() {
