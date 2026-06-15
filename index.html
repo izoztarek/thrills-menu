@@ -174,8 +174,100 @@
             transform: scale(1.03);
         }
         
-        img {
-            content-visibility: auto;
+        /* ── Thrilly Game ── */
+        @keyframes thrilly-bounce {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-8px) scale(1.08); }
+        }
+        @keyframes thrilly-card-pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(231,181,197,0); }
+            50% { box-shadow: 0 0 18px 4px rgba(231,181,197,0.35); }
+        }
+        .thrilly-bounce { animation: thrilly-bounce 1.6s ease-in-out infinite; display: inline-block; }
+        .thrilly-card-pulse { animation: thrilly-card-pulse 2.4s ease-in-out infinite; }
+
+        #thrilly-overlay {
+            position: fixed; inset: 0; z-index: 100;
+            background: #494a67;
+            display: flex; flex-direction: column;
+            opacity: 0; visibility: hidden;
+            transition: opacity 0.22s ease, visibility 0.22s ease;
+        }
+        #thrilly-overlay.thr-active { opacity: 1; visibility: visible; }
+
+        /* Intro screen */
+        #thr-intro { display: flex; flex-direction: column; align-items: center; justify-content: center; flex: 1; padding: 24px; text-align: center; }
+        #thr-intro h1 { font-family: 'Fredoka', sans-serif; font-size: 2.4rem; font-weight: 700; color: #fef08a; margin-bottom: 6px; }
+        #thr-intro .thr-intro-sub { font-size: 1rem; color: #e7b5c5; margin-bottom: 18px; line-height: 1.7; }
+        #thr-start-btn {
+            padding: 14px 40px; background: #e7b5c5; color: #494a67;
+            font-family: 'Fredoka', sans-serif; font-size: 1.2rem; font-weight: 700;
+            border: none; border-radius: 999px; cursor: pointer;
+            transition: transform 0.15s ease, background 0.15s ease;
+            margin-top: 8px;
+        }
+        #thr-start-btn:hover { transform: scale(1.06); background: #f0c8d8; }
+
+        /* Game screen */
+        #thr-game { display: none; flex-direction: column; align-items: center; flex: 1; padding: 0; overflow: hidden; }
+        #thr-hud { width: 100%; max-width: 480px; display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; flex-shrink: 0; }
+        #thr-score-display { font-family: 'Fredoka', sans-serif; font-size: 1.2rem; color: #fef08a; font-weight: 700; }
+        #thr-level-display { font-family: 'Fredoka', sans-serif; font-size: 0.85rem; color: #e7b5c5; font-weight: 600; }
+        
+        #thr-canvas-wrap { position: relative; width: 100%; max-width: 480px; flex: 1; overflow: hidden; }
+        #thr-canvas {
+            display: block;
+            background: #3a3b56;
+            width: 100%; height: 100%;
+            touch-action: none;
+        }
+        
+        /* Mobile controls */
+        #thr-controls {
+            width: 100%; max-width: 480px; display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            gap: 6px; padding: 10px 16px; flex-shrink: 0;
+            height: 110px;
+        }
+        .thr-btn {
+            background: rgba(231,181,197,0.18); border: 1.5px solid rgba(231,181,197,0.35);
+            color: #e7b5c5; border-radius: 12px; font-size: 1.3rem;
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            transition: background 0.12s ease, transform 0.1s ease;
+            user-select: none; -webkit-user-select: none;
+        }
+        .thr-btn:active { background: rgba(231,181,197,0.38); transform: scale(0.93); }
+        #thr-btn-up    { grid-column: 2; grid-row: 1; }
+        #thr-btn-left  { grid-column: 1; grid-row: 2; }
+        #thr-btn-down  { grid-column: 2; grid-row: 2; }
+        #thr-btn-right { grid-column: 3; grid-row: 2; }
+
+        /* Popup */
+        #thr-popup {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.7);
+            background: #e7b5c5; color: #494a67;
+            font-family: 'Fredoka', sans-serif; font-size: 1.3rem; font-weight: 700;
+            padding: 20px 32px; border-radius: 20px; text-align: center;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+            opacity: 0; pointer-events: none;
+            transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.34,1.56,0.64,1);
+            z-index: 10;
+        }
+        #thr-popup.thr-pop-show { opacity: 1; transform: translate(-50%, -50%) scale(1); pointer-events: auto; }
+        #thr-popup-emoji { font-size: 2.2rem; display: block; margin-bottom: 6px; }
+
+        /* Close btn */
+        #thr-close-btn {
+            position: absolute; top: 14px; right: 14px;
+            width: 38px; height: 38px; border-radius: 50%;
+            background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.18);
+            color: #f5f5f4; font-size: 16px; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: background 0.18s ease; z-index: 20;
+        }
+        #thr-close-btn:hover { background: rgba(255,255,255,0.22); }
+    
             image-rendering: -webkit-optimize-contrast;
         }
         .img-loading-placeholder {
@@ -405,6 +497,29 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- PLAY WITH THRILLY CARD -->
+                <div class="scroll-reveal glass-card rounded-2xl overflow-hidden cursor-pointer flex flex-col group relative thrilly-card-pulse" onclick="openThrillyGame()" style="background: linear-gradient(135deg, #e7b5c5 0%, #d4a0b5 100%);">
+                    <div class="relative w-full aspect-square overflow-hidden bg-[#494a67]/20 flex items-center justify-center">
+                        <div class="thrilly-card-mascot flex flex-col items-center justify-center w-full h-full" style="background: radial-gradient(circle at 50% 60%, rgba(73,74,103,0.18) 0%, transparent 70%);">
+                            <div class="thrilly-bounce" style="font-size: 56px; line-height:1; margin-bottom:4px;">🍦</div>
+                            <div style="font-size: 28px; line-height:1; opacity:0.7; margin-top:-8px;">🎮</div>
+                        </div>
+                        <div class="absolute top-2.5 right-2.5 px-2 py-0.5 text-[9px] font-bold tracking-wider rounded bg-[#494a67]/80 backdrop-blur text-yellow-200 border border-white/10 uppercase">
+                            <i class="fa-solid fa-gamepad mr-1"></i>Mini Game
+                        </div>
+                    </div>
+                    <div class="p-4 flex-grow flex flex-col justify-between border-t border-white/5">
+                        <div>
+                            <h3 class="brand-font text-sm sm:text-base font-bold text-purple-950 tracking-tight transition-colors">🎮 Play With Thrilly</h3>
+                            <p class="text-[11px] sm:text-xs text-purple-900 line-clamp-2 mt-1 leading-relaxed font-light">Help Thrilly catch his friends</p>
+                        </div>
+                        <div class="mt-3 pt-2.5 border-t border-white/5 flex items-center text-xs font-semibold text-purple-950 group-hover:translate-x-1 transition-transform">
+                            Play Now <i class="fa-solid fa-chevron-right text-[10px] ml-1.5"></i>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </main>
 
@@ -500,6 +615,45 @@
                 Done Exploring
             </button>
         </div>
+        </div>
+    </div>
+
+    <!-- ══ THRILLY GAME OVERLAY ══ -->
+    <div id="thrilly-overlay">
+        <button id="thr-close-btn" onclick="closeThrilly()"><i class="fa-solid fa-xmark"></i></button>
+
+        <!-- Intro Screen -->
+        <div id="thr-intro">
+            <div style="font-size:72px; margin-bottom:12px;" class="thrilly-bounce">🍦</div>
+            <h1>THRILLY CATCH</h1>
+            <p class="thr-intro-sub">
+                Thrilly loves Thrills.<br>
+                But today… His friends escaped!<br><br>
+                Help Thrilly catch them all.<br>
+                Collect points. Have fun.
+            </p>
+            <button id="thr-start-btn" onclick="startThrillyGame()">▶ START GAME</button>
+        </div>
+
+        <!-- Game Screen -->
+        <div id="thr-game">
+            <div id="thr-hud">
+                <span id="thr-score-display">🍦 Score: 0</span>
+                <span id="thr-level-display">Level 1</span>
+            </div>
+            <div id="thr-canvas-wrap">
+                <canvas id="thr-canvas"></canvas>
+                <div id="thr-popup">
+                    <span id="thr-popup-emoji">🎉</span>
+                    <span id="thr-popup-msg">Thrilly is proud of you!</span>
+                </div>
+            </div>
+            <div id="thr-controls">
+                <button class="thr-btn" id="thr-btn-up"    onpointerdown="thrDir.up=1"    onpointerup="thrDir.up=0"    onpointerleave="thrDir.up=0">▲</button>
+                <button class="thr-btn" id="thr-btn-left"  onpointerdown="thrDir.left=1"  onpointerup="thrDir.left=0"  onpointerleave="thrDir.left=0">◀</button>
+                <button class="thr-btn" id="thr-btn-down"  onpointerdown="thrDir.down=1"  onpointerup="thrDir.down=0"  onpointerleave="thrDir.down=0">▼</button>
+                <button class="thr-btn" id="thr-btn-right" onpointerdown="thrDir.right=1" onpointerup="thrDir.right=0" onpointerleave="thrDir.right=0">▶</button>
+            </div>
         </div>
     </div>
 
@@ -1246,6 +1400,189 @@
                 }
             });
         })();
+        /* ══════════════════════════════════════
+           THRILLY CATCH — Mini Game
+        ══════════════════════════════════════ */
+        function openThrillyGame() {
+            const overlay = document.getElementById('thrilly-overlay');
+            document.getElementById('thr-intro').style.display = 'flex';
+            document.getElementById('thr-game').style.display = 'none';
+            overlay.classList.add('thr-active');
+            document.body.classList.add('lock-scroll');
+        }
+        function closeThrilly() {
+            document.getElementById('thrilly-overlay').classList.remove('thr-active');
+            document.body.classList.remove('lock-scroll');
+            thrStopGame();
+        }
+
+        /* ── Game State ── */
+        let thrAnimId = null;
+        let thrScore = 0;
+        let thrLastTime = 0;
+        let thrPopTimer = 0;
+        const thrDir = { up: 0, down: 0, left: 0, right: 0 };
+        const thrKeys = {};
+        const thrPlayer = { x: 0, y: 0, size: 28, speed: 150, emoji: '🍦' };
+        const thrFriends = [];
+        const thrFriendEmojis = ['🍭','🧁','🍩','🎀','⭐','🌈','🎈','🍫'];
+        const thrCelebMsgs = [
+            ['🎉', 'Thrilly is proud of you!'],
+            ['🚀', 'You are fast!'],
+            ['😎', 'You caught everyone!'],
+            ['🔥', 'Awesome catch!'],
+            ['💪', 'Too good, Thrilly!'],
+            ['🌟', 'Superstar catcher!'],
+        ];
+
+        function thrStopGame() {
+            if (thrAnimId) { cancelAnimationFrame(thrAnimId); thrAnimId = null; }
+        }
+
+        function startThrillyGame() {
+            document.getElementById('thr-intro').style.display = 'none';
+            const gameEl = document.getElementById('thr-game');
+            gameEl.style.display = 'flex';
+
+            thrStopGame();
+            thrScore = 0;
+            thrPopTimer = 0;
+            Object.assign(thrDir, { up:0, down:0, left:0, right:0 });
+
+            const canvas = document.getElementById('thr-canvas');
+            const wrap = document.getElementById('thr-canvas-wrap');
+            canvas.width  = wrap.clientWidth  || 380;
+            canvas.height = wrap.clientHeight || 340;
+
+            thrPlayer.x = canvas.width / 2;
+            thrPlayer.y = canvas.height / 2;
+
+            thrFriends.length = 0;
+            for (let i = 0; i < 4; i++) thrSpawnFriend(canvas);
+
+            thrUpdateHUD();
+            thrLastTime = performance.now();
+            thrAnimId = requestAnimationFrame(thrLoop);
+        }
+
+        function thrSpawnFriend(canvas) {
+            const margin = 30;
+            thrFriends.push({
+                x: margin + Math.random() * (canvas.width  - margin * 2),
+                y: margin + Math.random() * (canvas.height - margin * 2),
+                vx: (Math.random() < 0.5 ? 1 : -1) * (40 + Math.random() * 60),
+                vy: (Math.random() < 0.5 ? 1 : -1) * (40 + Math.random() * 60),
+                size: 22,
+                emoji: thrFriendEmojis[Math.floor(Math.random() * thrFriendEmojis.length)]
+            });
+        }
+
+        function thrLoop(now) {
+            const dt = Math.min((now - thrLastTime) / 1000, 0.05);
+            thrLastTime = now;
+            const canvas = document.getElementById('thr-canvas');
+            const ctx = canvas.getContext('2d');
+
+            // Resize if needed
+            const wrap = document.getElementById('thr-canvas-wrap');
+            if (canvas.width !== wrap.clientWidth || canvas.height !== wrap.clientHeight) {
+                canvas.width  = wrap.clientWidth;
+                canvas.height = wrap.clientHeight;
+            }
+
+            // Move player
+            let dx = 0, dy = 0;
+            if (thrDir.up    || thrKeys['ArrowUp']    || thrKeys['w']) dy -= 1;
+            if (thrDir.down  || thrKeys['ArrowDown']  || thrKeys['s']) dy += 1;
+            if (thrDir.left  || thrKeys['ArrowLeft']  || thrKeys['a']) dx -= 1;
+            if (thrDir.right || thrKeys['ArrowRight'] || thrKeys['d']) dx += 1;
+            if (dx !== 0 && dy !== 0) { dx *= 0.707; dy *= 0.707; }
+            thrPlayer.x = Math.max(thrPlayer.size, Math.min(canvas.width  - thrPlayer.size, thrPlayer.x + dx * thrPlayer.speed * dt));
+            thrPlayer.y = Math.max(thrPlayer.size, Math.min(canvas.height - thrPlayer.size, thrPlayer.y + dy * thrPlayer.speed * dt));
+
+            // Move friends
+            for (const f of thrFriends) {
+                f.x += f.vx * dt;
+                f.y += f.vy * dt;
+                if (f.x < f.size)               { f.x = f.size;                f.vx *= -1; }
+                if (f.x > canvas.width - f.size) { f.x = canvas.width - f.size; f.vx *= -1; }
+                if (f.y < f.size)                { f.y = f.size;                f.vy *= -1; }
+                if (f.y > canvas.height-f.size)  { f.y = canvas.height-f.size; f.vy *= -1; }
+            }
+
+            // Collision detection
+            for (let i = thrFriends.length - 1; i >= 0; i--) {
+                const f = thrFriends[i];
+                const dist = Math.hypot(thrPlayer.x - f.x, thrPlayer.y - f.y);
+                if (dist < thrPlayer.size * 0.9 + f.size * 0.9) {
+                    thrFriends.splice(i, 1);
+                    thrScore++;
+                    thrUpdateHUD();
+                    thrSpawnFriend(canvas);
+                    // Milestone celebrations
+                    if (thrScore % 5 === 0) {
+                        const msg = thrCelebMsgs[Math.floor(Math.random() * thrCelebMsgs.length)];
+                        thrShowPopup(msg[0], msg[1]);
+                    }
+                    if (thrScore >= 10) {
+                        thrShowPopup('🏆', 'More levels coming soon!');
+                    }
+                }
+            }
+
+            // Popup timer
+            if (thrPopTimer > 0) {
+                thrPopTimer -= dt;
+                if (thrPopTimer <= 0) thrHidePopup();
+            }
+
+            // Draw
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Background dots
+            ctx.fillStyle = 'rgba(255,255,255,0.03)';
+            for (let gx = 20; gx < canvas.width; gx += 40)
+                for (let gy = 20; gy < canvas.height; gy += 40)
+                    { ctx.beginPath(); ctx.arc(gx, gy, 2, 0, Math.PI * 2); ctx.fill(); }
+
+            // Draw friends
+            ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+            for (const f of thrFriends) {
+                ctx.font = `${f.size * 1.5}px serif`;
+                ctx.globalAlpha = 1;
+                ctx.fillText(f.emoji, f.x, f.y);
+            }
+
+            // Draw player
+            ctx.font = `${thrPlayer.size * 1.8}px serif`;
+            ctx.globalAlpha = 1;
+            ctx.fillText(thrPlayer.emoji, thrPlayer.x, thrPlayer.y);
+
+            thrAnimId = requestAnimationFrame(thrLoop);
+        }
+
+        function thrUpdateHUD() {
+            document.getElementById('thr-score-display').textContent = `🍦 Score: ${thrScore}`;
+        }
+
+        function thrShowPopup(emoji, msg) {
+            document.getElementById('thr-popup-emoji').textContent = emoji;
+            document.getElementById('thr-popup-msg').textContent   = msg;
+            document.getElementById('thr-popup').classList.add('thr-pop-show');
+            thrPopTimer = 2.2;
+        }
+        function thrHidePopup() {
+            document.getElementById('thr-popup').classList.remove('thr-pop-show');
+        }
+
+        /* Keyboard controls */
+        document.addEventListener('keydown', e => {
+            thrKeys[e.key] = true;
+        });
+        document.addEventListener('keyup', e => {
+            thrKeys[e.key] = false;
+        });
+
     </script>
 </body>
 </html>
