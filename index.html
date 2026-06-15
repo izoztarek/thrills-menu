@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -183,27 +182,26 @@
             75% { transform: translateY(-4px) rotate(3deg); }
         }
         
-        .thrilly-floating-btn {
-            position: fixed;
-            top: 20px;
-            right: 20px;
+        /* Thrilly inline button (under logo, NOT fixed) */
+        #thrilly-inline-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
             background: #e7b5c5;
             color: #494a67;
             border-radius: 16px;
-            padding: 10px 14px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            z-index: 90;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            padding: 10px 18px;
             cursor: pointer;
+            border: 2px solid rgba(255,255,255,0.25);
+            box-shadow: 0 4px 18px rgba(0,0,0,0.18);
             animation: floatWiggle 4s ease-in-out infinite;
             transition: transform 0.2s ease, box-shadow 0.2s ease;
-            border: 2px solid rgba(255,255,255,0.2);
+            margin-top: 14px;
+            text-decoration: none;
         }
-        .thrilly-floating-btn:hover {
-            transform: scale(1.05) translateY(-5px);
-            box-shadow: 0 0 20px rgba(255,255,255,0.4);
+        #thrilly-inline-btn:hover {
+            transform: scale(1.06) translateY(-4px);
+            box-shadow: 0 0 22px rgba(255,255,255,0.35);
             animation-play-state: paused;
         }
         .thrilly-floating-icon {
@@ -410,14 +408,6 @@
 </head>
 <body class="antialiased selection:bg-yellow-200 selection:text-purple-950">
 
-    <div class="thrilly-floating-btn" onclick="openThrillyGame()">
-        <img src="thrilly-head.webp" class="thrilly-floating-icon" alt="Thrilly">
-        <div class="thrilly-floating-text">
-            <span class="thrilly-floating-title">PLAY WITH THRILLY</span>
-            <span class="thrilly-floating-sub">Can you beat the maze?</span>
-        </div>
-    </div>
-
     <div class="relative z-10 min-h-screen flex flex-col max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         
         <header class="w-full flex flex-col items-center justify-center pt-6 pb-6 border-b border-white/10 mb-8">
@@ -428,6 +418,14 @@
                 Feel the chill, love the thrill
             </h1>
             <p class="text-xs tracking-[0.2em] font-medium text-purple-200/60 uppercase mt-1">Refined Dessert Architecture</p>
+            <!-- Thrilly inline mascot button — scrolls with page, NOT fixed -->
+            <div id="thrilly-inline-btn" onclick="openThrillyGame()">
+                <img src="thrilly-head.webp" class="thrilly-floating-icon" alt="Thrilly" onerror="this.style.fontSize='28px';this.outerHTML='<span style=\'font-size:28px\'>🍦</span>'">
+                <div class="thrilly-floating-text">
+                    <span class="thrilly-floating-title">PLAY WITH THRILLY</span>
+                    <span class="thrilly-floating-sub">Can you beat the maze?</span>
+                </div>
+            </div>
         </header>
 
         <main class="flex-grow">
@@ -612,6 +610,16 @@
                 
                 <div id="live-selection-reporter" class="mt-4 w-full max-w-[240px] text-center bg-black/40 border border-white/10 p-3 rounded-xl text-xs font-mono space-y-1 text-yellow-100 hidden"></div>
 
+                <!-- Live Price Card -->
+                <div id="live-price-card" class="hidden mt-3 w-full max-w-[240px] bg-[#e7b5c5] border border-white/20 rounded-xl p-3 text-[#494a67] font-bold text-xs">
+                    <div class="flex justify-between mb-1"><span>Base</span><span id="price-base">— EGP</span></div>
+                    <div class="flex justify-between mb-1"><span>Coating</span><span id="price-coating">— EGP</span></div>
+                    <div class="flex justify-between mb-2"><span>Filling</span><span id="price-filling">— EGP</span></div>
+                    <div class="flex justify-between border-t border-[#494a67]/30 pt-2 text-sm">
+                        <span>Total</span><span id="price-total" class="text-[#494a67]">— EGP</span>
+                    </div>
+                </div>
+
                 <p id="builder-instruction" class="text-center text-xs text-purple-200 font-medium px-4 mt-4 bg-[#494a67]/60 py-1.5 px-3 rounded-full border border-white/5">Select structural core parameter</p>
             </div>
 
@@ -672,7 +680,10 @@
 
         <div id="thr-game">
             <div id="thr-hud">
-                <span id="thr-score-display">⭐ 0 / 0</span>
+                <div style="display:flex;align-items:center;gap:7px;">
+                    <img src="thrilly-head.webp" style="width:28px;height:28px;object-fit:contain;border-radius:50%;border:1.5px solid rgba(231,181,197,0.4);" onerror="this.style.display='none'">
+                    <span id="thr-score-display">⭐ 0 / 0</span>
+                </div>
                 <span id="thr-level-display">Level 1</span>
             </div>
             <div id="thr-canvas-wrap">
@@ -849,13 +860,16 @@
             window.addEventListener("scroll", calculateSynchronizedFocus, { passive: true });
         });
 
+        // Live pricing state
+        const icePrices = { base: 0, coating: 0, inner: 0 };
+
         const iceCreamDataSet = {
             step1: [
-                { id: "v", name: "Vanilla Core", file: "images/base/vanilla.webp" },
-                { id: "c", name: "Chocolate Core", file: "images/base/chocolate.webp" },
-                { id: "s", name: "Strawberry Core", file: "images/base/strawberry.webp" },
-                { id: "p", name: "Pistachio Core", file: "images/base/pistachio.webp" },
-                { id: "h", name: "Hazelnut Core", file: "images/base/hazelnut.webp" }
+                { id: "v", name: "Vanilla Core", file: "images/base/vanilla.webp", price: 35 },
+                { id: "c", name: "Chocolate Core", file: "images/base/chocolate.webp", price: 35 },
+                { id: "s", name: "Strawberry Core", file: "images/base/strawberry.webp", price: 35 },
+                { id: "p", name: "Pistachio Core", file: "images/base/pistachio.webp", price: 40 },
+                { id: "h", name: "Hazelnut Core", file: "images/base/hazelnut.webp", price: 40 }
             ],
             step2: [
                 { id: "milk", name: "Milk Chocolate", file: "images/type/milk.webp" },
@@ -864,25 +878,25 @@
             ],
             step3: {
                 milk: [
-                    { id: "m_plain", name: "Classic Milk", file: "images/coating/milk_plain.webp" },
-                    { id: "m_pistachio", name: "Milk Pistachio Crunch", file: "images/coating/milk_pistachio.webp" }
+                    { id: "m_plain", name: "Classic Milk", file: "images/coating/milk_plain.webp", price: 10 },
+                    { id: "m_pistachio", name: "Milk Pistachio Crunch", file: "images/coating/milk_pistachio.webp", price: 15 }
                 ],
                 dark: [
-                    { id: "d_plain", name: "Classic Dark", file: "images/coating/dark_plain.webp" },
-                    { id: "d_pistachio", name: "Dark Pistachio Crunch", file: "images/coating/dark_pistachio.webp" }
+                    { id: "d_plain", name: "Classic Dark", file: "images/coating/dark_plain.webp", price: 10 },
+                    { id: "d_pistachio", name: "Dark Pistachio Crunch", file: "images/coating/dark_pistachio.webp", price: 15 }
                 ],
                 white: [
-                    { id: "w_plain", name: "Classic White", file: "images/coating/white_plain.webp" },
-                    { id: "w_pistachio", name: "White Pistachio Crunch", file: "images/coating/white_pistachio.webp" }
+                    { id: "w_plain", name: "Classic White", file: "images/coating/white_plain.webp", price: 10 },
+                    { id: "w_pistachio", name: "White Pistachio Crunch", file: "images/coating/white_pistachio.webp", price: 15 }
                 ]
             },
             step4: [
-                { id: "f_choc", name: "Belgian Chocolate injection", file: "images/filling/chocolate.webp" },
-                { id: "f_lotus", name: "Lotus Biscoff Cream", file: "images/filling/lotus.webp" },
-                { id: "f_cara", name: "Salted Liquid Caramel", file: "images/filling/caramel.webp" },
-                { id: "f_pist", name: "Premium Pistachio Spread", file: "images/filling/pistachio.webp" },
-                { id: "f_hazel", name: "Roasted Hazelnut Praline", file: "images/filling/hazelnut.webp" },
-                { id: "f_straw", name: "Artisanal Strawberry Coulis", file: "images/filling/strawberry.webp" }
+                { id: "f_choc", name: "Belgian Chocolate injection", file: "images/filling/chocolate.webp", price: 10 },
+                { id: "f_lotus", name: "Lotus Biscoff Cream", file: "images/filling/lotus.webp", price: 12 },
+                { id: "f_cara", name: "Salted Liquid Caramel", file: "images/filling/caramel.webp", price: 10 },
+                { id: "f_pist", name: "Premium Pistachio Spread", file: "images/filling/pistachio.webp", price: 15 },
+                { id: "f_hazel", name: "Roasted Hazelnut Praline", file: "images/filling/hazelnut.webp", price: 12 },
+                { id: "f_straw", name: "Artisanal Strawberry Coulis", file: "images/filling/strawberry.webp", price: 10 }
             ]
         };
 
@@ -948,11 +962,11 @@
             DOM.viewerTitle.innerText = "Ice Cream Laboratory";
             DOM.viewerGalleryContainer.innerHTML = "";
             
-            const icImgs = ["base-bg.webp"];
+            const icImgs = ["assets/icecream/icecream-menu1.webp", "assets/icecream/icecream-menu2.webp", "assets/icecream/icecream-menu3.webp"];
             icImgs.forEach((src, i) => {
                 const node = document.createElement("div");
                 node.className = "w-full rounded-2xl overflow-hidden border border-white/5 bg-[#494a67]/40 p-2 img-loading-placeholder";
-                node.innerHTML = `<img src="${src}" alt="Ice Cream option ${i+1}" class="w-full h-auto object-contain rounded-xl opacity-95 transition-opacity duration-300 zoomable-gallery-img" loading="lazy" onload="this.parentElement.classList.remove('img-loading-placeholder')" onclick="openImageZoom(this.src)" onerror="this.src='base-bg.webp'">`;
+                node.innerHTML = `<img src="${src}" alt="Ice Cream option ${i+1}" class="w-full h-auto object-contain rounded-xl opacity-95 transition-opacity duration-300 zoomable-gallery-img" loading="lazy" onload="this.parentElement.classList.remove('img-loading-placeholder')" onclick="openImageZoom(this.src)" onerror="this.parentElement.style.display='none'">`;
                 DOM.viewerGalleryContainer.appendChild(node);
             });
             
@@ -965,11 +979,32 @@
             DOM.viewerTitle.innerText = title;
             DOM.viewerGalleryContainer.innerHTML = "";
             
-            for (let i = 1; i <= count; i++) {
-                const node = document.createElement("div");
-                node.className = "w-full rounded-2xl overflow-hidden border border-white/5 bg-[#494a67]/40 p-2 img-loading-placeholder";
-                node.innerHTML = `<img src="assets/${folder}/${folder}${i}.webp" alt="${title} option ${i}" class="w-full h-auto object-contain rounded-xl opacity-95 transition-opacity duration-300 zoomable-gallery-img" loading="lazy" onload="this.parentElement.classList.remove('img-loading-placeholder')" onclick="openImageZoom(this.src)" onerror="this.src='base-bg.webp'">`;
-                DOM.viewerGalleryContainer.appendChild(node);
+            // Use menu-specific images (not the homepage thumbnail image)
+            const menuImageMap = {
+                'mini':      ['assets/mini/mini-menu1.webp','assets/mini/mini-menu2.webp','assets/mini/mini-menu3.webp'],
+                'v60':       ['assets/v60/v60-menu1.webp','assets/v60/v60-menu2.webp','assets/v60/v60-menu3.webp'],
+                'coldbrew':  ['assets/coldbrew/coldbrew-menu1.webp','assets/coldbrew/coldbrew-menu2.webp','assets/coldbrew/coldbrew-menu3.webp'],
+                'matcha':    ['assets/matcha/matcha-menu1.webp','assets/matcha/matcha-menu2.webp','assets/matcha/matcha-menu3.webp'],
+                'waffle':    ['assets/waffle/waffle-menu1.webp','assets/waffle/waffle-menu2.webp','assets/waffle/waffle-menu3.webp'],
+                'milkshake': ['assets/milkshake/milkshake-menu1.webp','assets/milkshake/milkshake-menu2.webp','assets/milkshake/milkshake-menu3.webp'],
+                'special':   ['assets/special/special-menu1.webp','assets/special/special-menu2.webp','assets/special/special-menu3.webp']
+            };
+            
+            const imgs = menuImageMap[folder] || [];
+            if (imgs.length > 0) {
+                imgs.forEach((src, i) => {
+                    const node = document.createElement("div");
+                    node.className = "w-full rounded-2xl overflow-hidden border border-white/5 bg-[#494a67]/40 p-2 img-loading-placeholder";
+                    node.innerHTML = `<img src="${src}" alt="${title} option ${i+1}" class="w-full h-auto object-contain rounded-xl opacity-95 transition-opacity duration-300 zoomable-gallery-img" loading="lazy" onload="this.parentElement.classList.remove('img-loading-placeholder')" onclick="openImageZoom(this.src)" onerror="this.parentElement.style.display='none'">`;
+                    DOM.viewerGalleryContainer.appendChild(node);
+                });
+            } else {
+                for (let i = 1; i <= count; i++) {
+                    const node = document.createElement("div");
+                    node.className = "w-full rounded-2xl overflow-hidden border border-white/5 bg-[#494a67]/40 p-2 img-loading-placeholder";
+                    node.innerHTML = `<img src="assets/${folder}/${folder}${i}.webp" alt="${title} option ${i}" class="w-full h-auto object-contain rounded-xl opacity-95 transition-opacity duration-300 zoomable-gallery-img" loading="lazy" onload="this.parentElement.classList.remove('img-loading-placeholder')" onclick="openImageZoom(this.src)" onerror="this.parentElement.style.display='none'">`;
+                    DOM.viewerGalleryContainer.appendChild(node);
+                }
             }
             
             DOM.viewerOverlay.classList.remove("invisible", "opacity-0");
@@ -987,6 +1022,8 @@
             totalStepsCount = 4;
             
             selectionsCache = { base: null, type: null, coating: null, inner: null };
+            icePrices.base = 0; icePrices.coating = 0; icePrices.inner = 0;
+            document.getElementById('live-price-card').classList.add('hidden');
             
             DOM.layerBase.src = ""; DOM.layerBase.classList.add("opacity-0");
             DOM.layerCoating.src = ""; DOM.layerCoating.classList.add("opacity-0");
@@ -1005,6 +1042,7 @@
             DOM.builderStepIndicator.innerText = `Step ${currentStep} of ${totalStepsCount}`;
             DOM.nextBtn.disabled = true;
             updateLiveReporter();
+            updateLivePrice();
 
             if (currentStep === 1) {
                 DOM.panelTitle.innerText = "Select Structural Ice Cream Core Base";
@@ -1112,6 +1150,21 @@
             }
         }
 
+        function updateLivePrice() {
+            if (builderMode !== "icecream") return;
+            const card = document.getElementById('live-price-card');
+            const basePrice = selectionsCache.base ? selectionsCache.base.price : null;
+            const coatPrice = selectionsCache.coating ? selectionsCache.coating.price : null;
+            const fillPrice = selectionsCache.inner ? selectionsCache.inner.price : null;
+            if (!basePrice && !coatPrice && !fillPrice) { card.classList.add('hidden'); return; }
+            card.classList.remove('hidden');
+            document.getElementById('price-base').innerText    = basePrice  ? `${basePrice} EGP`  : '— EGP';
+            document.getElementById('price-coating').innerText = coatPrice  ? `+${coatPrice} EGP` : '— EGP';
+            document.getElementById('price-filling').innerText = fillPrice  ? `+${fillPrice} EGP` : '— EGP';
+            const total = (basePrice||0) + (coatPrice||0) + (fillPrice||0);
+            document.getElementById('price-total').innerText   = total > 0 ? `${total} EGP` : '— EGP';
+        }
+
         function openMilkshakeBuilder() {
             builderMode = "milkshake";
             milkshakeState = { step: 1, base: null, category: null, mixSubStep: 1, selectedChocolates: [], selectedFruits: [] };
@@ -1123,6 +1176,7 @@
             DOM.layerCoating.classList.add("opacity-0");
             DOM.layerInner.classList.add("opacity-0");
             DOM.liveSelectionReporter.classList.add("hidden");
+            document.getElementById('live-price-card').classList.add('hidden');
             
             renderMilkshakeStep();
             DOM.unifiedBuilder.classList.remove("invisible", "opacity-0");
@@ -1230,6 +1284,7 @@
             DOM.layerCoating.classList.add("opacity-0");
             DOM.layerInner.classList.add("opacity-0");
             DOM.liveSelectionReporter.classList.add("hidden");
+            document.getElementById('live-price-card').classList.add('hidden');
             
             renderWaffleStep();
             DOM.unifiedBuilder.classList.remove("invisible", "opacity-0");
@@ -1321,12 +1376,14 @@
             let htmlSummary = "";
             
             if (builderMode === "icecream") {
+                const totalP = (selectionsCache.base?.price||0) + (selectionsCache.coating?.price||0) + (selectionsCache.inner?.price||0);
                 htmlSummary = `
                     <div class="space-y-2 uppercase text-xs tracking-wider text-left max-w-xs mx-auto text-purple-950 font-bold p-2 bg-[#e7b5c5] rounded-xl border border-white/20">
                         <div class="flex justify-between border-b border-purple-950/20 pb-1"><span>[CORE BASE]:</span> <span class="text-[#494a67]">${selectionsCache.base.name}</span></div>
                         <div class="flex justify-between border-b border-purple-950/20 pb-1"><span>[SHELL CLASSIFICATION]:</span> <span class="text-[#494a67]">${selectionsCache.type.name}</span></div>
                         <div class="flex justify-between border-b border-purple-950/20 pb-1"><span>[TOPOGRAPHIC COAT]:</span> <span class="text-[#494a67]">${selectionsCache.coating.name}</span></div>
-                        <div class="flex justify-between pt-1"><span>[FLUID INJECTION]:</span> <span class="text-[#494a67]">${selectionsCache.inner.name}</span></div>
+                        <div class="flex justify-between border-b border-purple-950/20 pb-1"><span>[FLUID INJECTION]:</span> <span class="text-[#494a67]">${selectionsCache.inner.name}</span></div>
+                        <div class="flex justify-between pt-1 text-sm border-t-2 border-purple-950/30"><span>💰 TOTAL PRICE</span> <span class="text-[#494a67]">${totalP} EGP</span></div>
                     </div>
                 `;
             } 
@@ -1441,7 +1498,7 @@
            THRILLY MAZE — Mini Game
         ══════════════════════════════════════ */
         const thrImages = {};
-        const toLoad = ['thrilly.webp', 'star.webp', 'exit.webp', 'wall.webp', 'trap.webp', 'door.webp', 'strawberry.webp', 'oreo.webp', 'lotus.webp'];
+        const toLoad = ['thrilly.webp', 'star.webp', 'exit.webp', 'wall.webp', 'trap.webp', 'door.webp', 'strawberry.webp', 'oreo.webp', 'lotus.webp', 'matcha.webp', 'vanilla.webp'];
         toLoad.forEach(src => {
             const img = new Image();
             img.src = src;
@@ -1469,62 +1526,122 @@
         let starsData = [];
 
         const levels = [
+            // LEVEL 1 — Save Strawberry. Easy. Clear path top-right.
             {
+                friendName: 'STRAWBERRY',
                 friend: 'strawberry.webp',
                 stars: 1,
+                story: 'Strawberry got lost first...',
                 grid: [
                     [1,1,1,1,1,1,1,1,1,1,1],
-                    [1,0,0,0,0,0,0,0,2,0,1],
+                    [1,0,0,0,0,0,0,0,0,0,1],
                     [1,0,1,1,1,1,1,1,1,0,1],
-                    [1,0,1,0,0,0,0,0,0,0,1],
-                    [1,0,1,0,1,1,1,1,1,1,1],
-                    [1,0,0,0,1,0,0,0,0,0,1],
-                    [1,1,1,1,1,0,1,1,1,0,1],
-                    [1,0,0,0,0,0,1,5,1,0,1],
-                    [1,0,1,1,1,1,1,0,1,0,1],
-                    [1,0,0,0,0,0,0,0,1,0,1],
+                    [1,0,1,2,0,0,0,0,1,0,1],
+                    [1,0,1,0,1,1,1,0,1,0,1],
+                    [1,0,1,0,1,0,0,0,1,0,1],
+                    [1,0,1,0,1,0,1,1,1,0,1],
+                    [1,0,0,0,0,0,0,5,0,0,1],
+                    [1,1,1,1,1,1,1,0,1,1,1],
+                    [1,0,0,0,0,0,0,0,0,0,1],
                     [1,1,1,1,1,1,1,1,1,1,1]
                 ],
                 startXY: {c:1, r:9},
                 moving: []
             },
+            // LEVEL 2 — Save Oreo. Medium. 2 stars, one moving wall.
             {
+                friendName: 'OREO',
                 friend: 'oreo.webp',
                 stars: 2,
+                story: 'Oreo hid deeper inside...',
                 grid: [
                     [1,1,1,1,1,1,1,1,1,1,1],
-                    [1,0,0,1,2,0,0,0,0,0,1],
-                    [1,0,0,1,1,1,1,1,1,0,1],
-                    [1,0,0,0,0,0,0,0,1,0,1],
-                    [1,1,1,1,1,0,1,0,1,0,1],
-                    [1,2,0,0,1,0,1,0,1,0,1],
-                    [1,1,1,0,1,0,1,0,1,0,1],
-                    [1,0,0,0,0,0,1,0,0,0,1],
-                    [1,0,1,1,1,1,1,1,1,0,1],
-                    [1,0,0,0,0,0,0,0,5,0,1],
-                    [1,1,1,1,1,1,1,1,1,1,1]
-                ],
-                startXY: {c:1, r:9},
-                moving: [ { c: 2, r: 3, w: 1, h: 1, vx: 2, minC: 2, maxC: 7 } ]
-            },
-            {
-                friend: 'lotus.webp',
-                stars: 3,
-                grid: [
-                    [1,1,1,1,1,1,1,1,1,1,1],
-                    [1,0,0,3,2,0,0,3,2,0,1],
-                    [1,0,1,1,1,1,1,1,1,0,1],
+                    [1,0,0,0,2,0,0,0,0,0,1],
+                    [1,0,1,1,0,1,1,1,1,0,1],
                     [1,0,1,0,0,0,0,0,1,0,1],
                     [1,0,1,0,1,1,1,0,1,0,1],
-                    [1,0,1,0,1,2,1,0,1,0,1],
-                    [1,0,1,0,1,4,1,0,1,0,1],
-                    [1,0,1,0,1,5,1,0,1,0,1],
-                    [1,0,1,0,1,1,1,0,1,0,1],
+                    [1,2,0,0,0,0,1,0,0,0,1],
+                    [1,1,1,1,1,0,1,1,1,1,1],
                     [1,0,0,0,0,0,0,0,0,0,1],
+                    [1,0,1,1,1,1,1,1,1,0,1],
+                    [1,0,0,5,0,0,0,0,0,0,1],
                     [1,1,1,1,1,1,1,1,1,1,1]
                 ],
-                startXY: {c:1, r:9},
-                moving: [ { c: 1, r: 3, w: 1, h: 1, vx: 3, minC: 1, maxC: 7 } ]
+                startXY: {c:9, r:9},
+                moving: [ { c: 3, r: 7, vx: 2.5, minC: 1, maxC: 7 } ]
+            },
+            // LEVEL 3 — Save Lotus. Hard. 3 stars, locked door (4), 1 trap (3).
+            {
+                friendName: 'LOTUS',
+                friend: 'lotus.webp',
+                stars: 3,
+                story: 'Lotus is locked behind a door...',
+                grid: [
+                    [1,1,1,1,1,1,1,1,1,1,1],
+                    [1,0,0,2,0,0,0,2,0,0,1],
+                    [1,0,1,0,1,1,0,1,1,0,1],
+                    [1,0,0,0,0,1,0,0,0,0,1],
+                    [1,1,1,1,0,1,0,1,1,1,1],
+                    [1,0,0,0,0,0,0,0,0,2,1],
+                    [1,0,1,1,1,3,1,1,1,0,1],
+                    [1,0,0,0,1,0,1,0,0,0,1],
+                    [1,1,1,0,1,4,1,0,1,1,1],
+                    [1,0,0,0,0,5,0,0,0,0,1],
+                    [1,1,1,1,1,1,1,1,1,1,1]
+                ],
+                startXY: {c:1, r:3},
+                moving: [ { c: 2, r: 7, vx: 2, minC: 1, maxC: 3 } ]
+            },
+            // LEVEL 4 — Save Matcha. Very Hard. 4 stars, 2 traps, 2 moving walls.
+            {
+                friendName: 'MATCHA',
+                friend: 'matcha.webp',
+                stars: 4,
+                story: 'Matcha escaped to the deep maze...',
+                grid: [
+                    [1,1,1,1,1,1,1,1,1,1,1],
+                    [1,0,2,0,1,0,0,0,2,0,1],
+                    [1,0,1,0,1,0,1,0,1,1,1],
+                    [1,0,1,0,0,0,1,0,0,0,1],
+                    [1,0,1,1,1,3,1,1,1,0,1],
+                    [1,0,0,0,0,0,0,0,0,0,1],
+                    [1,1,1,1,1,0,1,1,3,1,1],
+                    [1,2,0,0,1,0,1,0,2,0,1],
+                    [1,0,1,0,0,0,1,0,1,1,1],
+                    [1,0,0,0,1,0,5,0,0,0,1],
+                    [1,1,1,1,1,1,1,1,1,1,1]
+                ],
+                startXY: {c:1, r:1},
+                moving: [
+                    { c: 3, r: 5, vx: 3, minC: 1, maxC: 4 },
+                    { c: 7, r: 3, vx: -2, minC: 6, maxC: 9 }
+                ]
+            },
+            // LEVEL 5 — Save Vanilla. Crazy Mode. 5 stars, 3 traps, 3 moving walls, locked door.
+            {
+                friendName: 'VANILLA',
+                friend: 'vanilla.webp',
+                stars: 5,
+                story: 'Vanilla is in the heart of chaos!',
+                grid: [
+                    [1,1,1,1,1,1,1,1,1,1,1],
+                    [1,0,0,2,1,0,2,0,0,0,1],
+                    [1,0,1,0,1,0,1,1,1,0,1],
+                    [1,2,1,0,0,0,0,0,1,2,1],
+                    [1,0,1,1,3,1,3,1,1,0,1],
+                    [1,0,0,0,0,0,0,0,0,0,1],
+                    [1,1,3,1,1,0,1,1,0,1,1],
+                    [1,0,0,0,1,0,1,0,2,0,1],
+                    [1,0,1,0,0,4,0,0,1,0,1],
+                    [1,0,0,0,1,5,1,0,0,0,1],
+                    [1,1,1,1,1,1,1,1,1,1,1]
+                ],
+                startXY: {c:9, r:1},
+                moving: [
+                    { c: 1, r: 2, vx: 3, minC: 1, maxC: 3 },
+                    { c: 7, r: 6, vx: -2.5, minC: 5, maxC: 8 },
+                    { c: 4, r: 3, vx: 2, minC: 3, maxC: 7 }
+                ]
             }
         ];
 
@@ -1586,8 +1703,6 @@
             thrPlayer.x = lvl.startXY.c * thrTileSize + (thrTileSize - thrPlayer.w)/2;
             thrPlayer.y = lvl.startXY.r * thrTileSize + (thrTileSize - thrPlayer.h)/2;
             thrStarsCollected = 0;
-            
-            document.getElementById('thr-level-display').innerText = `Level ${idx + 1}`;
             thrUpdateHUD();
 
             thrStopGame();
@@ -1598,6 +1713,7 @@
         function thrUpdateHUD() {
             const lvl = levels[thrLevelIndex];
             document.getElementById('thr-score-display').innerText = `⭐ ${thrStarsCollected} / ${lvl.stars}`;
+            document.getElementById('thr-level-display').innerText = `Lv.${thrLevelIndex+1} • Save ${lvl.friendName}`;
         }
 
         function rectIntersect(x1, y1, w1, h1, x2, y2, w2, h2) {
@@ -1672,16 +1788,17 @@
         function thrWinLevel() {
             isGamePaused = true;
             thrStopGame();
-            const friend = levels[thrLevelIndex].friend;
-            const friendName = friend.replace('.webp','').toUpperCase();
+            const lvl = levels[thrLevelIndex];
+            const friendName = lvl.friendName || lvl.friend.replace('.webp','').toUpperCase();
             
-            if (thrLevelIndex === levels.length - 1) {
+            if (thrLevelIndex >= levels.length - 1) {
                 document.getElementById('thr-popup-emoji').innerText = '🏆';
-                document.getElementById('thr-popup-msg').innerHTML = 'YOU BEAT THRILLY MAZE<br><span style="font-size:0.8em;opacity:0.8">You are officially</span><br>THRILLS MASTER';
-                document.getElementById('thr-popup-continue').innerText = 'Play Again';
+                document.getElementById('thr-popup-msg').innerHTML = 'YOU SAVED EVERYONE<br><span style="font-size:0.85em;color:#494a67;opacity:0.9">YOU ARE</span><br>THRILLS MASTER';
+                document.getElementById('thr-popup-continue').innerText = '▶ Play Again';
             } else {
-                document.getElementById('thr-popup-emoji').innerText = '🏆';
-                document.getElementById('thr-popup-msg').innerHTML = `YOU SAVED ${friendName}<br><span style="font-size:0.8em;opacity:0.8">Amazing Job</span>`;
+                const nextLvl = levels[thrLevelIndex + 1];
+                document.getElementById('thr-popup-emoji').innerText = '🎉';
+                document.getElementById('thr-popup-msg').innerHTML = `YOU SAVED ${friendName}!<br><span style="font-size:0.75em;opacity:0.85">Next: Save ${nextLvl.friendName}</span><br><span style="font-size:0.7em;font-style:italic;opacity:0.7">${nextLvl.story}</span>`;
                 document.getElementById('thr-popup-continue').innerText = 'Continue →';
             }
             document.getElementById('thr-popup').classList.add('thr-pop-show');
@@ -1850,5 +1967,3 @@
     </script>
 </body>
 </html>
-
-```
