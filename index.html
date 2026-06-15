@@ -1,14 +1,12 @@
-إليك الكود الكامل لملف `index.html` بناءً على الملف الذي قمت برَفعه، بدون حذف أو نسيان أي جزء من الأكواد البرمجية، الأنماط (CSS)، أو السكربتات (JavaScript):
-
 ```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="shortcut icon" href="/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <link rel="manifest" href="/site.webmanifest" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="shortcut icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+<link rel="manifest" href="/site.webmanifest" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Thrills - Premium Dessert Menu</title>
@@ -177,17 +175,57 @@
             transform: scale(1.03);
         }
         
-        /* ── Thrilly Game ── */
-        @keyframes thrilly-bounce {
-            0%, 100% { transform: translateY(0) scale(1); }
-            50% { transform: translateY(-8px) scale(1.08); }
+        /* ── Thrilly Game Elements ── */
+        @keyframes floatWiggle {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-8px) rotate(-3deg); }
+            50% { transform: translateY(0) rotate(0deg); }
+            75% { transform: translateY(-4px) rotate(3deg); }
         }
-        @keyframes thrilly-card-pulse {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(231,181,197,0); }
-            50% { box-shadow: 0 0 18px 4px rgba(231,181,197,0.35); }
+        
+        .thrilly-floating-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #e7b5c5;
+            color: #494a67;
+            border-radius: 16px;
+            padding: 10px 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 90;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            cursor: pointer;
+            animation: floatWiggle 4s ease-in-out infinite;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: 2px solid rgba(255,255,255,0.2);
         }
-        .thrilly-bounce { animation: thrilly-bounce 1.6s ease-in-out infinite; display: inline-block; }
-        .thrilly-card-pulse { animation: thrilly-card-pulse 2.4s ease-in-out infinite; }
+        .thrilly-floating-btn:hover {
+            transform: scale(1.05) translateY(-5px);
+            box-shadow: 0 0 20px rgba(255,255,255,0.4);
+            animation-play-state: paused;
+        }
+        .thrilly-floating-icon {
+            width: 36px;
+            height: 36px;
+            object-fit: contain;
+        }
+        .thrilly-floating-text {
+            display: flex;
+            flex-direction: column;
+        }
+        .thrilly-floating-title {
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 700;
+            font-size: 14px;
+            line-height: 1.1;
+        }
+        .thrilly-floating-sub {
+            font-size: 10px;
+            font-weight: 500;
+            opacity: 0.8;
+        }
 
         #thrilly-overlay {
             position: fixed; inset: 0; z-index: 100;
@@ -200,6 +238,7 @@
 
         /* Intro screen */
         #thr-intro { display: flex; flex-direction: column; align-items: center; justify-content: center; flex: 1; padding: 24px; text-align: center; }
+        #thr-intro img { width: 120px; height: 120px; object-fit: contain; margin-bottom: 16px; animation: floatWiggle 3s infinite; }
         #thr-intro h1 { font-family: 'Fredoka', sans-serif; font-size: 2.4rem; font-weight: 700; color: #fef08a; margin-bottom: 6px; }
         #thr-intro .thr-intro-sub { font-size: 1rem; color: #e7b5c5; margin-bottom: 18px; line-height: 1.7; }
         #thr-start-btn {
@@ -217,48 +256,58 @@
         #thr-score-display { font-family: 'Fredoka', sans-serif; font-size: 1.2rem; color: #fef08a; font-weight: 700; }
         #thr-level-display { font-family: 'Fredoka', sans-serif; font-size: 0.85rem; color: #e7b5c5; font-weight: 600; }
         
-        #thr-canvas-wrap { position: relative; width: 100%; max-width: 480px; flex: 1; overflow: hidden; }
+        #thr-canvas-wrap { position: relative; width: 100%; max-width: 480px; flex: 1; overflow: hidden; display: flex; align-items: center; justify-content: center; }
         #thr-canvas {
             display: block;
             background: #3a3b56;
-            width: 100%; height: 100%;
             touch-action: none;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.3);
         }
         
-        /* Mobile controls */
+        /* Mobile Joystick */
         #thr-controls {
-            width: 100%; max-width: 480px; display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            grid-template-rows: repeat(2, 1fr);
-            gap: 6px; padding: 10px 16px; flex-shrink: 0;
-            height: 110px;
+            width: 100%; max-width: 480px; display: flex;
+            align-items: center; justify-content: center;
+            height: 140px; flex-shrink: 0; padding-bottom: 20px;
         }
-        .thr-btn {
-            background: rgba(231,181,197,0.18); border: 1.5px solid rgba(231,181,197,0.35);
-            color: #e7b5c5; border-radius: 12px; font-size: 1.3rem;
-            cursor: pointer; display: flex; align-items: center; justify-content: center;
-            transition: background 0.12s ease, transform 0.1s ease;
-            user-select: none; -webkit-user-select: none;
+        #thr-joystick-zone {
+            width: 100%; height: 100%; position: relative;
+            display: flex; align-items: center; justify-content: center; touch-action: none;
         }
-        .thr-btn:active { background: rgba(231,181,197,0.38); transform: scale(0.93); }
-        #thr-btn-up    { grid-column: 2; grid-row: 1; }
-        #thr-btn-left  { grid-column: 1; grid-row: 2; }
-        #thr-btn-down  { grid-column: 2; grid-row: 2; }
-        #thr-btn-right { grid-column: 3; grid-row: 2; }
+        #thr-joystick-base {
+            width: 90px; height: 90px; border-radius: 50%;
+            background: rgba(231,181,197,0.15); border: 2px solid rgba(231,181,197,0.35);
+            position: relative;
+        }
+        #thr-joystick-stick {
+            width: 44px; height: 44px; border-radius: 50%;
+            background: #e7b5c5; position: absolute;
+            top: 50%; left: 50%; transform: translate(-50%, -50%);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3); pointer-events: none;
+            transition: transform 0.05s linear;
+        }
 
         /* Popup */
         #thr-popup {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.7);
             background: #e7b5c5; color: #494a67;
-            font-family: 'Fredoka', sans-serif; font-size: 1.3rem; font-weight: 700;
-            padding: 20px 32px; border-radius: 20px; text-align: center;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+            font-family: 'Fredoka', sans-serif; font-size: 1.2rem; font-weight: 700;
+            padding: 24px 32px; border-radius: 20px; text-align: center;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.4);
             opacity: 0; pointer-events: none;
             transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.34,1.56,0.64,1);
             z-index: 10;
         }
         #thr-popup.thr-pop-show { opacity: 1; transform: translate(-50%, -50%) scale(1); pointer-events: auto; }
-        #thr-popup-emoji { font-size: 2.2rem; display: block; margin-bottom: 6px; }
+        #thr-popup-emoji { font-size: 2.6rem; display: block; margin-bottom: 8px; }
+        #thr-popup-continue {
+            margin-top: 16px; padding: 10px 24px;
+            background: #494a67; color: #fef08a;
+            border: none; border-radius: 999px; font-weight: 700; cursor: pointer;
+            transition: transform 0.15s ease; display: inline-block;
+        }
+        #thr-popup-continue:active { transform: scale(0.95); }
 
         /* Close btn */
         #thr-close-btn {
@@ -360,6 +409,14 @@
     </style>
 </head>
 <body class="antialiased selection:bg-yellow-200 selection:text-purple-950">
+
+    <div class="thrilly-floating-btn" onclick="openThrillyGame()">
+        <img src="thrilly-head.webp" class="thrilly-floating-icon" alt="Thrilly">
+        <div class="thrilly-floating-text">
+            <span class="thrilly-floating-title">PLAY WITH THRILLY</span>
+            <span class="thrilly-floating-sub">Can you beat the maze?</span>
+        </div>
+    </div>
 
     <div class="relative z-10 min-h-screen flex flex-col max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         
@@ -499,27 +556,6 @@
                     </div>
                 </div>
 
-                <div class="scroll-reveal glass-card rounded-2xl overflow-hidden cursor-pointer flex flex-col group relative thrilly-card-pulse" onclick="openThrillyGame()" style="background: linear-gradient(135deg, #e7b5c5 0%, #d4a0b5 100%);">
-                    <div class="relative w-full aspect-square overflow-hidden bg-[#494a67]/20 flex items-center justify-center">
-                        <div class="thrilly-card-mascot flex flex-col items-center justify-center w-full h-full" style="background: radial-gradient(circle at 50% 60%, rgba(73,74,103,0.18) 0%, transparent 70%);">
-                            <div class="thrilly-bounce" style="font-size: 56px; line-height:1; margin-bottom:4px;">🍦</div>
-                            <div style="font-size: 28px; line-height:1; opacity:0.7; margin-top:-8px;">🎮</div>
-                        </div>
-                        <div class="absolute top-2.5 right-2.5 px-2 py-0.5 text-[9px] font-bold tracking-wider rounded bg-[#494a67]/80 backdrop-blur text-yellow-200 border border-white/10 uppercase">
-                            <i class="fa-solid fa-gamepad mr-1"></i>Mini Game
-                        </div>
-                    </div>
-                    <div class="p-4 flex-grow flex flex-col justify-between border-t border-white/5">
-                        <div>
-                            <h3 class="brand-font text-sm sm:text-base font-bold text-purple-950 tracking-tight transition-colors">🎮 Play With Thrilly</h3>
-                            <p class="text-[11px] sm:text-xs text-purple-900 line-clamp-2 mt-1 leading-relaxed font-light">Help Thrilly catch his friends</p>
-                        </div>
-                        <div class="mt-3 pt-2.5 border-t border-white/5 flex items-center text-xs font-semibold text-purple-950 group-hover:translate-x-1 transition-transform">
-                            Play Now <i class="fa-solid fa-chevron-right text-[10px] ml-1.5"></i>
-                        </div>
-                    </div>
-                </div>
-
             </div>
         </main>
 
@@ -583,6 +619,7 @@
                 <div>
                     <h3 id="panel-title" class="brand-font text-xl font-bold text-white mb-1">Options Layer</h3>
                     <p id="panel-desc" class="text-xs text-purple-200/70 mb-4">Isolate selection vectors structural layout nodes.</p>
+                    
                     <div id="options-viewport-grid" class="grid grid-cols-3 gap-4 max-h-none overflow-y-visible pr-1 py-2"></div>
                 </div>
             </div>
@@ -603,111 +640,96 @@
             <img src="m_logo.webp" alt="Thrills Logo" onclick="clearAllOverlays(); window.scrollTo({top:0,behavior:'smooth'});" title="Back to Home">
         </div>
         <div class="flex-grow flex items-center justify-center w-full p-4">
-            <div class="w-full max-w-md glass-panel rounded-3xl p-6 border border-white/10 text-center">
-                <div class="w-14 h-14 bg-yellow-200/20 text-yellow-200 border border-yellow-200/30 rounded-full flex items-center justify-center mx-auto mb-3 text-xl">
-                    <i class="fa-solid fa-check-double"></i>
-                </div>
-                <h3 class="brand-font text-2xl font-bold text-yellow-100 mb-1">Configuration Compiled</h3>
-                <p class="text-xs text-purple-200/60 tracking-wider uppercase font-mono mb-6">Matrix Node ID Locked</p>
-                
-                <div id="summary-specs-card" class="mb-6"></div>
-
-                <button onclick="clearAllOverlays()" class="w-full py-4 bg-yellow-200 hover:bg-yellow-300 text-[#494a67] font-bold rounded-xl transition-all shadow-lg active:scale-[0.99] brand-font text-base">
-                    Return to Main Vault
-                </button>
+        <div class="w-full max-w-md glass-panel rounded-3xl p-6 border border-white/10 text-center">
+            <div class="w-14 h-14 bg-yellow-200/20 text-yellow-200 border border-yellow-200/30 rounded-full flex items-center justify-center mx-auto mb-3 text-xl">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
             </div>
+            <h3 class="brand-font text-2xl font-bold text-yellow-100">Formula Fully Created!</h3>
+            <p class="text-xs text-purple-200/70 mt-1 mb-4">Your custom structural recipe asset parameters</p>
+            <div id="summary-content" class="bg-[#494a67]/50 p-4 rounded-xl text-left border border-white/5 text-sm font-semibold tracking-wide text-purple-100 text-center"></div>
+            <button onclick="clearAllOverlays()" class="w-full mt-6 py-3 bg-yellow-200 hover:bg-yellow-300 text-[#494a67] font-bold rounded-xl transition-all">
+                Done Exploring
+            </button>
+        </div>
         </div>
     </div>
 
-    <div id="image-zoom-overlay" onclick="closeImageZoom(event, false)">
-        <button id="image-zoom-close" onclick="closeImageZoom(event, true)">
-            <i class="fa-solid fa-xmark"></i>
-        </button>
-        <img id="image-zoom-target" src="" alt="Zoomed View" onclick="event.stopPropagation();">
-    </div>
-
     <div id="thrilly-overlay">
-        <button id="thr-close-btn" onclick="closeThrillyGame()"><i class="fa-solid fa-xmark"></i></button>
-        
+        <button id="thr-close-btn" onclick="closeThrilly()"><i class="fa-solid fa-xmark"></i></button>
+
         <div id="thr-intro">
-            <div style="font-size: 70px; line-height:1;" class="thrilly-bounce">🍦</div>
-            <h1>Thrilly Catch</h1>
-            <p class="thr-intro-sub">Help Thrilly collect all his delicious dessert friends!<br>Use keyboard arrows or mobile touch buttons to move.</p>
-            <button id="thr-start-btn" onclick="thrStartGame()">START GAME</button>
+            <img src="thrilly.webp" alt="Thrilly">
+            <h1>THRILLY MAZE</h1>
+            <p class="thr-intro-sub">
+                Thrilly loves Thrills.<br>
+                But his friends escaped<br>
+                inside the Ice Cream Maze.<br><br>
+                Help him save everyone.<br>
+                Collect stars. Avoid traps. Escape the maze.
+            </p>
+            <button id="thr-start-btn" onclick="startThrillyGame()">▶ START GAME</button>
         </div>
 
         <div id="thr-game">
             <div id="thr-hud">
-                <div id="thr-score-display">🍦 Score: 0</div>
-                <div id="thr-level-display">LEVEL 1</div>
+                <span id="thr-score-display">⭐ 0 / 0</span>
+                <span id="thr-level-display">Level 1</span>
             </div>
             <div id="thr-canvas-wrap">
                 <canvas id="thr-canvas"></canvas>
                 <div id="thr-popup">
-                    <span id="thr-popup-emoji">🎉</span>
-                    <span id="thr-popup-msg">Awesome!</span>
+                    <span id="thr-popup-emoji">🏆</span>
+                    <span id="thr-popup-msg">Amazing Job</span>
+                    <button id="thr-popup-continue" onclick="thrNextLevel()">Continue →</button>
                 </div>
             </div>
             <div id="thr-controls">
-                <button class="thr-btn" id="thr-btn-up" onclick="thrMobileMove('ArrowUp')"><i class="fa-solid fa-chevron-up"></i></button>
-                <button class="thr-btn" id="thr-btn-left" onclick="thrMobileMove('ArrowLeft')"><i class="fa-solid fa-chevron-left"></i></button>
-                <button class="thr-btn" id="thr-btn-down" onclick="thrMobileMove('ArrowDown')"><i class="fa-solid fa-chevron-down"></i></button>
-                <button class="thr-btn" id="thr-btn-right" onclick="thrMobileMove('ArrowRight')"><i class="fa-solid fa-chevron-right"></i></button>
+                <div id="thr-joystick-zone">
+                    <div id="thr-joystick-base">
+                        <div id="thr-joystick-stick"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const reveals = document.querySelectorAll(".scroll-reveal");
-            function revealOnScroll() {
-                for (let i = 0; i < reveals.length; i++) {
-                    const windowHeight = window.innerHeight;
-                    const elementTop = reveals[i].getBoundingClientRect().top;
-                    const elementVisible = 60;
-                    if (elementTop < windowHeight - elementVisible) {
-                        reveals[i].classList.add("visible");
-                    }
-                }
-            }
-            window.addEventListener("scroll", revealOnScroll, { passive: true });
-            revealOnScroll();
+    <div id="image-zoom-overlay" onclick="closeImageZoom(event)">
+        <button id="image-zoom-close" onclick="closeImageZoom(null, true)"><i class="fa-solid fa-xmark"></i></button>
+        <img id="image-zoom-img" src="" alt="Zoomed Image">
+    </div>
 
-            function calculateSynchronizedFocus() {
-                if (window.innerWidth >= 768) return;
-                const cards = document.querySelectorAll(".glass-card");
-                let closestCard = null;
-                let closestDistance = Infinity;
-                const viewportCenter = window.innerHeight / 2;
-                cards.forEach(card => {
-                    const rect = card.getBoundingClientRect();
-                    const cardCenter = rect.top + (rect.height / 2);
-                    const distance = Math.abs(viewportCenter - cardCenter);
-                    if (distance < closestDistance) {
-                        closestDistance = distance;
-                        closestCard = card;
-                    }
-                });
-                cards.forEach(card => {
-                    if (card === closestCard && closestDistance < 140) {
-                        card.classList.add("scroll-focused-element");
-                    } else {
-                        card.classList.remove("scroll-focused-element");
-                    }
-                });
-            }
-            window.addEventListener("scroll", calculateSynchronizedFocus, { passive: true });
-        });
-
-        let builderMode = "icecream";
+    <script defer>
+        let builderMode = ""; 
         let currentStep = 1;
         let totalStepsCount = 4;
-        let selectedType = "";
-        let selectionsCache = { base: null, type: null, coating: null, inner: null };
-        let milkshakeState = { step: 0, base: null, category: null, mixSubStep: 1, selectedChocolates: [], selectedFruits: [] };
-        let waffleState = { step: 1, base: { name: "Waffle", img: "waffle-base.webp" }, sauce: null, topping: null, filling: null };
+        let selectedType = ""; 
+        
+        let selectionsCache = {
+            base: null,
+            type: null,
+            coating: null,
+            inner: null
+        };
+
+        let milkshakeState = {
+            step: 0,
+            base: null,       
+            category: null,   
+            mixSubStep: 1,    
+            selectedChocolates: [], 
+            selectedFruits: []      
+        };
+
+        let waffleState = {
+            step: 1,
+            base: { name: "Waffle", img: "waffle-base.webp" },
+            sauce: null,
+            topping: null,
+            filling: null
+        };
 
         const iceCreamMemoryCache = {};
+
         const iceCreamManifest = [
             "images/base/vanilla.webp",
             "images/base/chocolate.webp",
@@ -756,12 +778,76 @@
             hybridCtaContainer: document.getElementById("hybrid-cta-container"),
             hybridCtaBtn: document.getElementById("hybrid-cta-btn"),
             builderStepIndicator: document.getElementById("builder-step-indicator"),
-            builderInstruction: document.getElementById("builder-instruction"),
             panelTitle: document.getElementById("panel-title"),
             panelDesc: document.getElementById("panel-desc"),
+            builderInstruction: document.getElementById("builder-instruction"),
             summaryOverlay: document.getElementById("summary-overlay"),
-            summarySpecsCard: document.getElementById("summary-specs-card")
+            summaryContent: document.getElementById("summary-content")
         };
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const items = document.querySelectorAll(".scroll-reveal");
+            
+            const sharedObserver = new IntersectionObserver((entries) => {
+                let checkScrollFocus = false;
+                
+                for (let i = 0; i < entries.length; i++) {
+                    const entry = entries[i];
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("visible");
+                        checkScrollFocus = true;
+                    } else {
+                        entry.target.classList.remove("visible");
+                    }
+                }
+
+                if (checkScrollFocus) {
+                    calculateSynchronizedFocus();
+                }
+            }, { threshold: 0.05, rootMargin: "0px 0px 100px 0px" });
+
+            for (let i = 0; i < items.length; i++) {
+                sharedObserver.observe(items[i]);
+            }
+
+            function calculateSynchronizedFocus() {
+                let currentFocusTarget = null;
+                let minimumDistance = Infinity;
+                const centerPointY = window.innerHeight / 2;
+
+                for (let i = 0; i < items.length; i++) {
+                    const item = items[i];
+                    const box = item.getBoundingClientRect();
+                    const elementCenterY = box.top + (box.height / 2);
+                    const distanceToCenter = Math.abs(centerPointY - elementCenterY);
+
+                    if (distanceToCenter < minimumDistance && box.top > 0 && box.bottom < window.innerHeight + 150) {
+                        minimumDistance = distanceToCenter;
+                        currentFocusTarget = item;
+                    }
+                }
+
+                if (currentFocusTarget) {
+                    const targetTop = currentFocusTarget.offsetTop;
+                    for (let i = 0; i < items.length; i++) {
+                        const item = items[i];
+                        if (Math.abs(item.offsetTop - targetTop) < 20) {
+                            if (!item.classList.contains("scroll-focused-element")) {
+                                item.classList.add("scroll-focused-element");
+                            }
+                        } else {
+                            item.classList.remove("scroll-focused-element");
+                        }
+                    }
+                } else {
+                    for (let i = 0; i < items.length; i++) {
+                        items[i].classList.remove("scroll-focused-element");
+                    }
+                }
+            }
+
+            window.addEventListener("scroll", calculateSynchronizedFocus, { passive: true });
+        });
 
         const iceCreamDataSet = {
             step1: [
@@ -796,24 +882,28 @@
                 { id: "f_cara", name: "Salted Liquid Caramel", file: "images/filling/caramel.webp" },
                 { id: "f_pist", name: "Premium Pistachio Spread", file: "images/filling/pistachio.webp" },
                 { id: "f_hazel", name: "Roasted Hazelnut Praline", file: "images/filling/hazelnut.webp" },
-                { id: "f_straw", name: "Organic Strawberry Jam", file: "images/filling/strawberry.webp" }
+                { id: "f_straw", name: "Artisanal Strawberry Coulis", file: "images/filling/strawberry.webp" }
             ]
         };
 
         const milkshakeBases = [
-            { id: "ms_vanilla", name: "Classic Vanilla Base", img: "assets/milkshake/ms_vanilla.webp" },
-            { id: "ms_choc", name: "Rich Chocolate Base", img: "assets/milkshake/ms_choc.webp" },
-            { id: "ms_straw", name: "Fresh Strawberry Base", img: "assets/milkshake/ms_straw.webp" },
-            { id: "ms_pist", name: "Premium Pistachio Base", img: "assets/milkshake/ms_pist.webp" }
+            { id: "v_base", name: "Vanilla Bean Base", img: "assets/milkshake/ms_v.webp" },
+            { id: "c_base", name: "Chocolate Base", img: "assets/milkshake/ms_c.webp" },
+            { id: "s_base", name: "Strawberry Base", img: "assets/milkshake/ms_s.webp" }
         ];
 
         const chocolateMixins = [
-            { id: "mix_oreo", name: "Oreo Cookie Bits", img: "assets/milkshake/choc_oreo.webp" },
-            { id: "mix_kitkat", name: "KitKat Crunchers", img: "assets/milkshake/choc_kitkat.webp" },
-            { id: "mix_flake", name: "Cadbury Flake Shards", img: "assets/milkshake/choc_flake.webp" },
-            { id: "mix_malt", name: "Maltesers Spheres", img: "assets/milkshake/choc_malt.webp" },
-            { id: "mix_kinder", name: "Kinder Chocolate Bars", img: "assets/milkshake/choc_kinder.webp" },
-            { id: "mix_lotus", name: "Lotus Biscoff Crumbs", img: "assets/milkshake/choc_lotus.webp" }
+            { id: "flake", name: "Flake", img: "assets/milkshake/flake.webp" },
+            { id: "kitkat", name: "KitKat", img: "assets/milkshake/kitkat.webp" },
+            { id: "kinder", name: "Kinder", img: "assets/milkshake/kinder.webp" },
+            { id: "maltesers", name: "Maltesers", img: "assets/milkshake/maltesers.webp" },
+            { id: "galaxy", name: "Galaxy", img: "assets/milkshake/galaxy.webp" },
+            { id: "snickers", name: "Snickers", img: "assets/milkshake/snickers.webp" },
+            { id: "twix", name: "Twix", img: "assets/milkshake/twix.webp" },
+            { id: "bounty", name: "Bounty", img: "assets/milkshake/bounty.webp" },
+            { id: "mars", name: "Mars", img: "assets/milkshake/mars.webp" },
+            { id: "lotus", name: "Lotus Biscuit", img: "assets/milkshake/lotus_m.webp" },
+            { id: "oreo", name: "Oreo Cookie", img: "assets/milkshake/oreo.webp" }
         ];
 
         const fruitMixins = [
@@ -848,57 +938,64 @@
             { id: "fil_lotus", name: "Lotus Infusion Core", img: "assets/waffle/fil_lotus.webp" }
         ];
 
-        function createPureImageOption(item, isActive, clickCallback) {
-            const btn = document.createElement("button");
-            btn.className = `pure-image-option flex flex-col items-center group ${isActive ? 'active-option' : ''}`;
-            btn.innerHTML = `
-                <div class="option-icon-wrap w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center rounded-2xl bg-white/5 border ${isActive ? 'border-yellow-200 bg-yellow-200/10' : 'border-white/10'} transition-all p-1.5 overflow-hidden">
-                    <img src="${item.file || item.img}" alt="${item.name}" class="w-full h-full object-contain transition-transform group-hover:scale-105">
-                </div>
-                <span class="text-[10px] font-medium text-center text-purple-200 mt-2 line-clamp-2 max-w-[76px] leading-tight group-hover:text-white transition-colors">${item.name}</span>
-            `;
-            btn.onclick = clickCallback;
-            DOM.optionsViewportGrid.appendChild(btn);
-        }
-
-        function updateLiveReporter() {
-            DOM.liveSelectionReporter.innerHTML = "";
-            let segments = [];
-            if (selectionsCache.base) segments.push(`CORE: ${selectionsCache.base.name}`);
-            if (selectionsCache.type) segments.push(`SHELL: ${selectionsCache.type.name}`);
-            if (selectionsCache.coating) segments.push(`FINISH: ${selectionsCache.coating.name}`);
-            if (selectionsCache.inner) segments.push(`INJECT: ${selectionsCache.inner.name}`);
-
-            if (segments.length > 0) {
-                DOM.liveSelectionReporter.classList.remove("hidden");
-                segments.forEach(text => {
-                    const div = document.createElement("div");
-                    div.innerText = text;
-                    DOM.liveSelectionReporter.appendChild(div);
-                });
-            } else {
-                DOM.liveSelectionReporter.classList.add("hidden");
-            }
-        }
-
         function openIceCreamViewer() {
-            openIceCreamBuilder();
+            DOM.hybridCtaContainer.classList.remove("hidden");
+            document.getElementById("hybrid-cta-title").innerText = "Customize Your Ice Cream";
+            document.querySelector("#hybrid-cta-container p").innerText = "Build your own with interactive layers, bases, coatings and fillings.";
+            DOM.hybridCtaBtn.innerText = "Customize Your Ice Cream ✦";
+            DOM.hybridCtaBtn.onclick = () => { closeViewerOverlay(); openIceCreamBuilder(); };
+            
+            DOM.viewerTitle.innerText = "Ice Cream Laboratory";
+            DOM.viewerGalleryContainer.innerHTML = "";
+            
+            const icImgs = ["base-bg.webp"];
+            icImgs.forEach((src, i) => {
+                const node = document.createElement("div");
+                node.className = "w-full rounded-2xl overflow-hidden border border-white/5 bg-[#494a67]/40 p-2 img-loading-placeholder";
+                node.innerHTML = `<img src="${src}" alt="Ice Cream option ${i+1}" class="w-full h-auto object-contain rounded-xl opacity-95 transition-opacity duration-300 zoomable-gallery-img" loading="lazy" onload="this.parentElement.classList.remove('img-loading-placeholder')" onclick="openImageZoom(this.src)" onerror="this.src='base-bg.webp'">`;
+                DOM.viewerGalleryContainer.appendChild(node);
+            });
+            
+            DOM.viewerOverlay.classList.remove("invisible", "opacity-0");
+            document.body.classList.add("lock-scroll");
+        }
+
+        function openStaticViewer(folder, title, count) {
+            DOM.hybridCtaContainer.classList.add("hidden");
+            DOM.viewerTitle.innerText = title;
+            DOM.viewerGalleryContainer.innerHTML = "";
+            
+            for (let i = 1; i <= count; i++) {
+                const node = document.createElement("div");
+                node.className = "w-full rounded-2xl overflow-hidden border border-white/5 bg-[#494a67]/40 p-2 img-loading-placeholder";
+                node.innerHTML = `<img src="assets/${folder}/${folder}${i}.webp" alt="${title} option ${i}" class="w-full h-auto object-contain rounded-xl opacity-95 transition-opacity duration-300 zoomable-gallery-img" loading="lazy" onload="this.parentElement.classList.remove('img-loading-placeholder')" onclick="openImageZoom(this.src)" onerror="this.src='base-bg.webp'">`;
+                DOM.viewerGalleryContainer.appendChild(node);
+            }
+            
+            DOM.viewerOverlay.classList.remove("invisible", "opacity-0");
+            document.body.classList.add("lock-scroll");
+        }
+
+        function closeViewerOverlay() {
+            DOM.viewerOverlay.classList.add("invisible", "opacity-0");
+            document.body.classList.remove("lock-scroll");
         }
 
         function openIceCreamBuilder() {
             builderMode = "icecream";
             currentStep = 1;
             totalStepsCount = 4;
+            
             selectionsCache = { base: null, type: null, coating: null, inner: null };
-            DOM.layerBase.src = "";
-            DOM.layerBase.classList.add("opacity-0");
-            DOM.layerCoating.src = "";
-            DOM.layerCoating.classList.add("opacity-0");
-            DOM.layerInner.src = "";
-            DOM.layerInner.classList.add("opacity-0");
+            
+            DOM.layerBase.src = ""; DOM.layerBase.classList.add("opacity-0");
+            DOM.layerCoating.src = ""; DOM.layerCoating.classList.add("opacity-0");
+            DOM.layerInner.src = ""; DOM.layerInner.classList.add("opacity-0");
+            
             DOM.liveSelectionReporter.classList.remove("hidden");
             preloadIceCreamBuilderAssets();
             renderIceCreamStep();
+            
             DOM.unifiedBuilder.classList.remove("invisible", "opacity-0");
             document.body.classList.add("lock-scroll");
         }
@@ -913,6 +1010,7 @@
                 DOM.panelTitle.innerText = "Select Structural Ice Cream Core Base";
                 DOM.panelDesc.innerText = "Establishes baseline molecular taste node profiles.";
                 DOM.builderInstruction.innerText = "Choose an internal cream churn core matrix";
+                
                 iceCreamDataSet.step1.forEach(item => {
                     const active = selectionsCache.base && selectionsCache.base.id === item.id;
                     if (active) DOM.nextBtn.disabled = false;
@@ -923,10 +1021,12 @@
                         renderIceCreamStep();
                     });
                 });
-            } else if (currentStep === 2) {
+            } 
+            else if (currentStep === 2) {
                 DOM.panelTitle.innerText = "Select Shell Glass Coating Medium";
                 DOM.panelDesc.innerText = "Defines chemical parameters for outer envelope snap crisp factor.";
                 DOM.builderInstruction.innerText = "Isolate envelope structural chocolate standard";
+                
                 iceCreamDataSet.step2.forEach(item => {
                     const active = selectionsCache.type && selectionsCache.type.id === item.id;
                     if (active) DOM.nextBtn.disabled = false;
@@ -941,10 +1041,12 @@
                         renderIceCreamStep();
                     });
                 });
-            } else if (currentStep === 3) {
+            } 
+            else if (currentStep === 3) {
                 DOM.panelTitle.innerText = "Select Outer Texture Dynamic Enclosure";
                 DOM.panelDesc.innerText = "Topographic outer finish adjustments based on shell standard selection.";
                 DOM.builderInstruction.innerText = "Apply surface finish tactile elements layers";
+                
                 const options = iceCreamDataSet.step3[selectedType] || [];
                 options.forEach(item => {
                     const active = selectionsCache.coating && selectionsCache.coating.id === item.id;
@@ -956,10 +1058,12 @@
                         renderIceCreamStep();
                     });
                 });
-            } else if (currentStep === 4) {
-                DOM.panelTitle.innerText = "Isolate Internal Dynamic Injection Core";
-                DOM.panelDesc.innerText = "High pressure core injection filling vectors specification.";
-                DOM.builderInstruction.innerText = "Finalize recipe internal payload parameter";
+            } 
+            else if (currentStep === 4) {
+                DOM.panelTitle.innerText = "Inject Pure Fluid Flavor Splice Core";
+                DOM.panelDesc.innerText = "High-pressure micro-injected inner concentration matrix node.";
+                DOM.builderInstruction.innerText = "Determine center high viscosity liquid dynamic core";
+                
                 iceCreamDataSet.step4.forEach(item => {
                     const active = selectionsCache.inner && selectionsCache.inner.id === item.id;
                     if (active) DOM.nextBtn.disabled = false;
@@ -973,16 +1077,53 @@
             }
         }
 
+        function createPureImageOption(item, isActive, clickCallback) {
+            const btn = document.createElement("button");
+            btn.className = `pure-image-option flex flex-col items-center group ${isActive ? 'active-option' : ''}`;
+            
+            btn.innerHTML = `
+                <div class="option-icon-wrap w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center rounded-2xl bg-white/5 border ${isActive ? 'border-yellow-200 bg-yellow-200/10' : 'border-white/10'} transition-all p-1.5 overflow-hidden">
+                    <img src="${item.file || item.img}" alt="${item.name}" class="w-full h-full object-contain transition-transform group-hover:scale-105">
+                </div>
+                <span class="text-[10px] font-medium text-center text-purple-200 mt-2 line-clamp-2 max-w-[76px] leading-tight group-hover:text-white transition-colors">${item.name}</span>
+            `;
+            
+            btn.onclick = clickCallback;
+            DOM.optionsViewportGrid.appendChild(btn);
+        }
+
+        function updateLiveReporter() {
+            DOM.liveSelectionReporter.innerHTML = "";
+            let segments = [];
+            if (selectionsCache.base) segments.push(`CORE: ${selectionsCache.base.name}`);
+            if (selectionsCache.type) segments.push(`SHELL: ${selectionsCache.type.name}`);
+            if (selectionsCache.coating) segments.push(`FINISH: ${selectionsCache.coating.name}`);
+            if (selectionsCache.inner) segments.push(`INJECT: ${selectionsCache.inner.name}`);
+            
+            if (segments.length > 0) {
+                DOM.liveSelectionReporter.classList.remove("hidden");
+                segments.forEach(text => {
+                    const div = document.createElement("div");
+                    div.innerText = text;
+                    DOM.liveSelectionReporter.appendChild(div);
+                });
+            } else {
+                DOM.liveSelectionReporter.classList.add("hidden");
+            }
+        }
+
         function openMilkshakeBuilder() {
             builderMode = "milkshake";
             milkshakeState = { step: 1, base: null, category: null, mixSubStep: 1, selectedChocolates: [], selectedFruits: [] };
             totalStepsCount = 3;
             currentStep = 1;
+            
             DOM.layerBase.src = "assets/milkshake/ms_empty.webp";
             DOM.layerBase.classList.remove("opacity-0");
             DOM.layerCoating.classList.add("opacity-0");
             DOM.layerInner.classList.add("opacity-0");
             DOM.liveSelectionReporter.classList.add("hidden");
+            
             renderMilkshakeStep();
             DOM.unifiedBuilder.classList.remove("invisible", "opacity-0");
             document.body.classList.add("lock-scroll");
@@ -996,7 +1137,8 @@
             if (currentStep === 1) {
                 DOM.panelTitle.innerText = "Select Milkshake Base Flavor Lattice";
                 DOM.panelDesc.innerText = "Heavy churn artisanal gourmet dairy vector.";
-                DOM.builderInstruction.innerText = "Isolate structural core baseline mix parameter";
+                DOM.builderInstruction.innerText = "Isolate heavy density flavor foundational block";
+                
                 milkshakeBases.forEach(item => {
                     const active = milkshakeState.base && milkshakeState.base.id === item.id;
                     if (active) DOM.nextBtn.disabled = false;
@@ -1006,40 +1148,39 @@
                         renderMilkshakeStep();
                     });
                 });
-            } else if (currentStep === 2) {
-                DOM.panelTitle.innerText = "Select Mix-In Variant Topology";
-                DOM.panelDesc.innerText = "Determine additive compound direction nodes.";
-                DOM.builderInstruction.innerText = "Diverge configuration toward confections or organic extracts";
-                DOM.optionsViewportGrid.className = "flex justify-center gap-6 w-full py-4";
+            }
+            else if (currentStep === 2) {
+                DOM.panelTitle.innerText = "Select Structural Infusion Pathway";
+                DOM.panelDesc.innerText = "Branch operations layout between premium configurations nodes.";
+                DOM.builderInstruction.innerText = "Isolate addition matrix categories vectors";
                 
-                const btnChoc = document.createElement("button");
-                btnChoc.className = `category-text-badge ${milkshakeState.category === 'chocolate' ? 'active-badge' : ''}`;
-                btnChoc.innerText = "🍫 Confections / Chocolates";
-                btnChoc.onclick = () => {
-                    milkshakeState.category = "chocolate";
-                    currentStep = 3;
-                    renderMilkshakeStep();
-                };
+                DOM.optionsViewportGrid.className = "flex flex-col space-y-3 w-full max-w-xs mx-auto";
                 
-                const btnFruit = document.createElement("button");
-                btnFruit.className = `category-text-badge ${milkshakeState.category === 'fruit' ? 'active-badge' : ''}`;
-                btnFruit.innerText = "🍓 Organic Minerals / Fruits";
-                btnFruit.onclick = () => {
-                    milkshakeState.category = "fruit";
-                    currentStep = 3;
-                    renderMilkshakeStep();
-                };
-
-                DOM.optionsViewportGrid.appendChild(btnChoc);
-                DOM.optionsViewportGrid.appendChild(btnFruit);
+                const c1 = document.createElement("div");
+                c1.className = `category-text-badge ${milkshakeState.category === 'chocolate' ? 'active-badge' : ''}`;
+                c1.innerText = "Gourmet Confectionery Infusions (Chocolates)";
+                c1.onclick = () => { milkshakeState.category = "chocolate"; renderMilkshakeStep(); };
+                
+                const c2 = document.createElement("div");
+                c2.className = `category-text-badge ${milkshakeState.category === 'fruit' ? 'active-badge' : ''}`;
+                c2.innerText = "Organic Macro Elements Extract (Fresh Fruits)";
+                c2.onclick = () => { milkshakeState.category = "fruit"; renderMilkshakeStep(); };
+                
+                DOM.optionsViewportGrid.appendChild(c1);
+                DOM.optionsViewportGrid.appendChild(c2);
+                
                 if (milkshakeState.category) DOM.nextBtn.disabled = false;
-            } else if (currentStep === 3) {
+            }
+            else if (currentStep === 3) {
                 DOM.optionsViewportGrid.className = "grid grid-cols-3 gap-4 max-h-none overflow-y-visible pr-1 py-2";
+                
                 if (milkshakeState.category === "chocolate") {
-                    DOM.panelTitle.innerText = "Select Confection Additives (Max 2)";
-                    DOM.panelDesc.innerText = "High-solids mechanical crunch additives inclusion layer.";
-                    DOM.builderInstruction.innerText = "Map compound chocolate layout structures (1 or 2 entries)";
+                    DOM.panelTitle.innerText = "Select Chocolate Inclusions (Max 2)";
+                    DOM.panelDesc.innerText = `Selected elements: [${milkshakeState.selectedChocolates.length}/2] vector slots filled.`;
+                    DOM.builderInstruction.innerText = "Activate interactive blend nodes targets parameters";
+                    
                     if (milkshakeState.selectedChocolates.length > 0) DOM.nextBtn.disabled = false;
+                    
                     chocolateMixins.forEach(item => {
                         const active = milkshakeState.selectedChocolates.some(x => x.id === item.id);
                         createPureImageOption(item, active, () => {
@@ -1060,7 +1201,9 @@
                     DOM.panelTitle.innerText = "Select Fruit Mineral Infusions (Max 1)";
                     DOM.panelDesc.innerText = "Isolate organic additive compound matrix node elements.";
                     DOM.builderInstruction.innerText = "Determine singular structural organic additive variable";
+                    
                     if (milkshakeState.selectedFruits.length > 0) DOM.nextBtn.disabled = false;
+                    
                     fruitMixins.forEach(item => {
                         const active = milkshakeState.selectedFruits.some(x => x.id === item.id);
                         createPureImageOption(item, active, () => {
@@ -1081,11 +1224,13 @@
             waffleState = { step: 1, base: { name: "Signature Lattice Waffle", img: "assets/waffle/w_base.webp" }, sauce: null, topping: null, filling: null };
             totalStepsCount = 3;
             currentStep = 1;
+            
             DOM.layerBase.src = "assets/waffle/w_base.webp";
             DOM.layerBase.classList.remove("opacity-0");
             DOM.layerCoating.classList.add("opacity-0");
             DOM.layerInner.classList.add("opacity-0");
             DOM.liveSelectionReporter.classList.add("hidden");
+            
             renderWaffleStep();
             DOM.unifiedBuilder.classList.remove("invisible", "opacity-0");
             document.body.classList.add("lock-scroll");
@@ -1101,6 +1246,7 @@
                 DOM.panelTitle.innerText = "Select Surface Sauce Topography";
                 DOM.panelDesc.innerText = "External fluid viscosity layout application over matrix grids.";
                 DOM.builderInstruction.innerText = "Apply viscosity overlay matrix configuration node";
+                
                 waffleSauces.forEach(item => {
                     const active = waffleState.sauce && waffleState.sauce.id === item.id;
                     if (active) DOM.nextBtn.disabled = false;
@@ -1111,10 +1257,12 @@
                         renderWaffleStep();
                     });
                 });
-            } else if (currentStep === 2) {
-                DOM.panelTitle.innerText = "Specify Topographic Scatter Toppings";
-                DOM.panelDesc.innerText = "Solid state localized friction units allocation.";
-                DOM.builderInstruction.innerText = "Disperse texture anomalies across surface grids";
+            }
+            else if (currentStep === 2) {
+                DOM.panelTitle.innerText = "Select High-Tactility Top Enclosure Crisps";
+                DOM.panelDesc.innerText = "Particulate density distribution parameters node profiles.";
+                DOM.builderInstruction.innerText = "Determine micro-crystalline exterior texture profile element";
+                
                 waffleToppings.forEach(item => {
                     const active = waffleState.topping && waffleState.topping.id === item.id;
                     if (active) DOM.nextBtn.disabled = false;
@@ -1123,10 +1271,12 @@
                         renderWaffleStep();
                     });
                 });
-            } else if (currentStep === 3) {
-                DOM.panelTitle.innerText = "Select Internal Core Injection Vector";
-                DOM.panelDesc.innerText = "Subsurface cell structure pressurized fill option standard.";
-                DOM.builderInstruction.innerText = "Execute internal displacement grid payload configuration";
+            }
+            else if (currentStep === 3) {
+                DOM.panelTitle.innerText = "Inject Internal Sub-Surface Core";
+                DOM.panelDesc.innerText = "Geometric crisp lattices inner core density configuration parameter.";
+                DOM.builderInstruction.innerText = "Isolate internal structure matrix compound node option";
+                
                 waffleFillings.forEach(item => {
                     const active = waffleState.filling && waffleState.filling.id === item.id;
                     if (active) DOM.nextBtn.disabled = false;
@@ -1169,6 +1319,7 @@
 
         function compileAndShowSummaryOutput() {
             let htmlSummary = "";
+            
             if (builderMode === "icecream") {
                 htmlSummary = `
                     <div class="space-y-2 uppercase text-xs tracking-wider text-left max-w-xs mx-auto text-purple-950 font-bold p-2 bg-[#e7b5c5] rounded-xl border border-white/20">
@@ -1178,32 +1329,41 @@
                         <div class="flex justify-between pt-1"><span>[FLUID INJECTION]:</span> <span class="text-[#494a67]">${selectionsCache.inner.name}</span></div>
                     </div>
                 `;
-            } else if (builderMode === "milkshake") {
+            } 
+            else if (builderMode === "milkshake") {
                 let mixinText = "";
                 if (milkshakeState.category === "chocolate") {
                     mixinText = milkshakeState.selectedChocolates.map(x => x.name).join(" + ");
                 } else {
                     mixinText = milkshakeState.selectedFruits[0]?.name || "None";
                 }
+                
                 htmlSummary = `
                     <div class="space-y-2 uppercase text-xs tracking-wider text-left max-w-xs mx-auto text-purple-950 font-bold p-2 bg-[#e7b5c5] rounded-xl border border-white/20">
-                        <div class="flex justify-between border-b border-purple-950/20 pb-1"><span>[DAIRY CELL BASE]:</span> <span class="text-[#494a67]">${milkshakeState.base.name}</span></div>
-                        <div class="flex justify-between border-b border-purple-950/20 pb-1"><span>[VECTOR CLASS]:</span> <span class="text-[#494a67]">${milkshakeState.category}</span></div>
-                        <div class="flex justify-between pt-1"><span>[INFUSION NODES]:</span> <span class="text-[#494a67]">${mixinText || 'None'}</span></div>
-                    </div>
-                `;
-            } else if (builderMode === "waffle") {
-                htmlSummary = `
-                    <div class="space-y-2 uppercase text-xs tracking-wider text-left max-w-xs mx-auto text-purple-950 font-bold p-2 bg-[#e7b5c5] rounded-xl border border-white/20">
-                        <div class="flex justify-between border-b border-purple-950/20 pb-1"><span>[LATTICE STRUCTURE]:</span> <span class="text-[#494a67]">${waffleState.base.name}</span></div>
-                        <div class="flex justify-between border-b border-purple-950/20 pb-1"><span>[VISCOSITY COAT]:</span> <span class="text-[#494a67]">${waffleState.sauce.name}</span></div>
-                        <div class="flex justify-between border-b border-purple-950/20 pb-1"><span>[SCATTER UNIT]:</span> <span class="text-[#494a67]">${waffleState.topping.name}</span></div>
-                        <div class="flex justify-between pt-1"><span>[INTERNAL PAYLOAD]:</span> <span class="text-[#494a67]">${waffleState.filling.name}</span></div>
+                        <div class="flex justify-between border-b border-purple-950/20 pb-1"><span>[FOUNDATION BASE]:</span> <span class="text-[#494a67]">${milkshakeState.base.name}</span></div>
+                        <div class="flex justify-between border-b border-purple-950/20 pb-1"><span>[PATHWAY BLOCK]:</span> <span class="text-[#494a67]">${milkshakeState.category}</span></div>
+                        <div class="flex justify-between pt-1"><span>[INFUSION NODES]:</span> <span class="text-[#494a67] text-right max-w-[160px]">${mixinText}</span></div>
                     </div>
                 `;
             }
-            DOM.summarySpecsCard.innerHTML = htmlSummary;
+            else if (builderMode === "waffle") {
+                htmlSummary = `
+                    <div class="space-y-2 uppercase text-xs tracking-wider text-left max-w-xs mx-auto text-purple-950 font-bold p-2 bg-[#e7b5c5] rounded-xl border border-white/20">
+                        <div class="flex justify-between border-b border-purple-950/20 pb-1"><span>[LATTICE STRUCTURE]:</span> <span class="text-[#494a67]">${waffleState.base.name}</span></div>
+                        <div class="flex justify-between border-b border-purple-950/20 pb-1"><span>[VISCOSITY OVERLAY]:</span> <span class="text-[#494a67]">${waffleState.sauce.name}</span></div>
+                        <div class="flex justify-between border-b border-purple-950/20 pb-1"><span>[CRYSTALLINE FINISH]:</span> <span class="text-[#494a67]">${waffleState.topping.name}</span></div>
+                        <div class="flex justify-between pt-1"><span>[SUB-SURFACE INNER]:</span> <span class="text-[#494a67]">${waffleState.filling.name}</span></div>
+                    </div>
+                `;
+            }
+
+            DOM.summaryContent.innerHTML = htmlSummary;
             DOM.summaryOverlay.classList.remove("invisible", "opacity-0");
+        }
+
+        function closeStudioBuilder() {
+            DOM.unifiedBuilder.classList.add("invisible", "opacity-0");
+            document.body.classList.remove("lock-scroll");
         }
 
         function clearAllOverlays() {
@@ -1212,135 +1372,39 @@
             closeViewerOverlay();
         }
 
-        function closeStudioBuilder() {
-            DOM.unifiedBuilder.classList.add("invisible", "opacity-0");
-            document.body.classList.remove("lock-scroll");
-        }
+        /* ── Image Zoom System ── */
+        const zoomOverlay = document.getElementById("image-zoom-overlay");
+        const zoomImg = document.getElementById("image-zoom-img");
 
-        function openStaticViewer(modeKey, titleText, count) {
-            builderMode = modeKey;
-            DOM.viewerTitle.innerText = titleText;
-            DOM.viewerGalleryContainer.innerHTML = "";
-            DOM.hybridCtaContainer.classList.add("hidden");
-
-            if (modeKey === "mini") {
-                DOM.hybridCtaContainer.classList.remove("hidden");
-                DOM.hybridCtaTitle.innerText = "Want to build an Ice Cream Core?";
-                DOM.hybridCtaBtn.onclick = () => { closeViewerOverlay(); openIceCreamBuilder(); };
-            } else if (modeKey === "milkshake") {
-                DOM.hybridCtaContainer.classList.remove("hidden");
-                DOM.hybridCtaTitle.innerText = "Formulate a Custom Shake Lattice?";
-                DOM.hybridCtaBtn.onclick = () => { closeViewerOverlay(); openMilkshakeBuilder(); };
-            } else if (modeKey === "waffle") {
-                DOM.hybridCtaContainer.classList.remove("hidden");
-                DOM.hybridCtaTitle.innerText = "Configure Custom Waffle Grids?";
-                DOM.hybridCtaBtn.onclick = () => { closeViewerOverlay(); openWaffleBuilder(); };
-            }
-
-            for (let i = 1; i <= count; i++) {
-                const card = document.createElement("div");
-                card.className = "bg-white/5 border border-white/10 rounded-2xl overflow-hidden shadow-xl p-4 flex flex-col items-center img-loading-placeholder";
-                
-                const imgWrap = document.createElement("div");
-                imgWrap.className = "w-full aspect-square rounded-xl overflow-hidden bg-black/20 mb-3 relative";
-                
-                const img = document.createElement("img");
-                img.src = `assets/${modeKey}/${modeKey}${i}.webp`;
-                img.alt = `${titleText} Segment ${i}`;
-                img.className = "w-full h-full object-cover zoomable-gallery-img";
-                img.loading = "lazy";
-                img.onclick = () => triggerFullscreenZoom(img.src);
-                img.onerror = function() {
-                    this.src = 'base-bg.webp';
-                };
-
-                imgWrap.appendChild(img);
-                card.appendChild(imgWrap);
-
-                const infoWrap = document.createElement("div");
-                infoWrap.className = "w-full flex items-center justify-between mt-1 px-1";
-                
-                let labelName = `${titleText} Option ${i}`;
-                if (modeKey === 'mini') {
-                    if (i === 1) labelName = "Mini Mix Premium Roll";
-                    if (i === 2) labelName = "Biscoff Churn Cylinder";
-                    if (i === 3) labelName = "Pistachio Crust Enclosure";
-                } else if (modeKey === 'v60') {
-                    if (i === 1) labelName = "V60 Ethiopian Yirgacheffe";
-                    if (i === 2) labelName = "V60 Colombian Supremo";
-                    if (i === 3) labelName = "V60 Costa Rica Tarrazu";
-                } else if (modeKey === 'coldbrew') {
-                    if (i === 1) labelName = "Signature Nitro Cold Brew";
-                    if (i === 2) labelName = "Sweet Cream Cold Foam Fluid";
-                    if (i === 3) labelName = "Vanilla Bean Steep Extract";
-                } else if (modeKey === 'matcha') {
-                    if (i === 1) labelName = "Ceremonial Uji Matcha Latte";
-                    if (i === 2) labelName = "Iced Coconut Matcha Infusion";
-                    if (i === 3) labelName = "Matcha Cold Foam Precision";
-                } else if (modeKey === 'waffle') {
-                    if (i === 1) labelName = "Classic Belgian Lattice Frame";
-                    if (i === 2) labelName = "Chocolate Infused Grid Cluster";
-                    if (i === 3) labelName = "Red Velvet Matrix Node";
-                } else if (modeKey === 'milkshake') {
-                    if (i === 1) labelName = "Heavy Cream Vanilla Spec";
-                    if (i === 2) labelName = "Double Dark Cocoa Formulation";
-                    if (i === 3) labelName = "Wild Strawberry Compound Grid";
-                } else if (modeKey === 'special') {
-                    if (i === 1) labelName = "Blue Lagoon Conceptual Sip";
-                    if (i === 2) labelName = "Hibiscus Rose Quartz Extract";
-                    if (i === 3) labelName = "Salted Caramel Horizon Fluid";
-                }
-
-                infoWrap.innerHTML = `
-                    <span class="brand-font font-bold text-sm text-yellow-100/90 tracking-wide">${labelName}</span>
-                    <span class="text-xs font-mono font-bold bg-yellow-200/10 text-yellow-200/90 border border-yellow-200/20 px-2 py-0.5 rounded-md">PREMIUM</span>
-                `;
-                card.appendChild(infoWrap);
-
-                DOM.viewerGalleryContainer.appendChild(card);
-            }
-
-            DOM.viewerOverlay.classList.remove("invisible", "opacity-0");
+        function openImageZoom(src) {
+            zoomImg.src = src;
+            zoomOverlay.classList.add("active");
             document.body.classList.add("lock-scroll");
         }
 
-        function closeViewerOverlay() {
-            DOM.viewerOverlay.classList.add("invisible", "opacity-0");
-            document.body.classList.remove("lock-scroll");
-        }
-
-        /* Fullscreen Zoom Operations */
-        const zoomOverlay = document.getElementById("image-zoom-overlay");
-        const zoomImg = document.getElementById("image-zoom-target");
-
-        function triggerFullscreenZoom(src) {
-            zoomImg.style.transform = "scale(0.88)";
-            zoomImg.src = src;
-            zoomOverlay.classList.add("active");
-        }
-
-        function closeImageZoom(e, forced) {
-            if (forced || e.target === zoomOverlay || document.getElementById("image-zoom-close").contains(e.target)) {
+        function closeImageZoom(event, force) {
+            if (force || (event && event.target === zoomOverlay)) {
                 zoomOverlay.classList.remove("active");
                 setTimeout(() => { zoomImg.src = ""; }, 220);
+                // Only remove lock-scroll if no other overlays are open
                 if (document.getElementById("viewer-overlay").classList.contains("invisible")) {
                     document.body.classList.remove("lock-scroll");
                 }
             }
         }
 
+        // Keyboard close
         document.addEventListener("keydown", (e) => {
             if (e.key === "Escape" && zoomOverlay.classList.contains("active")) {
                 closeImageZoom(null, true);
             }
         });
 
-        /* Pinch zoom support */
+        // Pinch zoom support
         (function() {
             let initialDist = null;
             let currentScale = 1;
             let baseScale = 1;
-
             zoomOverlay.addEventListener("touchstart", (e) => {
                 if (e.touches.length === 2) {
                     initialDist = Math.hypot(
@@ -1351,7 +1415,6 @@
                     e.preventDefault();
                 }
             }, { passive: false });
-
             zoomOverlay.addEventListener("touchmove", (e) => {
                 if (e.touches.length === 2 && initialDist) {
                     const dist = Math.hypot(
@@ -1363,7 +1426,6 @@
                     e.preventDefault();
                 }
             }, { passive: false });
-
             zoomOverlay.addEventListener("touchend", (e) => {
                 if (e.touches.length < 2) {
                     initialDist = null;
@@ -1375,201 +1437,416 @@
             });
         })();
 
-        /* ══════════════════════════════════════ THRILLY CATCH — Mini Game ══════════════════════════════════════ */
-        let thrScore = 0;
-        let thrLevel = 1;
-        let thrGameActive = false;
-        let thrPlayer = { x: 150, y: 300, size: 28, emoji: '🍦', speed: 280 };
-        let thrFriends = [];
-        let thrKeys = {};
-        let thrLastTime = 0;
-        let thrAnimId = null;
-        let thrSpawnTimer = 0;
-        let thrPopTimer = 0;
+        /* ══════════════════════════════════════
+           THRILLY MAZE — Mini Game
+        ══════════════════════════════════════ */
+        const thrImages = {};
+        const toLoad = ['thrilly.webp', 'star.webp', 'exit.webp', 'wall.webp', 'trap.webp', 'door.webp', 'strawberry.webp', 'oreo.webp', 'lotus.webp'];
+        toLoad.forEach(src => {
+            const img = new Image();
+            img.src = src;
+            thrImages[src] = img;
+        });
 
-        const thrFriendEmojis = ['🍓', '🍫', '🍪', '🥞', '🍩', '🧋', '🥭'];
+        let thrAnimId = null;
+        let thrLastTime = 0;
+        let thrLevelIndex = 0;
+        let thrStarsCollected = 0;
+        let isGamePaused = false;
+        
+        const thrKeys = {};
+        const thrPlayer = { x: 0, y: 0, w: 22, h: 22, speed: 120 };
+        
+        // Joystick state
+        let joyActive = false;
+        let joyVector = {x:0, y:0};
+
+        const MAZE_COLS = 11;
+        const MAZE_ROWS = 11;
+        let thrTileSize = 30;
+        let currentGrid = [];
+        let movingWallsData = [];
+        let starsData = [];
+
+        const levels = [
+            {
+                friend: 'strawberry.webp',
+                stars: 1,
+                grid: [
+                    [1,1,1,1,1,1,1,1,1,1,1],
+                    [1,0,0,0,0,0,0,0,2,0,1],
+                    [1,0,1,1,1,1,1,1,1,0,1],
+                    [1,0,1,0,0,0,0,0,0,0,1],
+                    [1,0,1,0,1,1,1,1,1,1,1],
+                    [1,0,0,0,1,0,0,0,0,0,1],
+                    [1,1,1,1,1,0,1,1,1,0,1],
+                    [1,0,0,0,0,0,1,5,1,0,1],
+                    [1,0,1,1,1,1,1,0,1,0,1],
+                    [1,0,0,0,0,0,0,0,1,0,1],
+                    [1,1,1,1,1,1,1,1,1,1,1]
+                ],
+                startXY: {c:1, r:9},
+                moving: []
+            },
+            {
+                friend: 'oreo.webp',
+                stars: 2,
+                grid: [
+                    [1,1,1,1,1,1,1,1,1,1,1],
+                    [1,0,0,1,2,0,0,0,0,0,1],
+                    [1,0,0,1,1,1,1,1,1,0,1],
+                    [1,0,0,0,0,0,0,0,1,0,1],
+                    [1,1,1,1,1,0,1,0,1,0,1],
+                    [1,2,0,0,1,0,1,0,1,0,1],
+                    [1,1,1,0,1,0,1,0,1,0,1],
+                    [1,0,0,0,0,0,1,0,0,0,1],
+                    [1,0,1,1,1,1,1,1,1,0,1],
+                    [1,0,0,0,0,0,0,0,5,0,1],
+                    [1,1,1,1,1,1,1,1,1,1,1]
+                ],
+                startXY: {c:1, r:9},
+                moving: [ { c: 2, r: 3, w: 1, h: 1, vx: 2, minC: 2, maxC: 7 } ]
+            },
+            {
+                friend: 'lotus.webp',
+                stars: 3,
+                grid: [
+                    [1,1,1,1,1,1,1,1,1,1,1],
+                    [1,0,0,3,2,0,0,3,2,0,1],
+                    [1,0,1,1,1,1,1,1,1,0,1],
+                    [1,0,1,0,0,0,0,0,1,0,1],
+                    [1,0,1,0,1,1,1,0,1,0,1],
+                    [1,0,1,0,1,2,1,0,1,0,1],
+                    [1,0,1,0,1,4,1,0,1,0,1],
+                    [1,0,1,0,1,5,1,0,1,0,1],
+                    [1,0,1,0,1,1,1,0,1,0,1],
+                    [1,0,0,0,0,0,0,0,0,0,1],
+                    [1,1,1,1,1,1,1,1,1,1,1]
+                ],
+                startXY: {c:1, r:9},
+                moving: [ { c: 1, r: 3, w: 1, h: 1, vx: 3, minC: 1, maxC: 7 } ]
+            }
+        ];
 
         function openThrillyGame() {
             const overlay = document.getElementById('thrilly-overlay');
             document.getElementById('thr-intro').style.display = 'flex';
             document.getElementById('thr-game').style.display = 'none';
+            document.getElementById('thr-popup').classList.remove('thr-pop-show');
             overlay.classList.add('thr-active');
             document.body.classList.add('lock-scroll');
+            thrLevelIndex = 0;
+            isGamePaused = false;
+            thrStopGame();
         }
 
-        function closeThrillyGame() {
-            thrGameActive = false;
-            if (thrAnimId) cancelAnimationFrame(thrAnimId);
+        function closeThrilly() {
             document.getElementById('thrilly-overlay').classList.remove('thr-active');
             document.body.classList.remove('lock-scroll');
+            thrStopGame();
         }
 
-        function thrStartGame() {
+        function thrStopGame() {
+            if (thrAnimId) { cancelAnimationFrame(thrAnimId); thrAnimId = null; }
+        }
+
+        function startThrillyGame() {
             document.getElementById('thr-intro').style.display = 'none';
             document.getElementById('thr-game').style.display = 'flex';
+            document.getElementById('thr-popup').classList.remove('thr-pop-show');
+            isGamePaused = false;
+            thrLoadLevel(thrLevelIndex);
+        }
+
+        function thrLoadLevel(idx) {
+            const wrap = document.getElementById('thr-canvas-wrap');
+            const canvas = document.getElementById('thr-canvas');
+            canvas.width = Math.min(wrap.clientWidth - 20, 400);
+            canvas.height = canvas.width;
+            thrTileSize = canvas.width / MAZE_COLS;
+
+            thrPlayer.w = thrTileSize * 0.7;
+            thrPlayer.h = thrTileSize * 0.7;
+
+            const lvl = levels[idx];
+            currentGrid = JSON.parse(JSON.stringify(lvl.grid));
+            movingWallsData = JSON.parse(JSON.stringify(lvl.moving || []));
             
-            thrScore = 0;
-            thrLevel = 1;
-            thrFriends = [];
-            thrKeys = {};
-            thrSpawnTimer = 0;
-            thrPopTimer = 0;
-            thrHidePopup();
-            thrUpdateHUD();
-            document.getElementById('thr-level-display').textContent = `LEVEL 1`;
-
-            const canvas = document.getElementById('thr-canvas');
-            const wrap = document.getElementById('thr-canvas-wrap');
-            canvas.width = wrap.clientWidth || 320;
-            canvas.height = wrap.clientHeight || 400;
-
-            thrPlayer.x = canvas.width / 2;
-            thrPlayer.y = canvas.height - 50;
-
-            thrGameActive = true;
-            thrLastTime = performance.now();
-            thrAnimId = requestAnimationFrame(thrLoop);
-        }
-
-        function thrSpawnFriend(canvas) {
-            const margin = 30;
-            thrFriends.push({
-                x: margin + Math.random() * (canvas.width - margin * 2),
-                y: margin + Math.random() * (canvas.height - margin * 2),
-                vx: (Math.random() < 0.5 ? 1 : -1) * (40 + Math.random() * 60),
-                vy: (Math.random() < 0.5 ? 1 : -1) * (40 + Math.random() * 60),
-                size: 22,
-                emoji: thrFriendEmojis[Math.floor(Math.random() * thrFriendEmojis.length)]
-            });
-        }
-
-        function thrLoop(now) {
-            if (!thrGameActive) return;
-            const dt = Math.min((now - thrLastTime) / 1000, 0.05);
-            thrLastTime = now;
-
-            const canvas = document.getElementById('thr-canvas');
-            const ctx = canvas.getContext('2d');
-
-            const wrap = document.getElementById('thr-canvas-wrap');
-            if (canvas.width !== wrap.clientWidth || canvas.height !== wrap.clientHeight) {
-                canvas.width = wrap.clientWidth;
-                canvas.height = wrap.clientHeight;
-            }
-
-            // Move player
-            let dx = 0; let dy = 0;
-            if (thrKeys['ArrowUp'] || thrKeys['w'] || thrKeys['W']) dy -= 1;
-            if (thrKeys['ArrowDown'] || thrKeys['s'] || thrKeys['S']) dy += 1;
-            if (thrKeys['ArrowLeft'] || thrKeys['a'] || thrKeys['A']) dx -= 1;
-            if (thrKeys['ArrowRight'] || thrKeys['d'] || thrKeys['D']) dx += 1;
-
-            if (dx !== 0 && dy !== 0) { dx *= 0.707; dy *= 0.707; }
-
-            thrPlayer.x += dx * thrPlayer.speed * dt;
-            thrPlayer.y += dy * thrPlayer.speed * dt;
-
-            // Constrain player
-            if (thrPlayer.x < 15) thrPlayer.x = 15;
-            if (thrPlayer.x > canvas.width - 15) thrPlayer.x = canvas.width - 15;
-            if (thrPlayer.y < 15) thrPlayer.y = 15;
-            if (thrPlayer.y > canvas.height - 15) thrPlayer.y = canvas.height - 15;
-
-            // Spawn Friends
-            thrSpawnTimer += dt;
-            const spawnRate = Math.max(1.2 - (thrLevel * 0.1), 0.4);
-            const maxFriends = 3 + thrLevel;
-            if (thrSpawnTimer >= spawnRate && thrFriends.length < maxFriends) {
-                thrSpawnFriend(canvas);
-                thrSpawnTimer = 0;
-            }
-
-            // Move & check friends
-            for (let i = thrFriends.length - 1; i >= 0; i--) {
-                const f = thrFriends[i];
-                f.x += f.vx * dt * (1 + thrLevel * 0.15);
-                f.y += f.vy * dt * (1 + thrLevel * 0.15);
-
-                // Wall bounces
-                if (f.x < 15 || f.x > canvas.width - 15) { f.vx *= -1; f.x = Math.max(15, Math.min(canvas.width - 15, f.x)); }
-                if (f.y < 15 || f.y > canvas.height - 15) { f.vy *= -1; f.y = Math.max(15, Math.min(canvas.height - 15, f.y)); }
-
-                // Collision detection
-                const dist = Math.hypot(thrPlayer.x - f.x, thrPlayer.y - f.y);
-                if (dist < (thrPlayer.size / 2 + f.size / 2)) {
-                    thrFriends.splice(i, 1);
-                    thrScore += 10;
-                    thrUpdateHUD();
-                    thrShowPopup(f.emoji, "+10 Points!");
-
-                    // Level Up progression logic
-                    if (thrScore > 0 && thrScore % 50 === 0) {
-                        thrLevel++;
-                        document.getElementById('thr-level-display').textContent = `LEVEL ${thrLevel}`;
-                        thrShowPopup('🚀', `LEVEL UP! Level ${thrLevel}`);
+            // Extract stars into active objects
+            starsData = [];
+            for (let r=0; r<MAZE_ROWS; r++) {
+                for (let c=0; c<MAZE_COLS; c++) {
+                    if (currentGrid[r][c] === 2) {
+                        starsData.push({r, c});
+                        currentGrid[r][c] = 0;
                     }
                 }
             }
 
-            // Timers
-            if (thrPopTimer > 0) {
-                thrPopTimer -= dt;
-                if (thrPopTimer <= 0) thrHidePopup();
-            }
+            thrPlayer.x = lvl.startXY.c * thrTileSize + (thrTileSize - thrPlayer.w)/2;
+            thrPlayer.y = lvl.startXY.r * thrTileSize + (thrTileSize - thrPlayer.h)/2;
+            thrStarsCollected = 0;
+            
+            document.getElementById('thr-level-display').innerText = `Level ${idx + 1}`;
+            thrUpdateHUD();
 
-            // Draw
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            // Background dots
-            ctx.fillStyle = 'rgba(255,255,255,0.03)';
-            for (let gx = 20; gx < canvas.width; gx += 40)
-                for (let gy = 20; gy < canvas.height; gy += 40)
-                    { ctx.beginPath(); ctx.arc(gx, gy, 2, 0, Math.PI * 2); ctx.fill(); }
-
-            // Draw friends
-            ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-            for (const f of thrFriends) {
-                ctx.font = `${f.size * 1.5}px serif`;
-                ctx.globalAlpha = 1;
-                ctx.fillText(f.emoji, f.x, f.y);
-            }
-
-            // Draw player
-            ctx.font = `${thrPlayer.size * 1.8}px serif`;
-            ctx.globalAlpha = 1;
-            ctx.fillText(thrPlayer.emoji, thrPlayer.x, thrPlayer.y);
-
+            thrStopGame();
+            thrLastTime = performance.now();
             thrAnimId = requestAnimationFrame(thrLoop);
         }
 
         function thrUpdateHUD() {
-            document.getElementById('thr-score-display').textContent = `🍦 Score: ${thrScore}`;
+            const lvl = levels[thrLevelIndex];
+            document.getElementById('thr-score-display').innerText = `⭐ ${thrStarsCollected} / ${lvl.stars}`;
         }
 
-        function thrShowPopup(emoji, msg) {
-            document.getElementById('thr-popup-emoji').textContent = emoji;
-            document.getElementById('thr-popup-msg').textContent   = msg;
-            document.getElementById('thr-popup').classList.add('thr-pop-show');
-            thrPopTimer = 2.2;
+        function rectIntersect(x1, y1, w1, h1, x2, y2, w2, h2) {
+            return x1 < x2 + w2 && x1 + w1 > x2 && y1 < y2 + h2 && y1 + h1 > y2;
         }
-        function thrHidePopup() {
+
+        function thrCheckCollisions(pRect) {
+            for (let r=0; r<MAZE_ROWS; r++) {
+                for (let c=0; c<MAZE_COLS; c++) {
+                    const tile = currentGrid[r][c];
+                    if (tile === 1 || tile === 4) {
+                        const wx = c * thrTileSize;
+                        const wy = r * thrTileSize;
+                        if (rectIntersect(pRect.x, pRect.y, pRect.w, pRect.h, wx, wy, thrTileSize, thrTileSize)) {
+                            return true;
+                        }
+                    }
+                }
+            }
+            for (const mw of movingWallsData) {
+                const wx = mw.c * thrTileSize;
+                const wy = mw.r * thrTileSize;
+                if (rectIntersect(pRect.x, pRect.y, pRect.w, pRect.h, wx, wy, thrTileSize, thrTileSize)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        function thrCheckEvents(pRect) {
+            // Traps
+            for (let r=0; r<MAZE_ROWS; r++) {
+                for (let c=0; c<MAZE_COLS; c++) {
+                    const wx = c * thrTileSize;
+                    const wy = r * thrTileSize;
+                    const isTouch = rectIntersect(pRect.x, pRect.y, pRect.w, pRect.h, wx + 4, wy + 4, thrTileSize - 8, thrTileSize - 8);
+                    
+                    if (isTouch) {
+                        if (currentGrid[r][c] === 3) {
+                            thrLoadLevel(thrLevelIndex); // Death reset
+                            return;
+                        }
+                        if (currentGrid[r][c] === 5) {
+                            thrWinLevel();
+                            return;
+                        }
+                    }
+                }
+            }
+            // Stars
+            for (let i = starsData.length - 1; i >= 0; i--) {
+                const s = starsData[i];
+                const sx = s.c * thrTileSize;
+                const sy = s.r * thrTileSize;
+                if (rectIntersect(pRect.x, pRect.y, pRect.w, pRect.h, sx + 4, sy + 4, thrTileSize - 8, thrTileSize - 8)) {
+                    starsData.splice(i, 1);
+                    thrStarsCollected++;
+                    thrUpdateHUD();
+                    
+                    // Unlock door logic
+                    if (thrStarsCollected >= levels[thrLevelIndex].stars) {
+                        for (let rr=0; rr<MAZE_ROWS; rr++) {
+                            for (let cc=0; cc<MAZE_COLS; cc++) {
+                                if (currentGrid[rr][cc] === 4) currentGrid[rr][cc] = 0;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        function thrWinLevel() {
+            isGamePaused = true;
+            thrStopGame();
+            const friend = levels[thrLevelIndex].friend;
+            const friendName = friend.replace('.webp','').toUpperCase();
+            
+            if (thrLevelIndex === levels.length - 1) {
+                document.getElementById('thr-popup-emoji').innerText = '🏆';
+                document.getElementById('thr-popup-msg').innerHTML = 'YOU BEAT THRILLY MAZE<br><span style="font-size:0.8em;opacity:0.8">You are officially</span><br>THRILLS MASTER';
+                document.getElementById('thr-popup-continue').innerText = 'Play Again';
+            } else {
+                document.getElementById('thr-popup-emoji').innerText = '🏆';
+                document.getElementById('thr-popup-msg').innerHTML = `YOU SAVED ${friendName}<br><span style="font-size:0.8em;opacity:0.8">Amazing Job</span>`;
+                document.getElementById('thr-popup-continue').innerText = 'Continue →';
+            }
+            document.getElementById('thr-popup').classList.add('thr-pop-show');
+        }
+
+        function thrNextLevel() {
             document.getElementById('thr-popup').classList.remove('thr-pop-show');
+            if (thrLevelIndex === levels.length - 1) {
+                thrLevelIndex = 0;
+                openThrillyGame();
+            } else {
+                thrLevelIndex++;
+                startThrillyGame();
+            }
+        }
+
+        function drawImg(ctx, key, x, y, w, h, fallbackCol) {
+            const img = thrImages[key];
+            if (img && img.complete && img.naturalWidth !== 0) {
+                ctx.drawImage(img, x, y, w, h);
+            } else {
+                ctx.fillStyle = fallbackCol || '#e7b5c5';
+                ctx.fillRect(x, y, w, h);
+            }
+        }
+
+        function thrLoop(now) {
+            if(isGamePaused) return;
+            const dt = Math.min((now - thrLastTime) / 1000, 0.05);
+            thrLastTime = now;
+            
+            const canvas = document.getElementById('thr-canvas');
+            const ctx = canvas.getContext('2d');
+
+            // Move walls
+            for (const mw of movingWallsData) {
+                mw.c += mw.vx * dt;
+                if (mw.c > mw.maxC) { mw.c = mw.maxC; mw.vx *= -1; }
+                if (mw.c < mw.minC) { mw.c = mw.minC; mw.vx *= -1; }
+            }
+
+            // Player Input
+            let dx = 0, dy = 0;
+            if (thrKeys['ArrowUp'] || thrKeys['w']) dy -= 1;
+            if (thrKeys['ArrowDown'] || thrKeys['s']) dy += 1;
+            if (thrKeys['ArrowLeft'] || thrKeys['a']) dx -= 1;
+            if (thrKeys['ArrowRight'] || thrKeys['d']) dx += 1;
+
+            if (joyActive) {
+                dx = joyVector.x;
+                dy = joyVector.y;
+            }
+
+            // Normalization
+            if (!joyActive && dx !== 0 && dy !== 0) { dx *= 0.707; dy *= 0.707; }
+
+            let moveX = dx * thrPlayer.speed * dt;
+            let moveY = dy * thrPlayer.speed * dt;
+
+            // X Collision
+            thrPlayer.x += moveX;
+            if (thrPlayer.x < 0) thrPlayer.x = 0;
+            if (thrPlayer.x + thrPlayer.w > canvas.width) thrPlayer.x = canvas.width - thrPlayer.w;
+            if (thrCheckCollisions(thrPlayer)) thrPlayer.x -= moveX;
+
+            // Y Collision
+            thrPlayer.y += moveY;
+            if (thrPlayer.y < 0) thrPlayer.y = 0;
+            if (thrPlayer.y + thrPlayer.h > canvas.height) thrPlayer.y = canvas.height - thrPlayer.h;
+            if (thrCheckCollisions(thrPlayer)) thrPlayer.y -= moveY;
+
+            thrCheckEvents(thrPlayer);
+
+            // Draw
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw grid elements
+            for (let r=0; r<MAZE_ROWS; r++) {
+                for (let c=0; c<MAZE_COLS; c++) {
+                    const tile = currentGrid[r][c];
+                    const px = c * thrTileSize;
+                    const py = r * thrTileSize;
+                    
+                    if (tile === 1) drawImg(ctx, 'wall.webp', px, py, thrTileSize, thrTileSize, '#494a67');
+                    else if (tile === 3) drawImg(ctx, 'trap.webp', px, py, thrTileSize, thrTileSize, '#ff4444');
+                    else if (tile === 4) drawImg(ctx, 'door.webp', px, py, thrTileSize, thrTileSize, '#666');
+                    else if (tile === 5) drawImg(ctx, 'exit.webp', px, py, thrTileSize, thrTileSize, '#33cc33');
+                }
+            }
+
+            // Draw Exit Friend Overlay
+            for (let r=0; r<MAZE_ROWS; r++) {
+                for (let c=0; c<MAZE_COLS; c++) {
+                    if (currentGrid[r][c] === 5) {
+                        const px = c * thrTileSize;
+                        const py = r * thrTileSize;
+                        drawImg(ctx, levels[thrLevelIndex].friend, px + 2, py + 2, thrTileSize - 4, thrTileSize - 4, '#ffcc00');
+                    }
+                }
+            }
+
+            // Draw Stars
+            for (const s of starsData) {
+                drawImg(ctx, 'star.webp', s.c * thrTileSize + 4, s.r * thrTileSize + 4, thrTileSize - 8, thrTileSize - 8, '#fef08a');
+            }
+
+            // Draw moving walls
+            for (const mw of movingWallsData) {
+                drawImg(ctx, 'wall.webp', mw.c * thrTileSize, mw.r * thrTileSize, thrTileSize, thrTileSize, '#494a67');
+            }
+
+            // Draw Player
+            drawImg(ctx, 'thrilly.webp', thrPlayer.x, thrPlayer.y, thrPlayer.w, thrPlayer.h, '#fff');
+
+            if (!isGamePaused) thrAnimId = requestAnimationFrame(thrLoop);
         }
 
         /* Keyboard controls */
-        document.addEventListener('keydown', e => {
-            thrKeys[e.key] = true;
-        });
-        document.addEventListener('keyup', e => {
-            thrKeys[e.key] = false;
-        });
+        document.addEventListener('keydown', e => { thrKeys[e.key] = true; });
+        document.addEventListener('keyup', e => { thrKeys[e.key] = false; });
 
-        /* Mobile controls simulate keyboard clicks holding structure */
-        function thrMobileMove(direction) {
-            if (!thrGameActive) return;
-            thrKeys[direction] = true;
-            setTimeout(() => { thrKeys[direction] = false; }, 120);
+        /* Mobile Joystick Controls */
+        const zone = document.getElementById('thr-joystick-zone');
+        const stick = document.getElementById('thr-joystick-stick');
+        const base = document.getElementById('thr-joystick-base');
+
+        zone.addEventListener('touchstart', handleJoyStart, {passive: false});
+        zone.addEventListener('touchmove', handleJoyMove, {passive: false});
+        zone.addEventListener('touchend', handleJoyEnd);
+        zone.addEventListener('touchcancel', handleJoyEnd);
+
+        function handleJoyStart(e) {
+            e.preventDefault();
+            joyActive = true;
+            updateJoy(e.touches[0]);
         }
+        function handleJoyMove(e) {
+            e.preventDefault();
+            if(joyActive) updateJoy(e.touches[0]);
+        }
+        function handleJoyEnd(e) {
+            e.preventDefault();
+            joyActive = false;
+            joyVector = {x:0, y:0};
+            stick.style.transform = `translate(-50%, -50%)`;
+        }
+        function updateJoy(touch) {
+            const rect = base.getBoundingClientRect();
+            const centerX = rect.left + rect.width/2;
+            const centerY = rect.top + rect.height/2;
+            let dx = touch.clientX - centerX;
+            let dy = touch.clientY - centerY;
+            const dist = Math.hypot(dx, dy);
+            const maxR = rect.width/2;
+            
+            if(dist > maxR) {
+                dx = (dx/dist)*maxR;
+                dy = (dy/dist)*maxR;
+            }
+            
+            stick.style.transform = `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px))`;
+            joyVector.x = dx / maxR;
+            joyVector.y = dy / maxR;
+        }
+
     </script>
 </body>
 </html>
