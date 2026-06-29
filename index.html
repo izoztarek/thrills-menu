@@ -123,6 +123,111 @@
         }
 
         /* ══════════════════════════════════════
+           BUILDER MOBILE LAYOUT OVERRIDES
+           (below md breakpoint only)
+        ══════════════════════════════════════ */
+        @media (max-width: 767px) {
+            /* Kill vertical overflow on the scroll container — everything must fit */
+            #unified-builder > div.flex-grow {
+                overflow-y: hidden !important;
+                padding-bottom: 0 !important;
+            }
+
+            /* Top panel: no excess padding */
+            #unified-builder > div.flex-grow > div:first-child {
+                padding: 6px 10px !important;
+                justify-content: flex-start !important;
+                border-bottom: none !important;
+                background: transparent !important;
+                flex-shrink: 0;
+            }
+
+            /* Shrink the preview container */
+            .preview-container {
+                width: 100px !important;
+                height: 142px !important;
+                margin: 0 !important;
+                flex-shrink: 0;
+                padding: 6px !important;
+            }
+
+            /* Reporter and price card */
+            #live-selection-reporter {
+                font-size: 9px !important;
+                padding: 4px 6px !important;
+                line-height: 1.3 !important;
+            }
+
+            #live-price-card {
+                font-size: 9px !important;
+                padding: 5px 7px !important;
+            }
+
+            #live-price-card .flex {
+                margin-bottom: 2px !important;
+            }
+
+            #live-price-card .text-sm {
+                font-size: 10px !important;
+            }
+
+            #builder-instruction {
+                font-size: 9px !important;
+                padding: 3px 8px !important;
+                margin-top: 4px !important;
+                text-align: left !important;
+            }
+
+            /* Options panel: remaining space, bottom padding for sticky nav */
+            #unified-builder > div.flex-grow > div:last-child {
+                padding: 4px 10px 80px 10px !important;
+                flex: 1;
+                overflow-y: auto;
+            }
+
+            #unified-builder > div.flex-grow > div:last-child > div > h3 {
+                font-size: 13px !important;
+                margin-bottom: 0 !important;
+            }
+
+            #unified-builder > div.flex-grow > div:last-child > div > p {
+                font-size: 9px !important;
+                margin-bottom: 4px !important;
+            }
+
+            /* Tighten the options grid */
+            #options-viewport-grid {
+                gap: 6px !important;
+                padding: 2px 0 !important;
+            }
+
+            /* Shrink option icon buttons */
+            .pure-image-option .option-icon-wrap {
+                width: 52px !important;
+                height: 52px !important;
+            }
+
+            .pure-image-option img {
+                max-width: 34px !important;
+            }
+
+            .pure-image-option > span {
+                font-size: 8px !important;
+                max-width: 56px !important;
+            }
+
+            .pure-image-option {
+                margin-top: -2px !important;
+            }
+
+            /* Milkshake category badges */
+            .category-text-badge {
+                padding: 8px 12px !important;
+                font-size: 11px !important;
+            }
+        }
+
+        /* ══════════════════════════════════════
            OPTION BUTTONS (pure image style)
         ══════════════════════════════════════ */
         .pure-image-option {
@@ -405,9 +510,9 @@
                      loading="eager" decoding="async" fetchpriority="high">
             </div>
             <h1 class="brand-font text-3xl sm:text-4xl font-bold tracking-wide text-center text-yellow-100">
-                Built Around You.
+                Every dessert is made for you
             </h1>
-            <p class="text-xs tracking-[0.2em] font-medium text-purple-200/60 uppercase mt-1">Feel The Chill Love The Thrill</p>
+            <p class="text-xs tracking-[0.2em] font-medium text-purple-200/60 uppercase mt-1">Premium Desserts · Cairo</p>
 
             <!-- Thrilly inline mascot button (scrolls with page, NOT fixed) -->
             <div id="thrilly-inline-btn" onclick="openThrillyGame()">
@@ -434,7 +539,7 @@
                              style="box-shadow: none !important; filter: none !important;"
                              onerror="this.src='base-bg.webp'">
                         <div class="absolute top-2.5 right-2.5 px-2 py-0.5 text-[9px] font-bold tracking-wider rounded bg-[#494a67]/80 backdrop-blur text-yellow-200 border border-white/10 uppercase">
-                            <i class="fa-solid fa-wand-magic-sparkles mr-1"></i>Make your Own
+                            <i class="fa-solid fa-wand-magic-sparkles mr-1"></i>Lab Builder
                         </div>
                     </div>
                     <div class="p-4 flex-grow flex flex-col justify-between border-t border-white/5">
@@ -650,26 +755,31 @@
         <div class="flex-grow overflow-y-auto flex flex-col md:flex-row pb-32">
             <!-- Left: preview + live reporter -->
             <div class="w-full md:w-1/2 flex flex-col items-center justify-center p-6 bg-[#494a67]/10 border-b md:border-b-0 md:border-r border-white/5">
-                <div class="preview-container bg-[#494a67]/40 rounded-3xl border border-white/10 p-4 overflow-hidden img-loading-placeholder">
-                    <img id="layer-base"    width="240" height="340" eager decoding="async" class="layer-graphic opacity-0"       alt="Base Layer"    onerror="this.removeAttribute('src'); this.classList.add('opacity-0');">
-                    <img id="layer-coating" width="240" height="340" eager decoding="async" class="layer-graphic opacity-0"       alt="Coating Layer" onerror="this.removeAttribute('src'); this.classList.add('opacity-0');">
-                    <img id="layer-inner"   width="240" height="340" eager decoding="async" class="inner-layer-graphic opacity-0" alt="Inner Layer"   onerror="this.removeAttribute('src'); this.classList.add('opacity-0');">
-                </div>
+                <!-- Mobile: preview + side-info row; Desktop: stacked column -->
+                <div class="flex flex-row md:flex-col items-center md:items-center w-full gap-3 md:gap-0">
+                    <div class="preview-container bg-[#494a67]/40 rounded-3xl border border-white/10 p-4 overflow-hidden img-loading-placeholder">
+                        <img id="layer-base"    width="240" height="340" eager decoding="async" class="layer-graphic opacity-0"       alt="Base Layer"    onerror="this.removeAttribute('src'); this.classList.add('opacity-0');">
+                        <img id="layer-coating" width="240" height="340" eager decoding="async" class="layer-graphic opacity-0"       alt="Coating Layer" onerror="this.removeAttribute('src'); this.classList.add('opacity-0');">
+                        <img id="layer-inner"   width="240" height="340" eager decoding="async" class="inner-layer-graphic opacity-0" alt="Inner Layer"   onerror="this.removeAttribute('src'); this.classList.add('opacity-0');">
+                    </div>
+                    <!-- Side info (reporter, price, instruction) -->
+                    <div class="flex flex-col items-start md:items-center flex-1 md:w-full">
+                        <!-- Live selection readout (ice cream only) -->
+                        <div id="live-selection-reporter" class="mt-0 md:mt-4 w-full max-w-none md:max-w-[240px] text-center bg-black/40 border border-white/10 p-3 rounded-xl text-xs font-mono space-y-1 text-yellow-100 hidden"></div>
 
-                <!-- Live selection readout (ice cream only) -->
-                <div id="live-selection-reporter" class="mt-4 w-full max-w-[240px] text-center bg-black/40 border border-white/10 p-3 rounded-xl text-xs font-mono space-y-1 text-yellow-100 hidden"></div>
+                        <!-- Live price card (ice cream only) -->
+                        <div id="live-price-card" class="hidden mt-2 md:mt-3 w-full max-w-none md:max-w-[240px] bg-[#e7b5c5] border border-white/20 rounded-xl p-3 text-[#494a67] font-bold text-xs">
+                            <div class="flex justify-between mb-1"><span>Base</span><span id="price-base">— EGP</span></div>
+                            <div class="flex justify-between mb-1"><span>Coating</span><span id="price-coating">— EGP</span></div>
+                            <div class="flex justify-between mb-2"><span>Filling</span><span id="price-filling">— EGP</span></div>
+                            <div class="flex justify-between border-t border-[#494a67]/30 pt-2 text-sm">
+                                <span>Total</span><span id="price-total" class="text-[#494a67]">— EGP</span>
+                            </div>
+                        </div>
 
-                <!-- Live price card (ice cream only) -->
-                <div id="live-price-card" class="hidden mt-3 w-full max-w-[240px] bg-[#e7b5c5] border border-white/20 rounded-xl p-3 text-[#494a67] font-bold text-xs">
-                    <div class="flex justify-between mb-1"><span>Base</span><span id="price-base">— EGP</span></div>
-                    <div class="flex justify-between mb-1"><span>Coating</span><span id="price-coating">— EGP</span></div>
-                    <div class="flex justify-between mb-2"><span>Filling</span><span id="price-filling">— EGP</span></div>
-                    <div class="flex justify-between border-t border-[#494a67]/30 pt-2 text-sm">
-                        <span>Total</span><span id="price-total" class="text-[#494a67]">— EGP</span>
+                        <p id="builder-instruction" class="text-center text-xs text-purple-200 font-medium px-4 mt-2 md:mt-4 bg-[#494a67]/60 py-1.5 rounded-full border border-white/5">Make your selection below</p>
                     </div>
                 </div>
-
-                <p id="builder-instruction" class="text-center text-xs text-purple-200 font-medium px-4 mt-4 bg-[#494a67]/60 py-1.5 px-3 rounded-full border border-white/5">Make your selection below</p>
             </div>
 
             <!-- Right: options panel -->
