@@ -820,9 +820,10 @@
                 <div class="w-14 h-14 bg-yellow-200/20 text-yellow-200 border border-yellow-200/30 rounded-full flex items-center justify-center mx-auto mb-3 text-xl">
                     <i class="fa-solid fa-wand-magic-sparkles"></i>
                 </div>
-                <h3 class="brand-font text-2xl font-bold text-yellow-100">Your Order is Ready!</h3>
-                <p class="text-xs text-purple-200/70 mt-1 mb-4">Here's what you've built — show this at the counter</p>
+                <h3 class="brand-font text-2xl font-bold text-yellow-100">Perfect! 🎉</h3>
+                <p class="text-xs text-purple-200/70 mt-1 mb-4">Now it's your turn — take this to the bar and build it with our team</p>
                 <div id="summary-content" class="bg-[#494a67]/50 p-4 rounded-xl text-left border border-white/5 text-sm font-semibold tracking-wide text-purple-100 text-center"></div>
+                <p class="text-xs text-purple-200/60 mt-4 leading-relaxed">Show this screen at the bar and our team will build your Thrills Ice Cream fresh, right in front of you. Enjoy the full experience! ✨</p>
                 <button onclick="clearAllOverlays()"
                         class="w-full mt-6 py-3 bg-yellow-200 hover:bg-yellow-300 text-[#494a67] font-bold rounded-xl transition-all">
                     Done Exploring
@@ -1044,11 +1045,11 @@
 
         const iceCreamDataSet = {
             step1: [
-                { id: "v", name: "Vanilla Core",     file: "images/base/vanilla.webp",    price: 35 },
-                { id: "c", name: "Chocolate Core",   file: "images/base/chocolate.webp",  price: 35 },
-                { id: "s", name: "Strawberry Core",  file: "images/base/strawberry.webp", price: 35 },
-                { id: "p", name: "Pistachio Core",   file: "images/base/pistachio.webp",  price: 40 },
-                { id: "h", name: "Hazelnut Core",    file: "images/base/hazelnut.webp",   price: 40 }
+                { id: "v", name: "Vanilla",     file: "images/base/vanilla.webp",    price: 35 },
+                { id: "c", name: "Chocolate",   file: "images/base/chocolate.webp",  price: 35 },
+                { id: "s", name: "Strawberry",  file: "images/base/strawberry.webp", price: 35 },
+                { id: "p", name: "Pistachio",   file: "images/base/pistachio.webp",  price: 40 },
+                { id: "h", name: "Hazelnut",    file: "images/base/hazelnut.webp",   price: 40 }
             ],
             step2: [
                 { id: "milk",  name: "Milk Chocolate",  file: "images/type/milk.webp" },
@@ -1057,25 +1058,28 @@
             ],
             step3: {
                 milk: [
-                    { id: "m_plain",     name: "Classic Milk",          file: "images/coating/milk_plain.webp",     price: 10 },
-                    { id: "m_pistachio", name: "Milk Pistachio Crunch", file: "images/coating/milk_pistachio.webp", price: 15 }
+                    { id: "m_plain",     name: "Milk",             file: "images/coating/milk_plain.webp",     price: 10 },
+                    { id: "m_pistachio", name: "Milk Pistachio",   file: "images/coating/milk_pistachio.webp", price: 15 },
+                    { id: "m_hazelnut",  name: "Milk Hazelnut",    file: "images/coating/milk_hazelnut.webp",  price: 15 }
                 ],
                 dark: [
-                    { id: "d_plain",     name: "Classic Dark",          file: "images/coating/dark_plain.webp",     price: 10 },
-                    { id: "d_pistachio", name: "Dark Pistachio Crunch", file: "images/coating/dark_pistachio.webp", price: 15 }
+                    { id: "d_plain",     name: "Dark",             file: "images/coating/dark_plain.webp",     price: 10 },
+                    { id: "d_pistachio", name: "Dark Pistachio",   file: "images/coating/dark_pistachio.webp", price: 15 },
+                    { id: "d_hazelnut",  name: "Dark Hazelnut",    file: "images/coating/dark_hazelnut.webp",  price: 15 }
                 ],
                 white: [
-                    { id: "w_plain",     name: "Classic White",         file: "images/coating/white_plain.webp",    price: 10 },
-                    { id: "w_pistachio", name: "White Pistachio Crunch",file: "images/coating/white_pistachio.webp",price: 15 }
+                    { id: "w_plain",     name: "White",            file: "images/coating/white_plain.webp",    price: 10 },
+                    { id: "w_pistachio", name: "White Pistachio",  file: "images/coating/white_pistachio.webp",price: 15 },
+                    { id: "w_hazelnut",  name: "White Hazelnut",   file: "images/coating/white_hazelnut.webp", price: 15 }
                 ]
             },
             step4: [
-                { id: "f_choc",  name: "Belgian Chocolate injection",  file: "images/filling/chocolate.webp",  price: 10 },
-                { id: "f_lotus", name: "Lotus Biscoff Cream",          file: "images/filling/lotus.webp",      price: 12 },
-                { id: "f_cara",  name: "Salted Liquid Caramel",        file: "images/filling/caramel.webp",    price: 10 },
-                { id: "f_pist",  name: "Premium Pistachio Spread",     file: "images/filling/pistachio.webp",  price: 15 },
-                { id: "f_hazel", name: "Roasted Hazelnut Praline",     file: "images/filling/hazelnut.webp",   price: 12 },
-                { id: "f_straw", name: "Artisanal Strawberry Coulis",  file: "images/filling/strawberry.webp", price: 10 }
+                { id: "f_choc",  name: "Chocolate",       file: "images/filling/chocolate.webp",  price: 10 },
+                { id: "f_lotus", name: "Lotus",           file: "images/filling/lotus.webp",      price: 12 },
+                { id: "f_cara",  name: "Caramel",         file: "images/filling/caramel.webp",    price: 10 },
+                { id: "f_pist",  name: "Pistachio",       file: "images/filling/pistachio.webp",  price: 15 },
+                { id: "f_hazel", name: "Condensed Milk",  file: "images/filling/hazelnut.webp",   price: 12 },
+                { id: "f_straw", name: "Blueberry",       file: "images/filling/strawberry.webp", price: 10 }
             ]
         };
 
@@ -1256,7 +1260,7 @@
                 });
 
             } else if (currentStep === 2) {
-                DOM.panelTitle.innerText       = "Choose Your Chocolate Shell";
+                DOM.panelTitle.innerText       = "Choose Your Chocolate Type";
                 DOM.panelDesc.innerText        = "Every ice cream gets a freshly dipped chocolate coating.";
                 DOM.builderInstruction.innerText = "Select your chocolate type";
 
@@ -1589,7 +1593,7 @@
                 htmlSummary = `
                     <div class="space-y-2 uppercase text-xs tracking-wider text-left max-w-xs mx-auto text-purple-950 font-bold p-2 bg-[#e7b5c5] rounded-xl border border-white/20">
                         <div class="flex justify-between border-b border-purple-950/20 pb-1"><span>[FLAVOR]:</span> <span class="text-[#494a67]">${selectionsCache.base.name}</span></div>
-                        <div class="flex justify-between border-b border-purple-950/20 pb-1"><span>[CHOCOLATE SHELL]:</span> <span class="text-[#494a67]">${selectionsCache.type.name}</span></div>
+                        <div class="flex justify-between border-b border-purple-950/20 pb-1"><span>[CHOCOLATE TYPE]:</span> <span class="text-[#494a67]">${selectionsCache.type.name}</span></div>
                         <div class="flex justify-between border-b border-purple-950/20 pb-1"><span>[COATING]:</span> <span class="text-[#494a67]">${selectionsCache.coating.name}</span></div>
                         <div class="flex justify-between border-b border-purple-950/20 pb-1"><span>[FILLING]:</span> <span class="text-[#494a67]">${selectionsCache.inner.name}</span></div>
                         <div class="flex justify-between pt-1 text-sm border-t-2 border-purple-950/30"><span>💰 TOTAL PRICE</span> <span class="text-[#494a67]">${totalP} EGP</span></div>
